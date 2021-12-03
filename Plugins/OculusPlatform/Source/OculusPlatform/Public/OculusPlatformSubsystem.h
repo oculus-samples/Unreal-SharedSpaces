@@ -288,10 +288,18 @@ public:
 
 	/**
 	 * Retrieves the entitlement status of the currently logged in user.
+	 * DEPRECATED NAME: Use CheckEntitlement instead.
+	 * @param Callback - Called asynchronously with the result of the call.
+	 */	
+	UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use CheckEntitlement instead."), Category = "OculusPlatform|Identity")
+	void GetEntitlementStatus(const FOculusPlatformOnEntitlementChecked& Callback);
+
+	/**
+	 * Checks the entitlement of the currently logged in user to run this application.
 	 * @param Callback - Called asynchronously with the result of the call.
 	 */	
 	UFUNCTION(BlueprintCallable, Category = "OculusPlatform|Identity")
-	void GetEntitlementStatus(const FOculusPlatformOnEntitlementChecked& Callback);
+	void CheckEntitlement(const FOculusPlatformOnEntitlementChecked& Callback);
 
 	/**
 	 * Retrieves the user's list of friends.

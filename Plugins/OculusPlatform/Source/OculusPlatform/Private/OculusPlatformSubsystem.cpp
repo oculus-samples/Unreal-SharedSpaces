@@ -782,6 +782,29 @@ void UOculusPlatformSubsystem::GetEntitlementStatus(const FOculusPlatformOnEntit
 		}));
 }
 
+void UOculusPlatformSubsystem::CheckEntitlement(const FOculusPlatformOnEntitlementChecked& Callback)
+{
+	UE_LOG(LogOculusPlatform, Verbose, TEXT("UOculusPlatformSubsystem::CheckEntitlement"));
+
+	// Check for entitlement
+	AddRequestDelegate(ovr_Entitlement_GetIsViewerEntitled(), FOculusPlatformMessageOnComplete::CreateLambda(
+		[this, Callback](ovrMessageHandle Message, bool bIsError)
+		{
+			if (bIsError)
+			{
+				ovrErrorHandle Error = ovr_Message_GetError(Message);
+				FString ErrorMessage(ovr_Error_GetMessage(Error));
+				LogError(FString::Printf(TEXT("Failed the entitlement check: %s"), *ErrorMessage));
+			}
+			else
+			{
+				LogEntry(TEXT("User is entitled to app"));
+			}
+
+			Callback.ExecuteIfBound(!bIsError);
+		}));
+}
+
 void UOculusPlatformSubsystem::GetListOfFriends(const FOculusPlatformGetListOfFriendsComplete& Callback)
 {
 	UE_LOG(LogOculusPlatform, Verbose, TEXT("UOculusPlatformSubsystem::GetListOfFriends"));
