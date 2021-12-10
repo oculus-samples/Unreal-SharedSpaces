@@ -15,6 +15,8 @@ C. <a href="#C">SharedSpaces Implementation</a><br/>
 D. <a href="#D">Oculus Application Configuration</a><br/>
 &nbsp;&nbsp;&nbsp;1. <a href="#D1">Application Identifier</a><br/>
 &nbsp;&nbsp;&nbsp;2. <a href="#D2">Destinations</a><br/>
+&nbsp;&nbsp;&nbsp;3. <a href="#D3">Data Use Checkup</a><br/>
+&nbsp;&nbsp;&nbsp;4. <a href="#D4">Photon Configuration</a><br/>
 </td>
 </tr>
 </table>
@@ -753,6 +755,18 @@ public room (the purple room).  Here are the settings for each of them.
 In addition to these settings, you need to set __Deeplink Type__ to __Enabled__ and add an image for your
 destination.  In the case of SharedSpaces, the destination is __Audience__ is set to __Everyone__.
 
+## 3. <a id="D3">Data Use Checkup</a>
 
+You will need to request access to platform data needed by SharedSpaces. Under __Data Use Checkup__, add the following items and submit for certification.
+
++  User ID
++  User Profile
++  Deep Linking
++  Friends
++  Invites
+
+## 4. <a id="D4">Photon Configuration</a>
+
+You will also need to create a Photon AppID and configure the app to use it. Find instructions for this [here](../Plugins/PhotonNetDriver/Documentation/PhotonNetDriver.md#photon-appid).
 
 <div style="text-align: right; padding: 10pt;">&#x25A0;</div>
