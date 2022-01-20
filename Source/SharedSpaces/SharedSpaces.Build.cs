@@ -31,7 +31,7 @@ public class SharedSpaces : ModuleRules
 				"OculusUtils",
 			});
 
-		if (Target.Platform == UnrealTargetPlatform.Android) {
+		if (Target.Platform == UnrealTargetPlatform.Android && Target.Configuration == UnrealTargetConfiguration.Shipping) {
 			var manifestFile = Path.Combine(ModuleDirectory, "AndroidSanitizePermissions_UPL.xml");
 			AdditionalPropertiesForReceipt.Add("AndroidPlugin", manifestFile);
         }
