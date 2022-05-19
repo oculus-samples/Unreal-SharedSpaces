@@ -5,6 +5,9 @@
 #include "Serialization/JsonReader.h"
 #include <stdio.h>
 
+
+DEFINE_LOG_CATEGORY(LogSharedSpaces);
+
 namespace SSFL
 {
 	const FString IsLobbyKey(TEXT("is_lobby"));
@@ -92,4 +95,9 @@ bool USharedSpacesFunctionLibrary::ParseLocationAndRotation(const FString& Locat
 	}
 
 	return false;
+}
+
+void USharedSpacesFunctionLibrary::SystemLog(const FString& Message)
+{
+	UE_LOG(LogSharedSpaces, Display, TEXT("%s"), *Message);
 }

@@ -1,4 +1,4 @@
-// Copyright (c) Facebook, Inc. and its affiliates.
+// Copyright (c) Facebook Technologies, LLC and its affiliates.  All rights reserved.
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "../Private/LoadBalancingListener.h"
 #include "../Private/BaseView.h"
 #include "PhotonNetDriverBase.h"
-#include "OculusPlatform/Private/IPAddressOculus.h"
+#include "OvrPlatform/Private/OvrNetIPAddress.h"
 #include "CoreMinimal.h"
 #include "PhotonLBClient.generated.h"
 

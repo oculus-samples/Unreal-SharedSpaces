@@ -1,11 +1,11 @@
-// Copyright (c) Facebook, Inc. and its affiliates.
+// Copyright (c) Facebook Technologies, LLC and its affiliates.  All rights reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "PhotonNetConnection.h"
 #include "IpNetDriver.h"
-#include "OculusPlatform/Private/IPAddressOculus.h"
+#include "OvrPlatform/Private/OvrNetIPAddress.h"
 #include "PhotonNetDriverBase.h"
 #include "PhotonIpNetDriver.generated.h"
 

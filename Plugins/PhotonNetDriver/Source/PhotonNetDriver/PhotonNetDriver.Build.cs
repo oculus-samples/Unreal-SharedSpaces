@@ -1,4 +1,4 @@
-// Copyright (c) Facebook, Inc. and its affiliates.
+// Copyright Epic Games, Inc. All Rights Reserved.
 
 using System;
 using System.IO;
@@ -35,7 +35,7 @@ public class PhotonNetDriver : ModuleRules
 				"Engine",
 				"InputCore",
 				"OnlineSubsystemUtils",
-				"OculusPlatform",
+				"OvrPlatform",
 				"PacketHandler"
 				// ... add other public dependencies that you statically link with here ...
 			}

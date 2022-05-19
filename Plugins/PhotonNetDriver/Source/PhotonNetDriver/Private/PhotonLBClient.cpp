@@ -1,4 +1,4 @@
-// Copyright (c) Facebook, Inc. and its affiliates.
+// Copyright (c) Facebook Technologies, LLC and its affiliates.  All rights reserved.
 
 #include "PhotonLBClient.h"
 #include "Engine/GameEngine.h"
@@ -288,7 +288,7 @@ bool UPhotonLBClient::GetHostAddress(FString& hostAddress)
 	}
 
 	ExitGames::Common::JString masterId = masterPlayer->getUserID();
-	hostAddress = FInternetAddrOculus(toFString(masterId)).ToString(false);
+	hostAddress = FOvrInternetAddr(toFString(masterId)).ToString(false);
 
 	return true;
 }

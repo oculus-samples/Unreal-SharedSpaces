@@ -6,9 +6,9 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "SharedSpacesFunctionLibrary.generated.h"
 
-/**
- * 
- */
+
+DECLARE_LOG_CATEGORY_EXTERN(LogSharedSpaces, Log, All);
+
 UCLASS()
 class SHAREDSPACES_API USharedSpacesFunctionLibrary : public UBlueprintFunctionLibrary
 {
@@ -58,4 +58,11 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "SharedSpaces|Spawn")
 	static UPARAM(DisplayName="IsValid") bool ParseLocationAndRotation(const FString& LocationAndRotationString, FVector& Location, FRotator& Rotation);
+
+	/**
+	 * SharedSpaces log.
+	 * @param Message
+	 */
+	UFUNCTION(BlueprintCallable, Category = "SharedSpaces|Log")
+	static void SystemLog(const FString& Message);
 };

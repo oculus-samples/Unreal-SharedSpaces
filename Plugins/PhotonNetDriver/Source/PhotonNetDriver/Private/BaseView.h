@@ -1,9 +1,9 @@
-// Copyright (c) Facebook, Inc. and its affiliates.
+// Copyright (c) Facebook Technologies, LLC and its affiliates.  All rights reserved.
 
 #pragma once
 
 #include "Common-cpp/inc/Common.h"
-#include "OculusPlatform/Private/IPAddressOculus.h"
+#include "OvrPlatform/Private/OvrNetIPAddress.h"
 
 class BaseView
 {

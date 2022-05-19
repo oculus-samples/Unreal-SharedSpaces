@@ -27,7 +27,7 @@
 			"Enabled": true
 		},
 		{
-			"Name": "OculusPlatform",
+			"Name": "OvrPlatform",
 			"Enabled": true
 		}
 	]
