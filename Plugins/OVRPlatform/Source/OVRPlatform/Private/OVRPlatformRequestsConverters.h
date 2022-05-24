@@ -67,10 +67,9 @@ public:
         size_t NumBytes = sizeof(char*) * InStrings.Num();
         size_t Offset = NumBytes;
 
-        for (size_t Index = 0; Index < InStrings.Num(); ++Index)
+        for (size_t Index = 0; Index < size_t(InStrings.Num()); ++Index)
         {
-            int32 StringLen =
-            FTCHARToUTF8_Convert::ConvertedLength(*InStrings[Index], InStrings[Index].Len());
+            int32 StringLen = FTCHARToUTF8_Convert::ConvertedLength(*InStrings[Index], InStrings[Index].Len());
             NumBytes += StringLen + 1;
         }
 
@@ -79,7 +78,7 @@ public:
         char* String = ((char*)StringArray) + Offset;
         char* StringLim = ((char*)StringArray) + NumBytes;
 
-        for (size_t Index = 0; Index < InStrings.Num(); ++Index)
+        for (size_t Index = 0; Index < size_t(InStrings.Num()); ++Index)
         {
             Strings[Index] = String;
             int32 StringLen = FTCHARToUTF8_Convert::Convert(
@@ -369,7 +368,7 @@ public:
     void ToUE(TArray<uint8>& UEData)
     {
         UEData.Empty(Size);
-        for (int Index = 0; Index < Size; Index++)
+        for (size_t Index = 0; Index < Size; Index++)
         {
             UEData.Add(Data[Index]);
         }
@@ -405,7 +404,7 @@ public:
     void ToUE(TArray<int32>& UEData)
     {
         UEData.Empty(Size);
-        for (int Index = 0; Index < Size; Index++)
+        for (size_t Index = 0; Index < Size; Index++)
         {
             UEData.Add(int32(Data[Index]));
         }
@@ -441,7 +440,7 @@ public:
     void ToUE(TArray<float>& UEData)
     {
         UEData.Empty(Size);
-        for (int Index = 0; Index < Size; Index++)
+        for (size_t Index = 0; Index < Size; Index++)
         {
             UEData.Add(Data[Index]);
         }
