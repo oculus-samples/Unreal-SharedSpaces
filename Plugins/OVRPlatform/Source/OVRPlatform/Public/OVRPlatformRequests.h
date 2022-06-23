@@ -148,6 +148,7 @@ public:
         FLatentActionInfo LatentInfo,
         FOvrId AppID,
         FOvrApplicationOptions DeeplinkOptions,
+        FString& StringPayload,
         FString& ErrorMsg);
 
     // ----------------------------------------------------------------------
@@ -157,7 +158,7 @@ public:
     // AssetFile
 
     /** DEPRECATED. Use AssetFile_DeleteById() */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|AssetFile")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use AssetFile_DeleteById()", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|AssetFile")
     static void AssetFile_Delete(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -195,7 +196,7 @@ public:
         FString& ErrorMsg);
 
     /** DEPRECATED. Use AssetFile_DownloadById() */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|AssetFile")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use AssetFile_DownloadById()", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|AssetFile")
     static void AssetFile_Download(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -235,7 +236,7 @@ public:
         FString& ErrorMsg);
 
     /** DEPRECATED. Use AssetFile_DownloadCancelById() */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|AssetFile")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use AssetFile_DownloadCancelById()", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|AssetFile")
     static void AssetFile_DownloadCancel(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -285,7 +286,7 @@ public:
         FString& ErrorMsg);
 
     /** DEPRECATED. Use AssetFile_StatusById() */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|AssetFile")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use AssetFile_StatusById()", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|AssetFile")
     static void AssetFile_Status(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -324,7 +325,7 @@ public:
     // Challenges
 
     /** DEPRECATED. Use server-to-server API call instead. */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Challenges")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use server-to-server API call instead.", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Challenges")
     static void Challenges_Create(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -345,7 +346,7 @@ public:
         FString& ErrorMsg);
 
     /** DEPRECATED. Use server-to-server API call instead. */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Challenges")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use server-to-server API call instead.", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Challenges")
     static void Challenges_Delete(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -454,7 +455,7 @@ public:
         FString& ErrorMsg);
 
     /** DEPRECATED. Use server-to-server API call instead. */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Challenges")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use server-to-server API call instead.", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Challenges")
     static void Challenges_UpdateInfo(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -625,6 +626,7 @@ public:
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
         FLatentActionInfo LatentInfo,
+        FString& StringPayload,
         FString& ErrorMsg);
 
     // ----------------------------------------------------------------------
@@ -970,11 +972,11 @@ public:
     // Matchmaking
 
     /**
-     * DEPRECATED.  Use Browse2.
+     * DEPRECATED. Use Matchmaking_Browse2().
      * @param Pool - A BROWSE type matchmaking pool.
      * @param CustomQueryData - Optional. Custom query data.
      */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use Matchmaking_Browse2().", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
     static void Matchmaking_Browse(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -1015,11 +1017,11 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED.  Use Cancel2.
+     * DEPRECATED. Use Matchmaking_Cancel2().
      * @param Pool - The pool in question.
      * @param RequestHash - Used to find your entry in a queue.
      */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use Matchmaking_Cancel2().", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
     static void Matchmaking_Cancel(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -1045,13 +1047,13 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED.  Use CreateAndEnqueueRoom2.
+     * DEPRECATED. Use Matchmaking_CreateAndEnqueueRoom2().
      * @param Pool - The matchmaking pool to use, which is defined for the app.
      * @param MaxUsers - Overrides the Max Users value, which is configured in pool settings of the Developer Dashboard.
      * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when the room data changes, such as when users join or leave.
      * @param CustomQueryData - Optional.  See "Custom criteria" section above.
      */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use Matchmaking_CreateAndEnqueueRoom2().", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
     static void Matchmaking_CreateAndEnqueueRoom(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -1089,12 +1091,12 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED.  Use CreateRoom2.
+     * DEPRECATED. Use Matchmaking_CreateRoom2().
      * @param Pool - The matchmaking pool to use, which is defined for the app.
      * @param MaxUsers - Overrides the Max Users value, which is configured in pool settings of the Developer Dashboard.
      * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when room data changes, such as when users join or leave.
      */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use Matchmaking_CreateRoom2().", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
     static void Matchmaking_CreateRoom(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -1133,11 +1135,11 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED.  Use Enqueue2.
+     * DEPRECATED. Use Matchmaking_Enqueue2().
      * @param Pool - The pool to enqueue in.
      * @param CustomQueryData - Optional.  See "Custom criteria" section above.
      */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use Matchmaking_Enqueue2().", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
     static void Matchmaking_Enqueue(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -1178,7 +1180,7 @@ public:
      * @param RoomID - Returned either from FOvrNotification_Matchmaking_MatchFound or from Matchmaking_CreateRoom().
      * @param CustomQueryData - Optional.  See the "Custom criteria" section above.
      */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Please use Matchmaking_EnqueueRoom2() instead.", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
     static void Matchmaking_EnqueueRoom(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -1254,11 +1256,11 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED.  Use ovr_Room_Join2.
+     * DEPRECATED. Use Room_Join2().
      * @param RoomID - ID of a room previously returned from FOvrNotification_Matchmaking_MatchFound or Matchmaking_Browse().
      * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when room data changes, such as when users join or leave.
      */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use Room_Join2().", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Matchmaking")
     static void Matchmaking_JoinRoom(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -1373,7 +1375,7 @@ public:
     // RichPresence
 
     /** DEPRECATED. Use the clear method in group presence */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|RichPresence")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use the clear method in group presence", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|RichPresence")
     static void RichPresence_Clear(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -1390,7 +1392,7 @@ public:
         FString& ErrorMsg);
 
     /** DEPRECATED. Use GroupPresence_Set(). */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|RichPresence")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use GroupPresence_Set().", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|RichPresence")
     static void RichPresence_Set(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -1402,12 +1404,12 @@ public:
     // Room
 
     /**
-     * DEPRECATED.  Use CreateAndJoinPrivate2.
+     * DEPRECATED. Use Room_CreateAndJoinPrivate2().
      * @param JoinPolicy - Specifies who can join the room without an invite.
      * @param MaxUsers - The maximum number of users allowed in the room, including the creator.
      * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when room data changes, such as when users join or leave.
      */
-    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Room")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use Room_CreateAndJoinPrivate2().", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Room")
     static void Room_CreateAndJoinPrivate(
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
@@ -1477,6 +1479,61 @@ public:
         FOvrRoom& Room,
         FString& ErrorMsg);
 
+    /** DEPRECATED. Use Room_GetInvitableUsers2(). */
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use Room_GetInvitableUsers2().", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Room")
+    static void Room_GetInvitableUsers(
+        UObject* WorldContextObject,
+        EOvrRequestOutputPins& OutExecs,
+        FLatentActionInfo LatentInfo,
+        FOvrUserPages& UserPages,
+        FString& ErrorMsg);
+
+    /**
+     * Loads a list of users you can invite to a room. These are pulled from your
+     * friends list and recently met lists and filtered for relevance and interest. If the room cannot be
+     * joined, this list will be empty. By default, the invitable users returned
+     * will be for the user's current room.
+     * 
+     * If your application grouping was created after September 9 2017, recently met users will be included by default.
+     * If your application grouping was created before then, you can go to edit the setting in the "Rooms and Matchmaking"
+     * section of Platform Services at dashboard.oculus.com
+     * 
+     * Customization can be done via RoomOptions. Create this object with FOvrRoomOptions.
+     * The params that could be used are:
+     * 
+     * 1. FOvrRoomOptions::RoomId- will return the invitable users for this room (instead of the current room).
+     * 
+     * 2. FOvrRoomOptions::Ordering - returns the list of users in the provided ordering (see UserOrdering enum).
+     * 
+     * 3. FOvrRoomOptions::RecentlyMetTimeWindow - how long long ago should we include users you've recently met in
+     * the results?
+     * 
+     * 4. FOvrRoomOptions::MaxUserResults - we will limit the number of results returned.
+     * By default, the number is unlimited, but the server may choose to limit results for performance reasons.
+     * 
+     * 5. FOvrRoomOptions::ExcludeRecentlyMet - Don't include users recently in rooms with this user in the result.
+     * Also, see the above comment.
+     * 
+     * Example custom C++ usage:
+     * 
+     * <codeblock>
+     * auto roomOptions = ovr_RoomOptions_Create();
+     * ovr_RoomOptions_SetOrdering(roomOptions, ovrUserOrdering_PresenceAlphabetical);
+     * ovr_RoomOptions_SetRoomId(roomOptions, roomID);
+     * ovr_Room_GetInvitableUsers2(roomOptions);
+     * ovr_RoomOptions_Destroy(roomOptions);
+     * </codeblock>
+     * @param RoomOptions - Additional configuration for this request. Optional.
+     */
+    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Room")
+    static void Room_GetInvitableUsers2(
+        UObject* WorldContextObject,
+        EOvrRequestOutputPins& OutExecs,
+        FLatentActionInfo LatentInfo,
+        FOvrRoomOptions RoomOptions,
+        FOvrUserPages& UserPages,
+        FString& ErrorMsg);
+
     /** Fetches the list of moderated rooms created for the application. */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Room")
     static void Room_GetModeratedRooms(
@@ -1484,6 +1541,23 @@ public:
         EOvrRequestOutputPins& OutExecs,
         FLatentActionInfo LatentInfo,
         FOvrRoomPages& RoomPages,
+        FString& ErrorMsg);
+
+    /**
+     * Invites a user to the specified room.  They will receive a notification via
+     * FOvrNotification_Room_InviteReceived if they are in your game, and/or they can poll for room invites
+     * using Notification_GetRoomInvites().
+     * @param RoomID - The ID of your current room.
+     * @param InviteToken - A user's invite token, returned by Room_GetInvitableUsers().
+     */
+    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Room")
+    static void Room_InviteUser(
+        UObject* WorldContextObject,
+        EOvrRequestOutputPins& OutExecs,
+        FLatentActionInfo LatentInfo,
+        FOvrId RoomID,
+        FString InviteToken,
+        FOvrRoom& Room,
         FString& ErrorMsg);
 
     /**
@@ -1531,6 +1605,20 @@ public:
         FOvrId UserID,
         int32 KickDurationSeconds,
         FOvrRoom& Room,
+        FString& ErrorMsg);
+
+    /**
+     *  Launch the invitable user flow to invite to the logged in user's current
+     * room. This is intended to be a nice shortcut for developers not wanting
+     * to build out their own Invite UI although it has the same rules as if
+     * you build it yourself. 
+     */
+    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Room")
+    static void Room_LaunchInvitableUserFlow(
+        UObject* WorldContextObject,
+        EOvrRequestOutputPins& OutExecs,
+        FLatentActionInfo LatentInfo,
+        FOvrId RoomID,
         FString& ErrorMsg);
 
     /**
@@ -1649,6 +1737,7 @@ public:
         UObject* WorldContextObject,
         EOvrRequestOutputPins& OutExecs,
         FLatentActionInfo LatentInfo,
+        FString& StringPayload,
         FString& ErrorMsg);
 
     /**

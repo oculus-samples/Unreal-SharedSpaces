@@ -133,6 +133,10 @@ void UOvrPlatformSubsystem::Initialize(FSubsystemCollectionBase& Collection)
         GetNotifDelegate(ovrMessage_Notification_Voip_SystemVoipState)
         .AddUObject(this, &UOvrPlatformSubsystem::HandleOnVoipSystemVoipState);
 
+    OnVrcameraGetSurfaceUpdateHandle =
+        GetNotifDelegate(ovrMessage_Notification_Vrcamera_GetSurfaceUpdate)
+        .AddUObject(this, &UOvrPlatformSubsystem::HandleOnVrcameraGetSurfaceUpdate);
+
     bOculusInit = false;
 
 #if TICK_SUBSYSTEM
@@ -174,6 +178,7 @@ void UOvrPlatformSubsystem::Deinitialize()
     GetNotifDelegate(ovrMessage_Notification_Voip_MicrophoneAvailabilityStateUpdate).RemoveAll(this);
     GetNotifDelegate(ovrMessage_Notification_Voip_StateChange).RemoveAll(this);
     GetNotifDelegate(ovrMessage_Notification_Voip_SystemVoipState).RemoveAll(this);
+    GetNotifDelegate(ovrMessage_Notification_Vrcamera_GetSurfaceUpdate).RemoveAll(this);
 }
 
 void UOvrPlatformSubsystem::NotifyGameInstanceThatSubsystemStarted(bool bOculusPlatformIsInitialized) const
@@ -740,6 +745,21 @@ void UOvrPlatformSubsystem::HandleOnVoipSystemVoipState(TOvrMessageHandlePtr Mes
         ovrSystemVoipStateHandle Handle = ovr_Message_GetSystemVoipState(*Message);
         FOvrSystemVoipState SystemVoipState = FOvrSystemVoipState(Handle, Message);
         OnVoipSystemVoipState.Broadcast(SystemVoipState);
+    }
+}
+
+void UOvrPlatformSubsystem::HandleOnVrcameraGetSurfaceUpdate(TOvrMessageHandlePtr Message, bool bIsError)
+{
+    if (bIsError)
+    {
+        ovrErrorHandle Error = ovr_Message_GetError(*Message);
+        FString ErrorMessage = ovr_Error_GetMessage(Error);
+        UE_LOG(LogOvrPlatform, Error, TEXT("Error in HandleOnVrcameraGetSurfaceUpdate: %s"), *ErrorMessage);
+    }
+    else
+    {
+        FString GetSurfaceUpdate = UTF8_TO_TCHAR(ovr_Message_GetString(*Message));
+        OnVrcameraGetSurfaceUpdate.Broadcast(GetSurfaceUpdate);
     }
 }
 

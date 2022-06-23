@@ -279,8 +279,8 @@ struct OVRPLATFORM_API FOvrAssetFileDeleteResult
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED.  Use field FOvrAssetFileDeleteResult::AssetFileId. */
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Use field FOvrAssetFileDeleteResult::AssetId. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty, DeprecationMessage="Use field FOvrAssetFileDeleteResult::AssetId."))
     FOvrId AssetFileId;
 
     /** ID of the asset file */
@@ -315,8 +315,8 @@ struct OVRPLATFORM_API FOvrAssetFileDownloadCancelResult
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED.  Use field FOvrAssetFileDownloadCancelResult::AssetFileId. */
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Use field FOvrAssetFileDownloadCancelResult::AssetId. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty, DeprecationMessage="Use field FOvrAssetFileDownloadCancelResult::AssetId."))
     FOvrId AssetFileId;
 
     /** ID of the asset file */
@@ -379,8 +379,8 @@ struct OVRPLATFORM_API FOvrAssetFileDownloadUpdate
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED.  Use field FOvrAssetFileDownloadUpdate::AssetFileId. */
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Use field FOvrAssetFileDownloadUpdate::AssetId. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty, DeprecationMessage="Use field FOvrAssetFileDownloadUpdate::AssetId."))
     FOvrId AssetFileId;
 
     /** ID of the asset file */
@@ -701,7 +701,7 @@ struct OVRPLATFORM_API FOvrDestination
 
     /**
      * The information that will be in field FOvrLaunchDetails::DeeplinkMessage
-     * when a user enters via a deeplink. Alternatively will be in field FOvrUser::DisplayName
+     * when a user enters via a deeplink. Alternatively will be in field FOvrUser::PresenceDeeplinkMessage
      * if the rich presence is set for the user.
      */
     UPROPERTY(BlueprintReadOnly)
@@ -1567,7 +1567,7 @@ public:
 
     /**
      * Returns the size of the internal ringbuffer used by the microhone in elements.  This size is the maximum
-     * number of elements that can ever be returned by field FOvrMicrophone::?no field found?*.
+     * number of elements that can ever be returned by field FOvrMicrophone::GetPCM*.
      * 
      * 
      * This function can be safely called from any thread.
@@ -1601,8 +1601,7 @@ public:
      */
 
     /**
-     * DEPRECATED: Use field FOvrMicrophone::?no field found? instead.
-     * 
+     * DEPRECATED. Use field FOvrMicrophone::GetPCMFloat instead.
      * Gets all available samples of microphone data and
      * copies it into outputBuffer. The microphone will generate data at roughly
      * the rate of 480 samples per 10ms. The data format is 32 bit floating point 48khz mono.
@@ -1630,7 +1629,7 @@ public:
 
     /**
      * Starts microphone recording.  After this is called pcm data can be extracted using
-     * field FOvrMicrophone::?no field found?.
+     * field FOvrMicrophone::GetPCM.
      * 
      * 
      * This function can be safely called from any thread.

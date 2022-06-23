@@ -270,60 +270,60 @@ struct OVRPLATFORM_API FOvrRichPresenceOptions
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED: Use FOvrGroupPresenceOptions::DestinationApiName */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Use FOvrGroupPresenceOptions::DestinationApiName */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::DestinationApiName"))
     FString ApiName;
 
-    /** DEPRECATED: Unused */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Unused. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
     TMap<FString, FString> Args;
 
-    /** DEPRECATED: Unused */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Unused. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
     int32 CurrentCapacity;
 
-    /** DEPRECATED: Use FOvrGroupPresenceOptions::LobbySessionId or FOvrGroupPresenceOptions::MatchSessionId to specify the session */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Use FOvrGroupPresenceOptions::LobbySessionId or FOvrGroupPresenceOptions::MatchSessionId to specify the session */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::LobbySessionId or FOvrGroupPresenceOptions::MatchSessionId to specify the session"))
     FString DeeplinkMessageOverride;
 
-    /** DEPRECATED: Unused */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Unused. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
     FDateTime EndTime;
 
-    /** DEPRECATED: Unused */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Unused. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
     EOvrRichPresenceExtraContext ExtraContext;
 
-    /** DEPRECATED: Use FOvrGroupPresenceOptions::MatchSessionId */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Use FOvrGroupPresenceOptions::MatchSessionId */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::MatchSessionId"))
     FString InstanceId;
 
-    /** DEPRECATED: Unused */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Unused. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
     bool IsIdle;
 
-    /** DEPRECATED: Use FOvrGroupPresenceOptions::IsJoinable */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Use FOvrGroupPresenceOptions::IsJoinable */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::IsJoinable"))
     bool IsJoinable;
 
-    /** DEPRECATED: unused */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Unused. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
     FString JoinableId;
 
-    /** DEPRECATED: Use FOvrGroupPresenceOptions::LobbySessionId */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Use FOvrGroupPresenceOptions::LobbySessionId */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::LobbySessionId"))
     FString LobbySessionId;
 
-    /** DEPRECATED: Use FOvrGroupPresenceOptions::MatchSessionId */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Use FOvrGroupPresenceOptions::MatchSessionId */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::MatchSessionId"))
     FString MatchSessionId;
 
-    /** DEPRECATED: Unused */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Unused. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
     int32 MaxCapacity;
 
-    /** DEPRECATED: Unused */
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Unused. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
     FDateTime StartTime;
 
     FOvrRichPresenceOptions()

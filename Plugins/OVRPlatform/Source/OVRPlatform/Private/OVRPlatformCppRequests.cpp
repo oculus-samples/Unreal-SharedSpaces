@@ -276,14 +276,19 @@ void OvrPlatform_Application_LaunchOtherApp(
             FOvrPlatformMessageOnComplete::CreateLambda(
                 [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
                 {
+                    FStringPtr ResponsePtr = MakeShared<FString>();
                     FString ErrMsg;
                     if (bIsError)
                     {
                         ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
                         ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
                     }
+                    else
+                    {
+                        *ResponsePtr = UTF8_TO_TCHAR(ovr_Message_GetString(*MessagePtr));
+                    }
 
-                    Delegate.ExecuteIfBound(!bIsError, ErrMsg);
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
                 }));
     }
 }
@@ -1294,14 +1299,19 @@ void OvrPlatform_CloudStorage2_GetUserDirectoryPath(
             FOvrPlatformMessageOnComplete::CreateLambda(
                 [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
                 {
+                    FStringPtr ResponsePtr = MakeShared<FString>();
                     FString ErrMsg;
                     if (bIsError)
                     {
                         ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
                         ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
                     }
+                    else
+                    {
+                        *ResponsePtr = UTF8_TO_TCHAR(ovr_Message_GetString(*MessagePtr));
+                    }
 
-                    Delegate.ExecuteIfBound(!bIsError, ErrMsg);
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
                 }));
     }
 }
@@ -2820,6 +2830,63 @@ void OvrPlatform_Room_GetCurrentForUser(
     }
 }
 
+void OvrPlatform_Room_GetInvitableUsers(
+    UGameInstance* GameInstance,
+    OvrPlatform_Room_GetInvitableUsers_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_Room_GetInvitableUsers(),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrUserArrayPtr ResponsePtr = MakeShared<FOvrUserPages>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ResponsePtr->Update(ovr_Message_GetUserArray(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
+void OvrPlatform_Room_GetInvitableUsers2(
+    UGameInstance* GameInstance,
+    FOvrRoomOptions RoomOptions,
+    OvrPlatform_Room_GetInvitableUsers2_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_Room_GetInvitableUsers2(FOvrRoomOptionsConverter(RoomOptions)),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrUserArrayPtr ResponsePtr = MakeShared<FOvrUserPages>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ResponsePtr->Update(ovr_Message_GetUserArray(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
 void OvrPlatform_Room_GetModeratedRooms(
     UGameInstance* GameInstance,
     OvrPlatform_Room_GetModeratedRooms_Delegate&& Delegate)
@@ -2841,6 +2908,36 @@ void OvrPlatform_Room_GetModeratedRooms(
                     else
                     {
                         ResponsePtr->Update(ovr_Message_GetRoomArray(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
+void OvrPlatform_Room_InviteUser(
+    UGameInstance* GameInstance,
+    FOvrId RoomID,
+    FString InviteToken,
+    OvrPlatform_Room_InviteUser_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_Room_InviteUser(static_cast<ovrID>(RoomID), TCHAR_TO_UTF8(*InviteToken)),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrRoomPtr ResponsePtr = MakeShared<FOvrRoom>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ResponsePtr->Update(ovr_Message_GetRoom(*MessagePtr), MessagePtr);
                     }
 
                     Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
@@ -2935,6 +3032,30 @@ void OvrPlatform_Room_KickUser(
                     }
 
                     Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
+void OvrPlatform_Room_LaunchInvitableUserFlow(
+    UGameInstance* GameInstance,
+    FOvrId RoomID,
+    OvrPlatform_Room_LaunchInvitableUserFlow_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_Room_LaunchInvitableUserFlow(static_cast<ovrID>(RoomID)),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ErrMsg);
                 }));
     }
 }
@@ -3156,14 +3277,19 @@ void OvrPlatform_User_GetAccessToken(
             FOvrPlatformMessageOnComplete::CreateLambda(
                 [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
                 {
+                    FStringPtr ResponsePtr = MakeShared<FString>();
                     FString ErrMsg;
                     if (bIsError)
                     {
                         ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
                         ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
                     }
+                    else
+                    {
+                        *ResponsePtr = UTF8_TO_TCHAR(ovr_Message_GetString(*MessagePtr));
+                    }
 
-                    Delegate.ExecuteIfBound(!bIsError, ErrMsg);
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
                 }));
     }
 }

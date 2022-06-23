@@ -349,6 +349,7 @@ void UOvrRequestsBlueprintLibrary::Application_LaunchOtherApp(
     FOvrId AppID,
     FOvrApplicationOptions DeeplinkOptions,
     // Output
+    FString& StringPayload,
     FString& ErrorMsg)
 {
     if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
@@ -365,9 +366,16 @@ void UOvrRequestsBlueprintLibrary::Application_LaunchOtherApp(
                     return RequestID;
                 },
                 // Response Processor
-                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                [&StringPayload](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
                 {
-                    // No payload in response
+                    if (bIsError)
+                    {
+                        StringPayload = TEXT("");
+                    }
+                    else
+                    {
+                        StringPayload = UTF8_TO_TCHAR(ovr_Message_GetString(*MessagePtr));
+                    }
                 }));
     }
 }
@@ -1699,6 +1707,7 @@ void UOvrRequestsBlueprintLibrary::CloudStorage2_GetUserDirectoryPath(
     EOvrRequestOutputPins& OutExecs,
     FLatentActionInfo LatentInfo,
     // Output
+    FString& StringPayload,
     FString& ErrorMsg)
 {
     if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
@@ -1715,9 +1724,16 @@ void UOvrRequestsBlueprintLibrary::CloudStorage2_GetUserDirectoryPath(
                     return RequestID;
                 },
                 // Response Processor
-                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                [&StringPayload](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
                 {
-                    // No payload in response
+                    if (bIsError)
+                    {
+                        StringPayload = TEXT("");
+                    }
+                    else
+                    {
+                        StringPayload = UTF8_TO_TCHAR(ovr_Message_GetString(*MessagePtr));
+                    }
                 }));
     }
 }
@@ -3703,6 +3719,82 @@ void UOvrRequestsBlueprintLibrary::Room_GetCurrentForUser(
     }
 }
 
+void UOvrRequestsBlueprintLibrary::Room_GetInvitableUsers(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FOvrUserPages& UserPages,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Room_GetInvitableUsers();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&UserPages](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        UserPages.Clear();
+                    }
+                    else
+                    {
+                        UserPages.Update(ovr_Message_GetUserArray(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Room_GetInvitableUsers2(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    FOvrRoomOptions RoomOptions,
+    // Output
+    FOvrUserPages& UserPages,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [RoomOptions]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Room_GetInvitableUsers2(FOvrRoomOptionsConverter(RoomOptions));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&UserPages](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        UserPages.Clear();
+                    }
+                    else
+                    {
+                        UserPages.Update(ovr_Message_GetUserArray(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
 void UOvrRequestsBlueprintLibrary::Room_GetModeratedRooms(
     // Context
     UObject* WorldContextObject,
@@ -3735,6 +3827,46 @@ void UOvrRequestsBlueprintLibrary::Room_GetModeratedRooms(
                     else
                     {
                         RoomPages.Update(ovr_Message_GetRoomArray(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Room_InviteUser(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    FOvrId RoomID,
+    FString InviteToken,
+    // Output
+    FOvrRoom& Room,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [RoomID, InviteToken]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Room_InviteUser(static_cast<ovrID>(RoomID), TCHAR_TO_UTF8(*InviteToken));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&Room](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        Room.Clear();
+                    }
+                    else
+                    {
+                        Room.Update(ovr_Message_GetRoom(*MessagePtr), MessagePtr);
                     }
                 }));
     }
@@ -3857,6 +3989,37 @@ void UOvrRequestsBlueprintLibrary::Room_KickUser(
                     {
                         Room.Update(ovr_Message_GetRoom(*MessagePtr), MessagePtr);
                     }
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Room_LaunchInvitableUserFlow(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    FOvrId RoomID,
+    // Output
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [RoomID]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Room_LaunchInvitableUserFlow(static_cast<ovrID>(RoomID));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // No payload in response
                 }));
     }
 }
@@ -4140,6 +4303,7 @@ void UOvrRequestsBlueprintLibrary::User_GetAccessToken(
     EOvrRequestOutputPins& OutExecs,
     FLatentActionInfo LatentInfo,
     // Output
+    FString& StringPayload,
     FString& ErrorMsg)
 {
     if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
@@ -4156,9 +4320,16 @@ void UOvrRequestsBlueprintLibrary::User_GetAccessToken(
                     return RequestID;
                 },
                 // Response Processor
-                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                [&StringPayload](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
                 {
-                    // No payload in response
+                    if (bIsError)
+                    {
+                        StringPayload = TEXT("");
+                    }
+                    else
+                    {
+                        StringPayload = UTF8_TO_TCHAR(ovr_Message_GetString(*MessagePtr));
+                    }
                 }));
     }
 }

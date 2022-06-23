@@ -131,7 +131,7 @@ public:
      * Read the next incoming packet. Returns null when no more packets
      * are available. Returned handle points to an object representing data
      * read from the network. Ownership of that object is transferred to the
-     * application; use field FOvrPacket::?no field found? to release memory.
+     * application; use field FOvrPacket::Free to release memory.
      * 
      * 
      * For example:

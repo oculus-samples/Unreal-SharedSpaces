@@ -63,7 +63,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Voip_ConnectRequest
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Voip_MicrophoneAvailabilityStateUpdate, const FString&, MicrophoneAvailabilityStateUpdate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Voip_StateChange, const FOvrNetworkingPeer&, StateChange);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Voip_SystemVoipState, const FOvrSystemVoipState&, SystemVoipState);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Vrcamera_GetDataChannelMessageUpdate, const FString&, GetDataChannelMessageUpdate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Vrcamera_GetSurfaceUpdate, const FString&, GetSurfaceUpdate);
 
 // OVR Platform Subsystem
@@ -242,8 +241,8 @@ public: // Notifications
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Room")
     FOvrNotification_Room_RoomUpdate OnRoomRoomUpdate;
 
-    /** DEPRECATED. Do not use or expose further. Use FOvrNotification_GroupPresence_InvitationsSent instead */
-    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Session")
+    /** DEPRECATED. Do not use or expose further. Use FOvrNotification_GroupPresence_InvitationsSent instead. */
+    UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty, DeprecationMessage="Do not use or expose further. Use FOvrNotification_GroupPresence_InvitationsSent instead."), Category = "OvrPlatform|Session")
     FOvrNotification_Session_InvitationsSent OnSessionInvitationsSent;
 
     /**
@@ -278,10 +277,6 @@ public: // Notifications
      */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Voip")
     FOvrNotification_Voip_SystemVoipState OnVoipSystemVoipState;
-
-    /** Get vr camera related webrtc data channel messages for update. */
-    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Vrcamera")
-    FOvrNotification_Vrcamera_GetDataChannelMessageUpdate OnVrcameraGetDataChannelMessageUpdate;
 
     /** Get surface and update action from platform webrtc for update. */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Vrcamera")
@@ -358,15 +353,12 @@ private: // Notification delegate handles and handlers
     FDelegateHandle OnVoipSystemVoipStateHandle;
     void HandleOnVoipSystemVoipState(TOvrMessageHandlePtr Message, bool bIsError);
 
-    FDelegateHandle OnVrcameraGetDataChannelMessageUpdateHandle;
-    void HandleOnVrcameraGetDataChannelMessageUpdate(TOvrMessageHandlePtr Message, bool bIsError);
-
     FDelegateHandle OnVrcameraGetSurfaceUpdateHandle;
     void HandleOnVrcameraGetSurfaceUpdate(TOvrMessageHandlePtr Message, bool bIsError);
 
 private: // Message pump.
 
-    // 
+    // The message pump need to be explicity started with StartMessagePump()
     bool bMessagePumpActivated;
 
     virtual void Tick(float DeltaTime) override;
