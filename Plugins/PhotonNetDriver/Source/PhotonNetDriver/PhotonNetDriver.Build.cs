@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright (c) Meta Platforms, Inc. and its affiliates.  All rights reserved.
 
 using System;
 using System.IO;
