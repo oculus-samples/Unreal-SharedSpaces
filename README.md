@@ -54,6 +54,8 @@ git clone https://github.com/oculus-samples/Unreal-SharedSpaces.git
 ## License
 
 Unreal-SharedSpaces is under the license found [here](LICENSE).<br/>
+The Oculus License applies to the SDK and supporting material.<br/>
+The MIT license applies to only certain, clearly marked documents. If an individual file does not indicate which license it is subject to, then the Oculus License applies.<br/>
 We distribute the Photon SDK under agreement with Photon.  You will find their license [here](./Source/ThirdParty/Photon/license.txt).
 
 <div style="text-align: right; padding: 10pt;">&#x25A0;</div>
