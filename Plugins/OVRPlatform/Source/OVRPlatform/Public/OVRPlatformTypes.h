@@ -30,7 +30,7 @@
 #include "OVRPlatformTypes.generated.h"
 
 /** UE type corresponding to OVR Platform ovrID */
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|CustomModels|ID")
 struct OVRPLATFORM_API FOvrId
 {
     GENERATED_USTRUCT_BODY()
@@ -46,25 +46,26 @@ struct OVRPLATFORM_API FOvrId
 
 private:
 
-    ovrID Id;
+    UPROPERTY()
+    uint64 Id;
 };
 
 /** UE type corresponding to OVR Platform ovrKeyValuePair */
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|CustomModels|Variant")
 struct OVRPLATFORM_API FOvrVariant
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OvrPlatform|CustomModels|Variant|Field")
     EOvrKeyValuePairType Type;
 
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(EditCondition="Type == EOvrVariantType::String", EditConditionHides))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(EditCondition="Type == EOvrVariantType::String", EditConditionHides), Category = "OvrPlatform|CustomModels|Variant|Field")
     FString StringValue;
 
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(EditCondition="Type == EOvrVariantType::Int", EditConditionHides))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(EditCondition="Type == EOvrVariantType::Int", EditConditionHides), Category = "OvrPlatform|CustomModels|Variant|Field")
     int IntValue;
 
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(EditCondition="Type == EOvrVariantType::Double", EditConditionHides))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(EditCondition="Type == EOvrVariantType::Double", EditConditionHides), Category = "OvrPlatform|CustomModels|Variant|Field")
     float FloatValue;
 
     FOvrVariant()
@@ -77,15 +78,15 @@ struct OVRPLATFORM_API FOvrVariant
 };
 
 /** UE type corresponding to custom OVR Platform ovrMatchmakingCriterion */
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|CustomModels|MatchmakingCriterion")
 struct OVRPLATFORM_API FOvrMatchmakingCriterion
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OvrPlatform|CustomModels|MatchmakingCriterion|Field")
     EOvrMatchmakingCriterionImportance Importance;
 
-    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OvrPlatform|CustomModels|MatchmakingCriterion|Field")
     TMap<FString, FOvrVariant> ParameterMap;
 
     FOvrMatchmakingCriterion()
@@ -95,15 +96,15 @@ struct OVRPLATFORM_API FOvrMatchmakingCriterion
 };
 
 /** UE type corresponding to custom OVR Platform ovrMatchmakingCustomQueryData */
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|CustomModels|MatchmakingCustomQueryData")
 struct OVRPLATFORM_API FOvrMatchmakingCustomQueryData
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OvrPlatform|CustomModels|MatchmakingCustomQueryData|Field")
     TMap<FString, FOvrVariant> CustomQueryDataMap;
 
-    UPROPERTY(BlueprintReadWrite, EditAnywhere)
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OvrPlatform|CustomModels|MatchmakingCustomQueryData|Field")
     TMap<FString, FOvrMatchmakingCriterion> CustomQueryCriterionMap;
 };
 

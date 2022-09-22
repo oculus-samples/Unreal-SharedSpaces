@@ -63,6 +63,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Voip_ConnectRequest
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Voip_MicrophoneAvailabilityStateUpdate, const FString&, MicrophoneAvailabilityStateUpdate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Voip_StateChange, const FOvrNetworkingPeer&, StateChange);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Voip_SystemVoipState, const FOvrSystemVoipState&, SystemVoipState);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Vrcamera_GetDataChannelMessageUpdate, const FString&, GetDataChannelMessageUpdate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Vrcamera_GetSurfaceUpdate, const FString&, GetSurfaceUpdate);
 
 // OVR Platform Subsystem
@@ -130,12 +131,18 @@ public: // Notifications
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|AssetFile")
     FOvrNotification_AssetFile_DownloadUpdate OnAssetFileDownloadUpdate;
 
-    /** Result of a leader picking an application for CAL launch. */
-    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Cal")
+    /**
+     * DEPRECATED. Will be removed from headers at version v49.
+     * Result of a leader picking an application for CAL launch.
+     */
+    UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty), Category = "OvrPlatform|Cal")
     FOvrNotification_Cal_FinalizeApplication OnCalFinalizeApplication;
 
-    /** Application that the group leader has proposed for a CAL launch. */
-    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Cal")
+    /**
+     * DEPRECATED. Will be removed from headers at version v49.
+     * Application that the group leader has proposed for a CAL launch.
+     */
+    UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty), Category = "OvrPlatform|Cal")
     FOvrNotification_Cal_ProposeApplication OnCalProposeApplication;
 
     /**
@@ -189,25 +196,28 @@ public: // Notifications
     FOvrNotification_NetSync_SessionsChanged OnNetSyncSessionsChanged;
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Indicates that a connection has been established or there's been an error.
      * Use field FOvrNetworkingPeer::State to get the result; as above,
      * field FOvrNetworkingPeer::ID returns the ID of the peer this message is for.
      */
-    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Networking")
+    UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty), Category = "OvrPlatform|Networking")
     FOvrNotification_Networking_ConnectionStateChange OnNetworkingConnectionStateChange;
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Indicates that another user is attempting to establish a P2P connection
      * with us. Use field FOvrNetworkingPeer::ID to extract the ID of the peer.
      */
-    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Networking")
+    UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty), Category = "OvrPlatform|Networking")
     FOvrNotification_Networking_PeerConnectRequest OnNetworkingPeerConnectRequest;
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Generated in response to Net_Ping().  Either contains ping time in
      * microseconds or indicates that there was a timeout.
      */
-    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Networking")
+    UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty), Category = "OvrPlatform|Networking")
     FOvrNotification_Networking_PingResult OnNetworkingPingResult;
 
     /** Indicates that party has been updated */
@@ -215,6 +225,7 @@ public: // Notifications
     FOvrNotification_Party_PartyUpdate OnPartyPartyUpdate;
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Indicates that the user has accepted an invitation, for example in Oculus
      * Home. Use field FOvrMessage::String to extract the ID of the room that the user
      * has been inivted to as a string. Then call ovrID_FromString() to parse it into
@@ -222,26 +233,31 @@ public: // Notifications
      * 
      * Note that you must call Room_Join() if you want to actually join the room.
      */
-    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Room")
+    UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty), Category = "OvrPlatform|Room")
     FOvrNotification_Room_InviteAccepted OnRoomInviteAccepted;
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Handle this to notify the user when they've received an invitation to join a room
      * in your game.
      * You can use this in lieu of, or in addition to, polling for room invitations via
      * Notification_GetRoomInvites().
      */
-    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Room")
+    UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty), Category = "OvrPlatform|Room")
     FOvrNotification_Room_InviteReceived OnRoomInviteReceived;
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Indicates that the current room has been updated. Use field FOvrMessage::Room
      * to extract the updated room.
      */
-    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Room")
+    UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty), Category = "OvrPlatform|Room")
     FOvrNotification_Room_RoomUpdate OnRoomRoomUpdate;
 
-    /** DEPRECATED. Do not use or expose further. Use FOvrNotification_GroupPresence_InvitationsSent instead. */
+    /**
+     * DEPRECATED. Do not use or expose further. Use FOvrNotification_GroupPresence_InvitationsSent instead.
+     *  Will be removed from headers at version v49.
+     */
     UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty, DeprecationMessage="Do not use or expose further. Use FOvrNotification_GroupPresence_InvitationsSent instead."), Category = "OvrPlatform|Session")
     FOvrNotification_Session_InvitationsSent OnSessionInvitationsSent;
 
@@ -277,6 +293,10 @@ public: // Notifications
      */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Voip")
     FOvrNotification_Voip_SystemVoipState OnVoipSystemVoipState;
+
+    /** Get vr camera related webrtc data channel messages for update. */
+    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Vrcamera")
+    FOvrNotification_Vrcamera_GetDataChannelMessageUpdate OnVrcameraGetDataChannelMessageUpdate;
 
     /** Get surface and update action from platform webrtc for update. */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Vrcamera")
@@ -352,6 +372,9 @@ private: // Notification delegate handles and handlers
 
     FDelegateHandle OnVoipSystemVoipStateHandle;
     void HandleOnVoipSystemVoipState(TOvrMessageHandlePtr Message, bool bIsError);
+
+    FDelegateHandle OnVrcameraGetDataChannelMessageUpdateHandle;
+    void HandleOnVrcameraGetDataChannelMessageUpdate(TOvrMessageHandlePtr Message, bool bIsError);
 
     FDelegateHandle OnVrcameraGetSurfaceUpdateHandle;
     void HandleOnVrcameraGetSurfaceUpdate(TOvrMessageHandlePtr Message, bool bIsError);

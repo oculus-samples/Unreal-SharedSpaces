@@ -193,6 +193,176 @@ void UOvrPageRequestsBlueprintLibrary::FetchAchievementProgressPage(
 }
 
 // ----------------------------------------------------------------------
+// ApplicationInvitePages
+
+void UOvrPageRequestsBlueprintLibrary::FetchApplicationInvitePage(
+    UObject* WorldContextObject,
+    const EOvrForwardArrayIteratorInputPins& InExecs,
+    EOvrPageRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    const FOvrApplicationInvitePages& ApplicationInvitePages,
+    // Output
+    TArray<FOvrApplicationInvite>& ApplicationInviteArray,
+    bool& bHasNextPage,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformRequestGenerator RequestGenerator;
+
+        if (InExecs == EOvrForwardArrayIteratorInputPins::Execute)
+        {
+            RequestGenerator = [&ApplicationInvitePages, &ApplicationInviteArray, &bHasNextPage]()->ovrRequest
+            {
+                size_t Size = ovr_ApplicationInviteArray_GetSize(ApplicationInvitePages.PagedArrayHandle);
+                ApplicationInviteArray.Empty(Size);
+                for (size_t Index = 0; Index < Size; ++Index)
+                {
+                    ApplicationInviteArray.Add(FOvrApplicationInvite(ovr_ApplicationInviteArray_GetElement(ApplicationInvitePages.PagedArrayHandle, Index), ApplicationInvitePages.PagedArrayMessageHandlePtr));
+                }
+                bHasNextPage = ovr_ApplicationInviteArray_HasNextPage(ApplicationInvitePages.PagedArrayHandle);
+
+                // Reading the current page, so no real request is needed.
+                return OVR_REQUEST_IMMEDIATE;
+            };
+        }
+        else // InExecs == EOvrForwardArrayIteratorInputPins::NextPage
+        {
+            if (!bHasNextPage)
+            {
+                RequestGenerator = []()->ovrRequest
+                {
+                    return OVR_REQUEST_NO_MORE_PAGES;
+                };
+            }
+            else
+            {
+                RequestGenerator = [&ApplicationInvitePages]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_GroupPresence_GetNextApplicationInviteArrayPage(ApplicationInvitePages.PagedArrayHandle);
+                    return RequestID;
+                };
+            }
+
+        }
+
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrPageRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                std::move(RequestGenerator),
+                // Response Processor
+                [&ApplicationInvitePages, &ApplicationInviteArray, &bHasNextPage](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // Defaults on outputs.
+                    ApplicationInviteArray.Empty();
+
+                    // Message extraction if no error.
+                    if (!bIsError)
+                    {
+                        ApplicationInvitePages.PagedArrayHandle = ovr_Message_GetApplicationInviteArray(*MessagePtr);
+                        ApplicationInvitePages.PagedArrayMessageHandlePtr = MessagePtr;
+
+                        size_t Size = ovr_ApplicationInviteArray_GetSize(ApplicationInvitePages.PagedArrayHandle);
+                        ApplicationInviteArray.Empty(Size);
+                        for (size_t Index = 0; Index < Size; ++Index)
+                        {
+                            ApplicationInviteArray.Add(FOvrApplicationInvite(ovr_ApplicationInviteArray_GetElement(ApplicationInvitePages.PagedArrayHandle, Index), ApplicationInvitePages.PagedArrayMessageHandlePtr));
+                        }
+                        bHasNextPage = ovr_ApplicationInviteArray_HasNextPage(ApplicationInvitePages.PagedArrayHandle);
+                    }
+                }));
+    }
+}
+
+// ----------------------------------------------------------------------
+// BlockedUserPages
+
+void UOvrPageRequestsBlueprintLibrary::FetchBlockedUserPage(
+    UObject* WorldContextObject,
+    const EOvrForwardArrayIteratorInputPins& InExecs,
+    EOvrPageRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    const FOvrBlockedUserPages& BlockedUserPages,
+    // Output
+    TArray<FOvrBlockedUser>& BlockedUserArray,
+    bool& bHasNextPage,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformRequestGenerator RequestGenerator;
+
+        if (InExecs == EOvrForwardArrayIteratorInputPins::Execute)
+        {
+            RequestGenerator = [&BlockedUserPages, &BlockedUserArray, &bHasNextPage]()->ovrRequest
+            {
+                size_t Size = ovr_BlockedUserArray_GetSize(BlockedUserPages.PagedArrayHandle);
+                BlockedUserArray.Empty(Size);
+                for (size_t Index = 0; Index < Size; ++Index)
+                {
+                    BlockedUserArray.Add(FOvrBlockedUser(ovr_BlockedUserArray_GetElement(BlockedUserPages.PagedArrayHandle, Index), BlockedUserPages.PagedArrayMessageHandlePtr));
+                }
+                bHasNextPage = ovr_BlockedUserArray_HasNextPage(BlockedUserPages.PagedArrayHandle);
+
+                // Reading the current page, so no real request is needed.
+                return OVR_REQUEST_IMMEDIATE;
+            };
+        }
+        else // InExecs == EOvrForwardArrayIteratorInputPins::NextPage
+        {
+            if (!bHasNextPage)
+            {
+                RequestGenerator = []()->ovrRequest
+                {
+                    return OVR_REQUEST_NO_MORE_PAGES;
+                };
+            }
+            else
+            {
+                RequestGenerator = [&BlockedUserPages]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_User_GetNextBlockedUserArrayPage(BlockedUserPages.PagedArrayHandle);
+                    return RequestID;
+                };
+            }
+
+        }
+
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrPageRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                std::move(RequestGenerator),
+                // Response Processor
+                [&BlockedUserPages, &BlockedUserArray, &bHasNextPage](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // Defaults on outputs.
+                    BlockedUserArray.Empty();
+
+                    // Message extraction if no error.
+                    if (!bIsError)
+                    {
+                        BlockedUserPages.PagedArrayHandle = ovr_Message_GetBlockedUserArray(*MessagePtr);
+                        BlockedUserPages.PagedArrayMessageHandlePtr = MessagePtr;
+
+                        size_t Size = ovr_BlockedUserArray_GetSize(BlockedUserPages.PagedArrayHandle);
+                        BlockedUserArray.Empty(Size);
+                        for (size_t Index = 0; Index < Size; ++Index)
+                        {
+                            BlockedUserArray.Add(FOvrBlockedUser(ovr_BlockedUserArray_GetElement(BlockedUserPages.PagedArrayHandle, Index), BlockedUserPages.PagedArrayMessageHandlePtr));
+                        }
+                        bHasNextPage = ovr_BlockedUserArray_HasNextPage(BlockedUserPages.PagedArrayHandle);
+                    }
+                }));
+    }
+}
+
+// ----------------------------------------------------------------------
 // ChallengePages
 
 void UOvrPageRequestsBlueprintLibrary::FetchChallengePage(
@@ -1267,6 +1437,91 @@ void UOvrPageRequestsBlueprintLibrary::FetchUserPage(
                             UserArray.Add(FOvrUser(ovr_UserArray_GetElement(UserPages.PagedArrayHandle, Index), UserPages.PagedArrayMessageHandlePtr));
                         }
                         bHasNextPage = ovr_UserArray_HasNextPage(UserPages.PagedArrayHandle);
+                    }
+                }));
+    }
+}
+
+// ----------------------------------------------------------------------
+// UserCapabilityPages
+
+void UOvrPageRequestsBlueprintLibrary::FetchUserCapabilityPage(
+    UObject* WorldContextObject,
+    const EOvrForwardArrayIteratorInputPins& InExecs,
+    EOvrPageRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    const FOvrUserCapabilityPages& UserCapabilityPages,
+    // Output
+    TArray<FOvrUserCapability>& UserCapabilityArray,
+    bool& bHasNextPage,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformRequestGenerator RequestGenerator;
+
+        if (InExecs == EOvrForwardArrayIteratorInputPins::Execute)
+        {
+            RequestGenerator = [&UserCapabilityPages, &UserCapabilityArray, &bHasNextPage]()->ovrRequest
+            {
+                size_t Size = ovr_UserCapabilityArray_GetSize(UserCapabilityPages.PagedArrayHandle);
+                UserCapabilityArray.Empty(Size);
+                for (size_t Index = 0; Index < Size; ++Index)
+                {
+                    UserCapabilityArray.Add(FOvrUserCapability(ovr_UserCapabilityArray_GetElement(UserCapabilityPages.PagedArrayHandle, Index), UserCapabilityPages.PagedArrayMessageHandlePtr));
+                }
+                bHasNextPage = ovr_UserCapabilityArray_HasNextPage(UserCapabilityPages.PagedArrayHandle);
+
+                // Reading the current page, so no real request is needed.
+                return OVR_REQUEST_IMMEDIATE;
+            };
+        }
+        else // InExecs == EOvrForwardArrayIteratorInputPins::NextPage
+        {
+            if (!bHasNextPage)
+            {
+                RequestGenerator = []()->ovrRequest
+                {
+                    return OVR_REQUEST_NO_MORE_PAGES;
+                };
+            }
+            else
+            {
+                RequestGenerator = [&UserCapabilityPages]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_User_GetNextUserCapabilityArrayPage(UserCapabilityPages.PagedArrayHandle);
+                    return RequestID;
+                };
+            }
+
+        }
+
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrPageRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                std::move(RequestGenerator),
+                // Response Processor
+                [&UserCapabilityPages, &UserCapabilityArray, &bHasNextPage](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // Defaults on outputs.
+                    UserCapabilityArray.Empty();
+
+                    // Message extraction if no error.
+                    if (!bIsError)
+                    {
+                        UserCapabilityPages.PagedArrayHandle = ovr_Message_GetUserCapabilityArray(*MessagePtr);
+                        UserCapabilityPages.PagedArrayMessageHandlePtr = MessagePtr;
+
+                        size_t Size = ovr_UserCapabilityArray_GetSize(UserCapabilityPages.PagedArrayHandle);
+                        UserCapabilityArray.Empty(Size);
+                        for (size_t Index = 0; Index < Size; ++Index)
+                        {
+                            UserCapabilityArray.Add(FOvrUserCapability(ovr_UserCapabilityArray_GetElement(UserCapabilityPages.PagedArrayHandle, Index), UserCapabilityPages.PagedArrayMessageHandlePtr));
+                        }
+                        bHasNextPage = ovr_UserCapabilityArray_HasNextPage(UserCapabilityPages.PagedArrayHandle);
                     }
                 }));
     }

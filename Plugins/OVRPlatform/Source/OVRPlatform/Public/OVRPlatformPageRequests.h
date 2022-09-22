@@ -94,6 +94,40 @@ public:
         FString& ErrorMsg);
 
     /**
+     * Fetches a page from an FOvrApplicationInvitePages paged array.
+     * @param ApplicationInvitePages - a FOvrApplicationInvitePages
+     * @param ApplicationInviteArray - an array of FOvrApplicationInvite
+     * @param bHasNextPage - if more pages are available after this one.
+     */
+    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="ApplicationInvitePages"), Category = "OvrPlatform|Models|ApplicationInviteArray")
+    static void FetchApplicationInvitePage(
+        UObject* WorldContextObject,
+        const EOvrForwardArrayIteratorInputPins& InExecs,
+        EOvrPageRequestOutputPins& OutExecs,
+        FLatentActionInfo LatentInfo,
+        const FOvrApplicationInvitePages& ApplicationInvitePages,
+        TArray<FOvrApplicationInvite>& ApplicationInviteArray,
+        bool& bHasNextPage,
+        FString& ErrorMsg);
+
+    /**
+     * Fetches a page from an FOvrBlockedUserPages paged array.
+     * @param BlockedUserPages - a FOvrBlockedUserPages
+     * @param BlockedUserArray - an array of FOvrBlockedUser
+     * @param bHasNextPage - if more pages are available after this one.
+     */
+    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="BlockedUserPages"), Category = "OvrPlatform|Models|BlockedUserArray")
+    static void FetchBlockedUserPage(
+        UObject* WorldContextObject,
+        const EOvrForwardArrayIteratorInputPins& InExecs,
+        EOvrPageRequestOutputPins& OutExecs,
+        FLatentActionInfo LatentInfo,
+        const FOvrBlockedUserPages& BlockedUserPages,
+        TArray<FOvrBlockedUser>& BlockedUserArray,
+        bool& bHasNextPage,
+        FString& ErrorMsg);
+
+    /**
      * Fetches a page from a bidirectional FOvrChallengePages paged array.
      * @param ChallengePages - a FOvrChallengePages
      * @param ChallengeArray - an array of FOvrChallenge
@@ -300,6 +334,23 @@ public:
         FLatentActionInfo LatentInfo,
         const FOvrUserPages& UserPages,
         TArray<FOvrUser>& UserArray,
+        bool& bHasNextPage,
+        FString& ErrorMsg);
+
+    /**
+     * Fetches a page from an FOvrUserCapabilityPages paged array.
+     * @param UserCapabilityPages - a FOvrUserCapabilityPages
+     * @param UserCapabilityArray - an array of FOvrUserCapability
+     * @param bHasNextPage - if more pages are available after this one.
+     */
+    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="UserCapabilityPages"), Category = "OvrPlatform|Models|UserCapabilityArray")
+    static void FetchUserCapabilityPage(
+        UObject* WorldContextObject,
+        const EOvrForwardArrayIteratorInputPins& InExecs,
+        EOvrPageRequestOutputPins& OutExecs,
+        FLatentActionInfo LatentInfo,
+        const FOvrUserCapabilityPages& UserCapabilityPages,
+        TArray<FOvrUserCapability>& UserCapabilityArray,
         bool& bHasNextPage,
         FString& ErrorMsg);
 };

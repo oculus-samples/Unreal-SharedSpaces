@@ -431,6 +431,7 @@ void OvrPlatform_Challenges_UpdateInfo(
 // CloudStorage
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Deletes the specified save data buffer.  Conflicts are handled just like Saves.
  * @param Bucket - The name of the storage bucket.
  * @param Key - The name for this saved data.
@@ -438,6 +439,7 @@ void OvrPlatform_Challenges_UpdateInfo(
 typedef TSharedPtr<FOvrCloudStorageUpdateResponse> FOvrCloudStorageUpdateResponsePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_CloudStorage_Delete_Delegate, bool, FOvrCloudStorageUpdateResponsePtr, FString);
 
+[[deprecated]]
 void OvrPlatform_CloudStorage_Delete(
     UGameInstance* GameInstance,
     FString Bucket,
@@ -445,6 +447,8 @@ void OvrPlatform_CloudStorage_Delete(
     OvrPlatform_CloudStorage_Delete_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
+ * 
  * Loads the saved entry for the specified bucket and key.
  * If a conflict exists with the key then an error message is returned.
  * @param Bucket - The name of the storage bucket.
@@ -453,6 +457,7 @@ void OvrPlatform_CloudStorage_Delete(
 typedef TSharedPtr<FOvrCloudStorageData> FOvrCloudStorageDataPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_CloudStorage_Load_Delegate, bool, FOvrCloudStorageDataPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_CloudStorage_Load(
     UGameInstance* GameInstance,
     FString Bucket,
@@ -460,18 +465,21 @@ void OvrPlatform_CloudStorage_Load(
     OvrPlatform_CloudStorage_Load_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Loads all the metadata for the saves in the specified bucket, including conflicts.
  * @param Bucket - The name of the storage bucket.
  */
 typedef TSharedPtr<FOvrCloudStorageMetadataPages> FOvrCloudStorageMetadataArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_CloudStorage_LoadBucketMetadata_Delegate, bool, FOvrCloudStorageMetadataArrayPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_CloudStorage_LoadBucketMetadata(
     UGameInstance* GameInstance,
     FString Bucket,
     OvrPlatform_CloudStorage_LoadBucketMetadata_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Loads the metadata for this bucket-key combination that need to be manually resolved.
  * @param Bucket - The name of the storage bucket
  * @param Key - The key for this saved data.
@@ -479,22 +487,28 @@ void OvrPlatform_CloudStorage_LoadBucketMetadata(
 typedef TSharedPtr<FOvrCloudStorageConflictMetadata> FOvrCloudStorageConflictMetadataPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_CloudStorage_LoadConflictMetadata_Delegate, bool, FOvrCloudStorageConflictMetadataPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_CloudStorage_LoadConflictMetadata(
     UGameInstance* GameInstance,
     FString Bucket,
     FString Key,
     OvrPlatform_CloudStorage_LoadConflictMetadata_Delegate&& Delegate);
 
-/** Loads the data specified by the storage handle. */
+/**
+ * DEPRECATED. Will be removed from headers at version v49.
+ * Loads the data specified by the storage handle.
+ */
 typedef TSharedPtr<FOvrCloudStorageData> FOvrCloudStorageDataPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_CloudStorage_LoadHandle_Delegate, bool, FOvrCloudStorageDataPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_CloudStorage_LoadHandle(
     UGameInstance* GameInstance,
     FString Handle,
     OvrPlatform_CloudStorage_LoadHandle_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * load the metadata for the specified key
  * @param Bucket - The name of the storage bucket.
  * @param Key - The name for this saved data.
@@ -502,6 +516,7 @@ void OvrPlatform_CloudStorage_LoadHandle(
 typedef TSharedPtr<FOvrCloudStorageMetadata> FOvrCloudStorageMetadataPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_CloudStorage_LoadMetadata_Delegate, bool, FOvrCloudStorageMetadataPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_CloudStorage_LoadMetadata(
     UGameInstance* GameInstance,
     FString Bucket,
@@ -509,6 +524,7 @@ void OvrPlatform_CloudStorage_LoadMetadata(
     OvrPlatform_CloudStorage_LoadMetadata_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Selects the local save for manual conflict resolution.
  * @param Bucket - The name of the storage bucket.
  * @param Key - The name for this saved data.
@@ -517,6 +533,7 @@ void OvrPlatform_CloudStorage_LoadMetadata(
 typedef TSharedPtr<FOvrCloudStorageUpdateResponse> FOvrCloudStorageUpdateResponsePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_CloudStorage_ResolveKeepLocal_Delegate, bool, FOvrCloudStorageUpdateResponsePtr, FString);
 
+[[deprecated]]
 void OvrPlatform_CloudStorage_ResolveKeepLocal(
     UGameInstance* GameInstance,
     FString Bucket,
@@ -525,6 +542,7 @@ void OvrPlatform_CloudStorage_ResolveKeepLocal(
     OvrPlatform_CloudStorage_ResolveKeepLocal_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Selects the remote save for manual conflict resolution.
  * @param Bucket - The name of the storage bucket.
  * @param Key - The name for this saved data.
@@ -533,6 +551,7 @@ void OvrPlatform_CloudStorage_ResolveKeepLocal(
 typedef TSharedPtr<FOvrCloudStorageUpdateResponse> FOvrCloudStorageUpdateResponsePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_CloudStorage_ResolveKeepRemote_Delegate, bool, FOvrCloudStorageUpdateResponsePtr, FString);
 
+[[deprecated]]
 void OvrPlatform_CloudStorage_ResolveKeepRemote(
     UGameInstance* GameInstance,
     FString Bucket,
@@ -541,6 +560,7 @@ void OvrPlatform_CloudStorage_ResolveKeepRemote(
     OvrPlatform_CloudStorage_ResolveKeepRemote_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Note: Cloud Storage is only available for Rift apps.
  * 
  * 
@@ -561,6 +581,7 @@ void OvrPlatform_CloudStorage_ResolveKeepRemote(
 typedef TSharedPtr<FOvrCloudStorageUpdateResponse> FOvrCloudStorageUpdateResponsePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_CloudStorage_Save_Delegate, bool, FOvrCloudStorageUpdateResponsePtr, FString);
 
+[[deprecated]]
 void OvrPlatform_CloudStorage_Save(
     UGameInstance* GameInstance,
     FString Bucket,
@@ -573,10 +594,14 @@ void OvrPlatform_CloudStorage_Save(
 // ----------------------------------------------------------------------
 // CloudStorage2
 
-/** Get the directory path for the current user/app pair that will be used during cloud storage synchronization */
+/**
+ * DEPRECATED. Will be removed from headers at version v49.
+ * Get the directory path for the current user/app pair that will be used during cloud storage synchronization
+ */
 typedef TSharedPtr<FString> FStringPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_CloudStorage2_GetUserDirectoryPath_Delegate, bool, FStringPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_CloudStorage2_GetUserDirectoryPath(
     UGameInstance* GameInstance,
     OvrPlatform_CloudStorage2_GetUserDirectoryPath_Delegate&& Delegate);
@@ -600,6 +625,23 @@ DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_Clear_Delegate, bool, FStri
 void OvrPlatform_GroupPresence_Clear(
     UGameInstance* GameInstance,
     OvrPlatform_GroupPresence_Clear_Delegate&& Delegate);
+
+/** Returns a list of users that can be invited to your current lobby. These are pulled from your friends and recently met lists. */
+typedef TSharedPtr<FOvrUserPages> FOvrUserArrayPtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_GroupPresence_GetInvitableUsers_Delegate, bool, FOvrUserArrayPtr, FString);
+
+void OvrPlatform_GroupPresence_GetInvitableUsers(
+    UGameInstance* GameInstance,
+    FOvrInviteOptions Options,
+    OvrPlatform_GroupPresence_GetInvitableUsers_Delegate&& Delegate);
+
+/** Returns a list of users that can be invited to your current lobby. These are pulled from your friends and recently met lists. */
+typedef TSharedPtr<FOvrApplicationInvitePages> FOvrApplicationInviteArrayPtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_GroupPresence_GetSentInvites_Delegate, bool, FOvrApplicationInviteArrayPtr, FString);
+
+void OvrPlatform_GroupPresence_GetSentInvites(
+    UGameInstance* GameInstance,
+    OvrPlatform_GroupPresence_GetSentInvites_Delegate&& Delegate);
 
 /**
  * Launch the flow to allow the user to invite others to their current session.
@@ -646,6 +688,15 @@ void OvrPlatform_GroupPresence_LaunchRosterPanel(
     FOvrRosterOptions Options,
     OvrPlatform_GroupPresence_LaunchRosterPanel_Delegate&& Delegate);
 
+/** Returns a list of users that can be invited to your current lobby. These are pulled from your friends and recently met lists. */
+typedef TSharedPtr<FOvrSendInvitesResult> FOvrSendInvitesResultPtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_GroupPresence_SendInvites_Delegate, bool, FOvrSendInvitesResultPtr, FString);
+
+void OvrPlatform_GroupPresence_SendInvites(
+    UGameInstance* GameInstance,
+    TArray<FOvrId> UserIDs,
+    OvrPlatform_GroupPresence_SendInvites_Delegate&& Delegate);
+
 /** Set group presence for running app */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_Set_Delegate, bool, FString);
 
@@ -653,6 +704,17 @@ void OvrPlatform_GroupPresence_Set(
     UGameInstance* GameInstance,
     FOvrGroupPresenceOptions GroupPresenceOptions,
     OvrPlatform_GroupPresence_Set_Delegate&& Delegate);
+
+/**
+ * Set the user's deeplink message while keeping the other group presence parameters the same. If the destination of the user is not set,
+ * the deeplink message cannot be set as there's no deeplink message to override.
+ */
+DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_SetDeeplinkMessageOverride_Delegate, bool, FString);
+
+void OvrPlatform_GroupPresence_SetDeeplinkMessageOverride(
+    UGameInstance* GameInstance,
+    FString DeeplinkMessage,
+    OvrPlatform_GroupPresence_SetDeeplinkMessageOverride_Delegate&& Delegate);
 
 /** Replaces the user's current destination for the provided one. All other existing group presence parameters will remain the same. */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_SetDestination_Delegate, bool, FString);
@@ -900,14 +962,14 @@ void OvrPlatform_Leaderboard_WriteEntryWithSupplementaryMetric(
 // Matchmaking
 
 /**
- * DEPRECATED. Use Matchmaking_Browse2().
+ * DEPRECATED. Will be removed from headers at version v49.
  * @param Pool - A BROWSE type matchmaking pool.
  * @param CustomQueryData - Optional. Custom query data.
  */
 typedef TSharedPtr<FOvrMatchmakingBrowseResult> FOvrMatchmakingBrowseResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_Browse_Delegate, bool, FOvrMatchmakingBrowseResultPtr, FString);
 
-[[deprecated("Use Matchmaking_Browse2().")]]
+[[deprecated]]
 void OvrPlatform_Matchmaking_Browse(
     UGameInstance* GameInstance,
     FString Pool,
@@ -915,6 +977,7 @@ void OvrPlatform_Matchmaking_Browse(
     OvrPlatform_Matchmaking_Browse_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Modes: BROWSE
  * 
  * See overview documentation above.
@@ -937,6 +1000,7 @@ void OvrPlatform_Matchmaking_Browse(
 typedef TSharedPtr<FOvrMatchmakingBrowseResult> FOvrMatchmakingBrowseResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_Browse2_Delegate, bool, FOvrMatchmakingBrowseResultPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Matchmaking_Browse2(
     UGameInstance* GameInstance,
     FString Pool,
@@ -944,13 +1008,13 @@ void OvrPlatform_Matchmaking_Browse2(
     OvrPlatform_Matchmaking_Browse2_Delegate&& Delegate);
 
 /**
- * DEPRECATED. Use Matchmaking_Cancel2().
+ * DEPRECATED. Will be removed from headers at version v49.
  * @param Pool - The pool in question.
  * @param RequestHash - Used to find your entry in a queue.
  */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_Matchmaking_Cancel_Delegate, bool, FString);
 
-[[deprecated("Use Matchmaking_Cancel2().")]]
+[[deprecated]]
 void OvrPlatform_Matchmaking_Cancel(
     UGameInstance* GameInstance,
     FString Pool,
@@ -958,6 +1022,7 @@ void OvrPlatform_Matchmaking_Cancel(
     OvrPlatform_Matchmaking_Cancel_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Modes: QUICKMATCH, BROWSE
  * 
  * 
@@ -968,12 +1033,13 @@ void OvrPlatform_Matchmaking_Cancel(
  */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_Matchmaking_Cancel2_Delegate, bool, FString);
 
+[[deprecated]]
 void OvrPlatform_Matchmaking_Cancel2(
     UGameInstance* GameInstance,
     OvrPlatform_Matchmaking_Cancel2_Delegate&& Delegate);
 
 /**
- * DEPRECATED. Use Matchmaking_CreateAndEnqueueRoom2().
+ * DEPRECATED. Will be removed from headers at version v49.
  * @param Pool - The matchmaking pool to use, which is defined for the app.
  * @param MaxUsers - Overrides the Max Users value, which is configured in pool settings of the Developer Dashboard.
  * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when the room data changes, such as when users join or leave.
@@ -982,7 +1048,7 @@ void OvrPlatform_Matchmaking_Cancel2(
 typedef TSharedPtr<FOvrMatchmakingEnqueueResultAndRoom> FOvrMatchmakingEnqueueResultAndRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_CreateAndEnqueueRoom_Delegate, bool, FOvrMatchmakingEnqueueResultAndRoomPtr, FString);
 
-[[deprecated("Use Matchmaking_CreateAndEnqueueRoom2().")]]
+[[deprecated]]
 void OvrPlatform_Matchmaking_CreateAndEnqueueRoom(
     UGameInstance* GameInstance,
     FString Pool,
@@ -992,6 +1058,7 @@ void OvrPlatform_Matchmaking_CreateAndEnqueueRoom(
     OvrPlatform_Matchmaking_CreateAndEnqueueRoom_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Modes: BROWSE, QUICKMATCH (Advanced; Can Users Create Rooms = true)
  * 
  * See overview documentation above.
@@ -1009,6 +1076,7 @@ void OvrPlatform_Matchmaking_CreateAndEnqueueRoom(
 typedef TSharedPtr<FOvrMatchmakingEnqueueResultAndRoom> FOvrMatchmakingEnqueueResultAndRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_CreateAndEnqueueRoom2_Delegate, bool, FOvrMatchmakingEnqueueResultAndRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Matchmaking_CreateAndEnqueueRoom2(
     UGameInstance* GameInstance,
     FString Pool,
@@ -1016,7 +1084,7 @@ void OvrPlatform_Matchmaking_CreateAndEnqueueRoom2(
     OvrPlatform_Matchmaking_CreateAndEnqueueRoom2_Delegate&& Delegate);
 
 /**
- * DEPRECATED. Use Matchmaking_CreateRoom2().
+ * DEPRECATED. Will be removed from headers at version v49.
  * @param Pool - The matchmaking pool to use, which is defined for the app.
  * @param MaxUsers - Overrides the Max Users value, which is configured in pool settings of the Developer Dashboard.
  * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when room data changes, such as when users join or leave.
@@ -1024,7 +1092,7 @@ void OvrPlatform_Matchmaking_CreateAndEnqueueRoom2(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_CreateRoom_Delegate, bool, FOvrRoomPtr, FString);
 
-[[deprecated("Use Matchmaking_CreateRoom2().")]]
+[[deprecated]]
 void OvrPlatform_Matchmaking_CreateRoom(
     UGameInstance* GameInstance,
     FString Pool,
@@ -1033,6 +1101,7 @@ void OvrPlatform_Matchmaking_CreateRoom(
     OvrPlatform_Matchmaking_CreateRoom_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Create a matchmaking room and join it, but do
  * not enqueue the room. After creation, you can call EnqueueRoom2. However,
  * Oculus recommends using CreateAndEnqueueRoom2 instead.
@@ -1052,6 +1121,7 @@ void OvrPlatform_Matchmaking_CreateRoom(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_CreateRoom2_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Matchmaking_CreateRoom2(
     UGameInstance* GameInstance,
     FString Pool,
@@ -1059,14 +1129,14 @@ void OvrPlatform_Matchmaking_CreateRoom2(
     OvrPlatform_Matchmaking_CreateRoom2_Delegate&& Delegate);
 
 /**
- * DEPRECATED. Use Matchmaking_Enqueue2().
+ * DEPRECATED. Will be removed from headers at version v49.
  * @param Pool - The pool to enqueue in.
  * @param CustomQueryData - Optional.  See "Custom criteria" section above.
  */
 typedef TSharedPtr<FOvrMatchmakingEnqueueResult> FOvrMatchmakingEnqueueResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_Enqueue_Delegate, bool, FOvrMatchmakingEnqueueResultPtr, FString);
 
-[[deprecated("Use Matchmaking_Enqueue2().")]]
+[[deprecated]]
 void OvrPlatform_Matchmaking_Enqueue(
     UGameInstance* GameInstance,
     FString Pool,
@@ -1074,6 +1144,7 @@ void OvrPlatform_Matchmaking_Enqueue(
     OvrPlatform_Matchmaking_Enqueue_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Modes: QUICKMATCH
  * 
  * See overview documentation above.
@@ -1092,6 +1163,7 @@ void OvrPlatform_Matchmaking_Enqueue(
 typedef TSharedPtr<FOvrMatchmakingEnqueueResult> FOvrMatchmakingEnqueueResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_Enqueue2_Delegate, bool, FOvrMatchmakingEnqueueResultPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Matchmaking_Enqueue2(
     UGameInstance* GameInstance,
     FString Pool,
@@ -1099,14 +1171,14 @@ void OvrPlatform_Matchmaking_Enqueue2(
     OvrPlatform_Matchmaking_Enqueue2_Delegate&& Delegate);
 
 /**
- * DEPRECATED. Please use Matchmaking_EnqueueRoom2() instead.
+ * DEPRECATED. Will be removed from headers at version v49.
  * @param RoomID - Returned either from FOvrNotification_Matchmaking_MatchFound or from Matchmaking_CreateRoom().
  * @param CustomQueryData - Optional.  See the "Custom criteria" section above.
  */
 typedef TSharedPtr<FOvrMatchmakingEnqueueResult> FOvrMatchmakingEnqueueResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_EnqueueRoom_Delegate, bool, FOvrMatchmakingEnqueueResultPtr, FString);
 
-[[deprecated("Please use Matchmaking_EnqueueRoom2() instead.")]]
+[[deprecated]]
 void OvrPlatform_Matchmaking_EnqueueRoom(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1114,6 +1186,7 @@ void OvrPlatform_Matchmaking_EnqueueRoom(
     OvrPlatform_Matchmaking_EnqueueRoom_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Modes: BROWSE (for Rooms only), ROOM
  * 
  * 
@@ -1135,6 +1208,7 @@ void OvrPlatform_Matchmaking_EnqueueRoom(
 typedef TSharedPtr<FOvrMatchmakingEnqueueResult> FOvrMatchmakingEnqueueResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_EnqueueRoom2_Delegate, bool, FOvrMatchmakingEnqueueResultPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Matchmaking_EnqueueRoom2(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1142,6 +1216,7 @@ void OvrPlatform_Matchmaking_EnqueueRoom2(
     OvrPlatform_Matchmaking_EnqueueRoom2_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Modes: QUICKMATCH, BROWSE
  * 
  * Used to debug the state of the current matchmaking pool queue.  This is not intended to be used in production.
@@ -1149,11 +1224,13 @@ void OvrPlatform_Matchmaking_EnqueueRoom2(
 typedef TSharedPtr<FOvrMatchmakingAdminSnapshot> FOvrMatchmakingAdminSnapshotPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_GetAdminSnapshot_Delegate, bool, FOvrMatchmakingAdminSnapshotPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Matchmaking_GetAdminSnapshot(
     UGameInstance* GameInstance,
     OvrPlatform_Matchmaking_GetAdminSnapshot_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Modes: QUICKMATCH, BROWSE
  * 
  * Gets the matchmaking stats for the current user
@@ -1168,6 +1245,7 @@ void OvrPlatform_Matchmaking_GetAdminSnapshot(
 typedef TSharedPtr<FOvrMatchmakingStats> FOvrMatchmakingStatsPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_GetStats_Delegate, bool, FOvrMatchmakingStatsPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Matchmaking_GetStats(
     UGameInstance* GameInstance,
     FString Pool,
@@ -1176,14 +1254,14 @@ void OvrPlatform_Matchmaking_GetStats(
     OvrPlatform_Matchmaking_GetStats_Delegate&& Delegate);
 
 /**
- * DEPRECATED. Use Room_Join2().
+ * DEPRECATED. Will be removed from headers at version v49.
  * @param RoomID - ID of a room previously returned from FOvrNotification_Matchmaking_MatchFound or Matchmaking_Browse().
  * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when room data changes, such as when users join or leave.
  */
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Matchmaking_JoinRoom_Delegate, bool, FOvrRoomPtr, FString);
 
-[[deprecated("Use Room_Join2().")]]
+[[deprecated]]
 void OvrPlatform_Matchmaking_JoinRoom(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1191,6 +1269,7 @@ void OvrPlatform_Matchmaking_JoinRoom(
     OvrPlatform_Matchmaking_JoinRoom_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Modes: QUICKMATCH, BROWSE (+ Skill Pool)
  * 
  * See the overview documentation above.
@@ -1205,6 +1284,7 @@ void OvrPlatform_Matchmaking_JoinRoom(
  */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_Matchmaking_ReportResultInsecure_Delegate, bool, FString);
 
+[[deprecated]]
 void OvrPlatform_Matchmaking_ReportResultInsecure(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1212,6 +1292,7 @@ void OvrPlatform_Matchmaking_ReportResultInsecure(
     OvrPlatform_Matchmaking_ReportResultInsecure_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Modes: QUICKMATCH, BROWSE (+ Skill Pool)
  * 
  * For pools with skill-based matching.  See overview documentation above.
@@ -1221,6 +1302,7 @@ void OvrPlatform_Matchmaking_ReportResultInsecure(
  */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_Matchmaking_StartMatch_Delegate, bool, FString);
 
+[[deprecated]]
 void OvrPlatform_Matchmaking_StartMatch(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1252,6 +1334,8 @@ void OvrPlatform_Media_ShareToFacebook(
 // Notification
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
+ * 
  * Retrieve a list of all pending room invites for your application (for example, notifications
  * that may have been sent before the user launched your game).  You can also get push
  * notifications with FOvrNotification_Room_InviteReceived.
@@ -1259,6 +1343,7 @@ void OvrPlatform_Media_ShareToFacebook(
 typedef TSharedPtr<FOvrRoomInviteNotificationPages> FOvrRoomInviteNotificationArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Notification_GetRoomInvites_Delegate, bool, FOvrRoomInviteNotificationArrayPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Notification_GetRoomInvites(
     UGameInstance* GameInstance,
     OvrPlatform_Notification_GetRoomInvites_Delegate&& Delegate);
@@ -1317,7 +1402,7 @@ void OvrPlatform_RichPresence_Set(
 // Room
 
 /**
- * DEPRECATED. Use Room_CreateAndJoinPrivate2().
+ * DEPRECATED. Will be removed from headers at version v49.
  * @param JoinPolicy - Specifies who can join the room without an invite.
  * @param MaxUsers - The maximum number of users allowed in the room, including the creator.
  * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when room data changes, such as when users join or leave.
@@ -1325,7 +1410,7 @@ void OvrPlatform_RichPresence_Set(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_CreateAndJoinPrivate_Delegate, bool, FOvrRoomPtr, FString);
 
-[[deprecated("Use Room_CreateAndJoinPrivate2().")]]
+[[deprecated]]
 void OvrPlatform_Room_CreateAndJoinPrivate(
     UGameInstance* GameInstance,
     EOvrRoomJoinPolicy JoinPolicy,
@@ -1334,6 +1419,7 @@ void OvrPlatform_Room_CreateAndJoinPrivate(
     OvrPlatform_Room_CreateAndJoinPrivate_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Creates a new private (client controlled) room and adds the caller to it. This type of room is good
  * for matches where the user wants to play with friends, as they're primarially discoverable by examining
  * which rooms your friends are in.
@@ -1344,6 +1430,7 @@ void OvrPlatform_Room_CreateAndJoinPrivate(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_CreateAndJoinPrivate2_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_CreateAndJoinPrivate2(
     UGameInstance* GameInstance,
     EOvrRoomJoinPolicy JoinPolicy,
@@ -1352,29 +1439,34 @@ void OvrPlatform_Room_CreateAndJoinPrivate2(
     OvrPlatform_Room_CreateAndJoinPrivate2_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Allows arbitrary rooms for the application to be loaded.
  * @param RoomID - The room to load.
  */
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_Get_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_Get(
     UGameInstance* GameInstance,
     FOvrId RoomID,
     OvrPlatform_Room_Get_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Easy loading of the room you're currently in. If you don't want live updates
  * on your current room (by using subscribeToUpdates), you can use this to refresh the data.
  */
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_GetCurrent_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_GetCurrent(
     UGameInstance* GameInstance,
     OvrPlatform_Room_GetCurrent_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Allows the current room for a given user to be loaded. Remember that the user's privacy settings
  * may not allow their room to be loaded. Because of this, it's often possible to load the users in
  * a room, but not to take those users and load their room.
@@ -1383,21 +1475,23 @@ void OvrPlatform_Room_GetCurrent(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_GetCurrentForUser_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_GetCurrentForUser(
     UGameInstance* GameInstance,
     FOvrId UserID,
     OvrPlatform_Room_GetCurrentForUser_Delegate&& Delegate);
 
-/** DEPRECATED. Use Room_GetInvitableUsers2(). */
+/** DEPRECATED. Will be removed from headers at version v49. */
 typedef TSharedPtr<FOvrUserPages> FOvrUserArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_GetInvitableUsers_Delegate, bool, FOvrUserArrayPtr, FString);
 
-[[deprecated("Use Room_GetInvitableUsers2().")]]
+[[deprecated]]
 void OvrPlatform_Room_GetInvitableUsers(
     UGameInstance* GameInstance,
     OvrPlatform_Room_GetInvitableUsers_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Loads a list of users you can invite to a room. These are pulled from your
  * friends list and recently met lists and filtered for relevance and interest. If the room cannot be
  * joined, this list will be empty. By default, the invitable users returned
@@ -1437,20 +1531,26 @@ void OvrPlatform_Room_GetInvitableUsers(
 typedef TSharedPtr<FOvrUserPages> FOvrUserArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_GetInvitableUsers2_Delegate, bool, FOvrUserArrayPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_GetInvitableUsers2(
     UGameInstance* GameInstance,
     FOvrRoomOptions RoomOptions,
     OvrPlatform_Room_GetInvitableUsers2_Delegate&& Delegate);
 
-/** Fetches the list of moderated rooms created for the application. */
+/**
+ * DEPRECATED. Will be removed from headers at version v49.
+ * Fetches the list of moderated rooms created for the application.
+ */
 typedef TSharedPtr<FOvrRoomPages> FOvrRoomArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_GetModeratedRooms_Delegate, bool, FOvrRoomArrayPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_GetModeratedRooms(
     UGameInstance* GameInstance,
     OvrPlatform_Room_GetModeratedRooms_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Invites a user to the specified room.  They will receive a notification via
  * FOvrNotification_Room_InviteReceived if they are in your game, and/or they can poll for room invites
  * using Notification_GetRoomInvites().
@@ -1460,6 +1560,7 @@ void OvrPlatform_Room_GetModeratedRooms(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_InviteUser_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_InviteUser(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1467,6 +1568,7 @@ void OvrPlatform_Room_InviteUser(
     OvrPlatform_Room_InviteUser_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Joins the target room (leaving the one you're currently in).
  * @param RoomID - The room to join.
  * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when room data changes, such as when users join or leave.
@@ -1474,6 +1576,7 @@ void OvrPlatform_Room_InviteUser(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_Join_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_Join(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1481,6 +1584,7 @@ void OvrPlatform_Room_Join(
     OvrPlatform_Room_Join_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Joins the target room (leaving the one you're currently in).
  * @param RoomID - The room to join.
  * @param RoomOptions - Additional room configuration for this request. Optional.
@@ -1488,6 +1592,7 @@ void OvrPlatform_Room_Join(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_Join2_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_Join2(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1495,6 +1600,7 @@ void OvrPlatform_Room_Join2(
     OvrPlatform_Room_Join2_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Allows the room owner to kick a user out of the current room.
  * @param RoomID - The room that you currently own (check field FOvrRoom::Owner).
  * @param UserID - The user to be kicked (cannot be yourself).
@@ -1503,6 +1609,7 @@ void OvrPlatform_Room_Join2(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_KickUser_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_KickUser(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1511,6 +1618,7 @@ void OvrPlatform_Room_KickUser(
     OvrPlatform_Room_KickUser_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  *  Launch the invitable user flow to invite to the logged in user's current
  * room. This is intended to be a nice shortcut for developers not wanting
  * to build out their own Invite UI although it has the same rules as if
@@ -1518,24 +1626,29 @@ void OvrPlatform_Room_KickUser(
  */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_Room_LaunchInvitableUserFlow_Delegate, bool, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_LaunchInvitableUserFlow(
     UGameInstance* GameInstance,
     FOvrId RoomID,
     OvrPlatform_Room_LaunchInvitableUserFlow_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
+ * 
  * Removes you from your current room.  Returns the solo room you are now in if it succeeds
  * @param RoomID - The room you're currently in.
  */
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_Leave_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_Leave(
     UGameInstance* GameInstance,
     FOvrId RoomID,
     OvrPlatform_Room_Leave_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Allows the room owner to set the description of their room.
  * @param RoomID - The room that you currently own (check field FOvrRoom::Owner).
  * @param Description - The new name of the room.
@@ -1543,6 +1656,7 @@ void OvrPlatform_Room_Leave(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_SetDescription_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_SetDescription(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1550,6 +1664,7 @@ void OvrPlatform_Room_SetDescription(
     OvrPlatform_Room_SetDescription_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Allows the room owner to update the data store (set of key value pairs) of their room.
  * 
  * NOTE: Room datastores only allow string values. If you provide int or double values, this returns an error.
@@ -1559,6 +1674,7 @@ void OvrPlatform_Room_SetDescription(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_UpdateDataStore_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_UpdateDataStore(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1566,6 +1682,7 @@ void OvrPlatform_Room_UpdateDataStore(
     OvrPlatform_Room_UpdateDataStore_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Disallow new members from being able to join the room. This will prevent
  * joins from Room_Join(), invites, 'Join From Home', etc.
  * Users that are in the room at the time of lockdown WILL be able to rejoin.
@@ -1575,6 +1692,7 @@ void OvrPlatform_Room_UpdateDataStore(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_UpdateMembershipLockStatus_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_UpdateMembershipLockStatus(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1582,12 +1700,14 @@ void OvrPlatform_Room_UpdateMembershipLockStatus(
     OvrPlatform_Room_UpdateMembershipLockStatus_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Allows the room owner to transfer ownership to someone else.
  * @param RoomID - The room that the user owns (check field FOvrRoom::Owner).
  * @param UserID - The new user to make an owner; the user must be in the room.
  */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_Room_UpdateOwner_Delegate, bool, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_UpdateOwner(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1595,6 +1715,7 @@ void OvrPlatform_Room_UpdateOwner(
     OvrPlatform_Room_UpdateOwner_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Sets the join policy of the user's private room.
  * @param RoomID - The room ID that the user owns (check field FOvrRoom::Owner).
  * @param NewJoinPolicy - The new join policy for the room.
@@ -1602,6 +1723,7 @@ void OvrPlatform_Room_UpdateOwner(
 typedef TSharedPtr<FOvrRoom> FOvrRoomPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Room_UpdatePrivateRoomJoinPolicy_Delegate, bool, FOvrRoomPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_Room_UpdatePrivateRoomJoinPolicy(
     UGameInstance* GameInstance,
     FOvrId RoomID,
@@ -1634,6 +1756,14 @@ void OvrPlatform_User_GetAccessToken(
     UGameInstance* GameInstance,
     OvrPlatform_User_GetAccessToken_Delegate&& Delegate);
 
+/** Return the IDs of users entitled to use the current app that are blocked by the specified user */
+typedef TSharedPtr<FOvrBlockedUserPages> FOvrBlockedUserArrayPtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_GetBlockedUsers_Delegate, bool, FOvrBlockedUserArrayPtr, FString);
+
+void OvrPlatform_User_GetBlockedUsers(
+    UGameInstance* GameInstance,
+    OvrPlatform_User_GetBlockedUsers_Delegate&& Delegate);
+
 /**
  * Retrieve the currently signed in user.  This call is available offline.
  * 
@@ -1660,17 +1790,20 @@ void OvrPlatform_User_GetLoggedInUserFriends(
     OvrPlatform_User_GetLoggedInUserFriends_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Use User_GetLoggedInUserFriends() instead Will be removed from headers at version v49.
  * Retrieve a list of the logged in user's friends and any rooms they
  * might be in.
  */
 typedef TSharedPtr<FOvrUserAndRoomPages> FOvrUserAndRoomArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_GetLoggedInUserFriendsAndRooms_Delegate, bool, FOvrUserAndRoomArrayPtr, FString);
 
+[[deprecated("Use User_GetLoggedInUserFriends() instead")]]
 void OvrPlatform_User_GetLoggedInUserFriendsAndRooms(
     UGameInstance* GameInstance,
     OvrPlatform_User_GetLoggedInUserFriendsAndRooms_Delegate&& Delegate);
 
 /**
+ * DEPRECATED. Will be removed from headers at version v49.
  * Returns a list of users that the logged in user was in a room with recently, sorted by
  * relevance, along with any rooms they might be in.  All you need to do to use this method is to
  * use our Rooms API, and we will track the number of times users are together, their most recent
@@ -1690,6 +1823,7 @@ void OvrPlatform_User_GetLoggedInUserFriendsAndRooms(
 typedef TSharedPtr<FOvrUserAndRoomPages> FOvrUserAndRoomArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_GetLoggedInUserRecentlyMetUsersAndRooms_Delegate, bool, FOvrUserAndRoomArrayPtr, FString);
 
+[[deprecated]]
 void OvrPlatform_User_GetLoggedInUserRecentlyMetUsersAndRooms(
     UGameInstance* GameInstance,
     FOvrUserOptions UserOptions,
@@ -1737,6 +1871,20 @@ void OvrPlatform_User_GetUserProof(
     OvrPlatform_User_GetUserProof_Delegate&& Delegate);
 
 /**
+ * Launch the flow for blocking the given user. You can't be friended, invited,
+ *  or searched by a blocked user, for example. You can remove the block via
+ *  ovr_User_LaunchUnblockFlow.
+ * @param UserID - User ID of user being blocked
+ */
+typedef TSharedPtr<FOvrLaunchBlockFlowResult> FOvrLaunchBlockFlowResultPtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_LaunchBlockFlow_Delegate, bool, FOvrLaunchBlockFlowResultPtr, FString);
+
+void OvrPlatform_User_LaunchBlockFlow(
+    UGameInstance* GameInstance,
+    FOvrId UserID,
+    OvrPlatform_User_LaunchBlockFlow_Delegate&& Delegate);
+
+/**
  * Launch the flow for sending a friend request to a user.
  * @param UserID - User ID of user to send a friend request to
  */
@@ -1747,6 +1895,18 @@ void OvrPlatform_User_LaunchFriendRequestFlow(
     UGameInstance* GameInstance,
     FOvrId UserID,
     OvrPlatform_User_LaunchFriendRequestFlow_Delegate&& Delegate);
+
+/**
+ * Launch the flow for unblocking a user that the viewer has blocked.
+ * @param UserID - User ID of user to unblock
+ */
+typedef TSharedPtr<FOvrLaunchUnblockFlowResult> FOvrLaunchUnblockFlowResultPtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_LaunchUnblockFlow_Delegate, bool, FOvrLaunchUnblockFlowResultPtr, FString);
+
+void OvrPlatform_User_LaunchUnblockFlow(
+    UGameInstance* GameInstance,
+    FOvrId UserID,
+    OvrPlatform_User_LaunchUnblockFlow_Delegate&& Delegate);
 
 // ----------------------------------------------------------------------
 // UserDataStore

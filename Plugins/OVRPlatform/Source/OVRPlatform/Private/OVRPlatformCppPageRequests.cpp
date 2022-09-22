@@ -143,6 +143,122 @@ bool OvrPlatform_AchievementProgressPages_FetchNextPage(
 }
 
 // ----------------------------------------------------------------------
+// FOvrApplicationInvitePages paged array.
+
+bool OvrPlatform_ApplicationInvitePages_GetPageEntries(
+    const FOvrApplicationInvitePages& ApplicationInvitePages,
+    TArray<FOvrApplicationInvite>& Current)
+{
+    size_t Size = ovr_ApplicationInviteArray_GetSize(ApplicationInvitePages.PagedArrayHandle);
+    Current.Empty(Size);
+    for (size_t Index = 0; Index < Size; ++Index)
+    {
+        Current.Add(FOvrApplicationInvite(ovr_ApplicationInviteArray_GetElement(ApplicationInvitePages.PagedArrayHandle, Index), ApplicationInvitePages.PagedArrayMessageHandlePtr));
+    }
+
+    return Size > 0;
+}
+
+bool OvrPlatform_ApplicationInvitePages_HasNextPage(
+    const FOvrApplicationInvitePages& ApplicationInvitePages)
+{
+    return ovr_ApplicationInviteArray_HasNextPage(ApplicationInvitePages.PagedArrayHandle);
+}
+
+bool OvrPlatform_ApplicationInvitePages_FetchNextPage(
+    UGameInstance* GameInstance,
+    const FOvrApplicationInvitePages& ApplicationInvitePages,
+    OvrPlatform_ApplicationInvitePage_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_GroupPresence_GetNextApplicationInviteArrayPage(ApplicationInvitePages.PagedArrayHandle),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrApplicationInvitePages ApplicationInvitePages;
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ApplicationInvitePages.PagedArrayHandle = ovr_Message_GetApplicationInviteArray(*MessagePtr);
+                        ApplicationInvitePages.PagedArrayMessageHandlePtr = MessagePtr;
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ApplicationInvitePages, ErrMsg);
+                }));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// ----------------------------------------------------------------------
+// FOvrBlockedUserPages paged array.
+
+bool OvrPlatform_BlockedUserPages_GetPageEntries(
+    const FOvrBlockedUserPages& BlockedUserPages,
+    TArray<FOvrBlockedUser>& Current)
+{
+    size_t Size = ovr_BlockedUserArray_GetSize(BlockedUserPages.PagedArrayHandle);
+    Current.Empty(Size);
+    for (size_t Index = 0; Index < Size; ++Index)
+    {
+        Current.Add(FOvrBlockedUser(ovr_BlockedUserArray_GetElement(BlockedUserPages.PagedArrayHandle, Index), BlockedUserPages.PagedArrayMessageHandlePtr));
+    }
+
+    return Size > 0;
+}
+
+bool OvrPlatform_BlockedUserPages_HasNextPage(
+    const FOvrBlockedUserPages& BlockedUserPages)
+{
+    return ovr_BlockedUserArray_HasNextPage(BlockedUserPages.PagedArrayHandle);
+}
+
+bool OvrPlatform_BlockedUserPages_FetchNextPage(
+    UGameInstance* GameInstance,
+    const FOvrBlockedUserPages& BlockedUserPages,
+    OvrPlatform_BlockedUserPage_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_User_GetNextBlockedUserArrayPage(BlockedUserPages.PagedArrayHandle),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrBlockedUserPages BlockedUserPages;
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        BlockedUserPages.PagedArrayHandle = ovr_Message_GetBlockedUserArray(*MessagePtr);
+                        BlockedUserPages.PagedArrayMessageHandlePtr = MessagePtr;
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, BlockedUserPages, ErrMsg);
+                }));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// ----------------------------------------------------------------------
 // FOvrChallengePages paged array.
 
 bool OvrPlatform_ChallengePages_GetPageEntries(
@@ -952,6 +1068,64 @@ bool OvrPlatform_UserPages_FetchNextPage(
                     }
 
                     Delegate.ExecuteIfBound(!bIsError, UserPages, ErrMsg);
+                }));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// ----------------------------------------------------------------------
+// FOvrUserCapabilityPages paged array.
+
+bool OvrPlatform_UserCapabilityPages_GetPageEntries(
+    const FOvrUserCapabilityPages& UserCapabilityPages,
+    TArray<FOvrUserCapability>& Current)
+{
+    size_t Size = ovr_UserCapabilityArray_GetSize(UserCapabilityPages.PagedArrayHandle);
+    Current.Empty(Size);
+    for (size_t Index = 0; Index < Size; ++Index)
+    {
+        Current.Add(FOvrUserCapability(ovr_UserCapabilityArray_GetElement(UserCapabilityPages.PagedArrayHandle, Index), UserCapabilityPages.PagedArrayMessageHandlePtr));
+    }
+
+    return Size > 0;
+}
+
+bool OvrPlatform_UserCapabilityPages_HasNextPage(
+    const FOvrUserCapabilityPages& UserCapabilityPages)
+{
+    return ovr_UserCapabilityArray_HasNextPage(UserCapabilityPages.PagedArrayHandle);
+}
+
+bool OvrPlatform_UserCapabilityPages_FetchNextPage(
+    UGameInstance* GameInstance,
+    const FOvrUserCapabilityPages& UserCapabilityPages,
+    OvrPlatform_UserCapabilityPage_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_User_GetNextUserCapabilityArrayPage(UserCapabilityPages.PagedArrayHandle),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrUserCapabilityPages UserCapabilityPages;
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        UserCapabilityPages.PagedArrayHandle = ovr_Message_GetUserCapabilityArray(*MessagePtr);
+                        UserCapabilityPages.PagedArrayMessageHandlePtr = MessagePtr;
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, UserCapabilityPages, ErrMsg);
                 }));
         return true;
     }

@@ -133,6 +133,10 @@ void UOvrPlatformSubsystem::Initialize(FSubsystemCollectionBase& Collection)
         GetNotifDelegate(ovrMessage_Notification_Voip_SystemVoipState)
         .AddUObject(this, &UOvrPlatformSubsystem::HandleOnVoipSystemVoipState);
 
+    OnVrcameraGetDataChannelMessageUpdateHandle =
+        GetNotifDelegate(ovrMessage_Notification_Vrcamera_GetDataChannelMessageUpdate)
+        .AddUObject(this, &UOvrPlatformSubsystem::HandleOnVrcameraGetDataChannelMessageUpdate);
+
     OnVrcameraGetSurfaceUpdateHandle =
         GetNotifDelegate(ovrMessage_Notification_Vrcamera_GetSurfaceUpdate)
         .AddUObject(this, &UOvrPlatformSubsystem::HandleOnVrcameraGetSurfaceUpdate);
@@ -178,6 +182,7 @@ void UOvrPlatformSubsystem::Deinitialize()
     GetNotifDelegate(ovrMessage_Notification_Voip_MicrophoneAvailabilityStateUpdate).RemoveAll(this);
     GetNotifDelegate(ovrMessage_Notification_Voip_StateChange).RemoveAll(this);
     GetNotifDelegate(ovrMessage_Notification_Voip_SystemVoipState).RemoveAll(this);
+    GetNotifDelegate(ovrMessage_Notification_Vrcamera_GetDataChannelMessageUpdate).RemoveAll(this);
     GetNotifDelegate(ovrMessage_Notification_Vrcamera_GetSurfaceUpdate).RemoveAll(this);
 }
 
@@ -745,6 +750,21 @@ void UOvrPlatformSubsystem::HandleOnVoipSystemVoipState(TOvrMessageHandlePtr Mes
         ovrSystemVoipStateHandle Handle = ovr_Message_GetSystemVoipState(*Message);
         FOvrSystemVoipState SystemVoipState = FOvrSystemVoipState(Handle, Message);
         OnVoipSystemVoipState.Broadcast(SystemVoipState);
+    }
+}
+
+void UOvrPlatformSubsystem::HandleOnVrcameraGetDataChannelMessageUpdate(TOvrMessageHandlePtr Message, bool bIsError)
+{
+    if (bIsError)
+    {
+        ovrErrorHandle Error = ovr_Message_GetError(*Message);
+        FString ErrorMessage = ovr_Error_GetMessage(Error);
+        UE_LOG(LogOvrPlatform, Error, TEXT("Error in HandleOnVrcameraGetDataChannelMessageUpdate: %s"), *ErrorMessage);
+    }
+    else
+    {
+        FString GetDataChannelMessageUpdate = UTF8_TO_TCHAR(ovr_Message_GetString(*Message));
+        OnVrcameraGetDataChannelMessageUpdate.Broadcast(GetDataChannelMessageUpdate);
     }
 }
 

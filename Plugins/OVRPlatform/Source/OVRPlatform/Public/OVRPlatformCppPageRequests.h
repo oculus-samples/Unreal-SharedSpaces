@@ -63,6 +63,40 @@ bool OvrPlatform_AchievementProgressPages_FetchNextPage(
     OvrPlatform_AchievementProgressPage_Delegate&& Delegate);
 
 // ----------------------------------------------------------------------
+// FOvrApplicationInvitePages paged array.
+
+bool OvrPlatform_ApplicationInvitePages_GetPageEntries(
+    const FOvrApplicationInvitePages& ApplicationInvitePages,
+    TArray<FOvrApplicationInvite>& Current);
+
+bool OvrPlatform_ApplicationInvitePages_HasNextPage(
+    const FOvrApplicationInvitePages& ApplicationInvitePages);
+
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_ApplicationInvitePage_Delegate, bool, FOvrApplicationInvitePages, FString);
+
+bool OvrPlatform_ApplicationInvitePages_FetchNextPage(
+    UGameInstance* GameInstance,
+    const FOvrApplicationInvitePages& ApplicationInvitePages,
+    OvrPlatform_ApplicationInvitePage_Delegate&& Delegate);
+
+// ----------------------------------------------------------------------
+// FOvrBlockedUserPages paged array.
+
+bool OvrPlatform_BlockedUserPages_GetPageEntries(
+    const FOvrBlockedUserPages& BlockedUserPages,
+    TArray<FOvrBlockedUser>& Current);
+
+bool OvrPlatform_BlockedUserPages_HasNextPage(
+    const FOvrBlockedUserPages& BlockedUserPages);
+
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_BlockedUserPage_Delegate, bool, FOvrBlockedUserPages, FString);
+
+bool OvrPlatform_BlockedUserPages_FetchNextPage(
+    UGameInstance* GameInstance,
+    const FOvrBlockedUserPages& BlockedUserPages,
+    OvrPlatform_BlockedUserPage_Delegate&& Delegate);
+
+// ----------------------------------------------------------------------
 // FOvrChallengePages paged array.
 
 bool OvrPlatform_ChallengePages_GetPageEntries(
@@ -289,4 +323,21 @@ bool OvrPlatform_UserPages_FetchNextPage(
     UGameInstance* GameInstance,
     const FOvrUserPages& UserPages,
     OvrPlatform_UserPage_Delegate&& Delegate);
+
+// ----------------------------------------------------------------------
+// FOvrUserCapabilityPages paged array.
+
+bool OvrPlatform_UserCapabilityPages_GetPageEntries(
+    const FOvrUserCapabilityPages& UserCapabilityPages,
+    TArray<FOvrUserCapability>& Current);
+
+bool OvrPlatform_UserCapabilityPages_HasNextPage(
+    const FOvrUserCapabilityPages& UserCapabilityPages);
+
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_UserCapabilityPage_Delegate, bool, FOvrUserCapabilityPages, FString);
+
+bool OvrPlatform_UserCapabilityPages_FetchNextPage(
+    UGameInstance* GameInstance,
+    const FOvrUserCapabilityPages& UserCapabilityPages,
+    OvrPlatform_UserCapabilityPage_Delegate&& Delegate);
 
