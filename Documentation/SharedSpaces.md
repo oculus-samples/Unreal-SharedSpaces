@@ -753,7 +753,7 @@ public room (the purple room).  Here are the settings for each of them.
 | [PurpleRoom](./Media/dashboard/dashboard_destination_purpleroom.png) | {"map":"PurpleRoom","public_room_name":"ThePurpleRoom"} | Purple Room | The Purple room |
 
 In addition to these settings, you need to set __Deeplink Type__ to __Enabled__ and add an image for your
-destination.  In the case of SharedSpaces, the destination is __Audience__ is set to __Everyone__.
+destination.  In the case of SharedSpaces, the destination is __Audience__ is set to __Everyone__. Also make sure to set the max group launch capacity for each destination so that the group launch feature can be used.
 
 ## 3. <a id="D3">Data Use Checkup</a>
 
