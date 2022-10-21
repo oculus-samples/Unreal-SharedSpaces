@@ -41,7 +41,6 @@ public class OVRPlatform : ModuleRules
                 "Core",
                 "Sockets",
                 "OnlineSubsystemUtils",
-                "Photon",
             });
 
         PrivateDependencyModuleNames.AddRange(
@@ -51,7 +50,6 @@ public class OVRPlatform : ModuleRules
                 "Slate",
                 "SlateCore",
                 "PacketHandler",
-                "OculusUtils",
             });
 
 

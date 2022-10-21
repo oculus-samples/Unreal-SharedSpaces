@@ -58,8 +58,16 @@ struct OVRPLATFORM_API FOvrAdvancedAbuseReportOptionsConverter
     {
         if (Handle)
         {
+            for (auto& Pair : Options.DeveloperDefinedContext)
+            {
+                ovr_AdvancedAbuseReportOptions_SetDeveloperDefinedContextString(Handle, TCHAR_TO_UTF8(*Pair.Key), TCHAR_TO_UTF8(*Pair.Value));
+            }
             ovr_AdvancedAbuseReportOptions_SetObjectType(Handle, TCHAR_TO_UTF8(*Options.ObjectType));
             ovr_AdvancedAbuseReportOptions_SetReportType(Handle, ConvertAbuseReportType(Options.ReportType));
+            for (size_t Index = 0, TotalIndices = Options.SuggestedUsers.Num(); Index < TotalIndices; ++Index)
+            {
+                ovr_AdvancedAbuseReportOptions_AddSuggestedUser(Handle, static_cast<ovrID>(Options.SuggestedUsers[Index]));
+            }
         }
     }
 
@@ -140,6 +148,7 @@ struct OVRPLATFORM_API FOvrGroupPresenceOptionsConverter
     {
         if (Handle)
         {
+            ovr_GroupPresenceOptions_SetDeeplinkMessageOverride(Handle, TCHAR_TO_UTF8(*Options.DeeplinkMessageOverride));
             ovr_GroupPresenceOptions_SetDestinationApiName(Handle, TCHAR_TO_UTF8(*Options.DestinationApiName));
             ovr_GroupPresenceOptions_SetIsJoinable(Handle, Options.IsJoinable);
             ovr_GroupPresenceOptions_SetLobbySessionId(Handle, TCHAR_TO_UTF8(*Options.LobbySessionId));

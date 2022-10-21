@@ -365,6 +365,74 @@ void FOvrAssetFileDownloadUpdate::Update(ovrAssetFileDownloadUpdateHandle OvrHan
 }
 
 // -----------------------------------------------------------------------------
+// FOvrBlockedUser
+
+FOvrBlockedUser::FOvrBlockedUser()
+{
+    Clear();
+}
+
+FOvrBlockedUser::FOvrBlockedUser(ovrBlockedUserHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrBlockedUser::Clear()
+{
+    Id = 0;
+}
+
+void FOvrBlockedUser::Update(ovrBlockedUserHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Id = static_cast<FOvrId>(ovr_BlockedUser_GetId(OvrHandle));
+}
+
+// -----------------------------------------------------------------------------
+// FOvrBlockedUserPages
+
+FOvrBlockedUserPages::FOvrBlockedUserPages()
+{
+    Clear();
+}
+
+FOvrBlockedUserPages::FOvrBlockedUserPages(ovrBlockedUserArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(Handle, MessageHandlePtr);
+}
+
+void FOvrBlockedUserPages::Clear()
+{
+    PagedArrayHandle = nullptr;
+    PagedArrayMessageHandlePtr.reset();
+}
+
+void FOvrBlockedUserPages::Update(ovrBlockedUserArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    PagedArrayHandle = Handle;
+    PagedArrayMessageHandlePtr = MessageHandlePtr;
+}
+
+FOvrBlockedUser UOvrBlockedUserPagesMethods::BlockedUserPages_GetElement(const FOvrBlockedUserPages& Model, int64 Index)
+{
+    return FOvrBlockedUser(ovr_BlockedUserArray_GetElement(Model.PagedArrayHandle, static_cast<size_t>(Index)), Model.PagedArrayMessageHandlePtr);
+}
+
+FString UOvrBlockedUserPagesMethods::BlockedUserPages_GetNextUrl(const FOvrBlockedUserPages& Model)
+{
+    return UTF8_TO_TCHAR(ovr_BlockedUserArray_GetNextUrl(Model.PagedArrayHandle));
+}
+
+int64 UOvrBlockedUserPagesMethods::BlockedUserPages_GetSize(const FOvrBlockedUserPages& Model)
+{
+    return static_cast<int64>(ovr_BlockedUserArray_GetSize(Model.PagedArrayHandle));
+}
+
+bool UOvrBlockedUserPagesMethods::BlockedUserPages_HasNextPage(const FOvrBlockedUserPages& Model)
+{
+    return ovr_BlockedUserArray_HasNextPage(Model.PagedArrayHandle);
+}
+
+// -----------------------------------------------------------------------------
 // FOvrCalApplicationFinalized
 
 FOvrCalApplicationFinalized::FOvrCalApplicationFinalized()
@@ -905,6 +973,31 @@ void FOvrAssetDetails::Update(ovrAssetDetailsHandle OvrHandle, TOvrMessageHandle
 }
 
 // -----------------------------------------------------------------------------
+// FOvrLaunchBlockFlowResult
+
+FOvrLaunchBlockFlowResult::FOvrLaunchBlockFlowResult()
+{
+    Clear();
+}
+
+FOvrLaunchBlockFlowResult::FOvrLaunchBlockFlowResult(ovrLaunchBlockFlowResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrLaunchBlockFlowResult::Clear()
+{
+    DidBlock = false;
+    DidCancel = false;
+}
+
+void FOvrLaunchBlockFlowResult::Update(ovrLaunchBlockFlowResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    DidBlock = ovr_LaunchBlockFlowResult_GetDidBlock(OvrHandle);
+    DidCancel = ovr_LaunchBlockFlowResult_GetDidCancel(OvrHandle);
+}
+
+// -----------------------------------------------------------------------------
 // FOvrLaunchFriendRequestFlowResult
 
 FOvrLaunchFriendRequestFlowResult::FOvrLaunchFriendRequestFlowResult()
@@ -952,6 +1045,31 @@ void FOvrLaunchReportFlowResult::Update(ovrLaunchReportFlowResultHandle OvrHandl
 {
     DidCancel = ovr_LaunchReportFlowResult_GetDidCancel(OvrHandle);
     UserReportId = static_cast<FOvrId>(ovr_LaunchReportFlowResult_GetUserReportId(OvrHandle));
+}
+
+// -----------------------------------------------------------------------------
+// FOvrLaunchUnblockFlowResult
+
+FOvrLaunchUnblockFlowResult::FOvrLaunchUnblockFlowResult()
+{
+    Clear();
+}
+
+FOvrLaunchUnblockFlowResult::FOvrLaunchUnblockFlowResult(ovrLaunchUnblockFlowResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrLaunchUnblockFlowResult::Clear()
+{
+    DidCancel = false;
+    DidUnblock = false;
+}
+
+void FOvrLaunchUnblockFlowResult::Update(ovrLaunchUnblockFlowResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    DidCancel = ovr_LaunchUnblockFlowResult_GetDidCancel(OvrHandle);
+    DidUnblock = ovr_LaunchUnblockFlowResult_GetDidUnblock(OvrHandle);
 }
 
 // -----------------------------------------------------------------------------
@@ -2124,6 +2242,84 @@ void FOvrUser::Update(ovrUserHandle OvrHandle, TOvrMessageHandlePtr MessageHandl
 }
 
 // -----------------------------------------------------------------------------
+// FOvrApplicationInvite
+
+FOvrApplicationInvite::FOvrApplicationInvite()
+{
+    Clear();
+}
+
+FOvrApplicationInvite::FOvrApplicationInvite(ovrApplicationInviteHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrApplicationInvite::Clear()
+{
+    Destination.Clear();
+    ID = 0;
+    IsActive = false;
+    LobbySessionId = TEXT("");
+    MatchSessionId = TEXT("");
+    Recipient.Clear();
+}
+
+void FOvrApplicationInvite::Update(ovrApplicationInviteHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Destination.Update(ovr_ApplicationInvite_GetDestination(OvrHandle), MessageHandlePtr);
+    ID = static_cast<FOvrId>(ovr_ApplicationInvite_GetID(OvrHandle));
+    IsActive = ovr_ApplicationInvite_GetIsActive(OvrHandle);
+    LobbySessionId = UTF8_TO_TCHAR(ovr_ApplicationInvite_GetLobbySessionId(OvrHandle));
+    MatchSessionId = UTF8_TO_TCHAR(ovr_ApplicationInvite_GetMatchSessionId(OvrHandle));
+    Recipient.Update(ovr_ApplicationInvite_GetRecipient(OvrHandle), MessageHandlePtr);
+}
+
+// -----------------------------------------------------------------------------
+// FOvrApplicationInvitePages
+
+FOvrApplicationInvitePages::FOvrApplicationInvitePages()
+{
+    Clear();
+}
+
+FOvrApplicationInvitePages::FOvrApplicationInvitePages(ovrApplicationInviteArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(Handle, MessageHandlePtr);
+}
+
+void FOvrApplicationInvitePages::Clear()
+{
+    PagedArrayHandle = nullptr;
+    PagedArrayMessageHandlePtr.reset();
+}
+
+void FOvrApplicationInvitePages::Update(ovrApplicationInviteArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    PagedArrayHandle = Handle;
+    PagedArrayMessageHandlePtr = MessageHandlePtr;
+}
+
+FOvrApplicationInvite UOvrApplicationInvitePagesMethods::ApplicationInvitePages_GetElement(const FOvrApplicationInvitePages& Model, int64 Index)
+{
+    return FOvrApplicationInvite(ovr_ApplicationInviteArray_GetElement(Model.PagedArrayHandle, static_cast<size_t>(Index)), Model.PagedArrayMessageHandlePtr);
+}
+
+FString UOvrApplicationInvitePagesMethods::ApplicationInvitePages_GetNextUrl(const FOvrApplicationInvitePages& Model)
+{
+    return UTF8_TO_TCHAR(ovr_ApplicationInviteArray_GetNextUrl(Model.PagedArrayHandle));
+}
+
+int64 UOvrApplicationInvitePagesMethods::ApplicationInvitePages_GetSize(const FOvrApplicationInvitePages& Model)
+{
+    return static_cast<int64>(ovr_ApplicationInviteArray_GetSize(Model.PagedArrayHandle));
+}
+
+bool UOvrApplicationInvitePagesMethods::ApplicationInvitePages_HasNextPage(const FOvrApplicationInvitePages& Model)
+{
+    return ovr_ApplicationInviteArray_HasNextPage(Model.PagedArrayHandle);
+}
+
+// -----------------------------------------------------------------------------
 // FOvrChallengeEntry
 
 FOvrChallengeEntry::FOvrChallengeEntry()
@@ -2140,6 +2336,7 @@ void FOvrChallengeEntry::Clear()
 {
     DisplayScore = TEXT("");
     ExtraData.Empty();
+    ID = 0;
     Rank = 0;
     Score = 0;
     Timestamp = FDateTime(0);
@@ -2150,6 +2347,7 @@ void FOvrChallengeEntry::Update(ovrChallengeEntryHandle OvrHandle, TOvrMessageHa
 {
     DisplayScore = UTF8_TO_TCHAR(ovr_ChallengeEntry_GetDisplayScore(OvrHandle));
     ExtraData = TArray<uint8>((uint8*)ovr_ChallengeEntry_GetExtraData(OvrHandle), ovr_ChallengeEntry_GetExtraDataLength(OvrHandle));
+    ID = static_cast<FOvrId>(ovr_ChallengeEntry_GetID(OvrHandle));
     Rank = static_cast<int32>(ovr_ChallengeEntry_GetRank(OvrHandle));
     Score = static_cast<int64>(ovr_ChallengeEntry_GetScore(OvrHandle));
     Timestamp = FDateTime::FromUnixTimestamp(ovr_ChallengeEntry_GetTimestamp(OvrHandle));
@@ -2233,6 +2431,7 @@ void FOvrLeaderboardEntry::Clear()
 {
     DisplayScore = TEXT("");
     ExtraData.Empty();
+    ID = 0;
     Rank = 0;
     Score = 0;
     SupplementaryMetric.Clear();
@@ -2244,6 +2443,7 @@ void FOvrLeaderboardEntry::Update(ovrLeaderboardEntryHandle OvrHandle, TOvrMessa
 {
     DisplayScore = UTF8_TO_TCHAR(ovr_LeaderboardEntry_GetDisplayScore(OvrHandle));
     ExtraData = TArray<uint8>((uint8*)ovr_LeaderboardEntry_GetExtraData(OvrHandle), ovr_LeaderboardEntry_GetExtraDataLength(OvrHandle));
+    ID = static_cast<FOvrId>(ovr_LeaderboardEntry_GetID(OvrHandle));
     Rank = static_cast<int32>(ovr_LeaderboardEntry_GetRank(OvrHandle));
     Score = static_cast<int64>(ovr_LeaderboardEntry_GetScore(OvrHandle));
     SupplementaryMetric.Update(ovr_LeaderboardEntry_GetSupplementaryMetric(OvrHandle), MessageHandlePtr);
@@ -2349,6 +2549,29 @@ void FOvrMatchmakingEnqueuedUser::Update(ovrMatchmakingEnqueuedUserHandle OvrHan
         CustomData[UTF8_TO_TCHAR(ckey)] = UTF8_TO_TCHAR(ovr_DataStore_GetValue(custom_data_array_handle, ckey));
     }
     User.Update(ovr_MatchmakingEnqueuedUser_GetUser(OvrHandle), MessageHandlePtr);
+}
+
+// -----------------------------------------------------------------------------
+// FOvrSendInvitesResult
+
+FOvrSendInvitesResult::FOvrSendInvitesResult()
+{
+    Clear();
+}
+
+FOvrSendInvitesResult::FOvrSendInvitesResult(ovrSendInvitesResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrSendInvitesResult::Clear()
+{
+    Invites.Clear();
+}
+
+void FOvrSendInvitesResult::Update(ovrSendInvitesResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Invites.Update(ovr_SendInvitesResult_GetInvites(OvrHandle), MessageHandlePtr);
 }
 
 // -----------------------------------------------------------------------------
@@ -2890,6 +3113,80 @@ int64 UOvrUserAndRoomPagesMethods::UserAndRoomPages_GetSize(const FOvrUserAndRoo
 bool UOvrUserAndRoomPagesMethods::UserAndRoomPages_HasNextPage(const FOvrUserAndRoomPages& Model)
 {
     return ovr_UserAndRoomArray_HasNextPage(Model.PagedArrayHandle);
+}
+
+// -----------------------------------------------------------------------------
+// FOvrUserCapability
+
+FOvrUserCapability::FOvrUserCapability()
+{
+    Clear();
+}
+
+FOvrUserCapability::FOvrUserCapability(ovrUserCapabilityHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrUserCapability::Clear()
+{
+    Description = TEXT("");
+    IsEnabled = false;
+    Name = TEXT("");
+    ReasonCode = TEXT("");
+}
+
+void FOvrUserCapability::Update(ovrUserCapabilityHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Description = UTF8_TO_TCHAR(ovr_UserCapability_GetDescription(OvrHandle));
+    IsEnabled = ovr_UserCapability_GetIsEnabled(OvrHandle);
+    Name = UTF8_TO_TCHAR(ovr_UserCapability_GetName(OvrHandle));
+    ReasonCode = UTF8_TO_TCHAR(ovr_UserCapability_GetReasonCode(OvrHandle));
+}
+
+// -----------------------------------------------------------------------------
+// FOvrUserCapabilityPages
+
+FOvrUserCapabilityPages::FOvrUserCapabilityPages()
+{
+    Clear();
+}
+
+FOvrUserCapabilityPages::FOvrUserCapabilityPages(ovrUserCapabilityArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(Handle, MessageHandlePtr);
+}
+
+void FOvrUserCapabilityPages::Clear()
+{
+    PagedArrayHandle = nullptr;
+    PagedArrayMessageHandlePtr.reset();
+}
+
+void FOvrUserCapabilityPages::Update(ovrUserCapabilityArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    PagedArrayHandle = Handle;
+    PagedArrayMessageHandlePtr = MessageHandlePtr;
+}
+
+FOvrUserCapability UOvrUserCapabilityPagesMethods::UserCapabilityPages_GetElement(const FOvrUserCapabilityPages& Model, int64 Index)
+{
+    return FOvrUserCapability(ovr_UserCapabilityArray_GetElement(Model.PagedArrayHandle, static_cast<size_t>(Index)), Model.PagedArrayMessageHandlePtr);
+}
+
+FString UOvrUserCapabilityPagesMethods::UserCapabilityPages_GetNextUrl(const FOvrUserCapabilityPages& Model)
+{
+    return UTF8_TO_TCHAR(ovr_UserCapabilityArray_GetNextUrl(Model.PagedArrayHandle));
+}
+
+int64 UOvrUserCapabilityPagesMethods::UserCapabilityPages_GetSize(const FOvrUserCapabilityPages& Model)
+{
+    return static_cast<int64>(ovr_UserCapabilityArray_GetSize(Model.PagedArrayHandle));
+}
+
+bool UOvrUserCapabilityPagesMethods::UserCapabilityPages_HasNextPage(const FOvrUserCapabilityPages& Model)
+{
+    return ovr_UserCapabilityArray_HasNextPage(Model.PagedArrayHandle);
 }
 
 // -----------------------------------------------------------------------------

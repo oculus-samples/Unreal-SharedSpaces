@@ -27,15 +27,15 @@
 #include "OVRPlatformOptions.generated.h"
 
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|AbuseReport")
 struct OVRPLATFORM_API FOvrAbuseReportOptions
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AbuseReport|Option")
     bool PreventPeopleChooser;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AbuseReport|Option")
     EOvrAbuseReportType ReportType;
 
     FOvrAbuseReportOptions()
@@ -45,17 +45,23 @@ struct OVRPLATFORM_API FOvrAbuseReportOptions
     }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|AdvancedAbuseReport")
 struct OVRPLATFORM_API FOvrAdvancedAbuseReportOptions
 {
     GENERATED_USTRUCT_BODY()
 
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AdvancedAbuseReport|Option")
+    TMap<FString, FString> DeveloperDefinedContext;
+
     /** If report_type is content, a string representing the type of content being reported. This should correspond to the object_type string used in the UI */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AdvancedAbuseReport|Option")
     FString ObjectType;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AdvancedAbuseReport|Option")
     EOvrAbuseReportType ReportType;
+
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AdvancedAbuseReport|Option")
+    TArray<FOvrId> SuggestedUsers;
 
     FOvrAdvancedAbuseReportOptions()
     {
@@ -64,7 +70,7 @@ struct OVRPLATFORM_API FOvrAdvancedAbuseReportOptions
     }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Application")
 struct OVRPLATFORM_API FOvrApplicationOptions
 {
     GENERATED_USTRUCT_BODY()
@@ -73,7 +79,7 @@ struct OVRPLATFORM_API FOvrApplicationOptions
      * A message to be passed to a launched app, which can be retrieved
      * with field FOvrLaunchDetails::DeeplinkMessage
      */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Application|Option")
     FString DeeplinkMessage;
 
     FOvrApplicationOptions()
@@ -82,40 +88,40 @@ struct OVRPLATFORM_API FOvrApplicationOptions
     }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Challenge")
 struct OVRPLATFORM_API FOvrChallengeOptions
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     FString Description;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     FDateTime EndDate;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     bool IncludeActiveChallenges;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     bool IncludeFutureChallenges;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     bool IncludePastChallenges;
 
     /** Optional: Only find challenges belonging to this leaderboard. */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     FString LeaderboardName;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     FDateTime StartDate;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     FString Title;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     EOvrChallengeViewerFilter ViewerFilter;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     EOvrChallengeVisibility Visibility;
 
     FOvrChallengeOptions()
@@ -133,20 +139,28 @@ struct OVRPLATFORM_API FOvrChallengeOptions
     }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|GroupPresence")
 struct OVRPLATFORM_API FOvrGroupPresenceOptions
 {
     GENERATED_USTRUCT_BODY()
 
+    /**
+     * Use FOvrGroupPresenceOptions::LobbySessionId or FOvrGroupPresenceOptions::MatchSessionId to specify the session. Use the deeplink message override for
+     * any additional data in whatever format you wish to aid in bringing users together. If not specified, the deeplink_message for the user will default to the one on the
+     * destination.
+     */
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|GroupPresence|Option")
+    FString DeeplinkMessageOverride;
+
     /** This the unique API Name that refers to an in-app destination */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|GroupPresence|Option")
     FString DestinationApiName;
 
     /**
      * Set whether or not the person is shown as joinable or not to others.  A user that is joinable can invite others to join them. Set this to false if other
      * users would not be able to join this user. For example: the current session is full, or only the host can invite others and the current user is not the host.
      */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|GroupPresence|Option")
     bool IsJoinable;
 
     /**
@@ -154,7 +168,7 @@ struct OVRPLATFORM_API FOvrGroupPresenceOptions
      * hear each other. Users with the same lobby session id in their group presence will show up in the roster and will show up as "Recently Played With"
      * for future invites if they aren't already Oculus friends. This must be set in addition to is_joinable being true for a user to use invites.
      */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|GroupPresence|Option")
     FString LobbySessionId;
 
     /**
@@ -162,11 +176,12 @@ struct OVRPLATFORM_API FOvrGroupPresenceOptions
      * can include users from multiple different lobbies that joined together and the users may or may not remain together after the match is over.
      * Users with the same match session id in their group presence will not show up in the Roster, but will show up as "Recently Played with" for future invites.
      */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|GroupPresence|Option")
     FString MatchSessionId;
 
     FOvrGroupPresenceOptions()
     {
+        DeeplinkMessageOverride = TEXT("");
         DestinationApiName = TEXT("");
         IsJoinable = false;
         LobbySessionId = TEXT("");
@@ -174,40 +189,47 @@ struct OVRPLATFORM_API FOvrGroupPresenceOptions
     }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Invite")
 struct OVRPLATFORM_API FOvrInviteOptions
 {
     GENERATED_USTRUCT_BODY()
 
     /** Passing in these users will add them to the invitable users list */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Invite|Option")
     TArray<FOvrId> SuggestedUsers;
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Matchmaking")
 struct OVRPLATFORM_API FOvrMatchmakingOptions
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Matchmaking|Option")
     TMap<FString, FString> CreateRoomDataStore;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Matchmaking|Option")
     EOvrRoomJoinPolicy CreateRoomJoinPolicy;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Matchmaking|Option")
     int32 CreateRoomMaxUsers;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Matchmaking|Option")
     TArray<FOvrId> EnqueueAdditionalUsers;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Matchmaking|Option")
     TMap<FString, FOvrVariant> EnqueueDataSettings;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Matchmaking|Option")
     bool EnqueueIsDebug;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Matchmaking|Option")
     FString EnqueueQueryKey;
 
     FOvrMatchmakingOptions()
@@ -219,13 +241,13 @@ struct OVRPLATFORM_API FOvrMatchmakingOptions
     }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|MultiplayerError")
 struct OVRPLATFORM_API FOvrMultiplayerErrorOptions
 {
     GENERATED_USTRUCT_BODY()
 
     /** Key associated with the predefined error message to be shown to users. */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|MultiplayerError|Option")
     EOvrMultiplayerErrorErrorKey ErrorKey;
 
     FOvrMultiplayerErrorOptions()
@@ -234,7 +256,7 @@ struct OVRPLATFORM_API FOvrMultiplayerErrorOptions
     }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|NetSync")
 struct OVRPLATFORM_API FOvrNetSyncOptions
 {
     GENERATED_USTRUCT_BODY()
@@ -243,18 +265,18 @@ struct OVRPLATFORM_API FOvrNetSyncOptions
      * If provided, immediately set the voip_group to this value upon
      * connection
      */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|NetSync|Option")
     FString VoipGroup;
 
     /**
      * When a new remote voip user connects, default that connection to this
      * stream type by default.
      */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|NetSync|Option")
     EOvrNetSyncVoipStreamMode VoipStreamDefault;
 
     /** Unique identifier within the current application grouping */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|NetSync|Option")
     FString ZoneId;
 
     FOvrNetSyncOptions()
@@ -265,65 +287,65 @@ struct OVRPLATFORM_API FOvrNetSyncOptions
     }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|RichPresence")
 struct OVRPLATFORM_API FOvrRichPresenceOptions
 {
     GENERATED_USTRUCT_BODY()
 
     /** DEPRECATED. Use FOvrGroupPresenceOptions::DestinationApiName */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::DestinationApiName"))
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::DestinationApiName"), Category = "OvrPlatform|Options|RichPresence|Option")
     FString ApiName;
 
     /** DEPRECATED. Unused. */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."), Category = "OvrPlatform|Options|RichPresence|Option")
     TMap<FString, FString> Args;
 
-    /** DEPRECATED. Unused. */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
+    /** DEPRECATED. Unused. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."), Category = "OvrPlatform|Options|RichPresence|Option")
     int32 CurrentCapacity;
 
-    /** DEPRECATED. Use FOvrGroupPresenceOptions::LobbySessionId or FOvrGroupPresenceOptions::MatchSessionId to specify the session */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::LobbySessionId or FOvrGroupPresenceOptions::MatchSessionId to specify the session"))
+    /** DEPRECATED. Use FOvrGroupPresenceOptions::DeeplinkMessageOverride */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::DeeplinkMessageOverride"), Category = "OvrPlatform|Options|RichPresence|Option")
     FString DeeplinkMessageOverride;
 
-    /** DEPRECATED. Unused. */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
+    /** DEPRECATED. Unused. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."), Category = "OvrPlatform|Options|RichPresence|Option")
     FDateTime EndTime;
 
-    /** DEPRECATED. Unused. */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
+    /** DEPRECATED. Unused. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."), Category = "OvrPlatform|Options|RichPresence|Option")
     EOvrRichPresenceExtraContext ExtraContext;
 
-    /** DEPRECATED. Use FOvrGroupPresenceOptions::MatchSessionId */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::MatchSessionId"))
+    /** DEPRECATED. Use FOvrGroupPresenceOptions::MatchSessionId Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::MatchSessionId"), Category = "OvrPlatform|Options|RichPresence|Option")
     FString InstanceId;
 
-    /** DEPRECATED. Unused. */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
+    /** DEPRECATED. Unused. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."), Category = "OvrPlatform|Options|RichPresence|Option")
     bool IsIdle;
 
     /** DEPRECATED. Use FOvrGroupPresenceOptions::IsJoinable */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::IsJoinable"))
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::IsJoinable"), Category = "OvrPlatform|Options|RichPresence|Option")
     bool IsJoinable;
 
     /** DEPRECATED. Unused. */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."), Category = "OvrPlatform|Options|RichPresence|Option")
     FString JoinableId;
 
-    /** DEPRECATED. Use FOvrGroupPresenceOptions::LobbySessionId */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::LobbySessionId"))
+    /** DEPRECATED. Use FOvrGroupPresenceOptions::LobbySessionId Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::LobbySessionId"), Category = "OvrPlatform|Options|RichPresence|Option")
     FString LobbySessionId;
 
-    /** DEPRECATED. Use FOvrGroupPresenceOptions::MatchSessionId */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::MatchSessionId"))
+    /** DEPRECATED. Use FOvrGroupPresenceOptions::MatchSessionId Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::MatchSessionId"), Category = "OvrPlatform|Options|RichPresence|Option")
     FString MatchSessionId;
 
-    /** DEPRECATED. Unused. */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
+    /** DEPRECATED. Unused. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."), Category = "OvrPlatform|Options|RichPresence|Option")
     int32 MaxCapacity;
 
-    /** DEPRECATED. Unused. */
-    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."))
+    /** DEPRECATED. Unused. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Unused."), Category = "OvrPlatform|Options|RichPresence|Option")
     FDateTime StartTime;
 
     FOvrRichPresenceOptions()
@@ -344,30 +366,37 @@ struct OVRPLATFORM_API FOvrRichPresenceOptions
     }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Room")
 struct OVRPLATFORM_API FOvrRoomOptions
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Room|Option")
     TMap<FString, FString> DataStore;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Room|Option")
     bool ExcludeRecentlyMet;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Room|Option")
     int32 MaxUserResults;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Room|Option")
     EOvrUserOrdering Ordering;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Room|Option")
     EOvrTimeWindow RecentlyMetTimeWindow;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Room|Option")
     FOvrId RoomId;
 
-    UPROPERTY(BlueprintReadWrite)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty), Category = "OvrPlatform|Options|Room|Option")
     bool TurnOffUpdates;
 
     FOvrRoomOptions()
@@ -381,7 +410,7 @@ struct OVRPLATFORM_API FOvrRoomOptions
     }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Roster")
 struct OVRPLATFORM_API FOvrRosterOptions
 {
     GENERATED_USTRUCT_BODY()
@@ -390,22 +419,22 @@ struct OVRPLATFORM_API FOvrRosterOptions
      * Passing in these users will add them to the invitable users list. From the roster panel, the user can open the invite list,
      * where the suggested users will be added.
      */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Roster|Option")
     TArray<FOvrId> SuggestedUsers;
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|User")
 struct OVRPLATFORM_API FOvrUserOptions
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|User|Option")
     int32 MaxUsers;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|User|Option")
     TArray<EOvrServiceProvider> ServiceProviders;
 
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|User|Option")
     EOvrTimeWindow TimeWindow;
 
     FOvrUserOptions()
@@ -415,7 +444,7 @@ struct OVRPLATFORM_API FOvrUserOptions
     }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Voip")
 struct OVRPLATFORM_API FOvrVoipOptions
 {
     GENERATED_USTRUCT_BODY()
@@ -427,7 +456,7 @@ struct OVRPLATFORM_API FOvrVoipOptions
      * higher bitrate if you think the quality is bad and you can afford to have a large
      * streaming bitrate.
      */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Voip|Option")
     EOvrVoipBitrate BitrateForNewConnections;
 
     /**
@@ -437,7 +466,7 @@ struct OVRPLATFORM_API FOvrVoipOptions
      * Enabling DTX will conserve battery power and reduce transmission rate when a pause
      * in the voice chat is detected.
      */
-    UPROPERTY(BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Voip|Option")
     EOvrVoipDtxState CreateNewConnectionUseDtx;
 
     FOvrVoipOptions()

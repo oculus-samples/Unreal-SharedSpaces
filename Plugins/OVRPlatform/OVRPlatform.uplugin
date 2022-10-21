@@ -1,7 +1,7 @@
 {
     "FileVersion": 3,
     "Version": 1,
-    "VersionName": "1.0",
+    "VersionName": "1.76.0",
     "FriendlyName": "Oculus VR Platform",
     "Description": "Blueprint and C++ interface to the Oculus VR Platform APIs",
     "Category": "Online Platform",

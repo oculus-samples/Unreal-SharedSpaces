@@ -247,6 +247,43 @@ private:
     size_t NumOutInts;
 };
 
+class OvrPlatformLongArray
+{
+public:
+
+    OvrPlatformLongArray(const TArray<int64>& InLongs)
+    {
+        NumOutLongs = InLongs.Num();
+        OutLongs = (int64*) FMemory::Malloc(sizeof(int64) * NumOutLongs);
+
+        for (size_t Index = 0; Index < NumOutLongs; ++Index)
+        {
+            OutLongs[Index] = InLongs[Index];
+        }
+    }
+
+    ~OvrPlatformLongArray()
+    {
+        FMemory::Free(OutLongs);
+    }
+
+    operator int64* ()
+    {
+        return OutLongs;
+    }
+
+    operator uint64* ()
+    {
+        // UE blueprint doesn't support unsigned values, so we coerce to unsigned for the C as needed.
+        return (uint64*) OutLongs;
+    }
+
+private:
+
+    int64* OutLongs;
+    size_t NumOutLongs;
+};
+
 class OvrPlatformIdArray
 {
 public:

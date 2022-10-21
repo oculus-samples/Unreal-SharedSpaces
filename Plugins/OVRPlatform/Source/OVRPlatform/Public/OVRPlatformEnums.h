@@ -38,6 +38,8 @@
 #include "OVR_LeaderboardFilterType.h"
 #include "OVR_LeaderboardStartAt.h"
 #include "OVR_LivestreamingStartStatus.h"
+#include "OVR_LogEventName.h"
+#include "OVR_LogEventParameter.h"
 #include "OVR_MatchmakingCriterionImportance.h"
 #include "OVR_MatchmakingStatApproach.h"
 #include "OVR_MediaContentType.h"
@@ -252,6 +254,93 @@ enum class EOvrLivestreamingStartStatus : uint8
 
 ovrLivestreamingStartStatus ConvertLivestreamingStartStatus(EOvrLivestreamingStartStatus Value);
 EOvrLivestreamingStartStatus ConvertLivestreamingStartStatus(ovrLivestreamingStartStatus Value);
+
+/** LogEventName enumeration. */
+UENUM(BlueprintType)
+enum class EOvrLogEventName : uint8
+{
+    Unknown,
+    AdClick,
+    AdImpression,
+    VrCompleteRegistration,
+    VrTutorialCompletion,
+    Contact,
+    CustomizeProduct,
+    Donate,
+    FindLocation,
+    VrRate,
+    Schedule,
+    VrSearch,
+    SmartTrial,
+    SubmitApplication,
+    Subscribe,
+    VrContentView,
+    VrSdkInitialize,
+    VrSdkBackgroundStatusAvailable,
+    VrSdkBackgroundStatusDenied,
+    VrSdkBackgroundStatusRestricted,
+    VrAddPaymentInfo,
+    VrAddToCart,
+    VrAddToWishlist,
+    VrInitiatedCheckout,
+    VrPurchase,
+    VrCatalogUpdate,
+    VrPurchaseFailed,
+    VrPurchaseRestored,
+    SubscriptionInitiatedCheckout,
+    SubscriptionFailed,
+    SubscriptionRestore,
+    VrLevelAchieved,
+    VrAchievementUnlocked,
+    VrSpentCredits,
+    VrObtainPushToken,
+    VrPushOpened,
+    VrActivateApp,
+    VrDeactivateApp,
+};
+
+ovrLogEventName ConvertLogEventName(EOvrLogEventName Value);
+EOvrLogEventName ConvertLogEventName(ovrLogEventName Value);
+
+/** LogEventParameter enumeration. */
+UENUM(BlueprintType)
+enum class EOvrLogEventParameter : uint8
+{
+    Unknown,
+    VrCurrency,
+    VrRegistrationMethod,
+    VrContentType,
+    VrContent,
+    VrContentId,
+    VrSearchString,
+    VrSuccess,
+    VrMaxRatingValue,
+    VrPaymentInfoAvailable,
+    VrNumItems,
+    VrLevel,
+    VrDescription,
+    AdType,
+    VrOrderId,
+    EventName,
+    LogTime,
+    ImplicitlyLogged,
+    InBackground,
+    VrPushCampaign,
+    VrPushAction,
+    VrIapProductType,
+    VrContentTitle,
+    VrTransactionId,
+    VrTransactionDate,
+    VrIapSubsPeriod,
+    VrIapIsStartTrial,
+    VrIapHasFreeTrial,
+    VrIapTrialPeriod,
+    VrIapTrialPrice,
+    SessionId,
+};
+
+ovrLogEventParameter ConvertLogEventParameter(EOvrLogEventParameter Value);
+EOvrLogEventParameter ConvertLogEventParameter(ovrLogEventParameter Value);
 
 /** MatchmakingCriterionImportance enumeration. */
 UENUM(BlueprintType)

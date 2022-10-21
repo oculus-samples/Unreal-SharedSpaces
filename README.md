@@ -1,9 +1,17 @@
-
 # Shared Spaces
 
 [![Shared Spaces video](http://img.youtube.com/vi/td8dQxZY9OI/maxresdefault.jpg)](http://www.youtube.com/watch?v=td8dQxZY9OI "Shared Spaces | Oculus Multiplayer Sample")
 
 SharedSpaces was built by the VR Developer Tools team to demonstrate how you can quickly get people together in VR using the Oculus Social Platform APIs. This version was built for the Unreal Engine using the Photon SDK as the transport layer. Check out this [YouTube video](http://www.youtube.com/watch?v=td8dQxZY9OI "Shared Spaces | Oculus Multiplayer Sample") showing the demo.
+
+## 20 October 2022 Update
+
+We have added a demo of the new Blocked Users flows presented at
+[Connect 2022](https://metaconnect.com/en-us/program/fbc023/).
+
+For that purpose, pulling the controller trigger no longer changes your robot color,
+but instead starts the block/unblock flow with the character in front of you (if any).
+You can still change your robot color by stepping on the paint shop plate in the lobby.
 
 ## 18 May 2022 Update
 

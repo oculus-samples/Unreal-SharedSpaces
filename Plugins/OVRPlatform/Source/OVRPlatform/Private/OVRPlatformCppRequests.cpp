@@ -1368,6 +1368,63 @@ void OvrPlatform_GroupPresence_Clear(
     }
 }
 
+void OvrPlatform_GroupPresence_GetInvitableUsers(
+    UGameInstance* GameInstance,
+    FOvrInviteOptions Options,
+    OvrPlatform_GroupPresence_GetInvitableUsers_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_GroupPresence_GetInvitableUsers(FOvrInviteOptionsConverter(Options)),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrUserArrayPtr ResponsePtr = MakeShared<FOvrUserPages>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ResponsePtr->Update(ovr_Message_GetUserArray(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
+void OvrPlatform_GroupPresence_GetSentInvites(
+    UGameInstance* GameInstance,
+    OvrPlatform_GroupPresence_GetSentInvites_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_GroupPresence_GetSentInvites(),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrApplicationInviteArrayPtr ResponsePtr = MakeShared<FOvrApplicationInvitePages>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ResponsePtr->Update(ovr_Message_GetApplicationInviteArray(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
 void OvrPlatform_GroupPresence_LaunchInvitePanel(
     UGameInstance* GameInstance,
     FOvrInviteOptions Options,
@@ -1476,6 +1533,35 @@ void OvrPlatform_GroupPresence_LaunchRosterPanel(
     }
 }
 
+void OvrPlatform_GroupPresence_SendInvites(
+    UGameInstance* GameInstance,
+    TArray<FOvrId> UserIDs,
+    OvrPlatform_GroupPresence_SendInvites_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_GroupPresence_SendInvites(OvrPlatformIdArray(UserIDs), static_cast<unsigned int>(UserIDs.Num())),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrSendInvitesResultPtr ResponsePtr = MakeShared<FOvrSendInvitesResult>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ResponsePtr->Update(ovr_Message_GetSendInvitesResult(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
 void OvrPlatform_GroupPresence_Set(
     UGameInstance* GameInstance,
     FOvrGroupPresenceOptions GroupPresenceOptions,
@@ -1485,6 +1571,30 @@ void OvrPlatform_GroupPresence_Set(
     {
         OvrPlatform->AddRequestDelegate(
             ovr_GroupPresence_Set(FOvrGroupPresenceOptionsConverter(GroupPresenceOptions)),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ErrMsg);
+                }));
+    }
+}
+
+void OvrPlatform_GroupPresence_SetDeeplinkMessageOverride(
+    UGameInstance* GameInstance,
+    FString DeeplinkMessage,
+    OvrPlatform_GroupPresence_SetDeeplinkMessageOverride_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_GroupPresence_SetDeeplinkMessageOverride(TCHAR_TO_UTF8(*DeeplinkMessage)),
             FOvrPlatformMessageOnComplete::CreateLambda(
                 [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
                 {
@@ -3294,6 +3404,34 @@ void OvrPlatform_User_GetAccessToken(
     }
 }
 
+void OvrPlatform_User_GetBlockedUsers(
+    UGameInstance* GameInstance,
+    OvrPlatform_User_GetBlockedUsers_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_User_GetBlockedUsers(),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrBlockedUserArrayPtr ResponsePtr = MakeShared<FOvrBlockedUserPages>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ResponsePtr->Update(ovr_Message_GetBlockedUserArray(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
 void OvrPlatform_User_GetLoggedInUser(
     UGameInstance* GameInstance,
     OvrPlatform_User_GetLoggedInUser_Delegate&& Delegate)
@@ -3498,6 +3636,35 @@ void OvrPlatform_User_GetUserProof(
     }
 }
 
+void OvrPlatform_User_LaunchBlockFlow(
+    UGameInstance* GameInstance,
+    FOvrId UserID,
+    OvrPlatform_User_LaunchBlockFlow_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_User_LaunchBlockFlow(static_cast<ovrID>(UserID)),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrLaunchBlockFlowResultPtr ResponsePtr = MakeShared<FOvrLaunchBlockFlowResult>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ResponsePtr->Update(ovr_Message_GetLaunchBlockFlowResult(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
 void OvrPlatform_User_LaunchFriendRequestFlow(
     UGameInstance* GameInstance,
     FOvrId UserID,
@@ -3520,6 +3687,35 @@ void OvrPlatform_User_LaunchFriendRequestFlow(
                     else
                     {
                         ResponsePtr->Update(ovr_Message_GetLaunchFriendRequestFlowResult(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
+void OvrPlatform_User_LaunchUnblockFlow(
+    UGameInstance* GameInstance,
+    FOvrId UserID,
+    OvrPlatform_User_LaunchUnblockFlow_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_User_LaunchUnblockFlow(static_cast<ovrID>(UserID)),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrLaunchUnblockFlowResultPtr ResponsePtr = MakeShared<FOvrLaunchUnblockFlowResult>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ResponsePtr->Update(ovr_Message_GetLaunchUnblockFlowResult(*MessagePtr), MessagePtr);
                     }
 
                     Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);

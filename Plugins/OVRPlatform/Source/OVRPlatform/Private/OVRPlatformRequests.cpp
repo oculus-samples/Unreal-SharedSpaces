@@ -1802,6 +1802,82 @@ void UOvrRequestsBlueprintLibrary::GroupPresence_Clear(
     }
 }
 
+void UOvrRequestsBlueprintLibrary::GroupPresence_GetInvitableUsers(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    FOvrInviteOptions Options,
+    // Output
+    FOvrUserPages& UserPages,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [Options]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_GroupPresence_GetInvitableUsers(FOvrInviteOptionsConverter(Options));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&UserPages](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        UserPages.Clear();
+                    }
+                    else
+                    {
+                        UserPages.Update(ovr_Message_GetUserArray(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::GroupPresence_GetSentInvites(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FOvrApplicationInvitePages& ApplicationInvitePages,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_GroupPresence_GetSentInvites();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&ApplicationInvitePages](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        ApplicationInvitePages.Clear();
+                    }
+                    else
+                    {
+                        ApplicationInvitePages.Update(ovr_Message_GetApplicationInviteArray(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
 void UOvrRequestsBlueprintLibrary::GroupPresence_LaunchInvitePanel(
     // Context
     UObject* WorldContextObject,
@@ -1944,6 +2020,45 @@ void UOvrRequestsBlueprintLibrary::GroupPresence_LaunchRosterPanel(
     }
 }
 
+void UOvrRequestsBlueprintLibrary::GroupPresence_SendInvites(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    TArray<FOvrId> UserIDs,
+    // Output
+    FOvrSendInvitesResult& SendInvitesResult,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [UserIDs]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_GroupPresence_SendInvites(OvrPlatformIdArray(UserIDs), static_cast<unsigned int>(UserIDs.Num()));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&SendInvitesResult](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        SendInvitesResult.Clear();
+                    }
+                    else
+                    {
+                        SendInvitesResult.Update(ovr_Message_GetSendInvitesResult(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
 void UOvrRequestsBlueprintLibrary::GroupPresence_Set(
     // Context
     UObject* WorldContextObject,
@@ -1964,6 +2079,37 @@ void UOvrRequestsBlueprintLibrary::GroupPresence_Set(
                 [GroupPresenceOptions]()->ovrRequest
                 {
                     ovrRequest RequestID = ovr_GroupPresence_Set(FOvrGroupPresenceOptionsConverter(GroupPresenceOptions));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // No payload in response
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::GroupPresence_SetDeeplinkMessageOverride(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    FString DeeplinkMessage,
+    // Output
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [DeeplinkMessage]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_GroupPresence_SetDeeplinkMessageOverride(TCHAR_TO_UTF8(*DeeplinkMessage));
 
                     return RequestID;
                 },
@@ -4334,6 +4480,43 @@ void UOvrRequestsBlueprintLibrary::User_GetAccessToken(
     }
 }
 
+void UOvrRequestsBlueprintLibrary::User_GetBlockedUsers(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FOvrBlockedUserPages& BlockedUserPages,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_User_GetBlockedUsers();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&BlockedUserPages](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        BlockedUserPages.Clear();
+                    }
+                    else
+                    {
+                        BlockedUserPages.Update(ovr_Message_GetBlockedUserArray(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
 void UOvrRequestsBlueprintLibrary::User_GetLoggedInUser(
     // Context
     UObject* WorldContextObject,
@@ -4603,6 +4786,45 @@ void UOvrRequestsBlueprintLibrary::User_GetUserProof(
     }
 }
 
+void UOvrRequestsBlueprintLibrary::User_LaunchBlockFlow(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    FOvrId UserID,
+    // Output
+    FOvrLaunchBlockFlowResult& LaunchBlockFlowResult,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [UserID]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_User_LaunchBlockFlow(static_cast<ovrID>(UserID));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&LaunchBlockFlowResult](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        LaunchBlockFlowResult.Clear();
+                    }
+                    else
+                    {
+                        LaunchBlockFlowResult.Update(ovr_Message_GetLaunchBlockFlowResult(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
 void UOvrRequestsBlueprintLibrary::User_LaunchFriendRequestFlow(
     // Context
     UObject* WorldContextObject,
@@ -4637,6 +4859,45 @@ void UOvrRequestsBlueprintLibrary::User_LaunchFriendRequestFlow(
                     else
                     {
                         LaunchFriendRequestFlowResult.Update(ovr_Message_GetLaunchFriendRequestFlowResult(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::User_LaunchUnblockFlow(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    FOvrId UserID,
+    // Output
+    FOvrLaunchUnblockFlowResult& LaunchUnblockFlowResult,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [UserID]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_User_LaunchUnblockFlow(static_cast<ovrID>(UserID));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&LaunchUnblockFlowResult](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        LaunchUnblockFlowResult.Clear();
+                    }
+                    else
+                    {
+                        LaunchUnblockFlowResult.Update(ovr_Message_GetLaunchUnblockFlowResult(*MessagePtr), MessagePtr);
                     }
                 }));
     }

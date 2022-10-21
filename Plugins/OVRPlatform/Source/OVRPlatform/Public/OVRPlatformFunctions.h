@@ -50,6 +50,7 @@ public:
     static void ApplicationLifecycle_LogDeeplinkResult(FString TrackingID, EOvrLaunchResult Result);
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Allow `peerID` to establish a peer-to-peer connection to this host.
      * 
      * Call this after receiving FOvrNotification_Networking_PeerConnectRequest.
@@ -60,10 +61,11 @@ public:
      * 
      * This function can be safely called from any thread.
      */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Networking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction), Category = "OvrPlatform|Networking")
     static void Net_Accept(FOvrId PeerID);
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Automatically accept all current and future connection attempts from
      * members of the current room. Note that the room has to be created or
      * joined by calling one of the existing room/matchmaking functions.
@@ -72,10 +74,11 @@ public:
      * 
      * This function can be safely called from any thread.
      */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Networking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction), Category = "OvrPlatform|Networking")
     static bool Net_AcceptForCurrentRoom();
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Destroy the connection to peerID, if one exists.  Note that in most cases
      * this is not needed, as the library manages the pool of connections and
      * discards unused ones.
@@ -83,17 +86,19 @@ public:
      * 
      * This function can be safely called from any thread.
      */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Networking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction), Category = "OvrPlatform|Networking")
     static void Net_Close(FOvrId PeerID);
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Close the connection to everyone in the current room. This is typically called
      * before leaving the room. Can be called from any thread.
      */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Networking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction), Category = "OvrPlatform|Networking")
     static void Net_CloseForCurrentRoom();
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Connects to the peer with the specified user ID.  This function returns immediately.
      * 
      * Once the connection is established, a FOvrNotification_Networking_ConnectionStateChange
@@ -107,27 +112,30 @@ public:
      * buffer messages in unreliable mode. Net_Connect() allows the application
      * to delay sending messages until an actual connection is established.
      */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Networking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction), Category = "OvrPlatform|Networking")
     static void Net_Connect(FOvrId PeerID);
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Returns true only when there is an open connection to peerID.  Can be called
      * from any thread.
      */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Networking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction), Category = "OvrPlatform|Networking")
     static bool Net_IsConnected(FOvrId PeerID);
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Ping the user with the given ID.
      * 
      * Once the request completes, a FOvrNotification_Networking_PingResult message is enqueued.
      * 
      * Can be called from any thread.
      */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Networking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction), Category = "OvrPlatform|Networking")
     static FOvrId Net_Ping(FOvrId PeerID);
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Read the next incoming packet. Returns null when no more packets
      * are available. Returned handle points to an object representing data
      * read from the network. Ownership of that object is transferred to the
@@ -147,10 +155,11 @@ public:
      * 
      * This function can be safely called from any thread.
      */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Networking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction), Category = "OvrPlatform|Networking")
     static FOvrPacket Net_ReadPacket();
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Send a sequence of bytes to another user. The length must be less
      * than or equal to the allocated length of bytes.  A new connection
      * to userID will be established (asynchronously) unless one already
@@ -165,10 +174,11 @@ public:
      * 
      * This function can be safely called from any thread.
      */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Networking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction), Category = "OvrPlatform|Networking")
     static bool Net_SendPacket(FOvrId UserID, TArray<uint8> Bytes, EOvrSendPolicy Policy);
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Sends a packet to all members of the room, excluding the currently logged
      * in user. Note that the room has to be created or joined by calling one of
      * the existing room/matchmaking functions, with subscribe_to_updates
@@ -178,7 +188,7 @@ public:
      * 
      * This function can be safely called from any thread.
      */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Networking")
+    UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction), Category = "OvrPlatform|Networking")
     static bool Net_SendPacketToCurrentRoom(TArray<uint8> Bytes, EOvrSendPolicy Policy);
 
     /** Accepts a VoIP connection from a given user. */

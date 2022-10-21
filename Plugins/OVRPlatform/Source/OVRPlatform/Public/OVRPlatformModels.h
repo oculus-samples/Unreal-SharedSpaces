@@ -26,14 +26,13 @@
 #include "OVRPlatformModels.generated.h"
 
 
-/** AbuseReportRecording model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AbuseReportRecording")
 struct OVRPLATFORM_API FOvrAbuseReportRecording
 {
     GENERATED_USTRUCT_BODY()
 
     /** A UUID associated with the Abuse Report recording. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AbuseReportRecording|Field")
     FString RecordingUuid;
 
     // Default ctor.
@@ -59,17 +58,17 @@ struct OVRPLATFORM_API FOvrAchievementDefinition
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementDefinition|Field")
     EOvrAchievementType AchievementType;
 
     /** The name of the achievement. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementDefinition|Field")
     FString ApiName;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementDefinition|Field")
     int32 BitfieldLength;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementDefinition|Field")
     int64 Target;
 
     // Default ctor.
@@ -85,7 +84,6 @@ struct OVRPLATFORM_API FOvrAchievementDefinition
     void Update(ovrAchievementDefinitionHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** AchievementDefinitionPages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AchievementDefinitionArray")
 struct OVRPLATFORM_API FOvrAchievementDefinitionPages
 {
@@ -133,25 +131,24 @@ public:
 };
 
 
-/** AchievementProgress model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AchievementProgress")
 struct OVRPLATFORM_API FOvrAchievementProgress
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementProgress|Field")
     FString Bitfield;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementProgress|Field")
     int64 Count;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementProgress|Field")
     bool IsUnlocked;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementProgress|Field")
     FString Name;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementProgress|Field")
     FDateTime UnlockTime;
 
     // Default ctor.
@@ -167,7 +164,6 @@ struct OVRPLATFORM_API FOvrAchievementProgress
     void Update(ovrAchievementProgressHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** AchievementProgressPages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AchievementProgressArray")
 struct OVRPLATFORM_API FOvrAchievementProgressPages
 {
@@ -215,16 +211,15 @@ public:
 };
 
 
-/** AchievementUpdate model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AchievementUpdate")
 struct OVRPLATFORM_API FOvrAchievementUpdate
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementUpdate|Field")
     bool JustUnlocked;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementUpdate|Field")
     FString Name;
 
     // Default ctor.
@@ -241,22 +236,21 @@ struct OVRPLATFORM_API FOvrAchievementUpdate
 };
 
 
-/** ApplicationVersion model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ApplicationVersion")
 struct OVRPLATFORM_API FOvrApplicationVersion
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ApplicationVersion|Field")
     int32 CurrentCode;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ApplicationVersion|Field")
     FString CurrentName;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ApplicationVersion|Field")
     int32 LatestCode;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ApplicationVersion|Field")
     FString LatestName;
 
     // Default ctor.
@@ -273,26 +267,25 @@ struct OVRPLATFORM_API FOvrApplicationVersion
 };
 
 
-/** AssetFileDeleteResult model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AssetFileDeleteResult")
 struct OVRPLATFORM_API FOvrAssetFileDeleteResult
 {
     GENERATED_USTRUCT_BODY()
 
     /** DEPRECATED. Use field FOvrAssetFileDeleteResult::AssetId. */
-    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty, DeprecationMessage="Use field FOvrAssetFileDeleteResult::AssetId."))
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty, DeprecationMessage="Use field FOvrAssetFileDeleteResult::AssetId."), Category = "OvrPlatform|Models|AssetFileDeleteResult|Field")
     FOvrId AssetFileId;
 
     /** ID of the asset file */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDeleteResult|Field")
     FOvrId AssetId;
 
     /** File path of the asset file. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDeleteResult|Field")
     FString Filepath;
 
     /** Whether the asset delete was successful. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDeleteResult|Field")
     bool Success;
 
     // Default ctor.
@@ -309,26 +302,25 @@ struct OVRPLATFORM_API FOvrAssetFileDeleteResult
 };
 
 
-/** AssetFileDownloadCancelResult model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AssetFileDownloadCancelResult")
 struct OVRPLATFORM_API FOvrAssetFileDownloadCancelResult
 {
     GENERATED_USTRUCT_BODY()
 
     /** DEPRECATED. Use field FOvrAssetFileDownloadCancelResult::AssetId. */
-    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty, DeprecationMessage="Use field FOvrAssetFileDownloadCancelResult::AssetId."))
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty, DeprecationMessage="Use field FOvrAssetFileDownloadCancelResult::AssetId."), Category = "OvrPlatform|Models|AssetFileDownloadCancelResult|Field")
     FOvrId AssetFileId;
 
     /** ID of the asset file */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDownloadCancelResult|Field")
     FOvrId AssetId;
 
     /** File path of the asset file. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDownloadCancelResult|Field")
     FString Filepath;
 
     /** Whether the cancel request is succeeded. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDownloadCancelResult|Field")
     bool Success;
 
     // Default ctor.
@@ -345,18 +337,17 @@ struct OVRPLATFORM_API FOvrAssetFileDownloadCancelResult
 };
 
 
-/** AssetFileDownloadResult model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AssetFileDownloadResult")
 struct OVRPLATFORM_API FOvrAssetFileDownloadResult
 {
     GENERATED_USTRUCT_BODY()
 
     /** ID of the asset file */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDownloadResult|Field")
     FOvrId AssetId;
 
     /** File path of the asset file. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDownloadResult|Field")
     FString Filepath;
 
     // Default ctor.
@@ -373,30 +364,29 @@ struct OVRPLATFORM_API FOvrAssetFileDownloadResult
 };
 
 
-/** AssetFileDownloadUpdate model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AssetFileDownloadUpdate")
 struct OVRPLATFORM_API FOvrAssetFileDownloadUpdate
 {
     GENERATED_USTRUCT_BODY()
 
     /** DEPRECATED. Use field FOvrAssetFileDownloadUpdate::AssetId. */
-    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty, DeprecationMessage="Use field FOvrAssetFileDownloadUpdate::AssetId."))
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty, DeprecationMessage="Use field FOvrAssetFileDownloadUpdate::AssetId."), Category = "OvrPlatform|Models|AssetFileDownloadUpdate|Field")
     FOvrId AssetFileId;
 
     /** ID of the asset file */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDownloadUpdate|Field")
     FOvrId AssetId;
 
     /** Total number of bytes. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDownloadUpdate|Field")
     int64 BytesTotal;
 
     /** Number of bytes have been downloaded. -1 If the download hasn't started yet. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDownloadUpdate|Field")
     int64 BytesTransferred;
 
     /** Flag indicating a download is completed. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDownloadUpdate|Field")
     bool Completed;
 
     // Default ctor.
@@ -413,7 +403,76 @@ struct OVRPLATFORM_API FOvrAssetFileDownloadUpdate
 };
 
 
-/** CalApplicationFinalized model */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|BlockedUser")
+struct OVRPLATFORM_API FOvrBlockedUser
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** user ID that has been blocked by the logged in user */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|BlockedUser|Field")
+    FOvrId Id;
+
+    // Default ctor.
+    FOvrBlockedUser();
+
+    // Copying values from an OVR handle.
+    FOvrBlockedUser(ovrBlockedUserHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // Setting all values to their defaults.
+    void Clear();
+
+    // Updating with values from an OVR handle.
+    void Update(ovrBlockedUserHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|BlockedUserArray")
+struct OVRPLATFORM_API FOvrBlockedUserPages
+{
+    GENERATED_USTRUCT_BODY()
+
+    // Default ctor.
+    FOvrBlockedUserPages();
+
+    // Copying values from an OVR handle to the array, and the originating message
+    // to prevent the handle from being freed.
+    FOvrBlockedUserPages(ovrBlockedUserArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // Setting all values to their defaults.
+    void Clear();
+
+    // Updating values from an OVR handle to the array, and the originating message
+    // to prevent the handle from being freed.
+    void Update(ovrBlockedUserArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // OVR array handle for methods
+    mutable ovrBlockedUserArrayHandle PagedArrayHandle;
+
+    // Original ref-counted message to hold onto array handle
+    mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
+};
+
+UCLASS()
+class OVRPLATFORM_API UOvrBlockedUserPagesMethods : public UObject
+{
+    GENERATED_BODY()
+
+public:
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|BlockedUserPages")
+    static FOvrBlockedUser BlockedUserPages_GetElement(const FOvrBlockedUserPages& Model, int64 Index);
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|BlockedUserPages")
+    static FString BlockedUserPages_GetNextUrl(const FOvrBlockedUserPages& Model);
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|BlockedUserPages")
+    static int64 BlockedUserPages_GetSize(const FOvrBlockedUserPages& Model);
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|BlockedUserPages")
+    static bool BlockedUserPages_HasNextPage(const FOvrBlockedUserPages& Model);
+};
+
+
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CalApplicationFinalized")
 struct OVRPLATFORM_API FOvrCalApplicationFinalized
 {
@@ -423,18 +482,18 @@ struct OVRPLATFORM_API FOvrCalApplicationFinalized
      * Number of milliseconds to wait before launching the app.
      * Launcher should display a countdown to the user while waiting.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CalApplicationFinalized|Field")
     int32 CountdownMS;
 
     /** ID of the application we should launch into. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CalApplicationFinalized|Field")
     FOvrId ID;
 
     /**
      * Launch argument generated by the CAL system.  This must be passed unmodified
      * to the application as an intent extra or command line argument
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CalApplicationFinalized|Field")
     FString LaunchDetails;
 
     // Default ctor.
@@ -451,13 +510,13 @@ struct OVRPLATFORM_API FOvrCalApplicationFinalized
 };
 
 
-/** CalApplicationProposed model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CalApplicationProposed")
 struct OVRPLATFORM_API FOvrCalApplicationProposed
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CalApplicationProposed|Field")
     FOvrId ID;
 
     // Default ctor.
@@ -474,21 +533,21 @@ struct OVRPLATFORM_API FOvrCalApplicationProposed
 };
 
 
-/** CalApplicationSuggestion model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CalApplicationSuggestion")
 struct OVRPLATFORM_API FOvrCalApplicationSuggestion
 {
     GENERATED_USTRUCT_BODY()
 
     /** Application ID of the suggested app. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CalApplicationSuggestion|Field")
     FOvrId ID;
 
     /**
      * Localized, privacy aware social context string to go with the app suggestion.
      * Intended to be directly displayed in UI.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CalApplicationSuggestion|Field")
     FString SocialContext;
 
     // Default ctor.
@@ -505,22 +564,22 @@ struct OVRPLATFORM_API FOvrCalApplicationSuggestion
 };
 
 
-/** CloudStorageData model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CloudStorageData")
 struct OVRPLATFORM_API FOvrCloudStorageData
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageData|Field")
     FString Bucket;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageData|Field")
     TArray<uint8> Data;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageData|Field")
     int32 DataSize;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageData|Field")
     FString Key;
 
     // Default ctor.
@@ -537,34 +596,34 @@ struct OVRPLATFORM_API FOvrCloudStorageData
 };
 
 
-/** CloudStorageMetadata model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CloudStorageMetadata")
 struct OVRPLATFORM_API FOvrCloudStorageMetadata
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageMetadata|Field")
     FString Bucket;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageMetadata|Field")
     int64 Counter;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageMetadata|Field")
     int32 DataSize;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageMetadata|Field")
     FString ExtraData;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageMetadata|Field")
     FString Key;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageMetadata|Field")
     int64 SaveTime;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageMetadata|Field")
     EOvrCloudStorageDataStatus Status;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageMetadata|Field")
     FString VersionHandle;
 
     // Default ctor.
@@ -581,16 +640,16 @@ struct OVRPLATFORM_API FOvrCloudStorageMetadata
 };
 
 
-/** CloudStorageConflictMetadata model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CloudStorageConflictMetadata")
 struct OVRPLATFORM_API FOvrCloudStorageConflictMetadata
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageConflictMetadata|Field")
     FOvrCloudStorageMetadata Local;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageConflictMetadata|Field")
     FOvrCloudStorageMetadata Remote;
 
     // Default ctor.
@@ -606,7 +665,6 @@ struct OVRPLATFORM_API FOvrCloudStorageConflictMetadata
     void Update(ovrCloudStorageConflictMetadataHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** CloudStorageMetadataPages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CloudStorageMetadataArray")
 struct OVRPLATFORM_API FOvrCloudStorageMetadataPages
 {
@@ -654,22 +712,22 @@ public:
 };
 
 
-/** CloudStorageUpdateResponse model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CloudStorageUpdateResponse")
 struct OVRPLATFORM_API FOvrCloudStorageUpdateResponse
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageUpdateResponse|Field")
     FString Bucket;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageUpdateResponse|Field")
     FString Key;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageUpdateResponse|Field")
     EOvrCloudStorageUpdateStatus Status;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CloudStorageUpdateResponse|Field")
     FString VersionHandle;
 
     // Default ctor.
@@ -686,7 +744,6 @@ struct OVRPLATFORM_API FOvrCloudStorageUpdateResponse
 };
 
 
-/** Destination model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Destination")
 struct OVRPLATFORM_API FOvrDestination
 {
@@ -696,7 +753,7 @@ struct OVRPLATFORM_API FOvrDestination
      * Pass it into FOvrRichPresenceOptions::ApiName() when calling
      * RichPresence_Set() to set this user's rich presence
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Destination|Field")
     FString ApiName;
 
     /**
@@ -704,10 +761,10 @@ struct OVRPLATFORM_API FOvrDestination
      * when a user enters via a deeplink. Alternatively will be in field FOvrUser::PresenceDeeplinkMessage
      * if the rich presence is set for the user.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Destination|Field")
     FString DeeplinkMessage;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Destination|Field")
     FString DisplayName;
 
     // Default ctor.
@@ -723,7 +780,6 @@ struct OVRPLATFORM_API FOvrDestination
     void Update(ovrDestinationHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** DestinationPages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|DestinationArray")
 struct OVRPLATFORM_API FOvrDestinationPages
 {
@@ -771,13 +827,12 @@ public:
 };
 
 
-/** Error model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Error")
 struct OVRPLATFORM_API FOvrError
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Error|Field")
     int32 Code;
 
     /**
@@ -785,17 +840,17 @@ struct OVRPLATFORM_API FOvrError
      * Might be the empty string if there is no user-appropriate description available.
      * Not intended to be parsed as it might change at any time or be translated.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Error|Field")
     FString DisplayableMessage;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Error|Field")
     int32 HttpCode;
 
     /**
      * Technical description of what went wrong intended for developers. For use in
      * logs or developer consoles.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Error|Field")
     FString Message;
 
     // Default ctor.
@@ -812,7 +867,6 @@ struct OVRPLATFORM_API FOvrError
 };
 
 
-/** GroupPresenceJoinIntent model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|GroupPresenceJoinIntent")
 struct OVRPLATFORM_API FOvrGroupPresenceJoinIntent
 {
@@ -822,19 +876,19 @@ struct OVRPLATFORM_API FOvrGroupPresenceJoinIntent
      * An opaque string provided by the developer to help them deeplink
      * to content.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|GroupPresenceJoinIntent|Field")
     FString DeeplinkMessage;
 
     /** If populated, the destination the current user wants to go to */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|GroupPresenceJoinIntent|Field")
     FString DestinationApiName;
 
     /** If populated, the lobby session the current user wants to go to */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|GroupPresenceJoinIntent|Field")
     FString LobbySessionId;
 
     /** If populated, the match session the current user wants to go to */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|GroupPresenceJoinIntent|Field")
     FString MatchSessionId;
 
     // Default ctor.
@@ -851,22 +905,21 @@ struct OVRPLATFORM_API FOvrGroupPresenceJoinIntent
 };
 
 
-/** GroupPresenceLeaveIntent model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|GroupPresenceLeaveIntent")
 struct OVRPLATFORM_API FOvrGroupPresenceLeaveIntent
 {
     GENERATED_USTRUCT_BODY()
 
     /** If populated, the destination the current user wants to leave */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|GroupPresenceLeaveIntent|Field")
     FString DestinationApiName;
 
     /** If populated, the lobby session the current user wants to leave */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|GroupPresenceLeaveIntent|Field")
     FString LobbySessionId;
 
     /** If populated, the match session the current user wants to leave */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|GroupPresenceLeaveIntent|Field")
     FString MatchSessionId;
 
     // Default ctor.
@@ -883,19 +936,18 @@ struct OVRPLATFORM_API FOvrGroupPresenceLeaveIntent
 };
 
 
-/** HttpTransferUpdate model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|HttpTransferUpdate")
 struct OVRPLATFORM_API FOvrHttpTransferUpdate
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|HttpTransferUpdate|Field")
     TArray<uint8> Bytes;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|HttpTransferUpdate|Field")
     FOvrId ID;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|HttpTransferUpdate|Field")
     bool IsCompleted;
 
     // Default ctor.
@@ -912,25 +964,24 @@ struct OVRPLATFORM_API FOvrHttpTransferUpdate
 };
 
 
-/** InstalledApplication model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|InstalledApplication")
 struct OVRPLATFORM_API FOvrInstalledApplication
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|InstalledApplication|Field")
     FString ApplicationId;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|InstalledApplication|Field")
     FString PackageName;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|InstalledApplication|Field")
     FString Status;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|InstalledApplication|Field")
     int32 VersionCode;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|InstalledApplication|Field")
     FString VersionName;
 
     // Default ctor.
@@ -947,14 +998,13 @@ struct OVRPLATFORM_API FOvrInstalledApplication
 };
 
 
-/** InvitePanelResultInfo model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|InvitePanelResultInfo")
 struct OVRPLATFORM_API FOvrInvitePanelResultInfo
 {
     GENERATED_USTRUCT_BODY()
 
     /** A boolean for whether or not any invites has been sent. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|InvitePanelResultInfo|Field")
     bool InvitesSent;
 
     // Default ctor.
@@ -971,22 +1021,21 @@ struct OVRPLATFORM_API FOvrInvitePanelResultInfo
 };
 
 
-/** LanguagePackInfo model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LanguagePackInfo")
 struct OVRPLATFORM_API FOvrLanguagePackInfo
 {
     GENERATED_USTRUCT_BODY()
 
     /** Language name in English language. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LanguagePackInfo|Field")
     FString EnglishName;
 
     /** Language name in the native language. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LanguagePackInfo|Field")
     FString NativeName;
 
     /** Language tag in BCP47 format. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LanguagePackInfo|Field")
     FString Tag;
 
     // Default ctor.
@@ -1003,14 +1052,13 @@ struct OVRPLATFORM_API FOvrLanguagePackInfo
 };
 
 
-/** AssetDetails model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AssetDetails")
 struct OVRPLATFORM_API FOvrAssetDetails
 {
     GENERATED_USTRUCT_BODY()
 
     /**  ID of the asset file */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetDetails|Field")
     FOvrId AssetId;
 
     /**
@@ -1024,27 +1072,27 @@ struct OVRPLATFORM_API FOvrAssetDetails
      * The 'language_pack' is a special type used to manage different languages and
      * translation data, which can be downloaded post-installation.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetDetails|Field")
     FString AssetType;
 
     /** One of 'installed', 'available', or 'in-progress' */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetDetails|Field")
     FString DownloadStatus;
 
     /** File path of the asset file */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetDetails|Field")
     FString Filepath;
 
     /** One of 'free', 'entitled', or 'not-entitled' */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetDetails|Field")
     FString IapStatus;
 
     /** For 'language_pack' assets type, contains language info. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetDetails|Field")
     FOvrLanguagePackInfo Language;
 
     /** Extra metadata associated with this asset file */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetDetails|Field")
     FString Metadata;
 
     // Default ctor.
@@ -1061,18 +1109,44 @@ struct OVRPLATFORM_API FOvrAssetDetails
 };
 
 
-/** LaunchFriendRequestFlowResult model */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchBlockFlowResult")
+struct OVRPLATFORM_API FOvrLaunchBlockFlowResult
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** Whether the viewer successfully blocked the user. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchBlockFlowResult|Field")
+    bool DidBlock;
+
+    /** Whether the viewer chose to cancel the block flow. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchBlockFlowResult|Field")
+    bool DidCancel;
+
+    // Default ctor.
+    FOvrLaunchBlockFlowResult();
+
+    // Copying values from an OVR handle.
+    FOvrLaunchBlockFlowResult(ovrLaunchBlockFlowResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // Setting all values to their defaults.
+    void Clear();
+
+    // Updating with values from an OVR handle.
+    void Update(ovrLaunchBlockFlowResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
+
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchFriendRequestFlowResult")
 struct OVRPLATFORM_API FOvrLaunchFriendRequestFlowResult
 {
     GENERATED_USTRUCT_BODY()
 
     /** Whether the viewer chose to cancel the friend request flow. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchFriendRequestFlowResult|Field")
     bool DidCancel;
 
     /** Whether the viewer successfully sent the friend request. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchFriendRequestFlowResult|Field")
     bool DidSendRequest;
 
     // Default ctor.
@@ -1089,17 +1163,16 @@ struct OVRPLATFORM_API FOvrLaunchFriendRequestFlowResult
 };
 
 
-/** LaunchReportFlowResult model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchReportFlowResult")
 struct OVRPLATFORM_API FOvrLaunchReportFlowResult
 {
     GENERATED_USTRUCT_BODY()
 
     /** Whether the viewer chose to cancel the report flow. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchReportFlowResult|Field")
     bool DidCancel;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchReportFlowResult|Field")
     FOvrId UserReportId;
 
     // Default ctor.
@@ -1116,19 +1189,45 @@ struct OVRPLATFORM_API FOvrLaunchReportFlowResult
 };
 
 
-/** Leaderboard model */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchUnblockFlowResult")
+struct OVRPLATFORM_API FOvrLaunchUnblockFlowResult
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** Whether the viewer chose to cancel the unblock flow. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchUnblockFlowResult|Field")
+    bool DidCancel;
+
+    /** Whether the viewer successfully unblocked the user. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchUnblockFlowResult|Field")
+    bool DidUnblock;
+
+    // Default ctor.
+    FOvrLaunchUnblockFlowResult();
+
+    // Copying values from an OVR handle.
+    FOvrLaunchUnblockFlowResult(ovrLaunchUnblockFlowResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // Setting all values to their defaults.
+    void Clear();
+
+    // Updating with values from an OVR handle.
+    void Update(ovrLaunchUnblockFlowResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
+
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Leaderboard")
 struct OVRPLATFORM_API FOvrLeaderboard
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Leaderboard|Field")
     FString ApiName;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Leaderboard|Field")
     FOvrDestination Destination;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Leaderboard|Field")
     FOvrId ID;
 
     // Default ctor.
@@ -1144,7 +1243,6 @@ struct OVRPLATFORM_API FOvrLeaderboard
     void Update(ovrLeaderboardHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** LeaderboardPages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LeaderboardArray")
 struct OVRPLATFORM_API FOvrLeaderboardPages
 {
@@ -1192,16 +1290,15 @@ public:
 };
 
 
-/** LeaderboardUpdateStatus model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LeaderboardUpdateStatus")
 struct OVRPLATFORM_API FOvrLeaderboardUpdateStatus
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardUpdateStatus|Field")
     bool DidUpdate;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardUpdateStatus|Field")
     TArray<FOvrId> UpdatedChallengeIds;
 
     // Default ctor.
@@ -1218,22 +1315,21 @@ struct OVRPLATFORM_API FOvrLeaderboardUpdateStatus
 };
 
 
-/** LinkedAccount model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LinkedAccount")
 struct OVRPLATFORM_API FOvrLinkedAccount
 {
     GENERATED_USTRUCT_BODY()
 
     /** Access token of the linked account. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LinkedAccount|Field")
     FString AccessToken;
 
     /** Service provider with which the linked account is associated. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LinkedAccount|Field")
     EOvrServiceProvider ServiceProvider;
 
     /** User ID of the linked account. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LinkedAccount|Field")
     FString UserId;
 
     // Default ctor.
@@ -1250,13 +1346,12 @@ struct OVRPLATFORM_API FOvrLinkedAccount
 };
 
 
-/** LivestreamingApplicationStatus model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LivestreamingApplicationStatus")
 struct OVRPLATFORM_API FOvrLivestreamingApplicationStatus
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingApplicationStatus|Field")
     bool StreamingEnabled;
 
     // Default ctor.
@@ -1273,13 +1368,12 @@ struct OVRPLATFORM_API FOvrLivestreamingApplicationStatus
 };
 
 
-/** LivestreamingStartResult model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LivestreamingStartResult")
 struct OVRPLATFORM_API FOvrLivestreamingStartResult
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingStartResult|Field")
     EOvrLivestreamingStartStatus StreamingResult;
 
     // Default ctor.
@@ -1296,25 +1390,24 @@ struct OVRPLATFORM_API FOvrLivestreamingStartResult
 };
 
 
-/** LivestreamingStatus model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LivestreamingStatus")
 struct OVRPLATFORM_API FOvrLivestreamingStatus
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingStatus|Field")
     bool CommentsVisible;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingStatus|Field")
     bool IsPaused;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingStatus|Field")
     bool LivestreamingEnabled;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingStatus|Field")
     int32 LivestreamingType;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingStatus|Field")
     bool MicEnabled;
 
     // Default ctor.
@@ -1331,19 +1424,18 @@ struct OVRPLATFORM_API FOvrLivestreamingStatus
 };
 
 
-/** LivestreamingVideoStats model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LivestreamingVideoStats")
 struct OVRPLATFORM_API FOvrLivestreamingVideoStats
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingVideoStats|Field")
     int32 CommentCount;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingVideoStats|Field")
     int32 ReactionCount;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingVideoStats|Field")
     FString TotalViews;
 
     // Default ctor.
@@ -1360,25 +1452,30 @@ struct OVRPLATFORM_API FOvrLivestreamingVideoStats
 };
 
 
-/** MatchmakingAdminSnapshotCandidate model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate")
 struct OVRPLATFORM_API FOvrMatchmakingAdminSnapshotCandidate
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate|Field")
     bool CanMatch;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate|Field")
     float MyTotalScore;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate|Field")
     float TheirCurrentThreshold;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate|Field")
     float TheirTotalScore;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate|Field")
     FString TraceId;
 
     // Default ctor.
@@ -1395,16 +1492,18 @@ struct OVRPLATFORM_API FOvrMatchmakingAdminSnapshotCandidate
 };
 
 
-/** MatchmakingAdminSnapshot model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingAdminSnapshot")
 struct OVRPLATFORM_API FOvrMatchmakingAdminSnapshot
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshot|Field")
     TArray<FOvrMatchmakingAdminSnapshotCandidate> Candidates;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshot|Field")
     float MyCurrentThreshold;
 
     // Default ctor.
@@ -1421,57 +1520,64 @@ struct OVRPLATFORM_API FOvrMatchmakingAdminSnapshot
 };
 
 
-/** MatchmakingEnqueueResult model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingEnqueueResult")
 struct OVRPLATFORM_API FOvrMatchmakingEnqueueResult
 {
     GENERATED_USTRUCT_BODY()
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * If 'IsDebug' is set in ovrMatchmakingOptionsHandle, this will return with the
      * enqueue results.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResult|Field")
     FOvrMatchmakingAdminSnapshot AdminSnapshot;
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * The average amount of time (mean average) that users in this queue have waited
      * during the last hour or more. The wait times, whether the users canceled or found a
      * match, are used to generate this value. Use this to give users an indication
      * of how long they can expect to wait.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResult|Field")
     int32 AverageWait;
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * The number of matches made from the pool the user is participating in.
      * You can use this to give users an indication of whether they should
      * bother to wait.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResult|Field")
     int32 MatchesInLastHourCount;
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * The amount of time the 95th percentile waited during the last hour or more.
      * The wait times, whether the users canceled or found a match, are used to generate
      * this value. Use this to give users an indication of the maximum amount of time they
      * can expect to wait.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResult|Field")
     int32 MaxExpectedWait;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResult|Field")
     FString Pool;
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * Percentage of people in the same queue as the user who
      * got matched, from 0 to 100 percent.  Stats are taken from the last hour or more.  You
      * can use this to give users an indication of whether they should wait.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResult|Field")
     int32 RecentMatchPercentage;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResult|Field")
     FString RequestHash;
 
     // Default ctor.
@@ -1488,28 +1594,34 @@ struct OVRPLATFORM_API FOvrMatchmakingEnqueueResult
 };
 
 
-/** MatchmakingStats model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingStats")
 struct OVRPLATFORM_API FOvrMatchmakingStats
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     int32 DrawCount;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     int32 LossCount;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     int32 SkillLevel;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     float SkillMean;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     float SkillStandardDeviation;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     int32 WinCount;
 
     // Default ctor.
@@ -1526,7 +1638,6 @@ struct OVRPLATFORM_API FOvrMatchmakingStats
 };
 
 
-/** Microphone model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Microphone")
 struct OVRPLATFORM_API FOvrMicrophone
 {
@@ -1648,13 +1759,12 @@ public:
 };
 
 
-/** MicrophoneAvailabilityState model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MicrophoneAvailabilityState")
 struct OVRPLATFORM_API FOvrMicrophoneAvailabilityState
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|MicrophoneAvailabilityState|Field")
     bool MicrophoneAvailable;
 
     // Default ctor.
@@ -1671,30 +1781,29 @@ struct OVRPLATFORM_API FOvrMicrophoneAvailabilityState
 };
 
 
-/** NetSyncConnection model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|NetSyncConnection")
 struct OVRPLATFORM_API FOvrNetSyncConnection
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncConnection|Field")
     int64 ConnectionId;
 
     /** If status is Disconnected, specifies the reason. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncConnection|Field")
     EOvrNetSyncDisconnectReason DisconnectReason;
 
     /**
      * The ID of the local session. Will be null if the connection is not
      * active
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncConnection|Field")
     FOvrId SessionId;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncConnection|Field")
     EOvrNetSyncConnectionStatus Status;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncConnection|Field")
     FString ZoneId;
 
     // Default ctor.
@@ -1711,30 +1820,29 @@ struct OVRPLATFORM_API FOvrNetSyncConnection
 };
 
 
-/** NetSyncSession model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|NetSyncSession")
 struct OVRPLATFORM_API FOvrNetSyncSession
 {
     GENERATED_USTRUCT_BODY()
 
     /** Which connection this session exists within */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSession|Field")
     int64 ConnectionId;
 
     /** True if the local session has muted this session. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSession|Field")
     bool Muted;
 
     /** The cloud networking internal session ID that represents this connection. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSession|Field")
     FOvrId SessionId;
 
     /** The ovrID of the user behind this session */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSession|Field")
     FOvrId UserId;
 
     /** The name of the voip group that this session is subscribed to */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSession|Field")
     FString VoipGroup;
 
     // Default ctor.
@@ -1751,17 +1859,16 @@ struct OVRPLATFORM_API FOvrNetSyncSession
 };
 
 
-/** NetSyncSessionsChangedNotification model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|NetSyncSessionsChangedNotification")
 struct OVRPLATFORM_API FOvrNetSyncSessionsChangedNotification
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSessionsChangedNotification|Field")
     int64 ConnectionId;
 
     /** The new list of sessions */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSessionsChangedNotification|Field")
     TArray<FOvrNetSyncSession> Sessions;
 
     // Default ctor.
@@ -1778,14 +1885,13 @@ struct OVRPLATFORM_API FOvrNetSyncSessionsChangedNotification
 };
 
 
-/** NetSyncSetSessionPropertyResult model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|NetSyncSetSessionPropertyResult")
 struct OVRPLATFORM_API FOvrNetSyncSetSessionPropertyResult
 {
     GENERATED_USTRUCT_BODY()
 
     /** Which session the operation was modifying */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSetSessionPropertyResult|Field")
     FOvrNetSyncSession Session;
 
     // Default ctor.
@@ -1802,18 +1908,17 @@ struct OVRPLATFORM_API FOvrNetSyncSetSessionPropertyResult
 };
 
 
-/** NetSyncVoipAttenuationValue model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|NetSyncVoipAttenuationValue")
 struct OVRPLATFORM_API FOvrNetSyncVoipAttenuationValue
 {
     GENERATED_USTRUCT_BODY()
 
     /** decibel fall-off value */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncVoipAttenuationValue|Field")
     float Decibels;
 
     /** The starting distance of this attenuation value */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncVoipAttenuationValue|Field")
     float Distance;
 
     // Default ctor.
@@ -1830,16 +1935,15 @@ struct OVRPLATFORM_API FOvrNetSyncVoipAttenuationValue
 };
 
 
-/** NetworkingPeer model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|NetworkingPeer")
 struct OVRPLATFORM_API FOvrNetworkingPeer
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetworkingPeer|Field")
     FOvrId ID;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetworkingPeer|Field")
     EOvrPeerConnectionState State;
 
     // Default ctor.
@@ -1856,13 +1960,12 @@ struct OVRPLATFORM_API FOvrNetworkingPeer
 };
 
 
-/** OrgScopedID model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|OrgScopedID")
 struct OVRPLATFORM_API FOvrOrgScopedID
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|OrgScopedID|Field")
     FOvrId ID;
 
     // Default ctor.
@@ -1879,19 +1982,18 @@ struct OVRPLATFORM_API FOvrOrgScopedID
 };
 
 
-/** Packet model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Packet")
 struct OVRPLATFORM_API FOvrPacket
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Packet|Field")
     TArray<uint8> Bytes;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Packet|Field")
     EOvrSendPolicy SendPolicy;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Packet|Field")
     FOvrId SenderID;
 
     // Default ctor.
@@ -1922,13 +2024,12 @@ public:
 };
 
 
-/** PartyID model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PartyID")
 struct OVRPLATFORM_API FOvrPartyID
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PartyID|Field")
     FOvrId ID;
 
     // Default ctor.
@@ -1945,31 +2046,30 @@ struct OVRPLATFORM_API FOvrPartyID
 };
 
 
-/** PartyUpdateNotification model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PartyUpdateNotification")
 struct OVRPLATFORM_API FOvrPartyUpdateNotification
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PartyUpdateNotification|Field")
     EOvrPartyUpdateAction Action;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PartyUpdateNotification|Field")
     FOvrId PartyId;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PartyUpdateNotification|Field")
     FOvrId SenderId;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PartyUpdateNotification|Field")
     FString UpdateTimestamp;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PartyUpdateNotification|Field")
     FString UserAlias;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PartyUpdateNotification|Field")
     FOvrId UserId;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PartyUpdateNotification|Field")
     FString UserName;
 
     // Default ctor.
@@ -1986,13 +2086,12 @@ struct OVRPLATFORM_API FOvrPartyUpdateNotification
 };
 
 
-/** Pid model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Pid")
 struct OVRPLATFORM_API FOvrPid
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Pid|Field")
     FString Id;
 
     // Default ctor.
@@ -2009,19 +2108,18 @@ struct OVRPLATFORM_API FOvrPid
 };
 
 
-/** PingResult model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PingResult")
 struct OVRPLATFORM_API FOvrPingResult
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PingResult|Field")
     FOvrId ID;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PingResult|Field")
     bool IsTimeout;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PingResult|Field")
     int64 PingTimeUsec;
 
     // Default ctor.
@@ -2038,13 +2136,12 @@ struct OVRPLATFORM_API FOvrPingResult
 };
 
 
-/** PlatformInitialize model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PlatformInitialize")
 struct OVRPLATFORM_API FOvrPlatformInitialize
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PlatformInitialize|Field")
     EOvrPlatformInitializeResult Result;
 
     // Default ctor.
@@ -2061,22 +2158,21 @@ struct OVRPLATFORM_API FOvrPlatformInitialize
 };
 
 
-/** Product model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Product")
 struct OVRPLATFORM_API FOvrProduct
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
     FString Description;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
     FString FormattedPrice;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
     FString Name;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
     FString SKU;
 
     // Default ctor.
@@ -2092,7 +2188,6 @@ struct OVRPLATFORM_API FOvrProduct
     void Update(ovrProductHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** ProductPages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ProductArray")
 struct OVRPLATFORM_API FOvrProductPages
 {
@@ -2140,22 +2235,21 @@ public:
 };
 
 
-/** Purchase model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Purchase")
 struct OVRPLATFORM_API FOvrPurchase
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FDateTime ExpirationTime;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FDateTime GrantTime;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FString PurchaseID;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FString SKU;
 
     // Default ctor.
@@ -2171,7 +2265,6 @@ struct OVRPLATFORM_API FOvrPurchase
     void Update(ovrPurchaseHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** PurchasePages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PurchaseArray")
 struct OVRPLATFORM_API FOvrPurchasePages
 {
@@ -2219,14 +2312,13 @@ public:
 };
 
 
-/** RejoinDialogResult model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|RejoinDialogResult")
 struct OVRPLATFORM_API FOvrRejoinDialogResult
 {
     GENERATED_USTRUCT_BODY()
 
     /** A boolean for if the user decided to rejoin. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|RejoinDialogResult|Field")
     bool RejoinSelected;
 
     // Default ctor.
@@ -2243,22 +2335,26 @@ struct OVRPLATFORM_API FOvrRejoinDialogResult
 };
 
 
-/** RoomInviteNotification model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|RoomInviteNotification")
 struct OVRPLATFORM_API FOvrRoomInviteNotification
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|RoomInviteNotification|Field")
     FOvrId ID;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|RoomInviteNotification|Field")
     FOvrId RoomID;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|RoomInviteNotification|Field")
     FOvrId SenderID;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|RoomInviteNotification|Field")
     FDateTime SentTime;
 
     // Default ctor.
@@ -2274,7 +2370,6 @@ struct OVRPLATFORM_API FOvrRoomInviteNotification
     void Update(ovrRoomInviteNotificationHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** RoomInviteNotificationPages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|RoomInviteNotificationArray")
 struct OVRPLATFORM_API FOvrRoomInviteNotificationPages
 {
@@ -2322,16 +2417,15 @@ public:
 };
 
 
-/** SdkAccount model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|SdkAccount")
 struct OVRPLATFORM_API FOvrSdkAccount
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|SdkAccount|Field")
     EOvrSdkAccountType AccountType;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|SdkAccount|Field")
     FOvrId UserId;
 
     // Default ctor.
@@ -2348,13 +2442,12 @@ struct OVRPLATFORM_API FOvrSdkAccount
 };
 
 
-/** ShareMediaResult model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ShareMediaResult")
 struct OVRPLATFORM_API FOvrShareMediaResult
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ShareMediaResult|Field")
     EOvrShareMediaStatus Status;
 
     // Default ctor.
@@ -2371,16 +2464,15 @@ struct OVRPLATFORM_API FOvrShareMediaResult
 };
 
 
-/** SupplementaryMetric model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|SupplementaryMetric")
 struct OVRPLATFORM_API FOvrSupplementaryMetric
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|SupplementaryMetric|Field")
     FOvrId ID;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|SupplementaryMetric|Field")
     int64 Metric;
 
     // Default ctor.
@@ -2397,16 +2489,15 @@ struct OVRPLATFORM_API FOvrSupplementaryMetric
 };
 
 
-/** SystemVoipState model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|SystemVoipState")
 struct OVRPLATFORM_API FOvrSystemVoipState
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|SystemVoipState|Field")
     EOvrVoipMuteState MicrophoneMuted;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|SystemVoipState|Field")
     EOvrSystemVoipStatus Status;
 
     // Default ctor.
@@ -2423,7 +2514,6 @@ struct OVRPLATFORM_API FOvrSystemVoipState
 };
 
 
-/** User model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|User")
 struct OVRPLATFORM_API FOvrUser
 {
@@ -2433,49 +2523,50 @@ struct OVRPLATFORM_API FOvrUser
      * A potentially non unique displayable name chosen by the user.
      * Could also be the same as the oculus_ID
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString DisplayName;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FOvrId ID;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString ImageUrl;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|User|Field")
     FString InviteToken;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString OculusID;
 
     /**
      * Human readable string of what the user is currently doing.
      * Not intended to be parsed as it might change at anytime or be translated
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString Presence;
 
     /** Intended to be parsed and used to deeplink to parts of the app */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString PresenceDeeplinkMessage;
 
     /** If provided, the destination this user is currently at in the app */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString PresenceDestinationApiName;
 
     /** If provided, the lobby session this user is currently at in the app */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString PresenceLobbySessionId;
 
     /** If provided, the match session this user is currently at in the app */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString PresenceMatchSessionId;
 
     /** Enum value of what the user is currently doing. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     EOvrUserPresenceStatus PresenceStatus;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString SmallImageUrl;
 
     // Default ctor.
@@ -2492,28 +2583,113 @@ struct OVRPLATFORM_API FOvrUser
 };
 
 
-/** ChallengeEntry model */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ApplicationInvite")
+struct OVRPLATFORM_API FOvrApplicationInvite
+{
+    GENERATED_USTRUCT_BODY()
+
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ApplicationInvite|Field")
+    FOvrDestination Destination;
+
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ApplicationInvite|Field")
+    FOvrId ID;
+
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ApplicationInvite|Field")
+    bool IsActive;
+
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ApplicationInvite|Field")
+    FString LobbySessionId;
+
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ApplicationInvite|Field")
+    FString MatchSessionId;
+
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ApplicationInvite|Field")
+    FOvrUser Recipient;
+
+    // Default ctor.
+    FOvrApplicationInvite();
+
+    // Copying values from an OVR handle.
+    FOvrApplicationInvite(ovrApplicationInviteHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // Setting all values to their defaults.
+    void Clear();
+
+    // Updating with values from an OVR handle.
+    void Update(ovrApplicationInviteHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ApplicationInviteArray")
+struct OVRPLATFORM_API FOvrApplicationInvitePages
+{
+    GENERATED_USTRUCT_BODY()
+
+    // Default ctor.
+    FOvrApplicationInvitePages();
+
+    // Copying values from an OVR handle to the array, and the originating message
+    // to prevent the handle from being freed.
+    FOvrApplicationInvitePages(ovrApplicationInviteArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // Setting all values to their defaults.
+    void Clear();
+
+    // Updating values from an OVR handle to the array, and the originating message
+    // to prevent the handle from being freed.
+    void Update(ovrApplicationInviteArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // OVR array handle for methods
+    mutable ovrApplicationInviteArrayHandle PagedArrayHandle;
+
+    // Original ref-counted message to hold onto array handle
+    mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
+};
+
+UCLASS()
+class OVRPLATFORM_API UOvrApplicationInvitePagesMethods : public UObject
+{
+    GENERATED_BODY()
+
+public:
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ApplicationInvitePages")
+    static FOvrApplicationInvite ApplicationInvitePages_GetElement(const FOvrApplicationInvitePages& Model, int64 Index);
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ApplicationInvitePages")
+    static FString ApplicationInvitePages_GetNextUrl(const FOvrApplicationInvitePages& Model);
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ApplicationInvitePages")
+    static int64 ApplicationInvitePages_GetSize(const FOvrApplicationInvitePages& Model);
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ApplicationInvitePages")
+    static bool ApplicationInvitePages_HasNextPage(const FOvrApplicationInvitePages& Model);
+};
+
+
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ChallengeEntry")
 struct OVRPLATFORM_API FOvrChallengeEntry
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ChallengeEntry|Field")
     FString DisplayScore;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ChallengeEntry|Field")
     TArray<uint8> ExtraData;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ChallengeEntry|Field")
+    FOvrId ID;
+
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ChallengeEntry|Field")
     int32 Rank;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ChallengeEntry|Field")
     int64 Score;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ChallengeEntry|Field")
     FDateTime Timestamp;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ChallengeEntry|Field")
     FOvrUser User;
 
     // Default ctor.
@@ -2529,7 +2705,6 @@ struct OVRPLATFORM_API FOvrChallengeEntry
     void Update(ovrChallengeEntryHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** ChallengeEntryPages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ChallengeEntryArray")
 struct OVRPLATFORM_API FOvrChallengeEntryPages
 {
@@ -2586,31 +2761,33 @@ public:
 };
 
 
-/** LeaderboardEntry model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LeaderboardEntry")
 struct OVRPLATFORM_API FOvrLeaderboardEntry
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     FString DisplayScore;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     TArray<uint8> ExtraData;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
+    FOvrId ID;
+
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     int32 Rank;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     int64 Score;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     FOvrSupplementaryMetric SupplementaryMetric;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     FDateTime Timestamp;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     FOvrUser User;
 
     // Default ctor.
@@ -2626,7 +2803,6 @@ struct OVRPLATFORM_API FOvrLeaderboardEntry
     void Update(ovrLeaderboardEntryHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** LeaderboardEntryPages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LeaderboardEntryArray")
 struct OVRPLATFORM_API FOvrLeaderboardEntryPages
 {
@@ -2683,19 +2859,22 @@ public:
 };
 
 
-/** MatchmakingEnqueuedUser model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingEnqueuedUser")
 struct OVRPLATFORM_API FOvrMatchmakingEnqueuedUser
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueuedUser|Field")
     TArray<FOvrId> AdditionalUserIDs;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueuedUser|Field")
     TMap<FString, FString> CustomData;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueuedUser|Field")
     FOvrUser User;
 
     // Default ctor.
@@ -2712,7 +2891,28 @@ struct OVRPLATFORM_API FOvrMatchmakingEnqueuedUser
 };
 
 
-/** UserPages paged array model */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|SendInvitesResult")
+struct OVRPLATFORM_API FOvrSendInvitesResult
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** The list of invites that was sent */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|SendInvitesResult|Field")
+    FOvrApplicationInvitePages Invites;
+
+    // Default ctor.
+    FOvrSendInvitesResult();
+
+    // Copying values from an OVR handle.
+    FOvrSendInvitesResult(ovrSendInvitesResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // Setting all values to their defaults.
+    void Clear();
+
+    // Updating with values from an OVR handle.
+    void Update(ovrSendInvitesResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserArray")
 struct OVRPLATFORM_API FOvrUserPages
 {
@@ -2760,45 +2960,44 @@ public:
 };
 
 
-/** Challenge model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Challenge")
 struct OVRPLATFORM_API FOvrChallenge
 {
     GENERATED_USTRUCT_BODY()
 
     /**  Was this challenge created by a user or the app developer */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Challenge|Field")
     EOvrChallengeCreationType CreationType;
 
     /**  A displayable string of the challenge's description */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Challenge|Field")
     FString Description;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Challenge|Field")
     FDateTime EndDate;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Challenge|Field")
     FOvrId ID;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Challenge|Field")
     FOvrUserPages InvitedUsers;
 
     /**  The leaderboard associated with this challenge */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Challenge|Field")
     FOvrLeaderboard Leaderboard;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Challenge|Field")
     FOvrUserPages Participants;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Challenge|Field")
     FDateTime StartDate;
 
     /**  A displayable string of the challenge's title */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Challenge|Field")
     FString Title;
 
     /**  A enum that specify who can see this challenge */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Challenge|Field")
     EOvrChallengeVisibility Visibility;
 
     // Default ctor.
@@ -2814,7 +3013,6 @@ struct OVRPLATFORM_API FOvrChallenge
     void Update(ovrChallengeHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** ChallengePages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ChallengeArray")
 struct OVRPLATFORM_API FOvrChallengePages
 {
@@ -2871,7 +3069,6 @@ public:
 };
 
 
-/** LaunchDetails model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchDetails")
 struct OVRPLATFORM_API FOvrLaunchDetails
 {
@@ -2881,41 +3078,44 @@ struct OVRPLATFORM_API FOvrLaunchDetails
      * An opaque string provided by the developer to help them deeplink
      * to content on app startup.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchDetails|Field")
     FString DeeplinkMessage;
 
     /** If provided, the intended destination the user would like to go to */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchDetails|Field")
     FString DestinationApiName;
 
     /**
      * A string typically used to distinguish where the deeplink came from.
      * For instance, a DEEPLINK launch type could be coming from events or rich presence.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchDetails|Field")
     FString LaunchSource;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchDetails|Field")
     EOvrLaunchType LaunchType;
 
     /** If provided, the intended lobby the user would like to be in */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchDetails|Field")
     FString LobbySessionID;
 
     /** If provided, the intended session the user would like to be in */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchDetails|Field")
     FString MatchSessionID;
 
-    /** If provided, the intended room the user would like to be in */
-    UPROPERTY(BlueprintReadOnly)
+    /**
+     * DEPRECATED. Will be removed from headers at version v49.
+     * If provided, the intended room the user would like to be in
+     */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|LaunchDetails|Field")
     FOvrId RoomID;
 
     /** A unique identifer to keep track of a user going through the deeplinking flow */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchDetails|Field")
     FString TrackingID;
 
     /** If provided, the intended users the user would like to be with */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchDetails|Field")
     FOvrUserPages Users;
 
     // Default ctor.
@@ -2932,14 +3132,13 @@ struct OVRPLATFORM_API FOvrLaunchDetails
 };
 
 
-/** LaunchInvitePanelFlowResult model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchInvitePanelFlowResult")
 struct OVRPLATFORM_API FOvrLaunchInvitePanelFlowResult
 {
     GENERATED_USTRUCT_BODY()
 
     /** A list of users that were sent an invitation to the session. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchInvitePanelFlowResult|Field")
     FOvrUserPages InvitedUsers;
 
     // Default ctor.
@@ -2956,22 +3155,26 @@ struct OVRPLATFORM_API FOvrLaunchInvitePanelFlowResult
 };
 
 
-/** Team model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Team")
 struct OVRPLATFORM_API FOvrTeam
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Team|Field")
     FOvrUserPages AssignedUsers;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Team|Field")
     int32 MaxUsers;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Team|Field")
     int32 MinUsers;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Team|Field")
     FString Name;
 
     // Default ctor.
@@ -2988,64 +3191,82 @@ struct OVRPLATFORM_API FOvrTeam
 };
 
 
-/** Room model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Room")
 struct OVRPLATFORM_API FOvrRoom
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FOvrId ApplicationID;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     TMap<FString, FString> DataStore;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FString Description;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FOvrId ID;
 
-    /** A list of users that have been invited to the room, but have not joined the room yet. */
-    UPROPERTY(BlueprintReadOnly)
+    /**
+     * DEPRECATED. Will be removed from headers at version v49.
+     * A list of users that have been invited to the room, but have not joined the room yet.
+     */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FOvrUserPages InvitedUsers;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     bool IsMembershipLocked;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     EOvrRoomJoinPolicy JoinPolicy;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     EOvrRoomJoinability Joinability;
 
     /**
+     * DEPRECATED. Will be removed from headers at version v49.
      * If this is a matchmaking room, it contains all users matched into
      * the room, including the host as well as users enqueued by someone else.
      * Also includes additional per-user matchmaking metadata.
      */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     TArray<FOvrMatchmakingEnqueuedUser> MatchedUsers;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     int32 MaxUsers;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FString Name;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FOvrUser Owner;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     TArray<FOvrTeam> Teams;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     EOvrRoomType Type;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FOvrUserPages Users;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     int32 Version;
 
     // Default ctor.
@@ -3062,16 +3283,18 @@ struct OVRPLATFORM_API FOvrRoom
 };
 
 
-/** MatchmakingEnqueueResultAndRoom model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingEnqueueResultAndRoom")
 struct OVRPLATFORM_API FOvrMatchmakingEnqueueResultAndRoom
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResultAndRoom|Field")
     FOvrMatchmakingEnqueueResult MatchmakingEnqueueResult;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResultAndRoom|Field")
     FOvrRoom Room;
 
     // Default ctor.
@@ -3088,19 +3311,22 @@ struct OVRPLATFORM_API FOvrMatchmakingEnqueueResultAndRoom
 };
 
 
-/** MatchmakingRoom model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingRoom")
 struct OVRPLATFORM_API FOvrMatchmakingRoom
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingRoom|Field")
     bool HasPingTime;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingRoom|Field")
     int32 PingTime;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingRoom|Field")
     FOvrRoom Room;
 
     // Default ctor.
@@ -3117,16 +3343,18 @@ struct OVRPLATFORM_API FOvrMatchmakingRoom
 };
 
 
-/** MatchmakingBrowseResult model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingBrowseResult")
 struct OVRPLATFORM_API FOvrMatchmakingBrowseResult
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingBrowseResult|Field")
     FOvrMatchmakingEnqueueResult EnqueueResult;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingBrowseResult|Field")
     TArray<FOvrMatchmakingRoom> Rooms;
 
     // Default ctor.
@@ -3143,25 +3371,25 @@ struct OVRPLATFORM_API FOvrMatchmakingBrowseResult
 };
 
 
-/** Party model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Party")
 struct OVRPLATFORM_API FOvrParty
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Party|Field")
     FOvrId ID;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Party|Field")
     FOvrUserPages InvitedUsers;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Party|Field")
     FOvrUser Leader;
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Party|Field")
     FOvrRoom Room;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Party|Field")
     FOvrUserPages Users;
 
     // Default ctor.
@@ -3177,7 +3405,6 @@ struct OVRPLATFORM_API FOvrParty
     void Update(ovrPartyHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** RoomPages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|RoomArray")
 struct OVRPLATFORM_API FOvrRoomPages
 {
@@ -3225,16 +3452,17 @@ public:
 };
 
 
-/** UserAndRoom model */
+/** DEPRECATED. Will be removed from headers at version v49. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserAndRoom")
 struct OVRPLATFORM_API FOvrUserAndRoom
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    /** DEPRECATED. Will be removed from headers at version v49. */
+    UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|UserAndRoom|Field")
     FOvrRoom Room;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|UserAndRoom|Field")
     FOvrUser User;
 
     // Default ctor.
@@ -3250,7 +3478,6 @@ struct OVRPLATFORM_API FOvrUserAndRoom
     void Update(ovrUserAndRoomHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** UserAndRoomPages paged array model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserAndRoomArray")
 struct OVRPLATFORM_API FOvrUserAndRoomPages
 {
@@ -3298,14 +3525,94 @@ public:
 };
 
 
-/** UserDataStoreUpdateResponse model */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserCapability")
+struct OVRPLATFORM_API FOvrUserCapability
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** Human readable description of the capability describing what possessing it entails for a given user */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|UserCapability|Field")
+    FString Description;
+
+    /** Whether the capability is currently enabled for the user */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|UserCapability|Field")
+    bool IsEnabled;
+
+    /** Unique identifer for the capability */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|UserCapability|Field")
+    FString Name;
+
+    /** If present, specifies the reason the capability was enabled or disabled */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|UserCapability|Field")
+    FString ReasonCode;
+
+    // Default ctor.
+    FOvrUserCapability();
+
+    // Copying values from an OVR handle.
+    FOvrUserCapability(ovrUserCapabilityHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // Setting all values to their defaults.
+    void Clear();
+
+    // Updating with values from an OVR handle.
+    void Update(ovrUserCapabilityHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserCapabilityArray")
+struct OVRPLATFORM_API FOvrUserCapabilityPages
+{
+    GENERATED_USTRUCT_BODY()
+
+    // Default ctor.
+    FOvrUserCapabilityPages();
+
+    // Copying values from an OVR handle to the array, and the originating message
+    // to prevent the handle from being freed.
+    FOvrUserCapabilityPages(ovrUserCapabilityArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // Setting all values to their defaults.
+    void Clear();
+
+    // Updating values from an OVR handle to the array, and the originating message
+    // to prevent the handle from being freed.
+    void Update(ovrUserCapabilityArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // OVR array handle for methods
+    mutable ovrUserCapabilityArrayHandle PagedArrayHandle;
+
+    // Original ref-counted message to hold onto array handle
+    mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
+};
+
+UCLASS()
+class OVRPLATFORM_API UOvrUserCapabilityPagesMethods : public UObject
+{
+    GENERATED_BODY()
+
+public:
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|UserCapabilityPages")
+    static FOvrUserCapability UserCapabilityPages_GetElement(const FOvrUserCapabilityPages& Model, int64 Index);
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|UserCapabilityPages")
+    static FString UserCapabilityPages_GetNextUrl(const FOvrUserCapabilityPages& Model);
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|UserCapabilityPages")
+    static int64 UserCapabilityPages_GetSize(const FOvrUserCapabilityPages& Model);
+
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|UserCapabilityPages")
+    static bool UserCapabilityPages_HasNextPage(const FOvrUserCapabilityPages& Model);
+};
+
+
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserDataStoreUpdateResponse")
 struct OVRPLATFORM_API FOvrUserDataStoreUpdateResponse
 {
     GENERATED_USTRUCT_BODY()
 
     /** Whether the update request is succeeded. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|UserDataStoreUpdateResponse|Field")
     bool Success;
 
     // Default ctor.
@@ -3322,13 +3629,12 @@ struct OVRPLATFORM_API FOvrUserDataStoreUpdateResponse
 };
 
 
-/** UserProof model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserProof")
 struct OVRPLATFORM_API FOvrUserProof
 {
     GENERATED_USTRUCT_BODY()
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|UserProof|Field")
     FString Nonce;
 
     // Default ctor.
@@ -3355,10 +3661,10 @@ struct OVRPLATFORM_API FOvrUserReportID
     GENERATED_USTRUCT_BODY()
 
     /** Whether the viewer chose to cancel the report flow. */
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|UserReportID|Field")
     bool DidCancel;
 
-    UPROPERTY(BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|UserReportID|Field")
     FOvrId ID;
 
     // Default ctor.
@@ -3375,7 +3681,6 @@ struct OVRPLATFORM_API FOvrUserReportID
 };
 
 
-/** VoipDecoder model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|VoipDecoder")
 struct OVRPLATFORM_API FOvrVoipDecoder
 {
@@ -3414,7 +3719,6 @@ public:
 };
 
 
-/** VoipEncoder model */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|VoipEncoder")
 struct OVRPLATFORM_API FOvrVoipEncoder
 {
