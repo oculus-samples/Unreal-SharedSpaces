@@ -11,7 +11,7 @@ We have added a demo of the new Blocked Users flows presented at
 
 For that purpose, pulling the controller trigger no longer changes your robot color,
 but instead starts the block/unblock flow with the character in front of you (if any).
-You still change your robot color by stepping on the paint shop plate in the lobby.
+You can still change your robot color by stepping on the paint shop plate in the lobby.
 
 ## 18 May 2022 Update
 
