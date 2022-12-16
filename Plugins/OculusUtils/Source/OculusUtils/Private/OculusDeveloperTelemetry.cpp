@@ -6,7 +6,7 @@
 #include "Widgets/Input/SHyperlink.h"
 #include "Widgets/Text/SRichTextBlock.h"
 
-#define PRIVACY_POLICY_URL "https://www.oculus.com/legal/privacy-policy/"
+#define PRIVACY_POLICY_URL "https://www.meta.com/legal/quest/privacy-policy/"
 
 #define LOCTEXT_NAMESPACE "FOculusUtilsModule"
 
@@ -25,8 +25,8 @@ void UOculusDeveloperTelemetry::PostEditChangeProperty(FPropertyChangedEvent& Pr
 auto MakeTelemetryTextBlock(float Width)
 {
 	auto const TelemetryMessage = LOCTEXT("EnableTelemetryMessage",
-		"Enabling telemetry will transmit data to Oculus about your usage of its samples and tools. "
-		"This information is used by Oculus to improve our products and better serve our developers. For more information, go to this url: "
+		"Enabling telemetry will transmit data to Meta about your usage of its samples and tools. "
+		"This information is used by Meta to improve our products and better serve our developers. For more information, go to this url: "
 		"<a id=\"link\" href=\"" PRIVACY_POLICY_URL "\">" PRIVACY_POLICY_URL "</>");
 	
 	auto const OnPrivacyPolicyClicked = FSlateHyperlinkRun::FOnClick::CreateLambda(
@@ -60,7 +60,7 @@ void UOculusDeveloperTelemetry::Flush()
 #if WITH_EDITOR
 	if (bHasPrompted == false)
 	{
-		auto const Title = LOCTEXT("EnableTelemetryTitle", "Enable Oculus Telemetry");
+		auto const Title = LOCTEXT("EnableTelemetryTitle", "Enable Meta Telemetry");
 
 		TSharedRef<SCustomDialog> CustomDialog = SNew(SCustomDialog).
 			Title(Title).
