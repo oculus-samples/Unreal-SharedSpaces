@@ -64,16 +64,9 @@ public class OVRPlatform : ModuleRules
                 "LibOVRPlatform"
             });
 
-        if (Target.Platform == UnrealTargetPlatform.Win64 || Target.Platform == UnrealTargetPlatform.Win32)
+        if (Target.Platform == UnrealTargetPlatform.Win64)
         {
-            if (Target.Platform == UnrealTargetPlatform.Win32)
-            {
-                PublicDelayLoadDLLs.Add("LibOVRPlatform32_1.dll");
-            }
-            else
-            {
-                PublicDelayLoadDLLs.Add("LibOVRPlatform64_1.dll");
-            }
+            PublicDelayLoadDLLs.Add("LibOVRPlatform64_1.dll");
         }
         else if (Target.Platform != UnrealTargetPlatform.Android)
         {

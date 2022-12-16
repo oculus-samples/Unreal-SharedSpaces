@@ -40,9 +40,10 @@ public class OculusUtils : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"OculusHMD",
+				"OculusXRHMD",
 				"DeveloperSettings",
-				"OVRPlugin",
+				"OVRPluginXR",
+				"ToolWidgets"
 			}
 		);
 

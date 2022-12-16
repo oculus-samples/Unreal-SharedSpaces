@@ -2,7 +2,7 @@
 
 #include "OculusDeveloperTelemetry.h"
 
-#include "OculusHMD/Private/OculusHMDModule.h"
+#include "OculusXRHMD/Private/OculusXRHMDModule.h"
 #include "Widgets/Input/SHyperlink.h"
 #include "Widgets/Text/SRichTextBlock.h"
 
@@ -11,7 +11,7 @@
 #define LOCTEXT_NAMESPACE "FOculusUtilsModule"
 
 #if WITH_EDITOR
-#include "Dialogs/CustomDialog.h"
+#include "Dialog/SCustomDialog.h"
 #include "DetailLayoutBuilder.h"
 #include "DetailCategoryBuilder.h"
 #include "DetailWidgetRow.h"
@@ -50,7 +50,7 @@ void UOculusDeveloperTelemetry::SendEvent(const char* eventName, const char* par
 {
 	OnFlush.AddLambda([eventName, param, source]
 	{
-		FOculusHMDModule::GetPluginWrapper().SendEvent2(eventName, param, source);
+		FOculusXRHMDModule::GetPluginWrapper().SendEvent2(eventName, param, source);
 	});
 	Flush();
 }
@@ -62,15 +62,17 @@ void UOculusDeveloperTelemetry::Flush()
 	{
 		auto const Title = LOCTEXT("EnableTelemetryTitle", "Enable Oculus Telemetry");
 
-		auto const Return = TSharedRef<SCustomDialog>(SNew(SCustomDialog).
+		TSharedRef<SCustomDialog> CustomDialog = SNew(SCustomDialog).
 			Title(Title).
-			DialogContent(
+			Content()[
 				MakeTelemetryTextBlock(400)
-			).
+			].
 			Buttons({
 				SCustomDialog::FButton(EnableText),
 				SCustomDialog::FButton(OptOutText),
-			}))->ShowModal();
+				});
+		
+		auto const Return = CustomDialog->ShowModal();
 
 		bHasPrompted = true;
 		bIsEnabled = Return == 0;
@@ -79,9 +81,9 @@ void UOculusDeveloperTelemetry::Flush()
 		SaveConfig();
 	}
 
-	if (bIsEnabled && FOculusHMDModule::GetPluginWrapper().SendEvent2)
+	if (bIsEnabled && FOculusXRHMDModule::GetPluginWrapper().SendEvent2)
 	{
-		FOculusHMDModule::GetPluginWrapper().SetDeveloperMode(true);
+		FOculusXRHMDModule::GetPluginWrapper().SetDeveloperMode(true);
 		OnFlush.Broadcast();
 		OnFlush.Clear();
 	}

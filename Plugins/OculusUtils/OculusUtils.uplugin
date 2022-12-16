@@ -20,14 +20,14 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": [
-				"Win32", "Win64",
+				"Win64",
 				"Android"
 			]
 		}
 	],
 	"Plugins": [
 		{
-			"Name": "OculusVR",
+			"Name": "OculusXR",
 			"Enabled": true
 		}
 	]

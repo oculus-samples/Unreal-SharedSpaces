@@ -61,12 +61,5 @@ public class PhotonNetDriver : ModuleRules
 				// ... add any modules that your module loads dynamically here ...
 			}
 		);
-
-		// LibOVRPlatform dependencies.
-		PublicDependencyModuleNames.AddRange(
-			new string[] {
-				"LibOVRPlatform"
-			}
-		);
 	}
 }

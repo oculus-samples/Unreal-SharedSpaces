@@ -11,11 +11,11 @@ public class Photon : ModuleRules
 		string IncludeDirectory = Path.Combine(ModuleDirectory, "Include");
 		string Configuration = (Target.Configuration == UnrealTargetConfiguration.Shipping) ? "release" : "debug";
 
-		if (Target.Platform == UnrealTargetPlatform.Win32 || Target.Platform == UnrealTargetPlatform.Win64)
+		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			Configuration = "release"; // Correct for _ITERATOR_DEBUG_LEVEL mismatch with debug libs
-			string Compiler = (Target.WindowsPlatform.Compiler == WindowsCompiler.VisualStudio2017) ? "vc15" : "vc16";
-			string Platform = (Target.Platform == UnrealTargetPlatform.Win32) ? "Win32" : "x64";
+			string Compiler = "vc16";
+			string Platform = "x64";
 			string LibDirectory = Path.Combine(ModuleDirectory, "Lib", "Windows", Platform);
 			string LibSuffix = "_" + Compiler + "_" + Configuration + "_windows_md_" + Platform + ".lib";
 
