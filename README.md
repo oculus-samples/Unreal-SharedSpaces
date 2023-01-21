@@ -21,7 +21,7 @@ the old Oculus OSS and the new plugin, we just moved everything that we needed i
 
 In this update, the plugin has been renamed *Plugin/OVRPlatform* and now covers all OVR Platform APIs.
 A key feature of this plugin is that it is codegened, which means that it will be kept in sync with the
-OVR Platform.  That was not possible with the older Oculus OSS, has it required manual adaptation of
+OVR Platform.  That was not possible with the older Oculus OSS, as it required manual adaptation of
 UE4 OSS to Oculus VR Platform services.  We are planning on releasing it as an engine level plugin in
 the near future.
 
