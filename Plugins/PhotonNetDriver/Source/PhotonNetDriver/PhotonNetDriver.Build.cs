@@ -37,7 +37,7 @@ public class PhotonNetDriver : ModuleRules
 				"Engine",
 				"InputCore",
 				"OnlineSubsystemUtils",
-				"OvrPlatform",
+				"OVRPlatform",
 				"PacketHandler"
 				// ... add other public dependencies that you statically link with here ...
 			}
