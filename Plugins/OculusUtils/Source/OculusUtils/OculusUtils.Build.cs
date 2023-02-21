@@ -42,8 +42,7 @@ public class OculusUtils : ModuleRules
 				"SlateCore",
 				"OculusXRHMD",
 				"DeveloperSettings",
-				"OVRPluginXR",
-				"ToolWidgets"
+				"OVRPluginXR"
 			}
 		);
 
@@ -51,7 +50,8 @@ public class OculusUtils : ModuleRules
 		{
 			PrivateDependencyModuleNames.Add("UnrealEd");
 			PrivateDependencyModuleNames.Add("DetailCustomizations");
-		}
+            PrivateDependencyModuleNames.Add("ToolWidgets");
+        }
 
 
 		DynamicallyLoadedModuleNames.AddRange(
