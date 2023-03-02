@@ -699,6 +699,17 @@ The grip button toggles the in-game log panel.  For this technical showcase, mos
 events happen under the hood.  This log panel is hooked to the persistent log that we have added
 to the Oculus Platform Subsystem.   This ensures that the log persists between level loads.
 
+## 6. <a id="C6">External Application Portal</a>
+
+Similar to Portals, these doors will call the _Launch External App_ on the SharedSpaces Game Instance
+for the player who enters its collision volume.
+Then the SharedSpaces Game Instance will validate the inputs and call the Platform function _Application Launch Other App_.
+You will need to place the _ExternalAppPortal_ blueprint and setup the Application app Id of the destination app and the destination name.
+
+<div style="text-align: center; padding: 10pt;">
+	<img src="./Media/external_app_launch.png"  width="1200">
+</div>
+
 # D. <a id="D">Oculus Application Configuration</a>
 
 To build and run your own copy of SharedSpaces, you will need to create an application for it
