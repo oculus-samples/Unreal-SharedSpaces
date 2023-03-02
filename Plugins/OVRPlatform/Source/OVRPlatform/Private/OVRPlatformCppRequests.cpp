@@ -27,6 +27,33 @@
 #include "OVRPlatformSubsystem.h"
 
 // ----------------------------------------------------------------------
+// AbuseReport
+
+void OvrPlatform_AbuseReport_ReportRequestHandled(
+    UGameInstance* GameInstance,
+    EOvrReportRequestResponse Response,
+    OvrPlatform_AbuseReport_ReportRequestHandled_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_AbuseReport_ReportRequestHandled(ConvertReportRequestResponse(Response)),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ErrMsg);
+                }));
+    }
+}
+
+// ----------------------------------------------------------------------
 // Achievements
 
 void OvrPlatform_Achievements_AddCount(
@@ -674,6 +701,38 @@ void OvrPlatform_AssetFile_StatusByName(
                     else
                     {
                         ResponsePtr->Update(ovr_Message_GetAssetDetails(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
+// ----------------------------------------------------------------------
+// Avatar
+
+void OvrPlatform_Avatar_LaunchAvatarEditor(
+    UGameInstance* GameInstance,
+    FOvrAvatarEditorOptions Options,
+    OvrPlatform_Avatar_LaunchAvatarEditor_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_Avatar_LaunchAvatarEditor(FOvrAvatarEditorOptionsConverter(Options)),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrAvatarEditorResultPtr ResponsePtr = MakeShared<FOvrAvatarEditorResult>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ResponsePtr->Update(ovr_Message_GetAvatarEditorResult(*MessagePtr), MessagePtr);
                     }
 
                     Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);

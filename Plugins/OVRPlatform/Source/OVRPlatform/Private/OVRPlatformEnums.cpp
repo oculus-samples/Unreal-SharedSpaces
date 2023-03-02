@@ -1156,6 +1156,36 @@ EOvrPlatformInitializeResult ConvertPlatformInitializeResult(ovrPlatformInitiali
     }
 }
 
+ovrReportRequestResponse ConvertReportRequestResponse(EOvrReportRequestResponse Value)
+{
+    switch (Value)
+    {
+        case EOvrReportRequestResponse::Handled:
+            return ovrReportRequestResponse::ovrReportRequestResponse_Handled;
+        case EOvrReportRequestResponse::Unhandled:
+            return ovrReportRequestResponse::ovrReportRequestResponse_Unhandled;
+        case EOvrReportRequestResponse::Unavailable:
+            return ovrReportRequestResponse::ovrReportRequestResponse_Unavailable;
+        default:
+        return ovrReportRequestResponse::ovrReportRequestResponse_Unknown;
+    }
+}
+
+EOvrReportRequestResponse ConvertReportRequestResponse(ovrReportRequestResponse Value)
+{
+    switch (Value)
+    {
+        case ovrReportRequestResponse::ovrReportRequestResponse_Handled:
+            return EOvrReportRequestResponse::Handled;
+        case ovrReportRequestResponse::ovrReportRequestResponse_Unhandled:
+            return EOvrReportRequestResponse::Unhandled;
+        case ovrReportRequestResponse::ovrReportRequestResponse_Unavailable:
+            return EOvrReportRequestResponse::Unavailable;
+        default:
+            return EOvrReportRequestResponse::Unknown;
+    }
+}
+
 ovrRichPresenceExtraContext ConvertRichPresenceExtraContext(EOvrRichPresenceExtraContext Value)
 {
     switch (Value)

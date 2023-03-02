@@ -1,20 +1,23 @@
-# OVR Platform Plugin
+# Oculus Platform Plugin
 
-The OVR Platform Unreal Engine plugin offers full access to the Oculus Platform SDK to both blueprints and C++ code.
+The Oculus Platform plugin for the Unreal Engine offers full access to the Oculus Platform SDK to both blueprints and C++ code.
 
-In the past, most of the Oculus functionality was exposed through the Oculus Online SubSystem (OSS).  Unfortunately
-the Oculus OSS was hard to maintain and did not provide access to new features such as our new
-[Group Presence](../../../../../Engine/Source/ThirdParty/Oculus/LibOVRPlatform/LibOVRPlatform/include/OVR_Requests_GroupPresence.h) APIs.
+In the past, most of the Oculus Platform functionality was exposed through the Oculus Online SubSystem (OSS).
+The Oculus OSS is an adaptation layer that is hard to maintain, an approximation of the available functionality
+and not well suited for some of our newer APIs such as
+[Group Presence](../../../../../Engine/Source/ThirdParty/Oculus/LibOVRPlatform/LibOVRPlatform/include/OVR_Requests_GroupPresence.h).
+For those reasons, when we built the SharedSpaces sample, we decided not to use the OSS and hand-crafted instead
+a new plugin with only the functionality that we needed.
 
-A proof of concept first appeared in SharedSpaces for UE4.  That plugin only implemented the APIs needed to support
-that sample.  The OVR Platform plugin, on the other hand, is fully codegened.   This means that new APIs can quickly
-make their way into the plugin.
+This led to a follow-up project to offer that plugin with complete API coverage.
 
-We first release this plugin as part of SharedSpaces, but the plan is to soon promote it to engine level.
+The Oculus Platform plugin is now automatically generated each time the platform APIs are updated.
+It contains two modules that are kept in sync: the OVRPlatform module with our UE blueprint and C++
+interface and the OVRPlatformSDK module containing the platform C++ include files and compiled libraries.
 
-## A. The OVR Platform Subsystem
+## A. The Oculus Platform Subsystem
 
-The core of the plugin is the OVR Platform Subsystem, a
+The core of the plugin is the Oculus Platform Subsystem, a
 [UGameInstanceSubsystem](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Subsystems/).
 
 It is worth getting familiar with UE4 subsystem.  Quoting from the UE4 documentation:
@@ -40,6 +43,26 @@ function dequeues the next message and checks if it is a response to a pending r
 If that's the case, the __request delegate__ is called back to further process the message and its payload.
 Messages can also be system notifications that are not bound to a prior request, and in that case we broadcast
 the message and its payload to all __notification delegates__ registered to handle it.
+
+It is important to note that __the message pump is not automatically started__ when the subsystem starts.
+There are system notifications that could be lost otherwise, such as *FOvrNotification_ApplicationLifecycle_LaunchIntentChanged*.
+After authentication, the subsystem triggers the __OvrPlatformSubsystemStarted event__ on your game instance.
+
+<div style="text-align: center;  padding: 10pt;">
+    <img src="./Media/oculus_platform_started_event.png">
+</div>
+
+After a successful login, you first register your callbacks for the events that you are interested in.
+
+<div style="text-align: center;  padding: 10pt;">
+    <img src="./Media/application_lifecycle_event_registration.png">
+</div>
+
+Finally you start the message pump.
+
+<div style="text-align: center;  padding: 10pt;">
+    <img src="./Media/start_message_pump.png">
+</div>
 
 ### A2. Multicast Notification Delegates
 
@@ -90,18 +113,19 @@ your group presence looks like this:
         FOvrGroupPresenceOptions GroupPresenceOptions,
         OvrPlatform_GroupPresence_Set_Delegate&& Delegate);
 
-For reference, the group presence options looks like this.
+For reference, the group presence options look like this.
 
-    struct OVRPLATFORM_API FOvrGroupPresenceOptions
+    struct FOvrGroupPresenceOptions
     {
+        FString DeeplinkMessageOverride;
         FString DestinationApiName;
         bool IsJoinable;
         FString LobbySessionId;
         FString MatchSessionId;
     };
 
-The C++ requests will use the _UGameInstance_ to get access to the _UOvrPlatformSubsystem_, parameters in the options
-structure, and a minimal delegate with no payload.   All C++ request delegates have at bool to indicate if the request
+The C++ requests will use the _UGameInstance_ (to get access to the _UOvrPlatformSubsystem_), parameters in the options
+structure, and a minimal delegate.   All C++ request delegates have at bool to indicate if the request
 succeeded, and an error string to provide an explanation when it doesn't.
 
 There are many ways to attach code to handle the response
@@ -119,7 +143,7 @@ One of them is by using a typical lambda expression like this:
 
 ### A4. From Oculus Platform API to Blueprint Node
 
-Probably the most exciting feature of the OVR Platform plugin is how it exposes requests to blueprints.
+Probably the most exciting feature of the Oculus Platform plugin is how it exposes requests to blueprints.
 Unlike the previous version that required attaching a callback object to the request node, we now use
 the Unreal Engine's latent action system and the ability of nodes to have multiple input and output
 execution pins.  While it makes the system much more complex on our end,
@@ -144,7 +168,7 @@ as a typical example of all adapter methods that expose the Oculus platform C ca
             OvrPlatformAddNewActionWithPreemption(
                 World,
                 LatentInfo.CallbackTarget, LatentInfo.UUID,
-                new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg, LatentNodeTimeToLive,
+                new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
                     // Request Generator
                     [GroupPresenceOptions]()->ovrRequest
                     {
@@ -160,31 +184,34 @@ as a typical example of all adapter methods that expose the Oculus platform C ca
         }
     }
 
-We create a latent action with a request generator (a lambda that actually calls the OVR Platform C API) and a response processor
+We create a latent action with a __request generator__ (a lambda that actually calls the Oculus Platform C API) and a __response processor__
 (a lambda that captures, as needed, the output pins that will carry the response payload).  This latent action is associated with
 a specific node instance, which allows us to preempt it with a new latent action by reentering the node.
 
 Each game tick, the latent action gets an opportunity to update.  Most of the complexity is hidden in
 [OVRPlatformRequestsSupport.cpp](../Source/OVRPlatform/Private/OVRPlatformRequestsSupport.cpp).
-During one of those updates, the request generator will be called a another layer of callback is attached to
+During one of those updates, the request generator will be called and another callback is attached to
 the _UOvrPlatformSubsystem_ messaging system.  This callback will process the response, which in turn is passed
-back to the response processor, and the response processor will update the blueprint node pins with the proper information.
+back to the response processor, and the response processor will update the blueprint node pins with the
+proper information.
 
-As I said, a lot happens under the hood, but at the blueprint level things are simple:
+A lot happens under the hood, but at the blueprint level things are simple:
 
 <div style="text-align: center;  padding: 10pt;">
     <img src="./Media/group_presence_set_blueprint.png">
 </div>
 
-As you can see, a clock identifies the node has being an asynchronous request.  The following sequence of actions is
-guaranteed:
+The clock icon at the top right identifies the node as being asynchronous.  Options are packaged as structures
+that can be split in the editor for directly setting them in the request node.
 
-  1. Every time the node is entered, execution continues using the "then" pin (the unnamed top right exec pin).
-  2. The corresponding C call is always executed.
+The following sequence of actions is guaranteed:
+
+  1. Every time a latent node is entered, execution continues using the "then" pin (the unnamed top right exec pin).
+  2. The corresponding request (a C++ function call) is always executed.
   3. When the response comes back, the node will exit either by the success pin or the failure pin.
-  4. If you reenter the node again before the previous request returns, it is __preempted__: the response to the previous
-     request will be ignored and it will not trigger any exits from the success or failure pin.  Only the last
-     request is allowed to exit with results.
+  4. If you reenter the node again before the previous request returns, it is __preempted__: the response to the
+     previous request will be ignored and it will not trigger any exits from the success or failure pin.
+     Only the last request is allowed to exit with results.
 
 There are a few ways to supply input to composite input pins like _Group Presence Options_ above.  One is to
 simply right-click on the pin and select *split struct* from the context menu.  This opens up the pin right there
@@ -222,7 +249,7 @@ cannot be used directly in blueprints since Unreal
 [only support signed integers](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Blueprints/UserGuide/Variables/).
 We create a blueprint equivalent using the _USTRUCT_ macro.
 
-    USTRUCT(BlueprintType)
+    USTRUCT(BlueprintType, Category = "OvrPlatform|CustomModels|ID")
     struct OVRPLATFORM_API FOvrId
     {
         GENERATED_USTRUCT_BODY()
@@ -238,7 +265,8 @@ We create a blueprint equivalent using the _USTRUCT_ macro.
 
     private:
 
-        ovrID Id;
+        UPROPERTY()
+        uint64 Id;
     };
 
 For C enums equivalents, we use the _UENUM_ macro.  See [OVRPlatformEnums.h](../Source/OVRPlatform/Public/OVRPlatformEnums.h).
@@ -336,6 +364,25 @@ Finally, another example with a bidirectional paged array.
 This example uses 3 custom events for fetching pages (an initial fetch around a rank and next/previous page fetches) and
 another custom event to display a full page on an in-game leaderboard.  The events for fetching more pages could be
 linked to next/previous page buttons on the leaderboard UI.
+
+### A8. Functions
+
+For completion, let's also note that we have a number of functions available in
+[OVRPlatformFunctions.h](../Source/OVRPlatform/Public/OVRPlatformFunctions.h) for local calls,
+in particular for retrieving the current launch details or the ID of the current user.
+
+<div style="text-align: center;  padding: 10pt;">
+    <img src="./Media/platform_get_logged_in_user_id.png">
+</div>
+
+These functions are not latent and immediately return a response.
+
+As a side note, we should contrast three ways that we have to retrieve information about the currently
+logged in user.  _Platform_GetLoggedInUserID_ immediately returns the __ID__ of the user, and nothing else.
+_User_GetLoggedInUser_ is a request that actually doesn't call the server and returns on the next tick
+a partially filled response with the __ID__, the __Oculus ID__ (account name), and the normal and small
+__Image Urls__.  To get all of the available information about a user, use _User_GetUser_ with the __ID__
+returned by one of the other functions: this will issue a server request.
 
 ## B. Oculus Net Driver
 

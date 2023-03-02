@@ -1,19 +1,23 @@
 {
     "FileVersion": 3,
     "Version": 1,
-    "VersionName": "1.76.0",
-    "FriendlyName": "Oculus VR Platform",
-    "Description": "Blueprint and C++ interface to the Oculus VR Platform APIs",
+    "VersionName": "1.81.0",
+    "FriendlyName": "Oculus Platform",
+    "Description": "Blueprint and C++ interface to Oculus Platform APIs",
     "Category": "Online Platform",
-    "CreatedBy": "Oculus",
+    "CreatedBy": "Meta Platforms, Inc.",
     "CreatedByURL": "https://www.oculus.com/",
-    "DocsURL": "",
+    "DocsURL": "https://developer.oculus.com/documentation/unreal/latest/concepts/unreal-engine/",
     "MarketplaceURL": "",
     "SupportURL": "",
     "CanContainContent": true,
     "IsBetaVersion": false,
     "IsExperimentalVersion": false,
     "Installed": false,
+    "SupportedTargetPlatforms": [
+            "Win64",
+            "Android"
+    ],
     "Modules": [
         {
             "Name": "OVRPlatform",

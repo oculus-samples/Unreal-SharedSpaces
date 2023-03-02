@@ -403,6 +403,29 @@ struct OVRPLATFORM_API FOvrAssetFileDownloadUpdate
 };
 
 
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AvatarEditorResult")
+struct OVRPLATFORM_API FOvrAvatarEditorResult
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** Whether the request has sent. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AvatarEditorResult|Field")
+    bool RequestSent;
+
+    // Default ctor.
+    FOvrAvatarEditorResult();
+
+    // Copying values from an OVR handle.
+    FOvrAvatarEditorResult(ovrAvatarEditorResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    // Setting all values to their defaults.
+    void Clear();
+
+    // Updating with values from an OVR handle.
+    void Update(ovrAvatarEditorResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
+
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|BlockedUser")
 struct OVRPLATFORM_API FOvrBlockedUser
 {
@@ -472,7 +495,7 @@ public:
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CalApplicationFinalized")
 struct OVRPLATFORM_API FOvrCalApplicationFinalized
 {
@@ -510,7 +533,7 @@ struct OVRPLATFORM_API FOvrCalApplicationFinalized
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CalApplicationProposed")
 struct OVRPLATFORM_API FOvrCalApplicationProposed
 {
@@ -533,7 +556,7 @@ struct OVRPLATFORM_API FOvrCalApplicationProposed
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CalApplicationSuggestion")
 struct OVRPLATFORM_API FOvrCalApplicationSuggestion
 {
@@ -564,7 +587,7 @@ struct OVRPLATFORM_API FOvrCalApplicationSuggestion
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CloudStorageData")
 struct OVRPLATFORM_API FOvrCloudStorageData
 {
@@ -596,7 +619,7 @@ struct OVRPLATFORM_API FOvrCloudStorageData
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CloudStorageMetadata")
 struct OVRPLATFORM_API FOvrCloudStorageMetadata
 {
@@ -640,7 +663,7 @@ struct OVRPLATFORM_API FOvrCloudStorageMetadata
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CloudStorageConflictMetadata")
 struct OVRPLATFORM_API FOvrCloudStorageConflictMetadata
 {
@@ -712,7 +735,7 @@ public:
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CloudStorageUpdateResponse")
 struct OVRPLATFORM_API FOvrCloudStorageUpdateResponse
 {
@@ -1452,29 +1475,29 @@ struct OVRPLATFORM_API FOvrLivestreamingVideoStats
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate")
 struct OVRPLATFORM_API FOvrMatchmakingAdminSnapshotCandidate
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate|Field")
     bool CanMatch;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate|Field")
     float MyTotalScore;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate|Field")
     float TheirCurrentThreshold;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate|Field")
     float TheirTotalScore;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshotCandidate|Field")
     FString TraceId;
 
@@ -1492,17 +1515,17 @@ struct OVRPLATFORM_API FOvrMatchmakingAdminSnapshotCandidate
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingAdminSnapshot")
 struct OVRPLATFORM_API FOvrMatchmakingAdminSnapshot
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshot|Field")
     TArray<FOvrMatchmakingAdminSnapshotCandidate> Candidates;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingAdminSnapshot|Field")
     float MyCurrentThreshold;
 
@@ -1520,14 +1543,14 @@ struct OVRPLATFORM_API FOvrMatchmakingAdminSnapshot
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingEnqueueResult")
 struct OVRPLATFORM_API FOvrMatchmakingEnqueueResult
 {
     GENERATED_USTRUCT_BODY()
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * If 'IsDebug' is set in ovrMatchmakingOptionsHandle, this will return with the
      * enqueue results.
      */
@@ -1535,7 +1558,7 @@ struct OVRPLATFORM_API FOvrMatchmakingEnqueueResult
     FOvrMatchmakingAdminSnapshot AdminSnapshot;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * The average amount of time (mean average) that users in this queue have waited
      * during the last hour or more. The wait times, whether the users canceled or found a
      * match, are used to generate this value. Use this to give users an indication
@@ -1545,7 +1568,7 @@ struct OVRPLATFORM_API FOvrMatchmakingEnqueueResult
     int32 AverageWait;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * The number of matches made from the pool the user is participating in.
      * You can use this to give users an indication of whether they should
      * bother to wait.
@@ -1554,7 +1577,7 @@ struct OVRPLATFORM_API FOvrMatchmakingEnqueueResult
     int32 MatchesInLastHourCount;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * The amount of time the 95th percentile waited during the last hour or more.
      * The wait times, whether the users canceled or found a match, are used to generate
      * this value. Use this to give users an indication of the maximum amount of time they
@@ -1563,12 +1586,12 @@ struct OVRPLATFORM_API FOvrMatchmakingEnqueueResult
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResult|Field")
     int32 MaxExpectedWait;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResult|Field")
     FString Pool;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Percentage of people in the same queue as the user who
      * got matched, from 0 to 100 percent.  Stats are taken from the last hour or more.  You
      * can use this to give users an indication of whether they should wait.
@@ -1576,7 +1599,7 @@ struct OVRPLATFORM_API FOvrMatchmakingEnqueueResult
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResult|Field")
     int32 RecentMatchPercentage;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResult|Field")
     FString RequestHash;
 
@@ -1594,33 +1617,33 @@ struct OVRPLATFORM_API FOvrMatchmakingEnqueueResult
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingStats")
 struct OVRPLATFORM_API FOvrMatchmakingStats
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     int32 DrawCount;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     int32 LossCount;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     int32 SkillLevel;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     float SkillMean;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     float SkillStandardDeviation;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingStats|Field")
     int32 WinCount;
 
@@ -2241,6 +2264,9 @@ struct OVRPLATFORM_API FOvrPurchase
     GENERATED_USTRUCT_BODY()
 
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
+    FString DeveloperPayload;
+
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FDateTime ExpirationTime;
 
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
@@ -2248,6 +2274,9 @@ struct OVRPLATFORM_API FOvrPurchase
 
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FString PurchaseID;
+
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
+    FString ReportingId;
 
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FString SKU;
@@ -2335,25 +2364,25 @@ struct OVRPLATFORM_API FOvrRejoinDialogResult
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|RoomInviteNotification")
 struct OVRPLATFORM_API FOvrRoomInviteNotification
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|RoomInviteNotification|Field")
     FOvrId ID;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|RoomInviteNotification|Field")
     FOvrId RoomID;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|RoomInviteNotification|Field")
     FOvrId SenderID;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|RoomInviteNotification|Field")
     FDateTime SentTime;
 
@@ -2532,7 +2561,7 @@ struct OVRPLATFORM_API FOvrUser
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString ImageUrl;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|User|Field")
     FString InviteToken;
 
@@ -2859,21 +2888,21 @@ public:
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingEnqueuedUser")
 struct OVRPLATFORM_API FOvrMatchmakingEnqueuedUser
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueuedUser|Field")
     TArray<FOvrId> AdditionalUserIDs;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueuedUser|Field")
     TMap<FString, FString> CustomData;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueuedUser|Field")
     FOvrUser User;
 
@@ -3104,7 +3133,7 @@ struct OVRPLATFORM_API FOvrLaunchDetails
     FString MatchSessionID;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * If provided, the intended room the user would like to be in
      */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|LaunchDetails|Field")
@@ -3155,25 +3184,25 @@ struct OVRPLATFORM_API FOvrLaunchInvitePanelFlowResult
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Team")
 struct OVRPLATFORM_API FOvrTeam
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Team|Field")
     FOvrUserPages AssignedUsers;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Team|Field")
     int32 MaxUsers;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Team|Field")
     int32 MinUsers;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Team|Field")
     FString Name;
 
@@ -3191,49 +3220,49 @@ struct OVRPLATFORM_API FOvrTeam
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Room")
 struct OVRPLATFORM_API FOvrRoom
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FOvrId ApplicationID;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     TMap<FString, FString> DataStore;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FString Description;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FOvrId ID;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * A list of users that have been invited to the room, but have not joined the room yet.
      */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FOvrUserPages InvitedUsers;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     bool IsMembershipLocked;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     EOvrRoomJoinPolicy JoinPolicy;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     EOvrRoomJoinability Joinability;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * If this is a matchmaking room, it contains all users matched into
      * the room, including the host as well as users enqueued by someone else.
      * Also includes additional per-user matchmaking metadata.
@@ -3241,31 +3270,31 @@ struct OVRPLATFORM_API FOvrRoom
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     TArray<FOvrMatchmakingEnqueuedUser> MatchedUsers;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     int32 MaxUsers;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FString Name;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FOvrUser Owner;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     TArray<FOvrTeam> Teams;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     EOvrRoomType Type;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     FOvrUserPages Users;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Room|Field")
     int32 Version;
 
@@ -3283,17 +3312,17 @@ struct OVRPLATFORM_API FOvrRoom
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingEnqueueResultAndRoom")
 struct OVRPLATFORM_API FOvrMatchmakingEnqueueResultAndRoom
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResultAndRoom|Field")
     FOvrMatchmakingEnqueueResult MatchmakingEnqueueResult;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingEnqueueResultAndRoom|Field")
     FOvrRoom Room;
 
@@ -3311,21 +3340,21 @@ struct OVRPLATFORM_API FOvrMatchmakingEnqueueResultAndRoom
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingRoom")
 struct OVRPLATFORM_API FOvrMatchmakingRoom
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingRoom|Field")
     bool HasPingTime;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingRoom|Field")
     int32 PingTime;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingRoom|Field")
     FOvrRoom Room;
 
@@ -3343,17 +3372,17 @@ struct OVRPLATFORM_API FOvrMatchmakingRoom
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MatchmakingBrowseResult")
 struct OVRPLATFORM_API FOvrMatchmakingBrowseResult
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingBrowseResult|Field")
     FOvrMatchmakingEnqueueResult EnqueueResult;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|MatchmakingBrowseResult|Field")
     TArray<FOvrMatchmakingRoom> Rooms;
 
@@ -3385,7 +3414,7 @@ struct OVRPLATFORM_API FOvrParty
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Party|Field")
     FOvrUser Leader;
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|Party|Field")
     FOvrRoom Room;
 
@@ -3452,13 +3481,13 @@ public:
 };
 
 
-/** DEPRECATED. Will be removed from headers at version v49. */
+/** DEPRECATED. Will be removed from headers at version v51. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserAndRoom")
 struct OVRPLATFORM_API FOvrUserAndRoom
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UPROPERTY(BlueprintReadOnly, meta = (DeprecatedProperty), Category = "OvrPlatform|Models|UserAndRoom|Field")
     FOvrRoom Room;
 

@@ -40,6 +40,7 @@ DECLARE_DELEGATE_TwoParams(FOvrPlatformMessageOnComplete, TOvrMessageHandlePtr, 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOvrPlatformMulticastMessageOnComplete, TOvrMessageHandlePtr, bool);
 
 // OVR Platform Notifications
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_AbuseReport_ReportButtonPressed, const FString&, ReportButtonPressed);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_ApplicationLifecycle_LaunchIntentChanged, const FString&, LaunchIntentChanged);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_AssetFile_DownloadUpdate, const FOvrAssetFileDownloadUpdate&, DownloadUpdate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Cal_FinalizeApplication, const FOvrCalApplicationFinalized&, FinalizeApplication);
@@ -118,6 +119,10 @@ public:
 
 public: // Notifications
 
+    /** The user has tapped the report button in the panel that appears after pressing the Oculus button. */
+    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|AbuseReport")
+    FOvrNotification_AbuseReport_ReportButtonPressed OnAbuseReportReportButtonPressed;
+
     /**
      * Sent when a launch intent is received (for both cold and warm starts).
      * The payload is the type of the intent.
@@ -132,14 +137,14 @@ public: // Notifications
     FOvrNotification_AssetFile_DownloadUpdate OnAssetFileDownloadUpdate;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Result of a leader picking an application for CAL launch.
      */
     UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty), Category = "OvrPlatform|Cal")
     FOvrNotification_Cal_FinalizeApplication OnCalFinalizeApplication;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Application that the group leader has proposed for a CAL launch.
      */
     UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty), Category = "OvrPlatform|Cal")
@@ -196,7 +201,7 @@ public: // Notifications
     FOvrNotification_NetSync_SessionsChanged OnNetSyncSessionsChanged;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Indicates that a connection has been established or there's been an error.
      * Use field FOvrNetworkingPeer::State to get the result; as above,
      * field FOvrNetworkingPeer::ID returns the ID of the peer this message is for.
@@ -205,7 +210,7 @@ public: // Notifications
     FOvrNotification_Networking_ConnectionStateChange OnNetworkingConnectionStateChange;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Indicates that another user is attempting to establish a P2P connection
      * with us. Use field FOvrNetworkingPeer::ID to extract the ID of the peer.
      */
@@ -213,7 +218,7 @@ public: // Notifications
     FOvrNotification_Networking_PeerConnectRequest OnNetworkingPeerConnectRequest;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Generated in response to Net_Ping().  Either contains ping time in
      * microseconds or indicates that there was a timeout.
      */
@@ -225,7 +230,7 @@ public: // Notifications
     FOvrNotification_Party_PartyUpdate OnPartyPartyUpdate;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Indicates that the user has accepted an invitation, for example in Oculus
      * Home. Use field FOvrMessage::String to extract the ID of the room that the user
      * has been inivted to as a string. Then call ovrID_FromString() to parse it into
@@ -237,7 +242,7 @@ public: // Notifications
     FOvrNotification_Room_InviteAccepted OnRoomInviteAccepted;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Handle this to notify the user when they've received an invitation to join a room
      * in your game.
      * You can use this in lieu of, or in addition to, polling for room invitations via
@@ -247,7 +252,7 @@ public: // Notifications
     FOvrNotification_Room_InviteReceived OnRoomInviteReceived;
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Indicates that the current room has been updated. Use field FOvrMessage::Room
      * to extract the updated room.
      */
@@ -256,7 +261,7 @@ public: // Notifications
 
     /**
      * DEPRECATED. Do not use or expose further. Use FOvrNotification_GroupPresence_InvitationsSent instead.
-     *  Will be removed from headers at version v49.
+     *  Will be removed from headers at version v51.
      */
     UPROPERTY(BlueprintAssignable, meta = (DeprecatedProperty, DeprecationMessage="Do not use or expose further. Use FOvrNotification_GroupPresence_InvitationsSent instead."), Category = "OvrPlatform|Session")
     FOvrNotification_Session_InvitationsSent OnSessionInvitationsSent;
@@ -303,6 +308,9 @@ public: // Notifications
     FOvrNotification_Vrcamera_GetSurfaceUpdate OnVrcameraGetSurfaceUpdate;
 
 private: // Notification delegate handles and handlers
+
+    FDelegateHandle OnAbuseReportReportButtonPressedHandle;
+    void HandleOnAbuseReportReportButtonPressed(TOvrMessageHandlePtr Message, bool bIsError);
 
     FDelegateHandle OnApplicationLifecycleLaunchIntentChangedHandle;
     void HandleOnApplicationLifecycleLaunchIntentChanged(TOvrMessageHandlePtr Message, bool bIsError);

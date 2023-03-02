@@ -365,6 +365,29 @@ void FOvrAssetFileDownloadUpdate::Update(ovrAssetFileDownloadUpdateHandle OvrHan
 }
 
 // -----------------------------------------------------------------------------
+// FOvrAvatarEditorResult
+
+FOvrAvatarEditorResult::FOvrAvatarEditorResult()
+{
+    Clear();
+}
+
+FOvrAvatarEditorResult::FOvrAvatarEditorResult(ovrAvatarEditorResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrAvatarEditorResult::Clear()
+{
+    RequestSent = false;
+}
+
+void FOvrAvatarEditorResult::Update(ovrAvatarEditorResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    RequestSent = ovr_AvatarEditorResult_GetRequestSent(OvrHandle);
+}
+
+// -----------------------------------------------------------------------------
 // FOvrBlockedUser
 
 FOvrBlockedUser::FOvrBlockedUser()
@@ -1942,17 +1965,21 @@ FOvrPurchase::FOvrPurchase(ovrPurchaseHandle OvrHandle, TOvrMessageHandlePtr Mes
 
 void FOvrPurchase::Clear()
 {
+    DeveloperPayload = TEXT("");
     ExpirationTime = FDateTime(0);
     GrantTime = FDateTime(0);
     PurchaseID = TEXT("");
+    ReportingId = TEXT("");
     SKU = TEXT("");
 }
 
 void FOvrPurchase::Update(ovrPurchaseHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
 {
+    DeveloperPayload = UTF8_TO_TCHAR(ovr_Purchase_GetDeveloperPayload(OvrHandle));
     ExpirationTime = FDateTime::FromUnixTimestamp(ovr_Purchase_GetExpirationTime(OvrHandle));
     GrantTime = FDateTime::FromUnixTimestamp(ovr_Purchase_GetGrantTime(OvrHandle));
     PurchaseID = UTF8_TO_TCHAR(ovr_Purchase_GetPurchaseStrID(OvrHandle));
+    ReportingId = UTF8_TO_TCHAR(ovr_Purchase_GetReportingId(OvrHandle));
     SKU = UTF8_TO_TCHAR(ovr_Purchase_GetSKU(OvrHandle));
 }
 

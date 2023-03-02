@@ -41,6 +41,18 @@ class OVRPLATFORM_API UOvrRequestsBlueprintLibrary : public UBlueprintFunctionLi
 public:
 
     // ----------------------------------------------------------------------
+    // AbuseReport
+
+    /** The currently running application has indicated they want to show their in-app reporting flow or that they choose to ignore the request. */
+    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|AbuseReport")
+    static void AbuseReport_ReportRequestHandled(
+        UObject* WorldContextObject,
+        EOvrRequestOutputPins& OutExecs,
+        FLatentActionInfo LatentInfo,
+        EOvrReportRequestResponse Response,
+        FString& ErrorMsg);
+
+    // ----------------------------------------------------------------------
     // Achievements
 
     /**
@@ -322,6 +334,19 @@ public:
         FString& ErrorMsg);
 
     // ----------------------------------------------------------------------
+    // Avatar
+
+    /** Launches the Avatar Editor */
+    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Avatar")
+    static void Avatar_LaunchAvatarEditor(
+        UObject* WorldContextObject,
+        EOvrRequestOutputPins& OutExecs,
+        FLatentActionInfo LatentInfo,
+        FOvrAvatarEditorOptions Options,
+        FOvrAvatarEditorResult& AvatarEditorResult,
+        FString& ErrorMsg);
+
+    // ----------------------------------------------------------------------
     // Challenges
 
     /** DEPRECATED. Use server-to-server API call instead. */
@@ -371,7 +396,7 @@ public:
      * Requests a block of challenge entries.
      * @param ChallengeID - The id of the challenge whose entries to return.
      * @param Limit - Defines the maximum number of entries to return.
-     * @param Filter - Allows you to restrict the returned values by friends.
+     * @param Filter - By using ovrLeaderboard_FilterFriends, this allows you to filter the returned values to bidirectional followers.
      * @param StartAt - Defines whether to center the query on the user or start at the top of the challenge.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Challenges")
@@ -469,7 +494,7 @@ public:
     // CloudStorage
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Deletes the specified save data buffer.  Conflicts are handled just like Saves.
      * @param Bucket - The name of the storage bucket.
      * @param Key - The name for this saved data.
@@ -485,7 +510,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * 
      * Loads the saved entry for the specified bucket and key.
      * If a conflict exists with the key then an error message is returned.
@@ -503,7 +528,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Loads all the metadata for the saves in the specified bucket, including conflicts.
      * @param Bucket - The name of the storage bucket.
      */
@@ -517,7 +542,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Loads the metadata for this bucket-key combination that need to be manually resolved.
      * @param Bucket - The name of the storage bucket
      * @param Key - The key for this saved data.
@@ -533,7 +558,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Loads the data specified by the storage handle.
      */
     UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|CloudStorage")
@@ -546,7 +571,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * load the metadata for the specified key
      * @param Bucket - The name of the storage bucket.
      * @param Key - The name for this saved data.
@@ -562,7 +587,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Selects the local save for manual conflict resolution.
      * @param Bucket - The name of the storage bucket.
      * @param Key - The name for this saved data.
@@ -580,7 +605,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Selects the remote save for manual conflict resolution.
      * @param Bucket - The name of the storage bucket.
      * @param Key - The name for this saved data.
@@ -598,7 +623,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Note: Cloud Storage is only available for Rift apps.
      * 
      * 
@@ -633,7 +658,7 @@ public:
     // CloudStorage2
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Get the directory path for the current user/app pair that will be used during cloud storage synchronization
      */
     UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|CloudStorage2")
@@ -666,7 +691,7 @@ public:
         FLatentActionInfo LatentInfo,
         FString& ErrorMsg);
 
-    /** Returns a list of users that can be invited to your current lobby. These are pulled from your friends and recently met lists. */
+    /** Returns a list of users that can be invited to your current lobby. These are pulled from your bidirectional followers and recently met lists. */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|GroupPresence")
     static void GroupPresence_GetInvitableUsers(
         UObject* WorldContextObject,
@@ -676,7 +701,7 @@ public:
         FOvrUserPages& UserPages,
         FString& ErrorMsg);
 
-    /** Returns a list of users that can be invited to your current lobby. These are pulled from your friends and recently met lists. */
+    /** Get the application invites which have been sent by the user. */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|GroupPresence")
     static void GroupPresence_GetSentInvites(
         UObject* WorldContextObject,
@@ -734,7 +759,7 @@ public:
         FOvrRosterOptions Options,
         FString& ErrorMsg);
 
-    /** Returns a list of users that can be invited to your current lobby. These are pulled from your friends and recently met lists. */
+    /** Send application invites to the passed in userIDs. */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|GroupPresence")
     static void GroupPresence_SendInvites(
         UObject* WorldContextObject,
@@ -930,7 +955,7 @@ public:
      * Requests a block of leaderboard entries.
      * @param LeaderboardName - The name of the leaderboard whose entries to return.
      * @param Limit - Defines the maximum number of entries to return.
-     * @param Filter - Allows you to restrict the returned values by friends.
+     * @param Filter - By using ovrLeaderboard_FilterFriends, this allows you to filter the returned values to bidirectional followers.
      * @param StartAt - Defines whether to center the query on the user or start at the top of the leaderboard.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Leaderboard")
@@ -1028,7 +1053,7 @@ public:
     // Matchmaking
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * @param Pool - A BROWSE type matchmaking pool.
      * @param CustomQueryData - Optional. Custom query data.
      */
@@ -1043,7 +1068,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Modes: BROWSE
      * 
      * See overview documentation above.
@@ -1074,7 +1099,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * @param Pool - The pool in question.
      * @param RequestHash - Used to find your entry in a queue.
      */
@@ -1088,7 +1113,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Modes: QUICKMATCH, BROWSE
      * 
      * 
@@ -1105,7 +1130,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * @param Pool - The matchmaking pool to use, which is defined for the app.
      * @param MaxUsers - Overrides the Max Users value, which is configured in pool settings of the Developer Dashboard.
      * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when the room data changes, such as when users join or leave.
@@ -1124,7 +1149,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Modes: BROWSE, QUICKMATCH (Advanced; Can Users Create Rooms = true)
      * 
      * See overview documentation above.
@@ -1150,7 +1175,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * @param Pool - The matchmaking pool to use, which is defined for the app.
      * @param MaxUsers - Overrides the Max Users value, which is configured in pool settings of the Developer Dashboard.
      * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when room data changes, such as when users join or leave.
@@ -1167,7 +1192,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Create a matchmaking room and join it, but do
      * not enqueue the room. After creation, you can call EnqueueRoom2. However,
      * Oculus recommends using CreateAndEnqueueRoom2 instead.
@@ -1195,7 +1220,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * @param Pool - The pool to enqueue in.
      * @param CustomQueryData - Optional.  See "Custom criteria" section above.
      */
@@ -1210,7 +1235,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Modes: QUICKMATCH
      * 
      * See overview documentation above.
@@ -1237,7 +1262,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * @param RoomID - Returned either from FOvrNotification_Matchmaking_MatchFound or from Matchmaking_CreateRoom().
      * @param CustomQueryData - Optional.  See the "Custom criteria" section above.
      */
@@ -1252,7 +1277,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Modes: BROWSE (for Rooms only), ROOM
      * 
      * 
@@ -1282,7 +1307,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Modes: QUICKMATCH, BROWSE
      * 
      * Used to debug the state of the current matchmaking pool queue.  This is not intended to be used in production.
@@ -1296,7 +1321,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Modes: QUICKMATCH, BROWSE
      * 
      * Gets the matchmaking stats for the current user
@@ -1320,7 +1345,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * @param RoomID - ID of a room previously returned from FOvrNotification_Matchmaking_MatchFound or Matchmaking_Browse().
      * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when room data changes, such as when users join or leave.
      */
@@ -1335,7 +1360,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Modes: QUICKMATCH, BROWSE (+ Skill Pool)
      * 
      * See the overview documentation above.
@@ -1358,7 +1383,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Modes: QUICKMATCH, BROWSE (+ Skill Pool)
      * 
      * For pools with skill-based matching.  See overview documentation above.
@@ -1401,7 +1426,7 @@ public:
     // Notification
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * 
      * Retrieve a list of all pending room invites for your application (for example, notifications
      * that may have been sent before the user launched your game).  You can also get push
@@ -1472,7 +1497,7 @@ public:
     // Room
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * @param JoinPolicy - Specifies who can join the room without an invite.
      * @param MaxUsers - The maximum number of users allowed in the room, including the creator.
      * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when room data changes, such as when users join or leave.
@@ -1489,10 +1514,10 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Creates a new private (client controlled) room and adds the caller to it. This type of room is good
      * for matches where the user wants to play with friends, as they're primarially discoverable by examining
-     * which rooms your friends are in.
+     * which rooms your bidirectional followers are in.
      * @param JoinPolicy - Specifies who can join the room without an invite.
      * @param MaxUsers - The maximum number of users allowed in the room, including the creator.
      * @param RoomOptions - Additional room configuration for this request. Optional.
@@ -1509,7 +1534,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Allows arbitrary rooms for the application to be loaded.
      * @param RoomID - The room to load.
      */
@@ -1523,7 +1548,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Easy loading of the room you're currently in. If you don't want live updates
      * on your current room (by using subscribeToUpdates), you can use this to refresh the data.
      */
@@ -1536,7 +1561,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Allows the current room for a given user to be loaded. Remember that the user's privacy settings
      * may not allow their room to be loaded. Because of this, it's often possible to load the users in
      * a room, but not to take those users and load their room.
@@ -1551,7 +1576,7 @@ public:
         FOvrRoom& Room,
         FString& ErrorMsg);
 
-    /** DEPRECATED. Will be removed from headers at version v49. */
+    /** DEPRECATED. Will be removed from headers at version v51. */
     UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Room")
     static void Room_GetInvitableUsers(
         UObject* WorldContextObject,
@@ -1561,9 +1586,9 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Loads a list of users you can invite to a room. These are pulled from your
-     * friends list and recently met lists and filtered for relevance and interest. If the room cannot be
+     * bidirectional followers list and recently met lists and filtered for relevance and interest. If the room cannot be
      * joined, this list will be empty. By default, the invitable users returned
      * will be for the user's current room.
      * 
@@ -1608,7 +1633,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Fetches the list of moderated rooms created for the application.
      */
     UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Room")
@@ -1620,7 +1645,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Invites a user to the specified room.  They will receive a notification via
      * FOvrNotification_Room_InviteReceived if they are in your game, and/or they can poll for room invites
      * using Notification_GetRoomInvites().
@@ -1638,7 +1663,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Joins the target room (leaving the one you're currently in).
      * @param RoomID - The room to join.
      * @param SubscribeToUpdates - If true, sends a message with type FOvrNotification_Room_RoomUpdate when room data changes, such as when users join or leave.
@@ -1654,7 +1679,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Joins the target room (leaving the one you're currently in).
      * @param RoomID - The room to join.
      * @param RoomOptions - Additional room configuration for this request. Optional.
@@ -1670,7 +1695,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Allows the room owner to kick a user out of the current room.
      * @param RoomID - The room that you currently own (check field FOvrRoom::Owner).
      * @param UserID - The user to be kicked (cannot be yourself).
@@ -1688,7 +1713,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      *  Launch the invitable user flow to invite to the logged in user's current
      * room. This is intended to be a nice shortcut for developers not wanting
      * to build out their own Invite UI although it has the same rules as if
@@ -1703,7 +1728,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * 
      * Removes you from your current room.  Returns the solo room you are now in if it succeeds
      * @param RoomID - The room you're currently in.
@@ -1718,7 +1743,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Allows the room owner to set the description of their room.
      * @param RoomID - The room that you currently own (check field FOvrRoom::Owner).
      * @param Description - The new name of the room.
@@ -1734,7 +1759,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Allows the room owner to update the data store (set of key value pairs) of their room.
      * 
      * NOTE: Room datastores only allow string values. If you provide int or double values, this returns an error.
@@ -1752,7 +1777,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Disallow new members from being able to join the room. This will prevent
      * joins from Room_Join(), invites, 'Join From Home', etc.
      * Users that are in the room at the time of lockdown WILL be able to rejoin.
@@ -1770,7 +1795,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Allows the room owner to transfer ownership to someone else.
      * @param RoomID - The room that the user owns (check field FOvrRoom::Owner).
      * @param UserID - The new user to make an owner; the user must be in the room.
@@ -1785,7 +1810,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Sets the join policy of the user's private room.
      * @param RoomID - The room ID that the user owns (check field FOvrRoom::Owner).
      * @param NewJoinPolicy - The new join policy for the room.
@@ -1855,7 +1880,7 @@ public:
         FOvrUser& User,
         FString& ErrorMsg);
 
-    /** Retrieve a list of the logged in user's friends. */
+    /** Retrieve a list of the logged in user's bidirectional followers. */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|User")
     static void User_GetLoggedInUserFriends(
         UObject* WorldContextObject,
@@ -1865,8 +1890,8 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Use User_GetLoggedInUserFriends() instead Will be removed from headers at version v49.
-     * Retrieve a list of the logged in user's friends and any rooms they
+     * DEPRECATED. Use User_GetLoggedInUserFriends() instead Will be removed from headers at version v51.
+     * Retrieve a list of the logged in user's bidirectional followers and any rooms they
      * might be in.
      */
     UFUNCTION(BlueprintCallable, meta = (DeprecatedFunction, DeprecationMessage="Use User_GetLoggedInUserFriends() instead", Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|User")
@@ -1878,7 +1903,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Returns a list of users that the logged in user was in a room with recently, sorted by
      * relevance, along with any rooms they might be in.  All you need to do to use this method is to
      * use our Rooms API, and we will track the number of times users are together, their most recent
@@ -1949,7 +1974,7 @@ public:
         FString& ErrorMsg);
 
     /**
-     * Launch the flow for blocking the given user. You can't be friended, invited,
+     * Launch the flow for blocking the given user. You can't follow, be followed, invited,
      *  or searched by a blocked user, for example. You can remove the block via
      *  ovr_User_LaunchUnblockFlow.
      * @param UserID - User ID of user being blocked
@@ -1964,8 +1989,8 @@ public:
         FString& ErrorMsg);
 
     /**
-     * Launch the flow for sending a friend request to a user.
-     * @param UserID - User ID of user to send a friend request to
+     * Launch the flow for sending a follow request to a user.
+     * @param UserID - User ID of user to send a follow request to
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|User")
     static void User_LaunchFriendRequestFlow(

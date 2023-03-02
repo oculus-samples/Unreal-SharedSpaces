@@ -52,6 +52,7 @@
 #include "OVR_PeerConnectionState.h"
 #include "OVR_PermissionGrantStatus.h"
 #include "OVR_PlatformInitializeResult.h"
+#include "OVR_ReportRequestResponse.h"
 #include "OVR_RichPresenceExtraContext.h"
 #include "OVR_RoomJoinPolicy.h"
 #include "OVR_RoomJoinability.h"
@@ -529,6 +530,19 @@ enum class EOvrPlatformInitializeResult : uint8
 
 ovrPlatformInitializeResult ConvertPlatformInitializeResult(EOvrPlatformInitializeResult Value);
 EOvrPlatformInitializeResult ConvertPlatformInitializeResult(ovrPlatformInitializeResult Value);
+
+/** ReportRequestResponse enumeration. */
+UENUM(BlueprintType)
+enum class EOvrReportRequestResponse : uint8
+{
+    Unknown,
+    Handled,
+    Unhandled,
+    Unavailable,
+};
+
+ovrReportRequestResponse ConvertReportRequestResponse(EOvrReportRequestResponse Value);
+EOvrReportRequestResponse ConvertReportRequestResponse(ovrReportRequestResponse Value);
 
 /** Display extra information about the user's presence */
 UENUM(BlueprintType)

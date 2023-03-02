@@ -29,7 +29,6 @@ public class SharedSpaces : ModuleRules
 			new string[] {
 				"Json",
 				"JsonUtilities",
-				"LibOVRPlatform",
 				"OculusUtils",
 			});
 

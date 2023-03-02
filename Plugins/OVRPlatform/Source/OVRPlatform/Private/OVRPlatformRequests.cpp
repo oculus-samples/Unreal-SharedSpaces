@@ -27,6 +27,40 @@
 #include "OVRPlatformCppPageRequests.h"
 
 // ----------------------------------------------------------------------
+// AbuseReport
+
+void UOvrRequestsBlueprintLibrary::AbuseReport_ReportRequestHandled(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    EOvrReportRequestResponse Response,
+    // Output
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [Response]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_AbuseReport_ReportRequestHandled(ConvertReportRequestResponse(Response));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // No payload in response
+                }));
+    }
+}
+
+// ----------------------------------------------------------------------
 // Achievements
 
 void UOvrRequestsBlueprintLibrary::Achievements_AddCount(
@@ -892,6 +926,48 @@ void UOvrRequestsBlueprintLibrary::AssetFile_StatusByName(
                     else
                     {
                         AssetDetails.Update(ovr_Message_GetAssetDetails(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
+// ----------------------------------------------------------------------
+// Avatar
+
+void UOvrRequestsBlueprintLibrary::Avatar_LaunchAvatarEditor(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    FOvrAvatarEditorOptions Options,
+    // Output
+    FOvrAvatarEditorResult& AvatarEditorResult,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [Options]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Avatar_LaunchAvatarEditor(FOvrAvatarEditorOptionsConverter(Options));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&AvatarEditorResult](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        AvatarEditorResult.Clear();
+                    }
+                    else
+                    {
+                        AvatarEditorResult.Update(ovr_Message_GetAvatarEditorResult(*MessagePtr), MessagePtr);
                     }
                 }));
     }

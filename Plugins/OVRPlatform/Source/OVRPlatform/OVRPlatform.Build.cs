@@ -40,6 +40,7 @@ public class OVRPlatform : ModuleRules
             new string[] {
                 "Core",
                 "Sockets",
+                "OVRPlatformSDK",
                 "OnlineSubsystemUtils",
             });
 
@@ -57,24 +58,5 @@ public class OVRPlatform : ModuleRules
             new string[] {
                 // ... add any modules that your module loads dynamically here ...
             });
-
-        // LibOVRPlatform dependencies.
-        PublicDependencyModuleNames.AddRange(
-            new string[] {
-                "LibOVRPlatform"
-            });
-
-        if (Target.Platform == UnrealTargetPlatform.Win64)
-        {
-            PublicDelayLoadDLLs.Add("LibOVRPlatform64_1.dll");
-        }
-        else if (Target.Platform != UnrealTargetPlatform.Android)
-        {
-            PrecompileForTargets = PrecompileTargetsType.None;
-        }
-        else
-        {
-            System.Console.WriteLine("Oculus Platform plugin not supported for this platform");
-        }
     }
 }

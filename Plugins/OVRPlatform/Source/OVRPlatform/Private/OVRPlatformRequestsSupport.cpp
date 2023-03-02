@@ -93,7 +93,6 @@ void FOvrRequestLatentAction::UpdateOperation(FLatentResponse& Response)
         UOvrPlatformSubsystem* OvrPlatform = GetOvrPlatform();
         if (!OvrPlatform)
         {
-            // The timeout check will eventually be triggered if the platform is never initialized.
             return;
         }
 
@@ -185,7 +184,6 @@ void FOvrPageRequestLatentAction::UpdateOperation(FLatentResponse& Response)
         UOvrPlatformSubsystem* OvrPlatform = GetOvrPlatform();
         if (!OvrPlatform)
         {
-            // The timeout check will eventually be triggered if the platform is never initialized.
             return;
         }
 

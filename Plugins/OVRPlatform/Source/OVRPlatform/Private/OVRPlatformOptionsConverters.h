@@ -92,6 +92,10 @@ struct OVRPLATFORM_API FOvrApplicationOptionsConverter
         if (Handle)
         {
             ovr_ApplicationOptions_SetDeeplinkMessage(Handle, TCHAR_TO_UTF8(*Options.DeeplinkMessage));
+            ovr_ApplicationOptions_SetDestinationApiName(Handle, TCHAR_TO_UTF8(*Options.DestinationApiName));
+            ovr_ApplicationOptions_SetLobbySessionId(Handle, TCHAR_TO_UTF8(*Options.LobbySessionId));
+            ovr_ApplicationOptions_SetMatchSessionId(Handle, TCHAR_TO_UTF8(*Options.MatchSessionId));
+            ovr_ApplicationOptions_SetRoomId(Handle, static_cast<ovrID>(Options.RoomId));
         }
     }
 
@@ -106,6 +110,30 @@ struct OVRPLATFORM_API FOvrApplicationOptionsConverter
     }
 
     ovrApplicationOptionsHandle Handle;
+};
+
+struct OVRPLATFORM_API FOvrAvatarEditorOptionsConverter
+{
+    FOvrAvatarEditorOptionsConverter(const FOvrAvatarEditorOptions& Options):
+        Handle(ovr_AvatarEditorOptions_Create())
+    {
+        if (Handle)
+        {
+            ovr_AvatarEditorOptions_SetSourceOverride(Handle, TCHAR_TO_UTF8(*Options.SourceOverride));
+        }
+    }
+
+    ~FOvrAvatarEditorOptionsConverter()
+    {
+        ovr_AvatarEditorOptions_Destroy(Handle);
+    }
+
+    operator ovrAvatarEditorOptionsHandle() const
+    {
+        return Handle;
+    }
+
+    ovrAvatarEditorOptionsHandle Handle;
 };
 
 struct OVRPLATFORM_API FOvrChallengeOptionsConverter

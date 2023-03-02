@@ -41,6 +41,10 @@ void UOvrPlatformSubsystem::Initialize(FSubsystemCollectionBase& Collection)
     bMessagePumpActivated = false;
 
     // Message handlers
+    OnAbuseReportReportButtonPressedHandle =
+        GetNotifDelegate(ovrMessage_Notification_AbuseReport_ReportButtonPressed)
+        .AddUObject(this, &UOvrPlatformSubsystem::HandleOnAbuseReportReportButtonPressed);
+
     OnApplicationLifecycleLaunchIntentChangedHandle =
         GetNotifDelegate(ovrMessage_Notification_ApplicationLifecycle_LaunchIntentChanged)
         .AddUObject(this, &UOvrPlatformSubsystem::HandleOnApplicationLifecycleLaunchIntentChanged);
@@ -159,6 +163,7 @@ void UOvrPlatformSubsystem::Deinitialize()
     UE_LOG(LogOvrPlatform, Display, TEXT("UOvrPlatformSubsystem::Deinitialize"));
 
     // Detaching message handlers
+    GetNotifDelegate(ovrMessage_Notification_AbuseReport_ReportButtonPressed).RemoveAll(this);
     GetNotifDelegate(ovrMessage_Notification_ApplicationLifecycle_LaunchIntentChanged).RemoveAll(this);
     GetNotifDelegate(ovrMessage_Notification_AssetFile_DownloadUpdate).RemoveAll(this);
     GetNotifDelegate(ovrMessage_Notification_Cal_FinalizeApplication).RemoveAll(this);
@@ -386,6 +391,21 @@ FOvrPlatformMulticastMessageOnComplete& UOvrPlatformSubsystem::GetNotifDelegate(
 void UOvrPlatformSubsystem::RemoveNotifDelegate(ovrMessageType MessageType, const FDelegateHandle& Delegate)
 {
     NotifDelegates.FindOrAdd(MessageType).Remove(Delegate);
+}
+
+void UOvrPlatformSubsystem::HandleOnAbuseReportReportButtonPressed(TOvrMessageHandlePtr Message, bool bIsError)
+{
+    if (bIsError)
+    {
+        ovrErrorHandle Error = ovr_Message_GetError(*Message);
+        FString ErrorMessage = ovr_Error_GetMessage(Error);
+        UE_LOG(LogOvrPlatform, Error, TEXT("Error in HandleOnAbuseReportReportButtonPressed: %s"), *ErrorMessage);
+    }
+    else
+    {
+        FString ReportButtonPressed = UTF8_TO_TCHAR(ovr_Message_GetString(*Message));
+        OnAbuseReportReportButtonPressed.Broadcast(ReportButtonPressed);
+    }
 }
 
 void UOvrPlatformSubsystem::HandleOnApplicationLifecycleLaunchIntentChanged(TOvrMessageHandlePtr Message, bool bIsError)

@@ -50,7 +50,7 @@ public:
     static void ApplicationLifecycle_LogDeeplinkResult(FString TrackingID, EOvrLaunchResult Result);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Allow `peerID` to establish a peer-to-peer connection to this host.
      * 
      * Call this after receiving FOvrNotification_Networking_PeerConnectRequest.
@@ -65,7 +65,7 @@ public:
     static void Net_Accept(FOvrId PeerID);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Automatically accept all current and future connection attempts from
      * members of the current room. Note that the room has to be created or
      * joined by calling one of the existing room/matchmaking functions.
@@ -78,7 +78,7 @@ public:
     static bool Net_AcceptForCurrentRoom();
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Destroy the connection to peerID, if one exists.  Note that in most cases
      * this is not needed, as the library manages the pool of connections and
      * discards unused ones.
@@ -90,7 +90,7 @@ public:
     static void Net_Close(FOvrId PeerID);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Close the connection to everyone in the current room. This is typically called
      * before leaving the room. Can be called from any thread.
      */
@@ -98,7 +98,7 @@ public:
     static void Net_CloseForCurrentRoom();
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Connects to the peer with the specified user ID.  This function returns immediately.
      * 
      * Once the connection is established, a FOvrNotification_Networking_ConnectionStateChange
@@ -116,7 +116,7 @@ public:
     static void Net_Connect(FOvrId PeerID);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Returns true only when there is an open connection to peerID.  Can be called
      * from any thread.
      */
@@ -124,7 +124,7 @@ public:
     static bool Net_IsConnected(FOvrId PeerID);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Ping the user with the given ID.
      * 
      * Once the request completes, a FOvrNotification_Networking_PingResult message is enqueued.
@@ -135,7 +135,7 @@ public:
     static FOvrId Net_Ping(FOvrId PeerID);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Read the next incoming packet. Returns null when no more packets
      * are available. Returned handle points to an object representing data
      * read from the network. Ownership of that object is transferred to the
@@ -159,7 +159,7 @@ public:
     static FOvrPacket Net_ReadPacket();
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Send a sequence of bytes to another user. The length must be less
      * than or equal to the allocated length of bytes.  A new connection
      * to userID will be established (asynchronously) unless one already
@@ -178,7 +178,7 @@ public:
     static bool Net_SendPacket(FOvrId UserID, TArray<uint8> Bytes, EOvrSendPolicy Policy);
 
     /**
-     * DEPRECATED. Will be removed from headers at version v49.
+     * DEPRECATED. Will be removed from headers at version v51.
      * Sends a packet to all members of the room, excluding the currently logged
      * in user. Note that the room has to be created or joined by calling one of
      * the existing room/matchmaking functions, with subscribe_to_updates
