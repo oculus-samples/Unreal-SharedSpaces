@@ -4,6 +4,13 @@
 
 SharedSpaces was built by the VR Developer Tools team to demonstrate how you can quickly get people together in VR using the Oculus Social Platform APIs. This version was built for the Unreal Engine using the Photon SDK as the transport layer. Check out this [YouTube video](http://www.youtube.com/watch?v=td8dQxZY9OI "Shared Spaces | Oculus Multiplayer Sample") showing the demo.
 
+## 08 March 2023 Update
+
+We have added a demo for the [App to App Travel](https://developer.oculus.com/documentation/unreal/ps-app-to-app-travel/) platform feature.
+
+For that purpose we added a door that will launch another of our showcase [_Ultimate Glove Ball_](https://github.com/oculus-samples/Unity-UltimateGloveBall) joining directly in an arena of the same session, making it so that every user in the same lobby can join the same arena.
+Implementation details can be found [here](./Documentation/SharedSpaces.md#6-external-application-portal).
+
 ## 20 October 2022 Update
 
 We have added a demo of the new Blocked Users flows presented at

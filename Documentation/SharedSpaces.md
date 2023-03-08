@@ -12,6 +12,7 @@ C. <a href="#C">SharedSpaces Implementation</a><br/>
 &nbsp;&nbsp;&nbsp;3. <a href="#C3">Portals</a><br/>
 &nbsp;&nbsp;&nbsp;4. <a href="#C4">SharedSpaces Character</a><br/>
 &nbsp;&nbsp;&nbsp;5. <a href="#C5">In-Game Log</a><br/>
+&nbsp;&nbsp;&nbsp;6. <a href="#C6">External Application Portal</a><br/>
 D. <a href="#D">Oculus Application Configuration</a><br/>
 &nbsp;&nbsp;&nbsp;1. <a href="#D1">Application Identifier</a><br/>
 &nbsp;&nbsp;&nbsp;2. <a href="#D2">Destinations</a><br/>
@@ -701,14 +702,19 @@ to the Oculus Platform Subsystem.   This ensures that the log persists between l
 
 ## 6. <a id="C6">External Application Portal</a>
 
-Similar to Portals, these doors will call the _Launch External App_ on the SharedSpaces Game Instance
-for the player who enters its collision volume.
+<div style="text-align: center; padding: 10pt;">
+	<img src="./Media/external_application_portal.png" width="400">
+</div>
+
+These have a similar setup to the Portals. You will need to place the _ExternalAppPortal_ blueprint and setup the Application app Id of the destination app and the destination name.
+These doors will call the _Launch External App_ on the SharedSpaces Game Instance for the player who enters its collision volume.
 Then the SharedSpaces Game Instance will validate the inputs and call the Platform function _Application Launch Other App_.
-You will need to place the _ExternalAppPortal_ blueprint and setup the Application app Id of the destination app and the destination name.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/external_app_launch.png"  width="1200">
 </div>
+
+This is the implementation for the [App to App Travel](https://developer.oculus.com/documentation/unreal/ps-app-to-app-travel/) platform feature.
 
 # D. <a id="D">Oculus Application Configuration</a>
 
