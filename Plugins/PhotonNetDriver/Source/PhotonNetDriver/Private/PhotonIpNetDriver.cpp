@@ -256,7 +256,7 @@ void UPhotonIpNetDriver::TickDispatch(float DeltaTime)
 		{
 			auto Connection = Connections[PeerID];
 
-			if (Connection->State == EConnectionState::USOCK_Open)
+			if (Connection->GetConnectionState() == EConnectionState::USOCK_Open)
 			{
 				UE_LOG(LogNetTraffic, VeryVerbose, TEXT("Got a raw packet of size %d"), PacketSize);
 				Connection->ReceivedRawPacket(Data, PacketSize);
@@ -382,7 +382,7 @@ void UPhotonIpNetDriver::OnNetworkingConnectionStateChange(ovrID PeerID, FString
 		{
 			// Connections in a state of Closed will not have a NetDriver
 			// They will hit a nullptr exception if processing packets
-			if (Connection->State == EConnectionState::USOCK_Closed)
+			if (Connection->GetConnectionState() == EConnectionState::USOCK_Closed)
 			{
 				UE_LOG(LogNet, Warning, TEXT("Cannot reopen a closed connection to %llu"), PeerID);
 
@@ -392,7 +392,7 @@ void UPhotonIpNetDriver::OnNetworkingConnectionStateChange(ovrID PeerID, FString
 			else
 			{
 				UE_LOG(LogNet, Verbose, TEXT("%llu is connected"), PeerID);
-				Connection->State = EConnectionState::USOCK_Open;
+				Connection->SetConnectionState(EConnectionState::USOCK_Open);
 			}
 		}
 		else
@@ -405,7 +405,7 @@ void UPhotonIpNetDriver::OnNetworkingConnectionStateChange(ovrID PeerID, FString
 		// Use IsConnected as the source of truth of the actual connection
 		if (!mpLBClient->IsConnected(PeerID))
 		{
-			if (Connection->State == EConnectionState::USOCK_Pending && !IsServer())
+			if (Connection->GetConnectionState() == EConnectionState::USOCK_Pending && !IsServer())
 			{
 				// Treat the pending case as if the connection timed out and try again
 				UE_LOG(LogNet, Verbose, TEXT("Notification said %llu is closed, but connection is still pending.  Ignoring potentially old notification and retry the connection"), PeerID);
@@ -414,7 +414,7 @@ void UPhotonIpNetDriver::OnNetworkingConnectionStateChange(ovrID PeerID, FString
 			else
 			{
 				UE_LOG(LogNet, Verbose, TEXT("%llu is closed"), PeerID);
-				Connection->State = EConnectionState::USOCK_Closed;
+				Connection->SetConnectionState(EConnectionState::USOCK_Closed);
 			}
 		}
 		else
@@ -424,7 +424,7 @@ void UPhotonIpNetDriver::OnNetworkingConnectionStateChange(ovrID PeerID, FString
 	}
 	else if (State == FString(TEXT("Timeout")))
 	{
-		if (Connection->State == EConnectionState::USOCK_Pending && !IsServer())
+		if (Connection->GetConnectionState() == EConnectionState::USOCK_Pending && !IsServer())
 		{
 			UE_LOG(LogNet, Verbose, TEXT("Retrying connection to %llu"), PeerID);
 			mpLBClient->Connect(PeerID);
@@ -432,7 +432,7 @@ void UPhotonIpNetDriver::OnNetworkingConnectionStateChange(ovrID PeerID, FString
 		else
 		{
 			UE_LOG(LogNet, Warning, TEXT("%llu timed out"), PeerID);
-			Connection->State = EConnectionState::USOCK_Closed;
+			Connection->SetConnectionState(EConnectionState::USOCK_Closed);
 		}
 	}
 	else
@@ -487,7 +487,7 @@ bool UPhotonIpNetDriver::IsNetResourceValid()
 	}
 
 	// The clients need to wait until the connection is established before sending packets
-	return ServerConnection->State == EConnectionState::USOCK_Open;
+	return ServerConnection->GetConnectionState() == EConnectionState::USOCK_Open;
 }
 
 TMap<int, ovrID>* UPhotonIpNetDriver::GetPeerIds()
