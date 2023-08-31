@@ -716,6 +716,18 @@ Then the SharedSpaces Game Instance will validate the inputs and call the Platfo
 
 This is the implementation for the [App to App Travel](https://developer.oculus.com/documentation/unreal/ps-app-to-app-travel/) platform feature.
 
+## 7. <a id="C6">User Reporting</a>
+
+When the user presses the Oculus button and selects _Report_, your application is required to notify 
+the system how you will handle it. You may handle the report by providing your own in-app reporting 
+flow or choose to defer to the system reporting flow by selecting _Unhandled_.
+
+<div style="text-align: center; padding: 10pt;">
+	<img src="./Media/user_reporting.png"  width="1200">
+</div>
+
+This is the implementation for the [User Reporting](https://developer.oculus.com/resources/reporting-plugin/) platform feature.
+
 # D. <a id="D">Oculus Application Configuration</a>
 
 To build and run your own copy of SharedSpaces, you will need to create an application for it

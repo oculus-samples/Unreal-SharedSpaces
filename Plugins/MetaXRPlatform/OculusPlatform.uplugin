@@ -1,0 +1,37 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.88.0",
+	"FriendlyName": "Meta XR Platform",
+	"Description": "Blueprint and C++ interface to Oculus Platform APIs",
+	"Category": "Online Platform",
+	"CreatedBy": "Meta Platforms, Inc.",
+	"CreatedByURL": "https://www.meta.com/",
+	"DocsURL": "https://developer.oculus.com/documentation/unreal/latest/concepts/unreal-engine/",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EngineVersion": "5.2.0",
+	"CanContainContent": true,
+	"Installed": true,
+	"SupportedTargetPlatforms": [
+		"Win64",
+		"Android"
+	],
+	"Modules": [
+		{
+			"Name": "OVRPlatform",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Win64",
+				"Android"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "OnlineSubsystemUtils",
+			"Enabled": true
+		}
+	]
+}

@@ -4,7 +4,7 @@
 
 #include "PhotonNetConnection.h"
 #include "PhotonIPNetDriver.h"
-#include "OvrPlatform/Private/OvrNetIPAddress.h"
+#include "PhotonOvrInternetAddr.h"
 #include "Net/DataChannel.h"
 
 void UPhotonNetConnection::InitBase(UNetDriver* InDriver, class FSocket* InSocket, const FURL& InURL, EConnectionState InState, int32 InMaxPacket, int32 InPacketOverhead)
@@ -47,7 +47,7 @@ void UPhotonNetConnection::InitLocalConnection(UNetDriver* InDriver, class FSock
 		InMaxPacket == 0 ? MAX_PACKET_SIZE : InMaxPacket,
 		0);
 
-	auto OculusAddr = FOvrInternetAddr(InURL);
+	auto OculusAddr = FPhotonOvrInternetAddr(InURL);
 	PeerID = OculusAddr.GetID(); // extract peer id from url
 }
 
@@ -67,7 +67,7 @@ void UPhotonNetConnection::InitRemoteConnection(UNetDriver* InDriver, class FSoc
 		0);
 
 	RemoteAddr = InRemoteAddr.Clone();
-	PeerID = StaticCastSharedPtr<FOvrInternetAddr>(RemoteAddr)->GetID();
+	PeerID = StaticCastSharedPtr<FPhotonOvrInternetAddr>(RemoteAddr)->GetID();
 
 	// This is for a client that needs to log in, setup ClientLoginState and ExpectedClientLoginMsgType to reflect that
 	SetClientLoginState(EClientLoginState::LoggingIn);

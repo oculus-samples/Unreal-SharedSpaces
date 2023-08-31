@@ -4,6 +4,14 @@
 
 SharedSpaces was built by the VR Developer Tools team to demonstrate how you can quickly get people together in VR using the Oculus Social Platform APIs. This version was built for the Unreal Engine using the Photon SDK as the transport layer. Check out this [YouTube video](http://www.youtube.com/watch?v=td8dQxZY9OI "Shared Spaces | Oculus Multiplayer Sample") showing the demo.
 
+## 30 August 2023 Update
+
+We updated the settings for UE5.2.
+
+We updated the OVRPlatform plugin to use the new MetaXRPlatform plugin found [here](https://developer.oculus.com/downloads/package/unreal-5-platform-sdk-plugin/). We updated to SDK v56.
+
+We have added the the ability to handle [User Reporting](https://developer.oculus.com/resources/reporting-plugin/). This allow users to notify the developer about conduct within the application that does not adhere to the [Code of Conduct](https://developer.oculus.com/resources/vrc-content-3/) in Virtual Experiences.
+
 ## 08 March 2023 Update
 
 We have added a demo for the [App to App Travel](https://developer.oculus.com/documentation/unreal/ps-app-to-app-travel/) platform feature.
@@ -56,8 +64,8 @@ git lfs install
 ```sh
 git clone https://github.com/oculus-samples/Unreal-SharedSpaces.git
 ```
-3. This project requires the Oculus fork of the UE5.1 game engine that you can find [here](https://github.com/Oculus-VR/UnrealEngine/tree/oculus-5.1).<br/>*NOTE:* access to the Oculus fork requires [access to Epic's GitHub](https://www.unrealengine.com/en-US/ue-on-github).
-4. You need [Visual Studio](https://docs.unrealengine.com/5.1/en-US/setting-up-visual-studio-development-environment-for-cplusplus-projects-in-unreal-engine/) installed to build the engine and the project plugins.
+3. This project requires the Oculus fork of the UE5.2 game engine that you can find [here](https://github.com/Oculus-VR/UnrealEngine/tree/oculus-5.2).<br/>*NOTE:* access to the Oculus fork requires [access to Epic's GitHub](https://www.unrealengine.com/en-US/ue-on-github).
+4. You need [Visual Studio](https://docs.unrealengine.com/5.2/en-US/setting-up-visual-studio-development-environment-for-cplusplus-projects-in-unreal-engine/) installed to build the engine and the project plugins.
 5. Open a command prompt, change directory to your Unreal root (see step 3), then run this command:
 ```sh
 .\GenerateProjectFiles.bat -Game SharedSpaces -Engine <full path to Unreal-SharedSpaces directory>\SharedSpaces.uproject

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "OvrPlatform/Private/OvrNetIPAddress.h"
+#include "PhotonOvrInternetAddr.h"
 #include "Containers/UnrealString.h"
 
 class PhotonNetDriverBase

@@ -5,7 +5,7 @@
 #pragma once
 
 #include "Common-cpp/inc/Common.h"
-#include "OvrPlatform/Private/OvrNetIPAddress.h"
+#include "PhotonOvrInternetAddr.h"
 
 class BaseView
 {

@@ -290,7 +290,7 @@ bool UPhotonLBClient::GetHostAddress(FString& hostAddress)
 	}
 
 	ExitGames::Common::JString masterId = masterPlayer->getUserID();
-	hostAddress = FOvrInternetAddr(toFString(masterId)).ToString(false);
+	hostAddress = FPhotonOvrInternetAddr(toFString(masterId)).ToString(false);
 
 	return true;
 }

@@ -9,7 +9,7 @@
 #include "../Private/LoadBalancingListener.h"
 #include "../Private/BaseView.h"
 #include "PhotonNetDriverBase.h"
-#include "OvrPlatform/Private/OvrNetIPAddress.h"
+#include "PhotonOvrInternetAddr.h"
 #include "CoreMinimal.h"
 #include "PhotonLBClient.generated.h"
 

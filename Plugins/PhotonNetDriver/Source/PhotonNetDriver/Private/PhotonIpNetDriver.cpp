@@ -90,7 +90,7 @@ bool UPhotonIpNetDriver::InitConnect(FNetworkNotify* InNotify, const FURL& Conne
 {
 	UE_LOG(LogNet, Verbose, TEXT("Connecting to host: %s"), *ConnectURL.ToString(true));
 	
-	FOvrInternetAddr OculusAddr(ConnectURL);
+	FPhotonOvrInternetAddr OculusAddr(ConnectURL);
 	if (!OculusAddr.IsValid())
 	{
 		UE_LOG(LogNet, Verbose, TEXT("Init as IPNetDriver connect"));
@@ -188,7 +188,7 @@ void UPhotonIpNetDriver::TickDispatch(float DeltaTime)
 			}
 
 			UE_LOG(LogNet, Verbose, TEXT("Checking challenge from: %llu"), PeerID);
-			TSharedPtr<FInternetAddr> OculusAddr = MakeShareable(new FOvrInternetAddr(PeerID));
+			TSharedPtr<FInternetAddr> OculusAddr = MakeShareable(new FPhotonOvrInternetAddr(PeerID));
 			StatelessConnect = StatelessConnectComponent.Pin();
 
 			const ProcessedPacket UnProcessedPacket = ConnectionlessHandler->IncomingConnectionless(OculusAddr, Data, PacketSize);
@@ -282,7 +282,7 @@ void UPhotonIpNetDriver::LowLevelSend(TSharedPtr<const FInternetAddr> Address, v
 	{
 		return UIpNetDriver::LowLevelSend(Address, Data, CountBits, Traits);
 	}
-	FOvrInternetAddr OculusAddr(FURL(nullptr, *Address->ToString(false), ETravelType::TRAVEL_Absolute));
+	FPhotonOvrInternetAddr OculusAddr(FURL(nullptr, *Address->ToString(false), ETravelType::TRAVEL_Absolute));
 	ovrID PeerID = OculusAddr.GetID();
 	if (mpLBClient->IsConnected(PeerID))
 	{

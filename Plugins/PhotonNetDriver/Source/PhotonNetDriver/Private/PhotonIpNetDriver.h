@@ -7,7 +7,7 @@
 #include "CoreMinimal.h"
 #include "PhotonNetConnection.h"
 #include "IpNetDriver.h"
-#include "OvrPlatform/Private/OvrNetIPAddress.h"
+#include "PhotonOvrInternetAddr.h"
 #include "PhotonNetDriverBase.h"
 #include "PhotonIpNetDriver.generated.h"
 
