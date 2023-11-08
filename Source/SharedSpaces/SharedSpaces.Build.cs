@@ -18,6 +18,7 @@ public class SharedSpaces : ModuleRules
 				"Engine",
 				"InputCore",
 				"SlateCore",
+    				"XRBase",
 				"HeadMountedDisplay",
 				"UMG",
 				"OnlineSubsystem",
