@@ -10,7 +10,8 @@ public class SharedSpacesTarget : TargetRules
 	public SharedSpacesTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
-		DefaultBuildSettings = BuildSettingsVersion.V2;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
+        DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.Add("SharedSpaces");
 	}
 }
