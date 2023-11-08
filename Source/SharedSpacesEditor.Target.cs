@@ -10,8 +10,8 @@ public class SharedSpacesEditorTarget : TargetRules
 	public SharedSpacesEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
-        IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
-        DefaultBuildSettings = BuildSettingsVersion.V2;
+       		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
+    		DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.Add("SharedSpaces");
 	}
 }
