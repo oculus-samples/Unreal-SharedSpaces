@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "",
+	"EngineAssociation": "5.3",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -16,6 +16,14 @@
 	],
 	"Plugins": [
 		{
+			"Name": "OpenXR",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Android"
+			]
+		},
+		{
 			"Name": "OculusXR",
 			"Enabled": true,
 			"SupportedTargetPlatforms": [
@@ -29,6 +37,35 @@
 			"Enabled": true
 		},
 		{
+			"Name": "XRBase",
+			"Enabled": true
+		},
+		{
+			"Name": "OculusPlatform",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Android"
+			]
+		},
+		{
+			"Name": "VisualStudioTools",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/362651520df94e4fa65492dbcba44ae2",
+			"SupportedTargetPlatforms": [
+				"Win64"
+			]
+		},
+		{
+			"Name": "OculusUtils",
+			"Enabled": true
+		},
+		{
+			"Name": "PhotonCloudAPI",
+			"Enabled": false,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/76bee07c672c4dbba14df190d82f7f33"
+		},
+		{
 			"Name": "Wwise",
 			"Enabled": false
 		},
@@ -40,5 +77,9 @@
 				"Android"
 			]
 		}
+	],
+	"TargetPlatforms": [
+		"Android",
+		"Windows"
 	]
 }
