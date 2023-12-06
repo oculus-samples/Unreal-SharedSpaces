@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.88.0",
+	"VersionName": "1.91.0",
 	"FriendlyName": "Meta XR Platform",
 	"Description": "Blueprint and C++ interface to Oculus Platform APIs",
 	"Category": "Online Platform",
@@ -10,7 +10,7 @@
 	"DocsURL": "https://developer.oculus.com/documentation/unreal/latest/concepts/unreal-engine/",
 	"MarketplaceURL": "",
 	"SupportURL": "",
-	"EngineVersion": "5.2.0",
+	"EngineVersion": "5.3.0",
 	"CanContainContent": true,
 	"Installed": true,
 	"SupportedTargetPlatforms": [

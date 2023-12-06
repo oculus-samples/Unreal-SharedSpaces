@@ -17,6 +17,9 @@ OVRP_PUBLIC_FUNCTION(const char *) ovr_Destination_GetApiName(const ovrDestinati
 /// user.
 OVRP_PUBLIC_FUNCTION(const char *) ovr_Destination_GetDeeplinkMessage(const ovrDestinationHandle obj);
 
+/// A URL that allows the user to deeplink directly to this destination
+OVRP_PUBLIC_FUNCTION(const char *) ovr_Destination_GetShareableUri(const ovrDestinationHandle obj);
+
 OVRP_PUBLIC_FUNCTION(const char *) ovr_Destination_GetDisplayName(const ovrDestinationHandle obj);
 
 #endif

@@ -30,6 +30,7 @@ public class SharedSpaces : ModuleRules
 				"Json",
 				"JsonUtilities",
 				"OculusUtils",
+				"XRBase"
 			});
 
 		if (Target.Platform == UnrealTargetPlatform.Android && Target.Configuration == UnrealTargetConfiguration.Shipping) {

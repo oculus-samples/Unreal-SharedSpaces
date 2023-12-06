@@ -580,6 +580,10 @@ struct OVRPLATFORM_API FOvrDestination
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Destination|Field")
     FString DisplayName;
 
+    /** A URL that allows the user to deeplink directly to this destination */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Destination|Field")
+    FString ShareableUri;
+
     // Default ctor.
     FOvrDestination();
 

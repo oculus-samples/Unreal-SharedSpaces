@@ -527,6 +527,7 @@ void FOvrDestination::Clear()
     ApiName = TEXT("");
     DeeplinkMessage = TEXT("");
     DisplayName = TEXT("");
+    ShareableUri = TEXT("");
 }
 
 void FOvrDestination::Update(ovrDestinationHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
@@ -534,6 +535,7 @@ void FOvrDestination::Update(ovrDestinationHandle OvrHandle, TOvrMessageHandlePt
     ApiName = UTF8_TO_TCHAR(ovr_Destination_GetApiName(OvrHandle));
     DeeplinkMessage = UTF8_TO_TCHAR(ovr_Destination_GetDeeplinkMessage(OvrHandle));
     DisplayName = UTF8_TO_TCHAR(ovr_Destination_GetDisplayName(OvrHandle));
+    ShareableUri = UTF8_TO_TCHAR(ovr_Destination_GetShareableUri(OvrHandle));
 }
 
 // -----------------------------------------------------------------------------
