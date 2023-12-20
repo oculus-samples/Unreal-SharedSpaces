@@ -70,8 +70,8 @@ git lfs install
 ```sh
 git clone https://github.com/oculus-samples/Unreal-SharedSpaces.git
 ```
-3. This project requires the Oculus fork of the UE5.2 game engine that you can find [here](https://github.com/Oculus-VR/UnrealEngine/tree/oculus-5.2).<br/>*NOTE:* access to the Oculus fork requires [access to Epic's GitHub](https://www.unrealengine.com/en-US/ue-on-github).
-4. You need [Visual Studio](https://docs.unrealengine.com/5.2/en-US/setting-up-visual-studio-development-environment-for-cplusplus-projects-in-unreal-engine/) installed to build the engine and the project plugins.
+3. This project requires the Oculus fork of the UE5.3 game engine that you can find [here](https://github.com/Oculus-VR/UnrealEngine/tree/oculus-5.3).<br/>*NOTE:* access to the Oculus fork requires [access to Epic's GitHub](https://www.unrealengine.com/en-US/ue-on-github).
+4. You need [Visual Studio](https://docs.unrealengine.com/5.3/en-US/setting-up-visual-studio-development-environment-for-cplusplus-projects-in-unreal-engine/) installed to build the engine and the project plugins.
 5. Open a command prompt, change directory to your Unreal root (see step 3), then run this command:
 ```sh
 .\GenerateProjectFiles.bat -Game SharedSpaces -Engine <full path to Unreal-SharedSpaces directory>\SharedSpaces.uproject
