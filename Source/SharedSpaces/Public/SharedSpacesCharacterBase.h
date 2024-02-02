@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "EnhancedInputComponent.h"
 #include "SharedSpacesCharacterBase.generated.h"
 
 UCLASS(config=Game)
@@ -43,22 +44,47 @@ protected:
 	virtual void BeginPlay() override;
 
 	/** Called for forwards/backward input */
-	void MoveForward(float Value);
+	void MoveForward(const FInputActionInstance& Instance);
 
 	/** Called for side to side input */
-	void MoveRight(float Value);
+	void MoveRight(const FInputActionInstance& Instance);
 
 	/** 
 	 * Called via input to turn at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
+	 * @param Instance Wraps EnhancedInput input axis value. This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
 	 */
-	void TurnAtRate(float Rate);
+	void TurnAtRate(const FInputActionInstance& Instance);
 
 	/**
-	 * Called via input to turn look up/down at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
+	 * Called via input to rotate view. Internally calls APawn::AddControllerYawInput
+	 * @param Instance Wraps EnhancedInput input axis value.
 	 */
-	void LookUpAtRate(float Rate);
+	void AddControllerYawInputWrapper(const FInputActionInstance& Instance);
+
+	/**
+	 * Called via input to rotate view. Internally calls APawn::AddControllerYawInput
+	 * @param Instance Wraps EnhancedInput input axis value.
+	 */
+	void AddControllerPitchInputWrapper(const FInputActionInstance& Instance);
+
+	/** EnhancedInput action bindings */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* JumpAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* MoveForwardAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* MoveRightAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* TurnAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* TurnRateAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* LookUpAction;
 
 protected:
 

@@ -77,36 +77,45 @@ void ASharedSpacesCharacterBase::SetupPlayerInputComponent(class UInputComponent
 	}
 
 	// Set up gameplay key bindings
-	check(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+	check(EnhancedInputComponent);
+	
+	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
+	EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &ASharedSpacesCharacterBase::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &ASharedSpacesCharacterBase::MoveRight);
+	EnhancedInputComponent->BindAction(MoveForwardAction, ETriggerEvent::Triggered, this, &ASharedSpacesCharacterBase::MoveForward);
+	EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Triggered, this, &ASharedSpacesCharacterBase::MoveRight);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
 	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("TurnRate", this, &ASharedSpacesCharacterBase::TurnAtRate);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("LookUpRate", this, &ASharedSpacesCharacterBase::LookUpAtRate);
+	EnhancedInputComponent->BindAction(TurnAction, ETriggerEvent::Triggered, this, &ASharedSpacesCharacterBase::AddControllerYawInputWrapper);
+	EnhancedInputComponent->BindAction(TurnRateAction, ETriggerEvent::Triggered, this, &ASharedSpacesCharacterBase::TurnAtRate);
+	EnhancedInputComponent->BindAction(LookUpAction, ETriggerEvent::Triggered, this, &ASharedSpacesCharacterBase::AddControllerPitchInputWrapper);
 }
 
-void ASharedSpacesCharacterBase::TurnAtRate(float Rate)
+void ASharedSpacesCharacterBase::TurnAtRate(const FInputActionInstance& Instance)
 {
+	const float Rate = Instance.GetValue().Get<float>();
 	// calculate delta for this frame from the rate information
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
-void ASharedSpacesCharacterBase::LookUpAtRate(float Rate)
+void ASharedSpacesCharacterBase::AddControllerYawInputWrapper(const FInputActionInstance& Instance)
 {
-	// calculate delta for this frame from the rate information
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+	const float Rate = Instance.GetValue().Get<float>();
+	AddControllerYawInput(Rate);
 }
 
-void ASharedSpacesCharacterBase::MoveForward(float Value)
+void ASharedSpacesCharacterBase::AddControllerPitchInputWrapper(const FInputActionInstance& Instance)
 {
+	const float Rate = Instance.GetValue().Get<float>();
+	AddControllerPitchInput(Rate);
+}
+
+void ASharedSpacesCharacterBase::MoveForward(const FInputActionInstance& Instance)
+{
+	const float Value = Instance.GetValue().Get<float>();
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
 		// find out which way is forward
@@ -119,8 +128,9 @@ void ASharedSpacesCharacterBase::MoveForward(float Value)
 	}
 }
 
-void ASharedSpacesCharacterBase::MoveRight(float Value)
+void ASharedSpacesCharacterBase::MoveRight(const FInputActionInstance& Instance)
 {
+	const float Value = Instance.GetValue().Get<float>();
 	if ( (Controller != NULL) && (Value != 0.0f) )
 	{
 		// find out which way is right
