@@ -55,7 +55,7 @@ To [visualize](./Documentation/Media/markdown_extension.png) markdown files in V
 
 
 1. [SharedSpaces project](./Documentation/SharedSpaces.md "SharedSpaces documentation")
-2. [OVRPlatform plugin](./Plugins/OVRPlatform/Documentation/OVRPlatform.md)
+2. [OVRPlatform plugin](./Documentation/SharedSpaces.md#D)
 3. [Photon plugin](./Plugins/PhotonNetDriver/Documentation/PhotonNetDriver.md)
 
 Details on how to setup the project can be found under [Oculus Application Configuration](./Documentation/SharedSpaces.md#d-oculus-application-configuration).

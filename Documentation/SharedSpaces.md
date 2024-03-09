@@ -743,6 +743,7 @@ You Oculus application identfier must be placed in _SharedSpaces/Config/DefaultE
 
 	[OnlineSubsystemOculus]
 	bEnabled=false
+	RiftAppId=123xxxxxxxxxx321
 	MobileAppId=123xxxxxxxxxx321
 
 Note that SharedSpaces does not use the Oculus Online Subsystem (OSS), but the identifer is still needed and is
@@ -753,6 +754,8 @@ The identifier (__App ID__) can be found in the _API_ section.
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/dashboard/dashboard_api.png"  width="800">
 </div>
+
+Note that you will need a `MobileAppId` in order to make a Quest build, and you will need a `RiftAppId` in order to use Quest Link.
 
 ## 2. <a id="D2">Destinations</a>
 
