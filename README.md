@@ -52,7 +52,7 @@ OVR Platform.  That was not possible with the older Oculus OSS, has it required 
 UE4 OSS to Oculus VR Platform services.  We are planning on releasing it as an engine level plugin in
 the near future.
 
-SharedSpaces is available on the [Quest AppLab](https://www.oculus.com/experiences/quest/4540942155998634).
+SharedSpaces is available on the [Horizon Store](https://www.meta.com/experiences/4540942155998634/).
 
 ## Documentation
 
