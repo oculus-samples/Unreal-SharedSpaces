@@ -41,11 +41,21 @@ class OVRPLATFORM_API UOvrFunctionsBlueprintLibrary : public UBlueprintFunctionL
 
 public:
 
-    /** Returns information about how the application was started. */
+    /**
+     * Returns information about how the application was started. This function provides details about the launch intent,
+     * such as the type of intent field FOvrLaunchDetails::LaunchType and any additional data that was passed along with it.
+     * By calling this function, you can gain insight into how your application was launched and take appropriate action based on that information.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|ApplicationLifecycle")
     static FOvrLaunchDetails ApplicationLifecycle_GetLaunchDetails();
 
-    /** Logs if the user successfully deeplinked to a destination. */
+    /**
+     * Logs if the user successfully deeplinked to a destination. This function takes two parameters: a string tracking ID and a launch result.
+     * The tracking ID is used to identify the specific deeplink attempt, while the launch result indicates whether the deeplink was EOvrLaunchResult::Success or not.
+     * By logging this information, you can track the effectiveness of your deeplinking efforts and make adjustments as needed.
+     * @param TrackingID - The Tracking ID is a unique identifier assigned to each deeplink attempt. It allows developers to track the success or failure of individual deeplink attempts and gain insights into the effectiveness of their deeplinking efforts.
+     * @param Result - An enum that indicates the outcome of an attempt to launch this application through a deeplink, including whether the attempt was EOvrLaunchResult::Success or not, and if not, the specific reasons for the failure.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|ApplicationLifecycle")
     static void ApplicationLifecycle_LogDeeplinkResult(FString TrackingID, EOvrLaunchResult Result);
 

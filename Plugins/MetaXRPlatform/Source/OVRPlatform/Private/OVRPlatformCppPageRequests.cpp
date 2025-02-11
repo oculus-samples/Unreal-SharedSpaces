@@ -25,6 +25,7 @@
 #include "OVRPlatformOptionsConverters.h"
 
 #include "OVRPlatformSubsystem.h"
+#include "Engine/GameInstance.h"
 
 // ----------------------------------------------------------------------
 // FOvrAchievementDefinitionPages paged array.
@@ -447,6 +448,64 @@ bool OvrPlatform_ChallengeEntryPages_FetchPreviousPage(
                     }
 
                     Delegate.ExecuteIfBound(!bIsError, ChallengeEntryPages, ErrMsg);
+                }));
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// ----------------------------------------------------------------------
+// FOvrCowatchViewerPages paged array.
+
+bool OvrPlatform_CowatchViewerPages_GetPageEntries(
+    const FOvrCowatchViewerPages& CowatchViewerPages,
+    TArray<FOvrCowatchViewer>& Current)
+{
+    size_t Size = ovr_CowatchViewerArray_GetSize(CowatchViewerPages.PagedArrayHandle);
+    Current.Empty(Size);
+    for (size_t Index = 0; Index < Size; ++Index)
+    {
+        Current.Add(FOvrCowatchViewer(ovr_CowatchViewerArray_GetElement(CowatchViewerPages.PagedArrayHandle, Index), CowatchViewerPages.PagedArrayMessageHandlePtr));
+    }
+
+    return Size > 0;
+}
+
+bool OvrPlatform_CowatchViewerPages_HasNextPage(
+    const FOvrCowatchViewerPages& CowatchViewerPages)
+{
+    return ovr_CowatchViewerArray_HasNextPage(CowatchViewerPages.PagedArrayHandle);
+}
+
+bool OvrPlatform_CowatchViewerPages_FetchNextPage(
+    UGameInstance* GameInstance,
+    const FOvrCowatchViewerPages& CowatchViewerPages,
+    OvrPlatform_CowatchViewerPage_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_Cowatching_GetNextCowatchViewerArrayPage(CowatchViewerPages.PagedArrayHandle),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrCowatchViewerPages CowatchViewerPages;
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        CowatchViewerPages.PagedArrayHandle = ovr_Message_GetCowatchViewerArray(*MessagePtr);
+                        CowatchViewerPages.PagedArrayMessageHandlePtr = MessagePtr;
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, CowatchViewerPages, ErrMsg);
                 }));
         return true;
     }

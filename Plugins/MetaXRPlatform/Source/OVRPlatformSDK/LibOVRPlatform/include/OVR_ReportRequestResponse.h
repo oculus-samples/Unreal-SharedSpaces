@@ -5,10 +5,18 @@
 
 #include "OVR_Platform_Defs.h"
 
+/// Possible states that an app can respond to the platform notification that
+/// the in-app reporting flow has been requested by the user.
 typedef enum ovrReportRequestResponse_ {
   ovrReportRequestResponse_Unknown,
+  /// Response to the platform notification that the in-app reporting flow
+  /// request is handled.
   ovrReportRequestResponse_Handled,
+  /// Response to the platform notification that the in-app reporting flow
+  /// request is not handled.
   ovrReportRequestResponse_Unhandled,
+  /// Response to the platform notification that the in-app reporting flow is
+  /// unavailable or non-existent.
   ovrReportRequestResponse_Unavailable,
 } ovrReportRequestResponse;
 

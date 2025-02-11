@@ -60,6 +60,8 @@
 /// achievement. The largest number that is supported by this method is the max
 /// value of a signed 64-bit integer. If the number is larger than that, it is
 /// clamped to that max value before being passed to the servers.
+/// \param name The api_name of the achievement that will be adding count, which can be retrieved by ovr_AchievementDefinition_GetName().
+/// \param count The value of count that will be added to the achievement.
 ///
 /// A message with type ::ovrMessage_Achievements_AddCount will be generated in response.
 ///
@@ -70,7 +72,7 @@
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Achievements_AddCount(const char *name, unsigned long long count);
 
 /// Unlock fields of a BITFIELD achievement.
-/// \param name The name of the achievement to unlock
+/// \param name The api_name of the Bitfield achievement whose field(s) will be unlocked, which can be retrieved by ovr_AchievementDefinition_GetName().
 /// \param fields A string containing either '0' or '1' characters. Every '1' will unlock the field in the corresponding position.
 ///
 /// A message with type ::ovrMessage_Achievements_AddFields will be generated in response.
@@ -81,7 +83,8 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Achievements_AddCount(const char *name, uns
 /// Extract the payload from the message handle with ::ovr_Message_GetAchievementUpdate().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Achievements_AddFields(const char *name, const char *fields);
 
-/// Request all achievement definitions for the app.
+/// Retrieve all achievement definitions for the app, including their name,
+/// unlock requirements, and any additional details.
 ///
 /// A message with type ::ovrMessage_Achievements_GetAllDefinitions will be generated in response.
 ///
@@ -91,7 +94,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Achievements_AddFields(const char *name, co
 /// Extract the payload from the message handle with ::ovr_Message_GetAchievementDefinitionArray().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Achievements_GetAllDefinitions();
 
-/// Request the progress for the user on all achievements in the app.
+/// Retrieve the progress for the user on all achievements in the app.
 ///
 /// A message with type ::ovrMessage_Achievements_GetAllProgress will be generated in response.
 ///
@@ -101,7 +104,10 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Achievements_GetAllDefinitions();
 /// Extract the payload from the message handle with ::ovr_Message_GetAchievementProgressArray().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Achievements_GetAllProgress();
 
-/// Request the achievement definitions that match the specified names.
+/// Retrieve the achievement definitions that match the specified names,
+/// including their name, unlock requirements, and any additional details.
+/// \param names The api_names of the achievements used to retrieve the definition information, which can be retrieved by ovr_AchievementDefinition_GetName().
+/// \param count The number of specified achievements names.
 ///
 /// A message with type ::ovrMessage_Achievements_GetDefinitionsByName will be generated in response.
 ///
@@ -131,7 +137,10 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Achievements_GetNextAchievementDefinitionAr
 /// Extract the payload from the message handle with ::ovr_Message_GetAchievementProgressArray().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Achievements_GetNextAchievementProgressArrayPage(ovrAchievementProgressArrayHandle handle);
 
-/// Request the user's progress on the specified achievements.
+/// Retrieve the user's progress on the achievements that match the specified
+/// names.
+/// \param names The api_names of the achievements used to retrieve the progress information, which can be retrieved by ovr_AchievementDefinition_GetName().
+/// \param count The number of specified achievements names.
 ///
 /// A message with type ::ovrMessage_Achievements_GetProgressByName will be generated in response.
 ///
@@ -142,7 +151,21 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Achievements_GetNextAchievementProgressArra
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Achievements_GetProgressByName(const char **names, int count);
 
 /// Unlock the achievement with the given name. This can be of any achievement
-/// type.
+/// type: a simple unlock, count-based, or bitfield-based achievement. The Meta
+/// Quest Platform supports three types of achievements: simple, count and
+/// bitfield. Each achievement type has a different unlock mechanism. Simple
+/// achievements are all-or-nothing. They are unlocked by a single event or
+/// objective completion. For example, a simple achievement is unlocked when
+/// Frodo reaches Mount Doom. Count achievements are unlocked when a counter
+/// reaches a defined target. Define the ovr_AchievementDefinition_GetTarget()
+/// to reach that triggers the achievement. For example, a target achievement
+/// is unlocked when Darth Vader chokes 3 disappointing Imperial officers.
+/// Bitfield achievements are unlocked when a target number of bits in a
+/// bitfield are set. Define the ovr_AchievementDefinition_GetTarget() and
+/// ovr_AchievementDefinition_GetBitfieldLength() that triggers the
+/// achievement. For example, a bitfield achievement is unlocked when Harry
+/// destroys 5 of the 7 Horcruxes.
+/// \param name The api_name of the achievement that will be unlocked, which can be retrieved by ovr_AchievementDefinition_GetName().
 ///
 /// A message with type ::ovrMessage_Achievements_Unlock will be generated in response.
 ///

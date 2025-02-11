@@ -263,11 +263,13 @@ FOvrAppDownloadResult::FOvrAppDownloadResult(ovrAppDownloadResultHandle OvrHandl
 
 void FOvrAppDownloadResult::Clear()
 {
+    AppInstallResult = EOvrAppInstallResult::Unknown;
     Timestamp = 0;
 }
 
 void FOvrAppDownloadResult::Update(ovrAppDownloadResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
 {
+    AppInstallResult = ConvertAppInstallResult(ovr_AppDownloadResult_GetAppInstallResult(OvrHandle));
     Timestamp = static_cast<int64>(ovr_AppDownloadResult_GetTimestamp(OvrHandle));
 }
 
@@ -507,6 +509,124 @@ int64 UOvrBlockedUserPagesMethods::BlockedUserPages_GetSize(const FOvrBlockedUse
 bool UOvrBlockedUserPagesMethods::BlockedUserPages_HasNextPage(const FOvrBlockedUserPages& Model)
 {
     return ovr_BlockedUserArray_HasNextPage(Model.PagedArrayHandle);
+}
+
+// -----------------------------------------------------------------------------
+// FOvrCowatchViewer
+
+FOvrCowatchViewer::FOvrCowatchViewer()
+{
+    Clear();
+}
+
+FOvrCowatchViewer::FOvrCowatchViewer(ovrCowatchViewerHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrCowatchViewer::Clear()
+{
+    Data = TEXT("");
+    Id = 0;
+}
+
+void FOvrCowatchViewer::Update(ovrCowatchViewerHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Data = UTF8_TO_TCHAR(ovr_CowatchViewer_GetData(OvrHandle));
+    Id = static_cast<FOvrId>(ovr_CowatchViewer_GetId(OvrHandle));
+}
+
+// -----------------------------------------------------------------------------
+// FOvrCowatchViewerPages
+
+FOvrCowatchViewerPages::FOvrCowatchViewerPages()
+{
+    Clear();
+}
+
+FOvrCowatchViewerPages::FOvrCowatchViewerPages(ovrCowatchViewerArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(Handle, MessageHandlePtr);
+}
+
+void FOvrCowatchViewerPages::Clear()
+{
+    PagedArrayHandle = nullptr;
+    PagedArrayMessageHandlePtr.reset();
+}
+
+void FOvrCowatchViewerPages::Update(ovrCowatchViewerArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    PagedArrayHandle = Handle;
+    PagedArrayMessageHandlePtr = MessageHandlePtr;
+}
+
+FOvrCowatchViewer UOvrCowatchViewerPagesMethods::CowatchViewerPages_GetElement(const FOvrCowatchViewerPages& Model, int64 Index)
+{
+    return FOvrCowatchViewer(ovr_CowatchViewerArray_GetElement(Model.PagedArrayHandle, static_cast<size_t>(Index)), Model.PagedArrayMessageHandlePtr);
+}
+
+FString UOvrCowatchViewerPagesMethods::CowatchViewerPages_GetNextUrl(const FOvrCowatchViewerPages& Model)
+{
+    return UTF8_TO_TCHAR(ovr_CowatchViewerArray_GetNextUrl(Model.PagedArrayHandle));
+}
+
+int64 UOvrCowatchViewerPagesMethods::CowatchViewerPages_GetSize(const FOvrCowatchViewerPages& Model)
+{
+    return static_cast<int64>(ovr_CowatchViewerArray_GetSize(Model.PagedArrayHandle));
+}
+
+bool UOvrCowatchViewerPagesMethods::CowatchViewerPages_HasNextPage(const FOvrCowatchViewerPages& Model)
+{
+    return ovr_CowatchViewerArray_HasNextPage(Model.PagedArrayHandle);
+}
+
+// -----------------------------------------------------------------------------
+// FOvrCowatchViewerUpdate
+
+FOvrCowatchViewerUpdate::FOvrCowatchViewerUpdate()
+{
+    Clear();
+}
+
+FOvrCowatchViewerUpdate::FOvrCowatchViewerUpdate(ovrCowatchViewerUpdateHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrCowatchViewerUpdate::Clear()
+{
+    DataList.Clear();
+    Id = 0;
+}
+
+void FOvrCowatchViewerUpdate::Update(ovrCowatchViewerUpdateHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    DataList.Update(ovr_CowatchViewerUpdate_GetDataList(OvrHandle), MessageHandlePtr);
+    Id = static_cast<FOvrId>(ovr_CowatchViewerUpdate_GetId(OvrHandle));
+}
+
+// -----------------------------------------------------------------------------
+// FOvrCowatchingState
+
+FOvrCowatchingState::FOvrCowatchingState()
+{
+    Clear();
+}
+
+FOvrCowatchingState::FOvrCowatchingState(ovrCowatchingStateHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrCowatchingState::Clear()
+{
+    InSession = false;
+}
+
+void FOvrCowatchingState::Update(ovrCowatchingStateHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    InSession = ovr_CowatchingState_GetInSession(OvrHandle);
 }
 
 // -----------------------------------------------------------------------------
@@ -1146,6 +1266,47 @@ void FOvrLivestreamingVideoStats::Update(ovrLivestreamingVideoStatsHandle OvrHan
 }
 
 // -----------------------------------------------------------------------------
+// FOvrManagedInfo
+
+FOvrManagedInfo::FOvrManagedInfo()
+{
+    Clear();
+}
+
+FOvrManagedInfo::FOvrManagedInfo(ovrManagedInfoHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrManagedInfo::Clear()
+{
+    Department = TEXT("");
+    Email = TEXT("");
+    EmployeeNumber = TEXT("");
+    ExternalId = TEXT("");
+    Location = TEXT("");
+    Manager = TEXT("");
+    Name = TEXT("");
+    OrganizationId = TEXT("");
+    OrganizationName = TEXT("");
+    Position = TEXT("");
+}
+
+void FOvrManagedInfo::Update(ovrManagedInfoHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Department = UTF8_TO_TCHAR(ovr_ManagedInfo_GetDepartment(OvrHandle));
+    Email = UTF8_TO_TCHAR(ovr_ManagedInfo_GetEmail(OvrHandle));
+    EmployeeNumber = UTF8_TO_TCHAR(ovr_ManagedInfo_GetEmployeeNumber(OvrHandle));
+    ExternalId = UTF8_TO_TCHAR(ovr_ManagedInfo_GetExternalId(OvrHandle));
+    Location = UTF8_TO_TCHAR(ovr_ManagedInfo_GetLocation(OvrHandle));
+    Manager = UTF8_TO_TCHAR(ovr_ManagedInfo_GetManager(OvrHandle));
+    Name = UTF8_TO_TCHAR(ovr_ManagedInfo_GetName(OvrHandle));
+    OrganizationId = UTF8_TO_TCHAR(ovr_ManagedInfo_GetOrganizationId(OvrHandle));
+    OrganizationName = UTF8_TO_TCHAR(ovr_ManagedInfo_GetOrganizationName(OvrHandle));
+    Position = UTF8_TO_TCHAR(ovr_ManagedInfo_GetPosition(OvrHandle));
+}
+
+// -----------------------------------------------------------------------------
 // FOvrMicrophone
 
 FOvrMicrophone::FOvrMicrophone()
@@ -1508,6 +1669,33 @@ void FOvrPlatformInitialize::Update(ovrPlatformInitializeHandle OvrHandle, TOvrM
 }
 
 // -----------------------------------------------------------------------------
+// FOvrPrice
+
+FOvrPrice::FOvrPrice()
+{
+    Clear();
+}
+
+FOvrPrice::FOvrPrice(ovrPriceHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrPrice::Clear()
+{
+    AmountInHundredths = 0;
+    Currency = TEXT("");
+    Formatted = TEXT("");
+}
+
+void FOvrPrice::Update(ovrPriceHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    AmountInHundredths = static_cast<int32>(ovr_Price_GetAmountInHundredths(OvrHandle));
+    Currency = UTF8_TO_TCHAR(ovr_Price_GetCurrency(OvrHandle));
+    Formatted = UTF8_TO_TCHAR(ovr_Price_GetFormatted(OvrHandle));
+}
+
+// -----------------------------------------------------------------------------
 // FOvrProduct
 
 FOvrProduct::FOvrProduct()
@@ -1525,6 +1713,7 @@ void FOvrProduct::Clear()
     Description = TEXT("");
     FormattedPrice = TEXT("");
     Name = TEXT("");
+    Price.Clear();
     SKU = TEXT("");
 }
 
@@ -1533,6 +1722,7 @@ void FOvrProduct::Update(ovrProductHandle OvrHandle, TOvrMessageHandlePtr Messag
     Description = UTF8_TO_TCHAR(ovr_Product_GetDescription(OvrHandle));
     FormattedPrice = UTF8_TO_TCHAR(ovr_Product_GetFormattedPrice(OvrHandle));
     Name = UTF8_TO_TCHAR(ovr_Product_GetName(OvrHandle));
+    Price.Update(ovr_Product_GetPrice(OvrHandle), MessageHandlePtr);
     SKU = UTF8_TO_TCHAR(ovr_Product_GetSKU(OvrHandle));
 }
 
@@ -1798,6 +1988,7 @@ void FOvrUser::Clear()
     DisplayName = TEXT("");
     ID = 0;
     ImageUrl = TEXT("");
+    ManagedInfo.Clear();
     OculusID = TEXT("");
     Presence = TEXT("");
     PresenceDeeplinkMessage = TEXT("");
@@ -1813,6 +2004,7 @@ void FOvrUser::Update(ovrUserHandle OvrHandle, TOvrMessageHandlePtr MessageHandl
     DisplayName = UTF8_TO_TCHAR(ovr_User_GetDisplayName(OvrHandle));
     ID = static_cast<FOvrId>(ovr_User_GetID(OvrHandle));
     ImageUrl = UTF8_TO_TCHAR(ovr_User_GetImageUrl(OvrHandle));
+    ManagedInfo.Update(ovr_User_GetManagedInfo(OvrHandle), MessageHandlePtr);
     OculusID = UTF8_TO_TCHAR(ovr_User_GetOculusID(OvrHandle));
     Presence = UTF8_TO_TCHAR(ovr_User_GetPresence(OvrHandle));
     PresenceDeeplinkMessage = UTF8_TO_TCHAR(ovr_User_GetPresenceDeeplinkMessage(OvrHandle));

@@ -5,9 +5,12 @@
 
 #include "OVR_Platform_Defs.h"
 
+/// Describes the creator of the associated challenge.
 typedef enum ovrChallengeCreationType_ {
   ovrChallengeCreationType_Unknown,
+  /// The challenge was created by a User.
   ovrChallengeCreationType_UserCreated,
+  /// The challenge was created by the app developer.
   ovrChallengeCreationType_DeveloperCreated,
 } ovrChallengeCreationType;
 

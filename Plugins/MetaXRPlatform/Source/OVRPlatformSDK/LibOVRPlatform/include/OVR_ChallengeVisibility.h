@@ -5,6 +5,8 @@
 
 #include "OVR_Platform_Defs.h"
 
+/// The visibility of the challenge. A challenge may be invite-only, public, or
+/// private.
 typedef enum ovrChallengeVisibility_ {
   ovrChallengeVisibility_Unknown,
   /// Only those invited can participate in it. Everyone can see it

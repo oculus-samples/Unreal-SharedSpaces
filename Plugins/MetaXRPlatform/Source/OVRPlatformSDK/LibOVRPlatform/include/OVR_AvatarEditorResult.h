@@ -6,6 +6,9 @@
 #include "OVR_Platform_Defs.h"
 #include <stdbool.h>
 
+/// This is the result that can be extracted from message payload when the
+/// avatar editor is launched. It can be retrieved using
+/// ovr_Avatar_LaunchAvatarEditor().
 typedef struct ovrAvatarEditorResult *ovrAvatarEditorResultHandle;
 
 /// Whether the request has sent.

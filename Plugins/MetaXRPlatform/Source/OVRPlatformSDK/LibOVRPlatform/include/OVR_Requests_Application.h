@@ -26,7 +26,7 @@
 /// Extract the payload from the message handle with ::ovr_Message_GetAppDownloadResult().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Application_CancelAppDownload();
 
-/// Track download progress for an app
+/// Track download progress for an app.
 ///
 /// A message with type ::ovrMessage_Application_CheckAppDownloadProgress will be generated in response.
 ///
@@ -36,9 +36,12 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Application_CancelAppDownload();
 /// Extract the payload from the message handle with ::ovr_Message_GetAppDownloadProgressResult().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Application_CheckAppDownloadProgress();
 
-/// Requests version information, including the version code and version name
-/// of the currently installed app and version code, version name, size and
-/// release date of the latest app update
+/// Requests version information, including the
+/// ovr_ApplicationVersion_GetCurrentCode() and
+/// ovr_ApplicationVersion_GetCurrentName() of the currently installed app and
+/// ovr_ApplicationVersion_GetLatestCode(),
+/// ovr_ApplicationVersion_GetLatestName(), ovr_ApplicationVersion_GetSize()
+/// and ovr_ApplicationVersion_GetReleaseDate() of the latest app update.
 ///
 /// A message with type ::ovrMessage_Application_GetVersion will be generated in response.
 ///
@@ -50,9 +53,9 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Application_GetVersion();
 
 /// Installs the app update that was previously downloaded. Once the install
 /// begins the application will exit automatically. After the installation
-/// process is complete, the app will be relaunched based on the options
-/// passed.
-/// \param deeplink_options Additional configuration for this relaunch. Optional.
+/// process is complete, the app will be relaunched based on the options passed
+/// in.
+/// \param deeplink_options Additional configuration for this relaunch, which is optional. It contains 5 fields ovr_ApplicationOptions_SetDeeplinkMessage, ovr_ApplicationOptions_SetDestinationApiName, ovr_ApplicationOptions_SetLobbySessionId, ovr_ApplicationOptions_SetMatchSessionId and ovr_ApplicationOptions_SetRoomId.
 ///
 /// A message with type ::ovrMessage_Application_InstallAppUpdateAndRelaunch will be generated in response.
 ///
@@ -65,8 +68,8 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Application_InstallAppUpdateAndRelaunch(ovr
 /// Launches a different application in the user's library. If the user does
 /// not have that application installed, they will be taken to that app's page
 /// in the Oculus Store
-/// \param appID The ID of the app to launch
-/// \param deeplink_options Additional configuration for this requests. Optional.
+/// \param appID The unique ID of the app to be launched.
+/// \param deeplink_options Additional configuration for this request, which is optional. It contains 5 fields ovr_ApplicationOptions_SetDeeplinkMessage, ovr_ApplicationOptions_SetDestinationApiName, ovr_ApplicationOptions_SetLobbySessionId, ovr_ApplicationOptions_SetMatchSessionId and ovr_ApplicationOptions_SetRoomId.
 ///
 /// A message with type ::ovrMessage_Application_LaunchOtherApp will be generated in response.
 ///
@@ -78,7 +81,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Application_LaunchOtherApp(ovrID appID, ovr
 
 /// Starts an app download. It will return a result when the download is
 /// finished. Download progress can be monitored using the
-/// check_app_download_progress API.
+/// ovr_Application_CheckAppDownloadProgress().
 ///
 /// A message with type ::ovrMessage_Application_StartAppDownload will be generated in response.
 ///

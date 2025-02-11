@@ -53,6 +53,10 @@ public class OVRPlatform : ModuleRules
                 "PacketHandler",
             });
 
+        if (Target.bBuildEditor == true)
+        {
+            PrivateDependencyModuleNames.Add("UnrealEd");
+        }
 
         DynamicallyLoadedModuleNames.AddRange(
             new string[] {

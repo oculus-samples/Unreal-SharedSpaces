@@ -8,11 +8,21 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+/// Represents a paginated list of ovrUserCapabilityHandle elements
 typedef struct ovrUserCapabilityArray *ovrUserCapabilityArrayHandle;
 
+/// Access the indexed element in this list.
 OVRP_PUBLIC_FUNCTION(ovrUserCapabilityHandle) ovr_UserCapabilityArray_GetElement(const ovrUserCapabilityArrayHandle obj, size_t index);
-OVRP_PUBLIC_FUNCTION(const char *)            ovr_UserCapabilityArray_GetNextUrl(const ovrUserCapabilityArrayHandle obj);
-OVRP_PUBLIC_FUNCTION(size_t)                  ovr_UserCapabilityArray_GetSize(const ovrUserCapabilityArrayHandle obj);
-OVRP_PUBLIC_FUNCTION(bool)                    ovr_UserCapabilityArray_HasNextPage(const ovrUserCapabilityArrayHandle obj);
+
+/// The URL to request the next paginated list of elements.
+OVRP_PUBLIC_FUNCTION(const char *) ovr_UserCapabilityArray_GetNextUrl(const ovrUserCapabilityArrayHandle obj);
+
+/// The number of elements contained within this list. This is not equal to the
+/// total number of elements across multiple pages.
+OVRP_PUBLIC_FUNCTION(size_t) ovr_UserCapabilityArray_GetSize(const ovrUserCapabilityArrayHandle obj);
+
+/// Whether there is a next page of elements that can be retrieved.
+OVRP_PUBLIC_FUNCTION(bool) ovr_UserCapabilityArray_HasNextPage(const ovrUserCapabilityArrayHandle obj);
+
 
 #endif

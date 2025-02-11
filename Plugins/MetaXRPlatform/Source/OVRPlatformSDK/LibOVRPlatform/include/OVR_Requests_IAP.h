@@ -104,6 +104,7 @@
 
 /// Allow the consumable IAP product to be purchased again. Conceptually, this
 /// indicates that the item was used or consumed.
+/// \param sku The SKU of the product of the purchase that will be consumed. This value is case-sensitive and should match exactly with the product SKU set in the Developer Dashboard.
 ///
 /// A message with type ::ovrMessage_IAP_ConsumePurchase will be generated in response.
 ///
@@ -170,7 +171,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_IAP_GetViewerPurchasesDurableCache();
 
 /// Launch the checkout flow to purchase the existing product. Oculus Home
 /// tries handle and fix as many errors as possible. Home returns the
-/// appropriate error message and how to resolveit, if possible. Returns a
+/// appropriate error message and how to resolve it, if possible. Returns a
 /// purchase on success, empty purchase on cancel, and an error on error.
 /// \param sku IAP sku for the item the user wishes to purchase.
 ///

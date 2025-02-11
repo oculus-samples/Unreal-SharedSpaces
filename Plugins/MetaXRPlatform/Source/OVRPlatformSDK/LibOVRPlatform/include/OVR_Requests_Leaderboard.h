@@ -230,7 +230,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Leaderboard_WriteEntry(const char *leaderbo
 /// \param supplementaryMetric A metric that can be used for tiebreakers.
 /// \param extraData A 2KB custom data field that is associated with the leaderboard entry. This can be a game replay or anything that provides more detail about the entry to the viewer.
 /// \param extraDataLength The length of the extra data.
-/// \param forceUpdate If true, the score always updates. This happens ecen if it is not the user's best score.
+/// \param forceUpdate If true, the score always updates. This happens even if it is not the user's best score.
 ///
 /// <b>Error codes</b>
 /// - \b 100: Parameter {parameter}: invalid user id: {user_id}

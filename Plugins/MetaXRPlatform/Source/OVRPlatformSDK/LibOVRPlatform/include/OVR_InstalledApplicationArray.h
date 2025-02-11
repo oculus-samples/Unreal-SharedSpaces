@@ -7,9 +7,15 @@
 #include "OVR_InstalledApplication.h"
 #include <stddef.h>
 
+/// Represents a paginated list of ovrInstalledApplicationHandle elements
 typedef struct ovrInstalledApplicationArray *ovrInstalledApplicationArrayHandle;
 
+/// Access the indexed element in this list.
 OVRP_PUBLIC_FUNCTION(ovrInstalledApplicationHandle) ovr_InstalledApplicationArray_GetElement(const ovrInstalledApplicationArrayHandle obj, size_t index);
-OVRP_PUBLIC_FUNCTION(size_t)                        ovr_InstalledApplicationArray_GetSize(const ovrInstalledApplicationArrayHandle obj);
+
+/// The number of elements contained within this list. This is not equal to the
+/// total number of elements across multiple pages.
+OVRP_PUBLIC_FUNCTION(size_t) ovr_InstalledApplicationArray_GetSize(const ovrInstalledApplicationArrayHandle obj);
+
 
 #endif

@@ -5,10 +5,15 @@
 
 #include "OVR_Platform_Defs.h"
 
+/// Determines the type of the achievement.
 typedef enum ovrAchievementType_ {
   ovrAchievement_TypeUnknown,
+  /// Simple achievements are unlocked by a single event or objective completion.
   ovrAchievement_TypeSimple,
+  /// Bitfield achievements are unlocked when a target number of bits are set
+  /// within a bitfield.
   ovrAchievement_TypeBitfield,
+  /// Count achievements are unlocked when a counter reaches a defined target.
   ovrAchievement_TypeCount,
 } ovrAchievementType;
 

@@ -20,13 +20,13 @@
 /// the user to share that photo to Facebook from VR. You can also pass us a default comment to
 /// prepopulate the user's facebook status for the post.
 
-/// Launch the Share to Facebook modal via a deeplink to Home on Gear VR,
-/// allowing users to share local media files to Facebook. Accepts a
-/// postTextSuggestion string for the default text of the Facebook post.
-/// Requires a filePath string as the path to the image to be shared to
-/// Facebook. This image should be located in your app's internal storage
-/// directory. Requires a contentType indicating the type of media to be shared
-/// (only 'photo' is currently supported.)
+/// Launch the Share to Facebook modal, allowing users to share local media
+/// files to Facebook. Accepts a postTextSuggestion string for the default text
+/// of the Facebook post. Requires a filePath string as the path to the image
+/// to be shared to Facebook. This image should be located in your app's
+/// internal storage directory. Requires a contentType indicating the type of
+/// media to be shared (only 'photo' is currently supported). The payload for
+/// the result is defined as ovrShareMediaResultHandle.
 /// \param postTextSuggestion this text will prepopulate the facebook status text-input box within the share modal
 /// \param filePath path to the file to be shared to facebook
 /// \param contentType content type of the media to be shared

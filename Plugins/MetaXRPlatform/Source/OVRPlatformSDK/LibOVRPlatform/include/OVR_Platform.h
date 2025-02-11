@@ -37,6 +37,10 @@
 #include "OVR_ChallengeArray.h"
 #include "OVR_ChallengeEntry.h"
 #include "OVR_ChallengeEntryArray.h"
+#include "OVR_CowatchViewer.h"
+#include "OVR_CowatchViewerArray.h"
+#include "OVR_CowatchViewerUpdate.h"
+#include "OVR_CowatchingState.h"
 #include "OVR_DataStore.h"
 #include "OVR_Destination.h"
 #include "OVR_DestinationArray.h"
@@ -65,6 +69,7 @@
 #include "OVR_LivestreamingStartResult.h"
 #include "OVR_LivestreamingStatus.h"
 #include "OVR_LivestreamingVideoStats.h"
+#include "OVR_ManagedInfo.h"
 #include "OVR_Message.h"
 #include "OVR_Microphone.h"
 #include "OVR_MicrophoneAvailabilityState.h"
@@ -83,6 +88,7 @@
 #include "OVR_Pid.h"
 #include "OVR_PidArray.h"
 #include "OVR_PlatformInitialize.h"
+#include "OVR_Price.h"
 #include "OVR_Product.h"
 #include "OVR_ProductArray.h"
 #include "OVR_Purchase.h"
@@ -112,6 +118,7 @@
 #include "OVR_Requests_AssetFile.h"
 #include "OVR_Requests_Avatar.h"
 #include "OVR_Requests_Challenges.h"
+#include "OVR_Requests_Cowatching.h"
 #include "OVR_Requests_DeviceApplicationIntegrity.h"
 #include "OVR_Requests_Entitlement.h"
 #include "OVR_Requests_GroupPresence.h"
@@ -124,7 +131,6 @@
 #include "OVR_Requests_RichPresence.h"
 #include "OVR_Requests_User.h"
 #include "OVR_Requests_UserAgeCategory.h"
-#include "OVR_Requests_UserDataStore.h"
 #include "OVR_Requests_Voip.h"
 #include "OVR_AbuseReportOptions.h"
 #include "OVR_AdvancedAbuseReportOptions.h"
@@ -196,6 +202,11 @@ typedef enum ovrInitConfigOption_ {
   ///
   /// valid options are true and false
   ovrInitConfigOption_DisableP2pNetworking = 0x1CDE5DDE,
+  /// Enables the initialization of cowatching stack to use ovr_Cowatching_*
+  /// functions.
+  ///
+  /// valid options are true and false
+  ovrInitConfigOption_EnableCowatching = 0x7DD1C46E,
 } ovrInitConfigOption;
 
 OVRPL_PUBLIC_FUNCTION(ovrKeyValuePair) ovr_InitConfigOption_CreateBool(ovrInitConfigOption config, bool value);

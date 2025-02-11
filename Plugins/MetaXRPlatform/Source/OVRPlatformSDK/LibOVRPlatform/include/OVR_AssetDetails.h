@@ -7,9 +7,14 @@
 #include "OVR_LanguagePackInfo.h"
 #include "OVR_Types.h"
 
+/// An AssetDetails object contains detailed metadata for an asset file,
+/// including the asset file ID, file path, asset type, and additional metadata
+/// that characterizes the asset. You can retrieve the asset details using
+/// ovr_AssetFile_GetList()
 typedef struct ovrAssetDetails *ovrAssetDetailsHandle;
 
-/// ID of the asset file
+/// ID of the asset file. You can use this ID to uniquely identify a single
+/// asset. You can find more details from ovr_AssetFile_StatusById()
 OVRP_PUBLIC_FUNCTION(ovrID) ovr_AssetDetails_GetAssetId(const ovrAssetDetailsHandle obj);
 
 /// One of 'default', 'store', or 'language_pack'. The 'default' type denotes
@@ -26,10 +31,14 @@ OVRP_PUBLIC_FUNCTION(const char *) ovr_AssetDetails_GetDownloadStatus(const ovrA
 /// File path of the asset file
 OVRP_PUBLIC_FUNCTION(const char *) ovr_AssetDetails_GetFilepath(const ovrAssetDetailsHandle obj);
 
-/// One of 'free', 'entitled', or 'not-entitled'
+/// The status of in app purchases which are some extra content that users can
+/// buy right from apps. The value could be one of 'free', 'entitled', or 'not-
+/// entitled'.
 OVRP_PUBLIC_FUNCTION(const char *) ovr_AssetDetails_GetIapStatus(const ovrAssetDetailsHandle obj);
 
-/// For 'language_pack' assets type, contains language info.
+/// This field gives information about currently selected and installed
+/// language for the asset. The language info contains language name and tag in
+/// BCP47 format.
 /// This method may return null. This indicates that the value is not present or that the curent
 /// app or user is not permitted to access it.
 OVRP_PUBLIC_FUNCTION(ovrLanguagePackInfoHandle) ovr_AssetDetails_GetLanguage(const ovrAssetDetailsHandle obj);

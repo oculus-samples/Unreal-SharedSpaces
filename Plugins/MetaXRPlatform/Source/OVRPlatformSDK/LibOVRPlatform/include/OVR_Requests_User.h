@@ -41,7 +41,7 @@
 /// Extract the payload from the message handle with ::ovr_Message_GetUser().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_Get(ovrID userID);
 
-/// Return an access token for this user, suitable for making REST calls
+/// Return an access token string for this user, suitable for making REST calls
 /// against graph.oculus.com.
 ///
 /// A message with type ::ovrMessage_User_GetAccessToken will be generated in response.
@@ -81,7 +81,8 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetBlockedUsers();
 /// Extract the payload from the message handle with ::ovr_Message_GetUser().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetLoggedInUser();
 
-/// Retrieve a list of the logged in user's bidirectional followers.
+/// Retrieve a list of the logged in user's bidirectional followers. The
+/// payload type will be an array of ovrUserHandle
 ///
 /// A message with type ::ovrMessage_User_GetLoggedInUserFriends will be generated in response.
 ///
@@ -90,6 +91,20 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetLoggedInUser();
 /// If no error occurred, the message will contain a payload of type ::ovrUserArrayHandle.
 /// Extract the payload from the message handle with ::ovr_Message_GetUserArray().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetLoggedInUserFriends();
+
+/// Retrieve the currently signed in user's managed info. This call is not
+/// available offline.
+///
+/// NOTE: This will return data only if the logged in user is a managed Meta
+/// account (MMA).
+///
+/// A message with type ::ovrMessage_User_GetLoggedInUserManagedInfo will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// If no error occurred, the message will contain a payload of type ::ovrUserHandle.
+/// Extract the payload from the message handle with ::ovr_Message_GetUser().
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetLoggedInUserManagedInfo();
 
 /// Get the next page of entries
 ///
@@ -123,7 +138,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetNextUserCapabilityArrayPage(ovrUser
 
 /// returns an ovrID which is unique per org. allows different apps within the
 /// same org to identify the user.
-/// \param userID to load the org scoped id of
+/// \param userID The id of the user that we are going to get its org scoped ID ovrOrgScopedIDHandle.
 ///
 /// A message with type ::ovrMessage_User_GetOrgScopedID will be generated in response.
 ///
@@ -146,9 +161,9 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetSdkAccounts();
 
 /// Part of the scheme to confirm the identity of a particular user in your
 /// backend. You can pass the result of ovr_User_GetUserProof() and a user ID
-/// from ovr_User_Get() to your your backend. Your server can then use our api
-/// to verify identity. 'https://graph.oculus.com/user_nonce_validate?nonce=USE
-/// R_PROOF&user_id=USER_ID&access_token=ACCESS_TOKEN'
+/// from ovr_User_Get() to your backend. Your server can then use our api to
+/// verify identity. 'https://graph.oculus.com/user_nonce_validate?nonce=USER_P
+/// ROOF&user_id=USER_ID&access_token=ACCESS_TOKEN'
 ///
 /// NOTE: The nonce is only good for one check and then it is invalidated.
 ///
@@ -163,7 +178,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetUserProof();
 /// Launch the flow for blocking the given user. You can't follow, be followed,
 /// invited, or searched by a blocked user, for example. You can remove the
 /// block via ovr_User_LaunchUnblockFlow.
-/// \param userID User ID of user being blocked
+/// \param userID The ID of the user that the viewer is going to laucnh the block flow request.
 ///
 /// A message with type ::ovrMessage_User_LaunchBlockFlow will be generated in response.
 ///
@@ -174,7 +189,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetUserProof();
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_LaunchBlockFlow(ovrID userID);
 
 /// Launch the flow for sending a follow request to a user.
-/// \param userID User ID of user to send a follow request to
+/// \param userID The ID of the target user that is going to send the friend follow request to.
 ///
 /// A message with type ::ovrMessage_User_LaunchFriendRequestFlow will be generated in response.
 ///
@@ -185,7 +200,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_LaunchBlockFlow(ovrID userID);
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_LaunchFriendRequestFlow(ovrID userID);
 
 /// Launch the flow for unblocking a user that the viewer has blocked.
-/// \param userID User ID of user to unblock
+/// \param userID The ID of the user that the viewer is going to launch the unblock flow request.
 ///
 /// A message with type ::ovrMessage_User_LaunchUnblockFlow will be generated in response.
 ///

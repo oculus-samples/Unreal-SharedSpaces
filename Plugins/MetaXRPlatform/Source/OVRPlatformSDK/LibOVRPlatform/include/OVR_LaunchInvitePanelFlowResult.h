@@ -6,6 +6,9 @@
 #include "OVR_Platform_Defs.h"
 #include "OVR_UserArray.h"
 
+/// Sent when the user is finished using the invite panel to send out
+/// invitations. Contains a list of invitees. It can be retrieved using
+/// ovrNotification_GroupPresence_InvitationsSent.
 typedef struct ovrLaunchInvitePanelFlowResult *ovrLaunchInvitePanelFlowResultHandle;
 
 /// A list of users that were sent an invitation to the session.

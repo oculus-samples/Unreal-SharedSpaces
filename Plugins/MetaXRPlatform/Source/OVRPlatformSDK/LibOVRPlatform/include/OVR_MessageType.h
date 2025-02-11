@@ -60,6 +60,17 @@ typedef enum ovrMessageType_ {
   ovrMessage_Challenges_Join                                    = 0x21248069, ///< Generated in response to ovr_Challenges_Join()
   ovrMessage_Challenges_Leave                                   = 0x296116E5, ///< Generated in response to ovr_Challenges_Leave()
   ovrMessage_Challenges_UpdateInfo                              = 0x1175BE60, ///< Generated in response to ovr_Challenges_UpdateInfo()
+  ovrMessage_Cowatching_GetNextCowatchViewerArrayPage           = 0x1D403932, ///< Generated in response to ovr_Cowatching_GetNextCowatchViewerArrayPage()
+  ovrMessage_Cowatching_GetPresenterData                        = 0x49864735, ///< Generated in response to ovr_Cowatching_GetPresenterData()
+  ovrMessage_Cowatching_GetViewersData                          = 0x5CD7A24F, ///< Generated in response to ovr_Cowatching_GetViewersData()
+  ovrMessage_Cowatching_IsInSession                             = 0x651B4884, ///< Generated in response to ovr_Cowatching_IsInSession()
+  ovrMessage_Cowatching_JoinSession                             = 0x6388A554, ///< Generated in response to ovr_Cowatching_JoinSession()
+  ovrMessage_Cowatching_LaunchInviteDialog                      = 0x22933297, ///< Generated in response to ovr_Cowatching_LaunchInviteDialog()
+  ovrMessage_Cowatching_LeaveSession                            = 0x3C9E46CD, ///< Generated in response to ovr_Cowatching_LeaveSession()
+  ovrMessage_Cowatching_RequestToPresent                        = 0x7F79BCAA, ///< Generated in response to ovr_Cowatching_RequestToPresent()
+  ovrMessage_Cowatching_ResignFromPresenting                    = 0x4B49C202, ///< Generated in response to ovr_Cowatching_ResignFromPresenting()
+  ovrMessage_Cowatching_SetPresenterData                        = 0x6D1C8906, ///< Generated in response to ovr_Cowatching_SetPresenterData()
+  ovrMessage_Cowatching_SetViewerData                           = 0x3CDBE826, ///< Generated in response to ovr_Cowatching_SetViewerData()
   ovrMessage_DeviceApplicationIntegrity_GetIntegrityToken       = 0x3271ABDA, ///< Generated in response to ovr_DeviceApplicationIntegrity_GetIntegrityToken()
   ovrMessage_Entitlement_GetIsViewerEntitled                    = 0x186B58B1, ///< Generated in response to ovr_Entitlement_GetIsViewerEntitled()
   ovrMessage_GroupPresence_Clear                                = 0x6DAA9CC3, ///< Generated in response to ovr_GroupPresence_Clear()
@@ -104,19 +115,12 @@ typedef enum ovrMessageType_ {
   ovrMessage_RichPresence_Set                                   = 0x3C147509, ///< Generated in response to ovr_RichPresence_Set()
   ovrMessage_UserAgeCategory_Get                                = 0x21CBE0C0, ///< Generated in response to ovr_UserAgeCategory_Get()
   ovrMessage_UserAgeCategory_Report                             = 0x2E4DD8D6, ///< Generated in response to ovr_UserAgeCategory_Report()
-  ovrMessage_UserDataStore_PrivateDeleteEntryByKey              = 0x5C896F3E, ///< Generated in response to ovr_UserDataStore_PrivateDeleteEntryByKey()
-  ovrMessage_UserDataStore_PrivateGetEntries                    = 0x6C8A8228, ///< Generated in response to ovr_UserDataStore_PrivateGetEntries()
-  ovrMessage_UserDataStore_PrivateGetEntryByKey                 = 0x1C068319, ///< Generated in response to ovr_UserDataStore_PrivateGetEntryByKey()
-  ovrMessage_UserDataStore_PrivateWriteEntry                    = 0x41D2828B, ///< Generated in response to ovr_UserDataStore_PrivateWriteEntry()
-  ovrMessage_UserDataStore_PublicDeleteEntryByKey               = 0x1DD5E5FB, ///< Generated in response to ovr_UserDataStore_PublicDeleteEntryByKey()
-  ovrMessage_UserDataStore_PublicGetEntries                     = 0x167D4BC2, ///< Generated in response to ovr_UserDataStore_PublicGetEntries()
-  ovrMessage_UserDataStore_PublicGetEntryByKey                  = 0x195C66C6, ///< Generated in response to ovr_UserDataStore_PublicGetEntryByKey()
-  ovrMessage_UserDataStore_PublicWriteEntry                     = 0x34364A0A, ///< Generated in response to ovr_UserDataStore_PublicWriteEntry()
   ovrMessage_User_Get                                           = 0x6BCF9E47, ///< Generated in response to ovr_User_Get()
   ovrMessage_User_GetAccessToken                                = 0x06A85ABE, ///< Generated in response to ovr_User_GetAccessToken()
   ovrMessage_User_GetBlockedUsers                               = 0x7D201556, ///< Generated in response to ovr_User_GetBlockedUsers()
   ovrMessage_User_GetLoggedInUser                               = 0x436F345D, ///< Generated in response to ovr_User_GetLoggedInUser()
   ovrMessage_User_GetLoggedInUserFriends                        = 0x587C2A8D, ///< Generated in response to ovr_User_GetLoggedInUserFriends()
+  ovrMessage_User_GetLoggedInUserManagedInfo                    = 0x70BA3AEE, ///< Generated in response to ovr_User_GetLoggedInUserManagedInfo()
   ovrMessage_User_GetNextBlockedUserArrayPage                   = 0x7C2AFDCB, ///< Generated in response to ovr_User_GetNextBlockedUserArrayPage()
   ovrMessage_User_GetNextUserArrayPage                          = 0x267CF743, ///< Generated in response to ovr_User_GetNextUserArrayPage()
   ovrMessage_User_GetNextUserCapabilityArrayPage                = 0x2309F399, ///< Generated in response to ovr_User_GetNextUserCapabilityArrayPage()
@@ -136,10 +140,10 @@ typedef enum ovrMessageType_ {
   /// Extract the payload from the message handle with ::ovr_Message_GetString().
   ovrMessage_Notification_AbuseReport_ReportButtonPressed = 0x24472F6C,
 
-  /// Sent when a launch intent is received (for both cold and warm starts). The
-  /// payload is the type of the intent.
-  /// ovr_ApplicationLifecycle_GetLaunchDetails() should be called to get the
-  /// other details.
+  /// This event is triggered when a launch intent is received, whether it's a
+  /// cold or warm start. The payload contains the type of intent that was
+  /// received. To obtain additional details, you should call the
+  /// ovr_ApplicationLifecycle_GetLaunchDetails() function.
   ///
   /// The message will contain a payload of type const char *.
   /// Extract the payload from the message handle with ::ovr_Message_GetString().
@@ -151,8 +155,68 @@ typedef enum ovrMessageType_ {
   /// Extract the payload from the message handle with ::ovr_Message_GetAssetFileDownloadUpdate().
   ovrMessage_Notification_AssetFile_DownloadUpdate = 0x2FDD0CCD,
 
+  /// Sets a callback function that will be triggered when the user is no longer
+  /// in a copresent state and cowatching actions should not be performed.
+  ///
+  /// The message will contain a payload of type const char *.
+  /// Extract the payload from the message handle with ::ovr_Message_GetString().
+  ovrMessage_Notification_Cowatching_ApiNotReady = 0x66093981,
+
+  /// Sets a callback function that will be triggered when the user is in a
+  /// copresent state and cowatching is ready to begin.
+  ///
+  /// The message will contain a payload of type const char *.
+  /// Extract the payload from the message handle with ::ovr_Message_GetString().
+  ovrMessage_Notification_Cowatching_ApiReady = 0x09956693,
+
+  /// Sets a callback function that will be triggered when the current user
+  /// joins/leaves the cowatching session.
+  ///
+  /// The message will contain a payload of type ::ovrCowatchingStateHandle.
+  /// Extract the payload from the message handle with ::ovr_Message_GetCowatchingState().
+  ovrMessage_Notification_Cowatching_InSessionChanged = 0x0DF93113,
+
+  /// Sets a callback function that will be triggered when the cowatching API has
+  /// been initialized. At this stage, the API is not yet ready for use.
+  ///
+  /// The message will contain a payload of type const char *.
+  /// Extract the payload from the message handle with ::ovr_Message_GetString().
+  ovrMessage_Notification_Cowatching_Initialized = 0x74D948F3,
+
+  /// Sets a callback function that will be triggered when the presenter updates
+  /// the presenter data.
+  ///
+  /// The message will contain a payload of type const char *.
+  /// Extract the payload from the message handle with ::ovr_Message_GetString().
+  ovrMessage_Notification_Cowatching_PresenterDataChanged = 0x4E078EEE,
+
+  /// Sets a callback function that will be triggered when a user has started a
+  /// cowatching session, and the ID of the session is reflected in the payload.
+  ///
+  /// The message will contain a payload of type const char *.
+  /// Extract the payload from the message handle with ::ovr_Message_GetString().
+  ovrMessage_Notification_Cowatching_SessionStarted = 0x7321939C,
+
+  /// Sets a callback function that will be triggered when a cowatching session
+  /// has ended.
+  ///
+  /// The message will contain a payload of type const char *.
+  /// Extract the payload from the message handle with ::ovr_Message_GetString().
+  ovrMessage_Notification_Cowatching_SessionStopped = 0x49E6DBFA,
+
+  /// Sets a callback function that will be triggered when a user joins or
+  /// updates their viewer data.
+  ///
+  /// The message will contain a payload of type ::ovrCowatchViewerUpdateHandle.
+  /// Extract the payload from the message handle with ::ovr_Message_GetCowatchViewerUpdate().
+  ovrMessage_Notification_Cowatching_ViewersDataChanged = 0x68F2F1FF,
+
   /// Sent when the user is finished using the invite panel to send out
-  /// invitations. Contains a list of invitees.
+  /// invitations. Contains a list of invitees. Parameter: Callback is a function
+  /// that will be called when the invitation sent status changes.
+  /// ovrLaunchInvitePanelFlowResultHandle has 1 member: UserList
+  /// ovr_LaunchInvitePanelFlowResult_GetInvitedUsers() - A list of users that
+  /// were sent an invitation to the session.
   ///
   /// The message will contain a payload of type ::ovrLaunchInvitePanelFlowResultHandle.
   /// Extract the payload from the message handle with ::ovr_Message_GetLaunchInvitePanelFlowResult().
@@ -162,7 +226,17 @@ typedef enum ovrMessageType_ {
   /// the fields to figure out where the user wants to go and take the
   /// appropriate actions to bring them there. If the user is unable to go there,
   /// provide adequate messaging to the user on why they cannot go there. These
-  /// notifications should be responded to immediately.
+  /// notifications should be responded to immediately. Parameter: Callback is a
+  /// function that will be called when a user has chosen to join the
+  /// destination/lobby/match. ovrGroupPresenceJoinIntentHandle has 4 members:
+  /// string ovr_GroupPresenceJoinIntent_GetDeeplinkMessage() - An opaque string
+  /// provided by the developer to help them deeplink to content. string
+  /// ovr_GroupPresenceJoinIntent_GetDestinationApiName() - The destination the
+  /// current user wants to go to. string
+  /// ovr_GroupPresenceJoinIntent_GetLobbySessionId() - The lobby session the
+  /// current user wants to go to. string
+  /// ovr_GroupPresenceJoinIntent_GetMatchSessionId() - The match session the
+  /// current user wants to go to.
   ///
   /// The message will contain a payload of type ::ovrGroupPresenceJoinIntentHandle.
   /// Extract the payload from the message handle with ::ovr_Message_GetGroupPresenceJoinIntent().
@@ -172,7 +246,15 @@ typedef enum ovrMessageType_ {
   /// Oculus menu. Read the specific fields to check the user is currently from
   /// the destination/lobby/match and take the appropriate actions to remove
   /// them. Update the user's presence clearing the appropriate fields to
-  /// indicate the user has left.
+  /// indicate the user has left. Parameter: Callback is a function that will be
+  /// called when the user has chosen to leave the destination/lobby/match.
+  /// ovrGroupPresenceLeaveIntentHandle has 3 members: string
+  /// ovr_GroupPresenceLeaveIntent_GetDestinationApiName() - The destination the
+  /// current user wants to leave. string
+  /// ovr_GroupPresenceLeaveIntent_GetLobbySessionId() - The lobby session the
+  /// current user wants to leave. string
+  /// ovr_GroupPresenceLeaveIntent_GetMatchSessionId() - The match session the
+  /// current user wants to leave.
   ///
   /// The message will contain a payload of type ::ovrGroupPresenceLeaveIntentHandle.
   /// Extract the payload from the message handle with ::ovr_Message_GetGroupPresenceLeaveIntent().
@@ -193,14 +275,16 @@ typedef enum ovrMessageType_ {
   /// Extract the payload from the message handle with ::ovr_Message_GetLivestreamingStatus().
   ovrMessage_Notification_Livestreaming_StatusChange = 0x2247596E,
 
-  /// Sent when the status of a connection has changed.
+  /// Sent when the status of a connection has changed. The payload will be a
+  /// type of ovrNetSyncConnectionHandle.
   ///
   /// The message will contain a payload of type ::ovrNetSyncConnectionHandle.
   /// Extract the payload from the message handle with ::ovr_Message_GetNetSyncConnection().
   ovrMessage_Notification_NetSync_ConnectionStatusChanged = 0x073484CA,
 
   /// Sent when the list of known connected sessions has changed. Contains the
-  /// new list of sessions.
+  /// new list of sessions. The payload will be a type of
+  /// ovrNetSyncSessionsChangedNotificationHandle.
   ///
   /// The message will contain a payload of type ::ovrNetSyncSessionsChangedNotificationHandle.
   /// Extract the payload from the message handle with ::ovr_Message_GetNetSyncSessionsChangedNotification().

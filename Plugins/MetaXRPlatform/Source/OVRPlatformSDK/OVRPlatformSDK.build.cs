@@ -15,8 +15,8 @@ public class OVRPlatformSDK : ModuleRules
 
         if (Target.Platform == UnrealTargetPlatform.Win64)
         {
-            PublicAdditionalLibraries.Add(LibOVRPlatformDir + "lib/LibOVRPlatform64_1.lib");
-            PublicDelayLoadDLLs.Add("LibOVRPlatform64_1.dll");
+            PublicAdditionalLibraries.Add(LibOVRPlatformDir + "lib/LibOVRPlatformImpl64_1.lib");
+            PublicDelayLoadDLLs.Add("LibOVRPlatformImpl64_1.dll");
             isLibrarySupported = true;
         }
         else if (Target.Platform == UnrealTargetPlatform.Android)

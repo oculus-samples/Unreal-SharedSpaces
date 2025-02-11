@@ -8,9 +8,10 @@
 			"Name": "SharedSpaces",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
+			"Dependencies": [
 				"Engine",
-				"UMG"
+				"UMG",
+				"XRbase",
 			]
 		}
 	],
@@ -23,6 +24,10 @@
 				"Android"
 			],
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/8313d8d7e7cf4e03a33e79eb757bccba"
+		},
+		{
+			"Name": "XRBase",
+			"Enabled": true
 		},
 		{
 			"Name": "OculusAudio",

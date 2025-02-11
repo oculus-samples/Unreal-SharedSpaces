@@ -9,7 +9,8 @@
 #include "OVR_AccountAgeCategory.h"
 #include "OVR_AppAgeCategory.h"
 
-/// Retrieve the user age category for the current user.
+/// Retrieve the user age category for the current user. It can be used in
+/// ovr_UserAccountAgeCategory_GetAgeCategory()
 ///
 /// A message with type ::ovrMessage_UserAgeCategory_Get will be generated in response.
 ///
@@ -20,6 +21,7 @@
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_UserAgeCategory_Get();
 
 /// Report the current user's age category to Meta.
+/// \param age_category Age category for developers to send to Meta. There are two members, children age group (ovrAppAgeCategory_Ch) and non-children age group (ovrAppAgeCategory_Nch).
 ///
 /// A message with type ::ovrMessage_UserAgeCategory_Report will be generated in response.
 ///

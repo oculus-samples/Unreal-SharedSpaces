@@ -29,26 +29,29 @@
 #include "OVRPlatformEnums.h"
 #include "OVRPlatformTypes.generated.h"
 
-/** UE type corresponding to OVR Platform ovrID */
+/** UE type corresponding to OVR Platform ::ovrID. It is used to represent an ID in the OVR Platform and provides a convenient way to work with IDs in the OVR Platform within Unreal Engine. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|CustomModels|ID")
 struct OVRPLATFORM_API FOvrId
 {
     GENERATED_USTRUCT_BODY()
-
+    /** This is the default constructor for the FOvrId struct. It initializes the Id member variable to 0.*/
     FOvrId() : Id(0) {}
+    /** Initializes the Id member variable with the value of the ID parameter. This constructor is useful when you have an existing ovrID value.*/
     FOvrId(ovrID ID) : Id(ID) {}
+    /** This takes a string parameter and convert the string to an unsigned 64-bit integer, which is then assigned to the Id member variable.*/
     FOvrId(const FString& StrId) : Id(FCString::Strtoui64(*StrId, nullptr, 10)) {}
 
+    /** This is an implicit conversion operator that allows a FOvrId object to be converted to an ovrID value. The ovrID type is the native ID type used by the OVR Platform.*/
     operator ovrID() const
     {
         return Id;
     }
-
+    /** This is an equality operator that allows you to compare two FOvrId objects for equality.*/
     bool operator==(const FOvrId& Other)
     {
       return Id == Other.Id;
     }
-
+    /** This is a friend function that provides a hash code for a FOvrId object based on the Id member variable.*/
     friend uint32 GetTypeHash(const FOvrId& Other)
     {
       return GetTypeHash(Other.Id);

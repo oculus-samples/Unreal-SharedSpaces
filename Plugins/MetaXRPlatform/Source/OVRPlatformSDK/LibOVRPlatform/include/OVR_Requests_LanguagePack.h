@@ -8,9 +8,9 @@
 
 
 /// Returns currently installed and selected language pack for an app in the
-/// view of the `asset_details`. Use `language` field to extract neeeded
-/// language info. A particular language can be download and installed by a
-/// user from the Oculus app on the application page.
+/// view of the ovrAssetDetailsHandle. Use ovr_AssetDetails_GetLanguage() field
+/// to extract needed language info. A particular language can be download and
+/// installed by a user from the Oculus app on the application page.
 ///
 /// A message with type ::ovrMessage_LanguagePack_GetCurrent will be generated in response.
 ///
@@ -25,8 +25,8 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_LanguagePack_GetCurrent();
 /// ovr_AssetFile_DownloadByName() request, and sends periodic
 /// ovrNotification_AssetFile_DownloadUpdate to track the downloads. Once the
 /// language asset file is downloaded, call ovr_LanguagePack_GetCurrent() to
-/// retrive the data, and use the language at runtime.
-/// \param tag BCP47 language tag
+/// retrieve the data, and use the language at runtime.
+/// \param tag The BCP47 language tag that identifies the language to be set as the current language.
 ///
 /// A message with type ::ovrMessage_LanguagePack_SetCurrent will be generated in response.
 ///

@@ -13,8 +13,9 @@
 
 struct ovrVoipOptions;
 typedef struct ovrVoipOptions* ovrVoipOptionsHandle;
-
+/// \brief Creates a new instance of ovrVoipOptionsHandle() which is used to customize the option flow. It returns a handle to the newly created options object, which can be used to set various properties for the options.
 OVRP_PUBLIC_FUNCTION(ovrVoipOptionsHandle) ovr_VoipOptions_Create();
+/// \brief Destroys an existing instance of the ovrVoipOptionsHandle() and frees up memory when you're done using it.
 OVRP_PUBLIC_FUNCTION(void) ovr_VoipOptions_Destroy(ovrVoipOptionsHandle handle);
 /// Sets the maximum average bitrate the audio codec should use. Higher
 /// bitrates will increase audio quality at the expense of increased network

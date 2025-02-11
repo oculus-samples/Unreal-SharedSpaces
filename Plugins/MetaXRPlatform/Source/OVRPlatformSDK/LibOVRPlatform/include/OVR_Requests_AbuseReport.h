@@ -11,6 +11,7 @@
 
 /// The currently running application has indicated they want to show their in-
 /// app reporting flow or that they choose to ignore the request.
+/// \param response Possible states that an app can respond to the platform notification that the in-app reporting flow has been requested by the user.
 ///
 /// A message with type ::ovrMessage_AbuseReport_ReportRequestHandled will be generated in response.
 ///

@@ -7,9 +7,19 @@
 
 typedef enum ovrLaunchType_ {
   ovrLaunchType_Unknown,
+  /// Normal launch from the user's library
   ovrLaunchType_Normal,
+  /// Launch from the user accepting an invite. Check
+  /// ovr_LaunchDetails_GetLobbySessionID(),
+  /// ovr_LaunchDetails_GetMatchSessionID(),
+  /// ovr_LaunchDetails_GetDestinationApiName() and
+  /// ovr_LaunchDetails_GetDeeplinkMessage().
   ovrLaunchType_Invite,
+  /// DEPRECATED
   ovrLaunchType_Coordinated,
+  /// Launched from ovr_Application_LaunchOtherApp(). Check
+  /// ovr_LaunchDetails_GetLaunchSource() and
+  /// ovr_LaunchDetails_GetDeeplinkMessage().
   ovrLaunchType_Deeplink,
 } ovrLaunchType;
 

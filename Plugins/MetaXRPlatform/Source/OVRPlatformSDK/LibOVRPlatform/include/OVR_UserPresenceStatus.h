@@ -5,9 +5,13 @@
 
 #include "OVR_Platform_Defs.h"
 
+/// Describe the current status of the user and it can be retrieved with
+/// ovr_User_GetPresenceStatus().
 typedef enum ovrUserPresenceStatus_ {
   ovrUserPresenceStatus_Unknown,
+  /// The user status is currently online.
   ovrUserPresenceStatus_Online,
+  /// The user status is currently offline.
   ovrUserPresenceStatus_Offline,
 } ovrUserPresenceStatus;
 

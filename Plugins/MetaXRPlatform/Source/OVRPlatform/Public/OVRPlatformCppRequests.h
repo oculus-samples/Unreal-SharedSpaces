@@ -31,7 +31,10 @@
 // ----------------------------------------------------------------------
 // AbuseReport
 
-/** The currently running application has indicated they want to show their in-app reporting flow or that they choose to ignore the request. */
+/**
+ * The currently running application has indicated they want to show their in-app reporting flow or that they choose to ignore the request.
+ * @param Response - Possible states that an app can respond to the platform notification that the in-app reporting flow has been requested by the user.
+ */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_AbuseReport_ReportRequestHandled_Delegate, bool, FString);
 
 void OvrPlatform_AbuseReport_ReportRequestHandled(
@@ -47,6 +50,8 @@ void OvrPlatform_AbuseReport_ReportRequestHandled(
  * The largest number that is supported by this method is the max value of a signed 64-bit integer.
  * If the number is larger than that, it is clamped to that max value before being passed to
  * the servers.
+ * @param Name - The api_name of the achievement that will be adding count, which can be retrieved by field FOvrAchievementDefinition::ApiName.
+ * @param Count - The value of count that will be added to the achievement.
  */
 typedef TSharedPtr<FOvrAchievementUpdate> FOvrAchievementUpdatePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Achievements_AddCount_Delegate, bool, FOvrAchievementUpdatePtr, FString);
@@ -59,7 +64,7 @@ void OvrPlatform_Achievements_AddCount(
 
 /**
  * Unlock fields of a BITFIELD achievement.
- * @param Name - The name of the achievement to unlock
+ * @param Name - The api_name of the Bitfield achievement whose field(s) will be unlocked, which can be retrieved by field FOvrAchievementDefinition::ApiName.
  * @param Fields - A string containing either '0' or '1' characters. Every '1' will unlock the field in the corresponding position.
  */
 typedef TSharedPtr<FOvrAchievementUpdate> FOvrAchievementUpdatePtr;
@@ -71,7 +76,7 @@ void OvrPlatform_Achievements_AddFields(
     FString Fields,
     OvrPlatform_Achievements_AddFields_Delegate&& Delegate);
 
-/** Request all achievement definitions for the app. */
+/** Retrieve all achievement definitions for the app, including their name, unlock requirements, and any additional details. */
 typedef TSharedPtr<FOvrAchievementDefinitionPages> FOvrAchievementDefinitionArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Achievements_GetAllDefinitions_Delegate, bool, FOvrAchievementDefinitionArrayPtr, FString);
 
@@ -79,7 +84,7 @@ void OvrPlatform_Achievements_GetAllDefinitions(
     UGameInstance* GameInstance,
     OvrPlatform_Achievements_GetAllDefinitions_Delegate&& Delegate);
 
-/** Request the progress for the user on all achievements in the app. */
+/** Retrieve the progress for the user on all achievements in the app. */
 typedef TSharedPtr<FOvrAchievementProgressPages> FOvrAchievementProgressArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Achievements_GetAllProgress_Delegate, bool, FOvrAchievementProgressArrayPtr, FString);
 
@@ -87,7 +92,11 @@ void OvrPlatform_Achievements_GetAllProgress(
     UGameInstance* GameInstance,
     OvrPlatform_Achievements_GetAllProgress_Delegate&& Delegate);
 
-/** Request the achievement definitions that match the specified names. */
+/**
+ * Retrieve the achievement definitions that match the specified names, including their name, unlock requirements, and any additional details.
+ * @param Names - The api_names of the achievements used to retrieve the definition information, which can be retrieved by field FOvrAchievementDefinition::ApiName.
+ * @param Count - The number of specified achievements names.
+ */
 typedef TSharedPtr<FOvrAchievementDefinitionPages> FOvrAchievementDefinitionArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Achievements_GetDefinitionsByName_Delegate, bool, FOvrAchievementDefinitionArrayPtr, FString);
 
@@ -96,7 +105,11 @@ void OvrPlatform_Achievements_GetDefinitionsByName(
     TArray<FString> Names,
     OvrPlatform_Achievements_GetDefinitionsByName_Delegate&& Delegate);
 
-/** Request the user's progress on the specified achievements. */
+/**
+ * Retrieve the user's progress on the achievements that match the specified names.
+ * @param Names - The api_names of the achievements used to retrieve the progress information, which can be retrieved by field FOvrAchievementDefinition::ApiName.
+ * @param Count - The number of specified achievements names.
+ */
 typedef TSharedPtr<FOvrAchievementProgressPages> FOvrAchievementProgressArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Achievements_GetProgressByName_Delegate, bool, FOvrAchievementProgressArrayPtr, FString);
 
@@ -105,7 +118,18 @@ void OvrPlatform_Achievements_GetProgressByName(
     TArray<FString> Names,
     OvrPlatform_Achievements_GetProgressByName_Delegate&& Delegate);
 
-/** Unlock the achievement with the given name. This can be of any achievement type. */
+/**
+ * Unlock the achievement with the given name. This can be of any achievement type: a simple unlock, count-based, or bitfield-based achievement.
+ * The Meta Quest Platform supports three types of achievements: simple, count and bitfield. Each achievement type has a different unlock mechanism.
+ * Simple achievements are all-or-nothing. They are unlocked by a single event or objective completion.
+ * For example, a simple achievement is unlocked when Frodo reaches Mount Doom.
+ * Count achievements are unlocked when a counter reaches a defined target. Define the field FOvrAchievementDefinition::Target
+ * to reach that triggers the achievement. For example, a target achievement is unlocked when Darth Vader chokes 3 disappointing Imperial officers.
+ * Bitfield achievements are unlocked when a target number of bits in a bitfield are set. Define the field FOvrAchievementDefinition::Target
+ * and field FOvrAchievementDefinition::BitfieldLength that triggers the achievement.
+ * For example, a bitfield achievement is unlocked when Harry destroys 5 of the 7 Horcruxes.
+ * @param Name - The api_name of the achievement that will be unlocked, which can be retrieved by field FOvrAchievementDefinition::ApiName.
+ */
 typedef TSharedPtr<FOvrAchievementUpdate> FOvrAchievementUpdatePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Achievements_Unlock_Delegate, bool, FOvrAchievementUpdatePtr, FString);
 
@@ -128,7 +152,7 @@ void OvrPlatform_Application_CancelAppDownload(
     UGameInstance* GameInstance,
     OvrPlatform_Application_CancelAppDownload_Delegate&& Delegate);
 
-/** Track download progress for an app */
+/** Track download progress for an app. */
 typedef TSharedPtr<FOvrAppDownloadProgressResult> FOvrAppDownloadProgressResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Application_CheckAppDownloadProgress_Delegate, bool, FOvrAppDownloadProgressResultPtr, FString);
 
@@ -137,8 +161,10 @@ void OvrPlatform_Application_CheckAppDownloadProgress(
     OvrPlatform_Application_CheckAppDownloadProgress_Delegate&& Delegate);
 
 /**
- * Requests version information, including the version code and version name of the currently installed app
- * and version code, version name, size and release date of the latest app update
+ * Requests version information, including the field FOvrApplicationVersion::CurrentCode and
+ * field FOvrApplicationVersion::CurrentName of the currently installed app
+ * and field FOvrApplicationVersion::LatestCode, field FOvrApplicationVersion::LatestName,
+ * field FOvrApplicationVersion::Size and field FOvrApplicationVersion::ReleaseDate of the latest app update.
  */
 typedef TSharedPtr<FOvrApplicationVersion> FOvrApplicationVersionPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Application_GetVersion_Delegate, bool, FOvrApplicationVersionPtr, FString);
@@ -151,8 +177,8 @@ void OvrPlatform_Application_GetVersion(
  * Installs the app update that was previously downloaded.
  * Once the install begins the application will exit automatically.
  * After the installation process is complete, the app will be relaunched
- * based on the options passed.
- * @param DeeplinkOptions - Additional configuration for this relaunch. Optional.
+ * based on the options passed in.
+ * @param DeeplinkOptions - Additional configuration for this relaunch, which is optional. It contains 5 fields FOvrApplicationOptions::DeeplinkMessage, FOvrApplicationOptions::DestinationApiName, FOvrApplicationOptions::LobbySessionId, FOvrApplicationOptions::MatchSessionId and FOvrApplicationOptions::RoomId.
  */
 typedef TSharedPtr<FOvrAppDownloadResult> FOvrAppDownloadResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Application_InstallAppUpdateAndRelaunch_Delegate, bool, FOvrAppDownloadResultPtr, FString);
@@ -166,8 +192,8 @@ void OvrPlatform_Application_InstallAppUpdateAndRelaunch(
  * Launches a different application in the user's library. If the user
  * does not have that application installed, they will be taken to that app's
  * page in the Oculus Store
- * @param AppID - The ID of the app to launch
- * @param DeeplinkOptions - Additional configuration for this requests. Optional.
+ * @param AppID - The unique ID of the app to be launched.
+ * @param DeeplinkOptions - Additional configuration for this request, which is optional. It contains 5 fields FOvrApplicationOptions::DeeplinkMessage, FOvrApplicationOptions::DestinationApiName, FOvrApplicationOptions::LobbySessionId, FOvrApplicationOptions::MatchSessionId and FOvrApplicationOptions::RoomId.
  */
 typedef TSharedPtr<FString> FStringPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Application_LaunchOtherApp_Delegate, bool, FStringPtr, FString);
@@ -181,7 +207,7 @@ void OvrPlatform_Application_LaunchOtherApp(
 /**
  * Starts an app download.
  * It will return a result when the download is finished.
- * Download progress can be monitored using the check_app_download_progress API.
+ * Download progress can be monitored using the Application_CheckAppDownloadProgress().
  */
 typedef TSharedPtr<FOvrAppDownloadResult> FOvrAppDownloadResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Application_StartAppDownload_Delegate, bool, FOvrAppDownloadResultPtr, FString);
@@ -196,7 +222,7 @@ void OvrPlatform_Application_StartAppDownload(
 // ----------------------------------------------------------------------
 // AssetFile
 
-/** DEPRECATED. Use AssetFile_DeleteById() */
+/** \deprecated Use AssetFile_DeleteById() */
 typedef TSharedPtr<FOvrAssetFileDeleteResult> FOvrAssetFileDeleteResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_AssetFile_Delete_Delegate, bool, FOvrAssetFileDeleteResultPtr, FString);
 
@@ -207,7 +233,7 @@ void OvrPlatform_AssetFile_Delete(
     OvrPlatform_AssetFile_Delete_Delegate&& Delegate);
 
 /**
- * Removes an previously installed asset file from the device by its ID.
+ * Removes a previously installed asset file from the device by its ID.
  * Returns an object containing the asset ID and file name, and a success flag.
  * @param AssetFileID - The asset file ID
  */
@@ -220,7 +246,7 @@ void OvrPlatform_AssetFile_DeleteById(
     OvrPlatform_AssetFile_DeleteById_Delegate&& Delegate);
 
 /**
- * Removes an previously installed asset file from the device by its name.
+ * Removes a previously installed asset file from the device by its name.
  * Returns an object containing the asset ID and file name, and a success flag.
  * @param AssetFileName - The asset file name
  */
@@ -232,7 +258,7 @@ void OvrPlatform_AssetFile_DeleteByName(
     FString AssetFileName,
     OvrPlatform_AssetFile_DeleteByName_Delegate&& Delegate);
 
-/** DEPRECATED. Use AssetFile_DownloadById() */
+/** \deprecated Use AssetFile_DownloadById() */
 typedef TSharedPtr<FOvrAssetFileDownloadResult> FOvrAssetFileDownloadResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_AssetFile_Download_Delegate, bool, FOvrAssetFileDownloadResultPtr, FString);
 
@@ -270,7 +296,7 @@ void OvrPlatform_AssetFile_DownloadByName(
     FString AssetFileName,
     OvrPlatform_AssetFile_DownloadByName_Delegate&& Delegate);
 
-/** DEPRECATED. Use AssetFile_DownloadCancelById() */
+/** \deprecated Use AssetFile_DownloadCancelById() */
 typedef TSharedPtr<FOvrAssetFileDownloadCancelResult> FOvrAssetFileDownloadCancelResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_AssetFile_DownloadCancel_Delegate, bool, FOvrAssetFileDownloadCancelResultPtr, FString);
 
@@ -307,8 +333,8 @@ void OvrPlatform_AssetFile_DownloadCancelByName(
     OvrPlatform_AssetFile_DownloadCancelByName_Delegate&& Delegate);
 
 /**
- * Returns an array of objects with asset file names and their associated IDs,
- * and and whether it's currently installed.
+ * Returns an array of asset details with asset file names and their associated IDs field FOvrAssetDetails::AssetId,
+ * and whether it's currently installed field FOvrAssetDetails::DownloadStatus.
  */
 typedef TSharedPtr<TArray<FOvrAssetDetails>> FOvrAssetDetailsArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_AssetFile_GetList_Delegate, bool, FOvrAssetDetailsArrayPtr, FString);
@@ -317,7 +343,7 @@ void OvrPlatform_AssetFile_GetList(
     UGameInstance* GameInstance,
     OvrPlatform_AssetFile_GetList_Delegate&& Delegate);
 
-/** DEPRECATED. Use AssetFile_StatusById() */
+/** \deprecated Use AssetFile_StatusById() */
 typedef TSharedPtr<FOvrAssetDetails> FOvrAssetDetailsPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_AssetFile_Status_Delegate, bool, FOvrAssetDetailsPtr, FString);
 
@@ -328,7 +354,7 @@ void OvrPlatform_AssetFile_Status(
     OvrPlatform_AssetFile_Status_Delegate&& Delegate);
 
 /**
- * Returns the details on a single asset: ID, file name, and whether it's currently installed
+ * Returns the details FOvrAssetDetails on a single asset: ID, file name, and whether it's currently installed
  * @param AssetFileID - The asset file ID
  */
 typedef TSharedPtr<FOvrAssetDetails> FOvrAssetDetailsPtr;
@@ -340,7 +366,7 @@ void OvrPlatform_AssetFile_StatusById(
     OvrPlatform_AssetFile_StatusById_Delegate&& Delegate);
 
 /**
- * Returns the details on a single asset: ID, file name, and whether it's currently installed
+ * Returns the details FOvrAssetDetails on a single asset: ID, file name, and whether it's currently installed
  * @param AssetFileName - The asset file name
  */
 typedef TSharedPtr<FOvrAssetDetails> FOvrAssetDetailsPtr;
@@ -354,7 +380,12 @@ void OvrPlatform_AssetFile_StatusByName(
 // ----------------------------------------------------------------------
 // Avatar
 
-/** Launches the Avatar Editor */
+/**
+ * Launches the Avatar Editor. Meta Avatars Editor is a feature that allows users to edit their Meta Avatars appearances within the VR application
+ * that they are currently using. This experience is often used by users to switch their outfit and accessories to better suit the VR experience they are experiencing.
+ * The result can be retrieved by field FOvrAvatarEditorResult::RequestSent.
+ * @param Options - A FOvrAvatarEditorOptions contains the options information, including an optional override for the source of the request, which is specified by FOvrAvatarEditorOptions::SourceOverride.
+ */
 typedef TSharedPtr<FOvrAvatarEditorResult> FOvrAvatarEditorResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Avatar_LaunchAvatarEditor_Delegate, bool, FOvrAvatarEditorResultPtr, FString);
 
@@ -366,7 +397,7 @@ void OvrPlatform_Avatar_LaunchAvatarEditor(
 // ----------------------------------------------------------------------
 // Challenges
 
-/** DEPRECATED. Use server-to-server API call instead. */
+/** \deprecated Use server-to-server API call instead. */
 typedef TSharedPtr<FOvrChallenge> FOvrChallengePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Challenges_Create_Delegate, bool, FOvrChallengePtr, FString);
 
@@ -377,7 +408,11 @@ void OvrPlatform_Challenges_Create(
     FOvrChallengeOptions ChallengeOptions,
     OvrPlatform_Challenges_Create_Delegate&& Delegate);
 
-/** If the current user has an invite to the challenge, decline the invite */
+/**
+ * If the current user has the necessary permissions, they can decline a challenge by providing the challenge ID,
+ * which can be obtained using field FOvrChallenge::ID.
+ * @param ChallengeID - The ID of challenge that the user is going to decline. It can be retrieved by field FOvrChallenge::ID.
+ */
 typedef TSharedPtr<FOvrChallenge> FOvrChallengePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Challenges_DeclineInvite_Delegate, bool, FOvrChallengePtr, FString);
 
@@ -386,7 +421,7 @@ void OvrPlatform_Challenges_DeclineInvite(
     FOvrId ChallengeID,
     OvrPlatform_Challenges_DeclineInvite_Delegate&& Delegate);
 
-/** DEPRECATED. Use server-to-server API call instead. */
+/** \deprecated Use server-to-server API call instead. */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_Challenges_Delete_Delegate, bool, FString);
 
 [[deprecated("Use server-to-server API call instead.")]]
@@ -396,8 +431,8 @@ void OvrPlatform_Challenges_Delete(
     OvrPlatform_Challenges_Delete_Delegate&& Delegate);
 
 /**
- * Gets the information for a single challenge
- * @param ChallengeID - The id of the challenge whose entries to return.
+ * Gets detailed information for a single challenge by providing the challenge ID, which can be retrieved by calling field FOvrChallenge::ID.
+ * @param ChallengeID - The id of the challenge whose entries to return, which can be retrieved by calling field FOvrChallenge::ID.
  */
 typedef TSharedPtr<FOvrChallenge> FOvrChallengePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Challenges_Get_Delegate, bool, FOvrChallengePtr, FString);
@@ -408,11 +443,14 @@ void OvrPlatform_Challenges_Get(
     OvrPlatform_Challenges_Get_Delegate&& Delegate);
 
 /**
- * Requests a block of challenge entries.
- * @param ChallengeID - The id of the challenge whose entries to return.
- * @param Limit - Defines the maximum number of entries to return.
- * @param Filter - By using ovrLeaderboard_FilterFriends, this allows you to filter the returned values to bidirectional followers.
- * @param StartAt - Defines whether to center the query on the user or start at the top of the challenge.
+ * Retrieves a list of entries for a specific challenge, with options to filter and limit the results. By providing the challengeID,
+ * you can specify which challenge's entries you want to retrieve. The limit parameter allows you to control the number of entries returned.
+ * The filter parameter enables you to refine the results to only include entries from users who are bidirectional followers.
+ * The startAt parameter allows you to define whether to center the query on the user or start at the top of the challenge.
+ * @param ChallengeID - The id of the challenge whose entries to return, which can be retrieved by calling field FOvrChallenge::ID.
+ * @param Limit - Sets a limit on the maximum number of challenges to be fetched, which can be useful for pagination or performance reasons.
+ * @param Filter - By using the EOvrLeaderboardFilterType, you can refine the results to only include entries from users who are bidirectional followers.
+ * @param StartAt - Defines whether to center the query on the user or start at the top of the challenge. If this is EOvrLeaderboardStartAt::CenteredOnViewer or EOvrLeaderboardStartAt::CenteredOnViewerOrTop, then the current user's ID will be automatically added to the query.
  */
 typedef TSharedPtr<FOvrChallengeEntryPages> FOvrChallengeEntryArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Challenges_GetEntries_Delegate, bool, FOvrChallengeEntryArrayPtr, FString);
@@ -426,10 +464,12 @@ void OvrPlatform_Challenges_GetEntries(
     OvrPlatform_Challenges_GetEntries_Delegate&& Delegate);
 
 /**
- * Requests a block of challenge entries.
- * @param ChallengeID - The id of the challenge whose entries to return.
- * @param Limit - The maximum number of entries to return.
- * @param AfterRank - The position after which to start.  For example, 10 returns challenge results starting with the 11th user.
+ * Returns a list of entries for a specific challenge, starting from a specified rank.
+ * By providing the challengeID and rank, you can specify which challenge's entries you want to retrieve and where to start the query.
+ * The limit parameter allows you to control the number of entries returned.
+ * @param ChallengeID - The id of the challenge whose entries to return, which can be retrieved by calling field FOvrChallenge::ID.
+ * @param Limit - Sets a limit on the maximum number of challenges to be fetched, which can be useful for pagination or performance reasons.
+ * @param AfterRank - The position after which to start. For example, 10 returns challenge results starting with the 11th user.
  */
 typedef TSharedPtr<FOvrChallengeEntryPages> FOvrChallengeEntryArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Challenges_GetEntriesAfterRank_Delegate, bool, FOvrChallengeEntryArrayPtr, FString);
@@ -442,9 +482,10 @@ void OvrPlatform_Challenges_GetEntriesAfterRank(
     OvrPlatform_Challenges_GetEntriesAfterRank_Delegate&& Delegate);
 
 /**
- * Requests a block of challenge entries. Will return only entries matching the user IDs passed in.
- * @param ChallengeID - The id of the challenge whose entries to return.
- * @param Limit - Defines the maximum number of entries to return.
+ * Retrieves a list of challenge entries for a specific set of user IDs, with options to filter and limit the results.
+ * This method is useful for retrieving a list of challenge entries for a specific set of users, allowing you to display their progress and rankings within the challenge.
+ * @param ChallengeID - The id of the challenge whose entries to return, which can be retrieved by calling field FOvrChallenge::ID.
+ * @param Limit - Sets a limit on the maximum number of challenges to be fetched, which can be useful for pagination or performance reasons.
  * @param StartAt - Defines whether to center the query on the user or start at the top of the challenge. If this is EOvrLeaderboardStartAt::CenteredOnViewer or EOvrLeaderboardStartAt::CenteredOnViewerOrTop, then the current user's ID will be automatically added to the query.
  * @param UserIDs - Defines a list of user ids to get entries for.
  * @param UserIDLength - The number of user IDs provided.
@@ -460,7 +501,12 @@ void OvrPlatform_Challenges_GetEntriesByIds(
     TArray<FOvrId> UserIDs,
     OvrPlatform_Challenges_GetEntriesByIds_Delegate&& Delegate);
 
-/** Requests for a list of challenge */
+/**
+ * Returns a list of challenges that match the specified options. The FOvrChallengeOptions parameter allows you to specify
+ * the criteria for the challenges you want to retrieve. The limit parameter allows you to control the number of challenges returned.
+ * @param ChallengeOptions - This indicates the options of the challenge and it can be retrieved by FOvrChallengeOptions.
+ * @param Limit - Sets a limit on the maximum number of challenges to be fetched, which can be useful for pagination or performance reasons.
+ */
 typedef TSharedPtr<FOvrChallengePages> FOvrChallengeArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Challenges_GetList_Delegate, bool, FOvrChallengeArrayPtr, FString);
 
@@ -470,7 +516,11 @@ void OvrPlatform_Challenges_GetList(
     int32 Limit,
     OvrPlatform_Challenges_GetList_Delegate&& Delegate);
 
-/** If the current user has permission, join the challenge */
+/**
+ * If the current user has the necessary permissions to join, participate in a challenge by providing the challenge ID,
+ * which can be retrieved using field FOvrChallenge::ID.
+ * @param ChallengeID - The ID of challenge that the user is going to join. It can be retrieved by field FOvrChallenge::ID.
+ */
 typedef TSharedPtr<FOvrChallenge> FOvrChallengePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Challenges_Join_Delegate, bool, FOvrChallengePtr, FString);
 
@@ -479,7 +529,11 @@ void OvrPlatform_Challenges_Join(
     FOvrId ChallengeID,
     OvrPlatform_Challenges_Join_Delegate&& Delegate);
 
-/** If the current user has permission, leave the challenge */
+/**
+ * If the current user has the necessary permissions, they can leave a challenge by providing the challenge ID,
+ * which can be obtained using field FOvrChallenge::ID.
+ * @param ChallengeID - The ID of challenge that the user is going to leave. It can be retrieved by field FOvrChallenge::ID.
+ */
 typedef TSharedPtr<FOvrChallenge> FOvrChallengePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Challenges_Leave_Delegate, bool, FOvrChallengePtr, FString);
 
@@ -488,7 +542,7 @@ void OvrPlatform_Challenges_Leave(
     FOvrId ChallengeID,
     OvrPlatform_Challenges_Leave_Delegate&& Delegate);
 
-/** DEPRECATED. Use server-to-server API call instead. */
+/** \deprecated Use server-to-server API call instead. */
 typedef TSharedPtr<FOvrChallenge> FOvrChallengePtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Challenges_UpdateInfo_Delegate, bool, FOvrChallengePtr, FString);
 
@@ -500,12 +554,113 @@ void OvrPlatform_Challenges_UpdateInfo(
     OvrPlatform_Challenges_UpdateInfo_Delegate&& Delegate);
 
 // ----------------------------------------------------------------------
+// Cowatching
+
+/**
+ * Retrieve the presenter data that drives an active cowatching session.
+ * This method can be called when there is an ongoing cowatching session,
+ * allowing developers to access and utilize the presenter data to enhance the user experience.
+ */
+typedef TSharedPtr<FString> FStringPtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_Cowatching_GetPresenterData_Delegate, bool, FStringPtr, FString);
+
+void OvrPlatform_Cowatching_GetPresenterData(
+    UGameInstance* GameInstance,
+    OvrPlatform_Cowatching_GetPresenterData_Delegate&& Delegate);
+
+/**
+ * Retrieve the viewer data of everyone who is in a cowatching session whose data was set by Cowatching_SetViewerData() ViewerData.
+ * This can be called when there is an active cowatching session.
+ */
+typedef TSharedPtr<FOvrCowatchViewerPages> FOvrCowatchViewerArrayPtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_Cowatching_GetViewersData_Delegate, bool, FOvrCowatchViewerArrayPtr, FString);
+
+void OvrPlatform_Cowatching_GetViewersData(
+    UGameInstance* GameInstance,
+    OvrPlatform_Cowatching_GetViewersData_Delegate&& Delegate);
+
+/**
+ * Check whether the current user is participating in the ongoing cowatching session.
+ * It returns a boolean value field FOvrCowatchingState::InSession indicating the user's presence in the session.
+ */
+typedef TSharedPtr<FOvrCowatchingState> FOvrCowatchingStatePtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_Cowatching_IsInSession_Delegate, bool, FOvrCowatchingStatePtr, FString);
+
+void OvrPlatform_Cowatching_IsInSession(
+    UGameInstance* GameInstance,
+    OvrPlatform_Cowatching_IsInSession_Delegate&& Delegate);
+
+/** Join the ongoing cowatching session as a viewer, updating data only possible for users already in the session. */
+DECLARE_DELEGATE_TwoParams(OvrPlatform_Cowatching_JoinSession_Delegate, bool, FString);
+
+void OvrPlatform_Cowatching_JoinSession(
+    UGameInstance* GameInstance,
+    OvrPlatform_Cowatching_JoinSession_Delegate&& Delegate);
+
+/** Launch a dialog for inviting users to cowatch in Copresent Home. */
+DECLARE_DELEGATE_TwoParams(OvrPlatform_Cowatching_LaunchInviteDialog_Delegate, bool, FString);
+
+void OvrPlatform_Cowatching_LaunchInviteDialog(
+    UGameInstance* GameInstance,
+    OvrPlatform_Cowatching_LaunchInviteDialog_Delegate&& Delegate);
+
+/** Leave the current cowatching session, rendering viewer data obsolete and no longer relevant to the ongoing experience. */
+DECLARE_DELEGATE_TwoParams(OvrPlatform_Cowatching_LeaveSession_Delegate, bool, FString);
+
+void OvrPlatform_Cowatching_LeaveSession(
+    UGameInstance* GameInstance,
+    OvrPlatform_Cowatching_LeaveSession_Delegate&& Delegate);
+
+/** Request to initiate a cowatching session as the presenter while being copresent in a shared virtual home environment. */
+DECLARE_DELEGATE_TwoParams(OvrPlatform_Cowatching_RequestToPresent_Delegate, bool, FString);
+
+void OvrPlatform_Cowatching_RequestToPresent(
+    UGameInstance* GameInstance,
+    OvrPlatform_Cowatching_RequestToPresent_Delegate&& Delegate);
+
+/** Stop being the presenter and terminate the ongoing cowatching session. This action will effectively end the shared media experience. */
+DECLARE_DELEGATE_TwoParams(OvrPlatform_Cowatching_ResignFromPresenting_Delegate, bool, FString);
+
+void OvrPlatform_Cowatching_ResignFromPresenting(
+    UGameInstance* GameInstance,
+    OvrPlatform_Cowatching_ResignFromPresenting_Delegate&& Delegate);
+
+/**
+ * Set the data that drives a cowatching session. This method is only callable by the presenter.
+ * The video title cannot exceed 100 characters, and the data size is limited to 500 characters.
+ * The data will be eventually consistent across all users.
+ * @param VideoTitle - A string representing the title of the video being played in the cowatching session. This parameter must not exceed 100 characters in length.
+ * @param PresenterData - A string containing data that drives the cowatching session, such as video metadata or playback information. This parameter is limited to 500 characters in length and will be eventually consistent across all users participating in the session.
+ */
+DECLARE_DELEGATE_TwoParams(OvrPlatform_Cowatching_SetPresenterData_Delegate, bool, FString);
+
+void OvrPlatform_Cowatching_SetPresenterData(
+    UGameInstance* GameInstance,
+    FString VideoTitle,
+    FString PresenterData,
+    OvrPlatform_Cowatching_SetPresenterData_Delegate&& Delegate);
+
+/**
+ * Set the current user's viewer data to be shared with copresent users. This can be called when there is an active cowatching session.
+ * The data size is limited to 500 characters, and it will eventually become consistent across all users.
+ * @param ViewerData - A string containing data about the current user's viewer state, such as their preferences or settings. This data is shared with copresent users during an active cowatching session and is limited to 500 characters in size. The data will eventually become consistent across all users participating in the session.
+ */
+DECLARE_DELEGATE_TwoParams(OvrPlatform_Cowatching_SetViewerData_Delegate, bool, FString);
+
+void OvrPlatform_Cowatching_SetViewerData(
+    UGameInstance* GameInstance,
+    FString ViewerData,
+    OvrPlatform_Cowatching_SetViewerData_Delegate&& Delegate);
+
+// ----------------------------------------------------------------------
 // DeviceApplicationIntegrity
 
 /**
  * Returns Device and Application Integrity Attestation JSON Web Token.
  * The token has format of header.claims.signature encoded in base64.
  * Header contains algorithm type (PS256) and token type (JWT).
+ * See more details [here](https://developer.oculus.com/documentation/unreal/ps-attestation-api/#how-does-this-work).
+ * @param ChallengeNonce - A string that represents a nonce value used to generate the attestation token, ensuring uniqueness and security.
  */
 typedef TSharedPtr<FString> FStringPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_DeviceApplicationIntegrity_GetIntegrityToken_Delegate, bool, FStringPtr, FString);
@@ -518,7 +673,11 @@ void OvrPlatform_DeviceApplicationIntegrity_GetIntegrityToken(
 // ----------------------------------------------------------------------
 // Entitlement
 
-/** Returns whether the current user is entitled to the current app. */
+/**
+ * Returns whether the current user is entitled to the current app. The primary purpose of this function is to verify
+ * user access rights to the application, ensuring that the user is authorized to use it.
+ * See example usage [here](https://developer.oculus.com/documentation/unreal/ps-entitlement-check/#entitlement).
+ */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_Entitlement_GetIsViewerEntitled_Delegate, bool, FString);
 
 void OvrPlatform_Entitlement_GetIsViewerEntitled(
@@ -528,7 +687,10 @@ void OvrPlatform_Entitlement_GetIsViewerEntitled(
 // ----------------------------------------------------------------------
 // GroupPresence
 
-/** Clear group presence for running app */
+/**
+ * Clears the current group presence settings for your app. Use this when a user’s group presence setting in your app
+ * needs to be changed when moving to new destinations in your app.
+ */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_Clear_Delegate, bool, FString);
 
 void OvrPlatform_GroupPresence_Clear(
@@ -553,8 +715,9 @@ void OvrPlatform_GroupPresence_GetSentInvites(
     OvrPlatform_GroupPresence_GetSentInvites_Delegate&& Delegate);
 
 /**
- * Launch the flow to allow the user to invite others to their current session.
- * This can only be used if the user is in a joinable session.
+ * Launches the system invite dialog with a roster of eligible users for the current user to invite to the app.
+ * It is recommended that you surface a button in your UI that triggers this dialog when a user is joinable.
+ * @param Options - It contains two methods. 1. Add FOvrInviteOptions::SuggestedUsers - Takes the userID as a parameter and adds it to the inevitable users list. 2. Clear FOvrInviteOptions::SuggestedUsers - Clears the inevitable users list.
  */
 typedef TSharedPtr<FOvrInvitePanelResultInfo> FOvrInvitePanelResultInfoPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_GroupPresence_LaunchInvitePanel_Delegate, bool, FOvrInvitePanelResultInfoPtr, FString);
@@ -564,7 +727,11 @@ void OvrPlatform_GroupPresence_LaunchInvitePanel(
     FOvrInviteOptions Options,
     OvrPlatform_GroupPresence_LaunchInvitePanel_Delegate&& Delegate);
 
-/** Launch an error dialog with predefined messages for common multiplayer errors. */
+/**
+ * Launch an error dialog window with predefined messages for commonly occurring multiplayer errors.
+ * Check the Invokable Error Dialogs documentation for more information about these error messages and their values.
+ * @param Options - It contains a FOvrMultiplayerErrorOptions::ErrorKey associated with the predefined error message to be shown to users.
+ */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_LaunchMultiplayerErrorDialog_Delegate, bool, FString);
 
 void OvrPlatform_GroupPresence_LaunchMultiplayerErrorDialog(
@@ -573,8 +740,13 @@ void OvrPlatform_GroupPresence_LaunchMultiplayerErrorDialog(
     OvrPlatform_GroupPresence_LaunchMultiplayerErrorDialog_Delegate&& Delegate);
 
 /**
- * Launch the dialog which will allow the user to rejoin a previous lobby/match. Either the lobby_session_id
- * or the match_session_id, or both, must be populated.
+ * Launch the dialog allowing users to rejoin a previous lobby or match.
+ * Either the user’s FOvrGroupPresenceOptions::LobbySessionId, their FOvrGroupPresenceOptions::MatchSessionId,
+ * or both must be populated as valid rejoinable destinations.
+ * Check the Rejoin documentation for use cases and information on this feature.
+ * @param LobbySessionId - The unique identifier of the lobby session to rejoin.
+ * @param MatchSessionId - The unique identifier of the match session to rejoin.
+ * @param DestinationApiName - The unique name of the in-app destination to rejoin.
  */
 typedef TSharedPtr<FOvrRejoinDialogResult> FOvrRejoinDialogResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_GroupPresence_LaunchRejoinDialog_Delegate, bool, FOvrRejoinDialogResultPtr, FString);
@@ -587,8 +759,9 @@ void OvrPlatform_GroupPresence_LaunchRejoinDialog(
     OvrPlatform_GroupPresence_LaunchRejoinDialog_Delegate&& Delegate);
 
 /**
- * Launch the panel which displays the current users in the roster. Users with the same lobby and match session
- * id as part of their presence will show up here.
+ * Launch the panel displaying the current users in the roster. We do not recommend using this API
+ * because the list current users is surfaced in the Destination UI when the Meta Quest button is pressed.
+ * @param Options - It contains 2 methods. 1. Add FOvrRosterOptions::SuggestedUsers - it takes userID as a parameter and adds it to the inevitable users list. 2.Clear FOvrRosterOptions::SuggestedUsers - it clears the inevitable users list.
  */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_LaunchRosterPanel_Delegate, bool, FString);
 
@@ -597,7 +770,15 @@ void OvrPlatform_GroupPresence_LaunchRosterPanel(
     FOvrRosterOptions Options,
     OvrPlatform_GroupPresence_LaunchRosterPanel_Delegate&& Delegate);
 
-/** Send application invites to the passed in userIDs. */
+/**
+ * Sends invites to the current application to the list of userIDs passed in.
+ * You can fetch a list of users to pass in via the GroupPresence_GetInvitableUsers().
+ * This API works as an alternative to GroupPresence_LaunchInvitePanel()
+ * which delegates the invite flow to the system invite module.
+ * GroupPresence_LaunchInvitePanel() is the recommended approach.
+ * @param UserIDs - userIDs is a list of users’ ids to send invites to.
+ * @param UserIDLength - The number of user IDs provided.
+ */
 typedef TSharedPtr<FOvrSendInvitesResult> FOvrSendInvitesResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_GroupPresence_SendInvites_Delegate, bool, FOvrSendInvitesResultPtr, FString);
 
@@ -606,7 +787,13 @@ void OvrPlatform_GroupPresence_SendInvites(
     TArray<FOvrId> UserIDs,
     OvrPlatform_GroupPresence_SendInvites_Delegate&& Delegate);
 
-/** Set group presence for running app */
+/**
+ * Sets group presence information for your current app. It is recommended that you use this parameter and
+ * its methods to set group presence information for your app. An example of using this parameter can be found
+ * on the Group Presence overview page where the methods to set FOvrGroupPresenceOptions::DestinationApiName, FOvrGroupPresenceOptions::MatchSessionId,
+ * and FOvrGroupPresenceOptions::LobbySessionId are used.
+ * @param GroupPresenceOptions - The groupPresenceOptions parameter contains five methods. 1. FOvrGroupPresenceOptions::DeeplinkMessageOverride - Use FOvrGroupPresenceOptions::LobbySessionId or FOvrGroupPresenceOptions::MatchSessionId to specify the session. Use the FOvrGroupPresenceOptions::DeeplinkMessageOverride for any additional data in whatever format you wish to aid in bringing users together. If not specified, the deeplink_message for the user will default to the one on the destination. 2.FOvrGroupPresenceOptions::DestinationApiName - This the unique API Name that refers to an in-app destination. 3.FOvrGroupPresenceOptions::IsJoinable - Set whether or not the person is shown as joinable or not to others. A user that is joinable can invite others to join them. Set this to false if other users would not be able to join this user. For example, the current session is full, or only the host can invite others and the current user is not the host. 4.FOvrGroupPresenceOptions::LobbySessionId - This is a session that represents a closer group/squad/party of users. It is expected that all users with the same lobby session id can see or hear each other. Users with the same lobby session id in their group presence will show up in the roster and will show up as "Recently Played With" for future invites if they aren't already Oculus friends. This must be set in addition to FOvrGroupPresenceOptions::IsJoinable being true for a user to use invites. 5.FOvrGroupPresenceOptions::MatchSessionId - This is a session that represents all the users that are playing a specific instance of a map, game mode, round, etc. This can include users from multiple different lobbies that joined together and the users may or may not remain together after the match is over. Users with the same match session id in their group presence will not show up in the Roster, but will show up as "Recently Played with" for future invites.
+ */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_Set_Delegate, bool, FString);
 
 void OvrPlatform_GroupPresence_Set(
@@ -615,8 +802,13 @@ void OvrPlatform_GroupPresence_Set(
     OvrPlatform_GroupPresence_Set_Delegate&& Delegate);
 
 /**
- * Set the user's deeplink message while keeping the other group presence parameters the same. If the destination of the user is not set,
- * the deeplink message cannot be set as there's no deeplink message to override.
+ * Sets the user's FOvrGroupPresenceOptions::DeeplinkMessageOverride while keeping the other group presence parameters the same.
+ * If the destination of the user is not set, the deeplink message cannot be set as there's no deeplink message to override.
+ * This method does not power travel from the Meta Quest platform to your app.
+ * You must set a user’s FOvrGroupPresenceOptions::DestinationApiName, FOvrGroupPresenceOptions::IsJoinable status,
+ * and FOvrGroupPresenceOptions::LobbySessionId to enable travel to your app. Check Group Presence overview for more information about these values.
+ * Note: Instead of using this standalone API, we recommend setting all GroupPresence parameters in one call to GroupPresence_Set().
+ * @param DeeplinkMessage - deeplink_message is the new FOvrGroupPresenceOptions::DeeplinkMessageOverride to set for the user, overriding the current deeplink message.
  */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_SetDeeplinkMessageOverride_Delegate, bool, FString);
 
@@ -625,7 +817,13 @@ void OvrPlatform_GroupPresence_SetDeeplinkMessageOverride(
     FString DeeplinkMessage,
     OvrPlatform_GroupPresence_SetDeeplinkMessageOverride_Delegate&& Delegate);
 
-/** Replaces the user's current destination for the provided one. All other existing group presence parameters will remain the same. */
+/**
+ * Replaces the user's current FOvrGroupPresenceOptions::DestinationApiName with the provided one. Use this to set a user's current destination
+ * while keeping all the other Group Presence parameters the same. Setting a user's destination is required to enable travel from the Meta Quest Platform
+ * to your app. NOTE instead of using the standalone API, we recommend setting all GroupPresence parameters in one call to GroupPresence_Set().
+ * This helps ensure that all relevant presence information is singularly updated and helps reduce presence errors.
+ * @param ApiName - api_name is the unique name of the in-app desination to set, replacing the user's current FOvrGroupPresenceOptions::DestinationApiName.
+ */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_SetDestination_Delegate, bool, FString);
 
 void OvrPlatform_GroupPresence_SetDestination(
@@ -634,8 +832,16 @@ void OvrPlatform_GroupPresence_SetDestination(
     OvrPlatform_GroupPresence_SetDestination_Delegate&& Delegate);
 
 /**
- * Set if the current user's destination and session is joinable while keeping the other group presence
- * parameters the same. If the destination or session ids of the user is not set, they cannot be set to joinable.
+ * Sets a user’s current presence as joinable. Use this method to update a user’s joinability as it changes.
+ * For example, when the game starts, the lobby becomes full, the user moves to a private,
+ * non joinable instance while keeping all other GroupPresence parameters
+ * (i.e  FOvrGroupPresenceOptions::DestinationApiName, FOvrGroupPresenceOptions::LobbySessionId,
+ * FOvrGroupPresenceOptions::MatchSessionId) the same.
+ * Setting a user’s destination is required to enable travel from the Meta Quest Platform to your app.
+ * Note: Instead of using this individual API, we recommend setting all GroupPresence information with the GroupPresence_Set()
+ * method and its associated parameters to simply managing all presence information.
+ * This helps ensure that all relevant presence information is singularly updated and helps reduce presence errors.
+ * @param IsJoinable - If FOvrGroupPresenceOptions::IsJoinable is true, the user can invite others to join them. If false, other users cannot join this user, for example, if the current session is full or only the host can invite others and the current user is not the host.
  */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_SetIsJoinable_Delegate, bool, FString);
 
@@ -644,7 +850,14 @@ void OvrPlatform_GroupPresence_SetIsJoinable(
     bool IsJoinable,
     OvrPlatform_GroupPresence_SetIsJoinable_Delegate&& Delegate);
 
-/** Replaces the user's current lobby session id for the provided one. All other existing group presence parameters will remain the same. */
+/**
+ * Replaces the user's current FOvrGroupPresenceOptions::LobbySessionId for the provided string. Use this to set a user's current
+ * lobby session id while keeping all other GroupPresence parameters the same. Setting a user's lobby session id is required to enable travel
+ * from the Meta Quest Platform to your app. Check Group presence overview for more information. NOTE instead of using the standalone API,
+ * we recommend setting all GroupPresence parameters in one call to GroupPresence_Set(). This helps ensure that all relevant presence
+ * information is singularly updated and helps reduce presence errors.
+ * @param Id - id is the unique identifier of the lobby session to set, replacing the user's current FOvrGroupPresenceOptions::LobbySessionId.
+ */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_SetLobbySession_Delegate, bool, FString);
 
 void OvrPlatform_GroupPresence_SetLobbySession(
@@ -652,7 +865,16 @@ void OvrPlatform_GroupPresence_SetLobbySession(
     FString Id,
     OvrPlatform_GroupPresence_SetLobbySession_Delegate&& Delegate);
 
-/** Replaces the user's current match session id for the provided one. All other existing group presence parameters will remain the same. */
+/**
+ * Replaces the user's current FOvrGroupPresenceOptions::MatchSessionId for the provided one. Use this to update the user's current match session
+ * id while keeping all other GroupPresence parameters the same. FOvrGroupPresenceOptions::MatchSessionId works in conjuction with
+ * FOvrGroupPresenceOptions::LobbySessionId to determine if users are playing together. If a user's match and lobby session ids are the same,
+ * they should be in the same multiplayer instance together. Users with the same lobby session id but different match session ids may be
+ * in the same lobby for things like voice chat while in different instances in your app. WARNING match session id is often treated the same as
+ * lobby session id, but this is in fact a distinct parameter and is not used for travel from the Meta Quest Platform. NOTE instead of using the standalone API,
+ * we recommend setting all GroupPresence parameters in one call to GroupPresence_Set().
+ * @param Id - id is the unique identifier of the match session to set, replacing the user's current FOvrGroupPresenceOptions::MatchSessionId.
+ */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_SetMatchSession_Delegate, bool, FString);
 
 void OvrPlatform_GroupPresence_SetMatchSession(
@@ -666,6 +888,7 @@ void OvrPlatform_GroupPresence_SetMatchSession(
 /**
  * Allow the consumable IAP product to be purchased again. Conceptually, this
  * indicates that the item was used or consumed.
+ * @param Sku - The SKU of the product of the purchase that will be consumed. This value is case-sensitive and should match exactly with the product SKU set in the Developer Dashboard.
  */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_IAP_ConsumePurchase_Delegate, bool, FString);
 
@@ -713,7 +936,7 @@ void OvrPlatform_IAP_GetViewerPurchasesDurableCache(
 /**
  * Launch the checkout flow to purchase the existing product. Oculus Home tries
  * handle and fix as many errors as possible. Home returns the appropriate error
- * message and how to resolveit, if possible. Returns a purchase on success, empty
+ * message and how to resolve it, if possible. Returns a purchase on success, empty
  * purchase on cancel, and an error on error.
  * @param Sku - IAP sku for the item the user wishes to purchase.
  */
@@ -730,7 +953,7 @@ void OvrPlatform_IAP_LaunchCheckoutFlow(
 
 /**
  * Returns currently installed and selected language pack for an app in the
- * view of the `asset_details`. Use `language` field to extract neeeded
+ * view of the FOvrAssetDetails. Use field FOvrAssetDetails::Language field to extract needed
  * language info.
  * A particular language can be download and installed by a user from
  * the Oculus app on the application page.
@@ -748,8 +971,8 @@ void OvrPlatform_LanguagePack_GetCurrent(
  * AssetFile_DownloadByName() request, and sends periodic
  * FOvrNotification_AssetFile_DownloadUpdate to track the downloads.
  * Once the language asset file is downloaded, call LanguagePack_GetCurrent()
- * to retrive the data, and use the language at runtime.
- * @param Tag - BCP47 language tag
+ * to retrieve the data, and use the language at runtime.
+ * @param Tag - The BCP47 language tag that identifies the language to be set as the current language.
  */
 typedef TSharedPtr<FOvrAssetFileDownloadResult> FOvrAssetFileDownloadResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_LanguagePack_SetCurrent_Delegate, bool, FOvrAssetFileDownloadResultPtr, FString);
@@ -853,7 +1076,7 @@ void OvrPlatform_Leaderboard_WriteEntry(
  * @param SupplementaryMetric - A metric that can be used for tiebreakers.
  * @param ExtraData - A 2KB custom data field that is associated with the leaderboard entry. This can be a game replay or anything that provides more detail about the entry to the viewer.
  * @param ExtraDataLength - The length of the extra data.
- * @param ForceUpdate - If true, the score always updates. This happens ecen if it is not the user's best score.
+ * @param ForceUpdate - If true, the score always updates. This happens even if it is not the user's best score.
  */
 typedef TSharedPtr<FOvrLeaderboardUpdateStatus> FOvrLeaderboardUpdateStatusPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Leaderboard_WriteEntryWithSupplementaryMetric_Delegate, bool, FOvrLeaderboardUpdateStatusPtr, FString);
@@ -871,10 +1094,13 @@ void OvrPlatform_Leaderboard_WriteEntryWithSupplementaryMetric(
 // Media
 
 /**
- *  Launch the Share to Facebook modal via a deeplink to Home on Gear VR, allowing users to share local media files to Facebook.
- * Accepts a postTextSuggestion string for the default text of the Facebook post.
- * Requires a filePath string as the path to the image to be shared to Facebook. This image should be located in your app's internal storage directory.
- * Requires a contentType indicating the type of media to be shared (only 'photo' is currently supported.) 
+ *  Launch the Share to Facebook modal, allowing users to share local media files to Facebook.
+ * Accepts a PostTextSuggestion string for the default text of the Facebook post.
+ * Requires a FilePath string as the path to the image to be shared to Facebook.
+ * This image should be located in your app's internal storage directory.
+ * Requires a ContentType indicating the type of media to be shared
+ * (only 'photo' is currently supported).
+ * The payload for the result is defined as FOvrShareMediaResult.
  * @param PostTextSuggestion - this text will prepopulate the facebook status text-input box within the share modal
  * @param FilePath - path to the file to be shared to facebook
  * @param ContentType - content type of the media to be shared
@@ -917,7 +1143,7 @@ void OvrPlatform_Party_GetCurrent(
 // ----------------------------------------------------------------------
 // RichPresence
 
-/** DEPRECATED. Use the clear method in group presence */
+/** \deprecated Use the clear method in group presence */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_RichPresence_Clear_Delegate, bool, FString);
 
 [[deprecated("Use the clear method in group presence")]]
@@ -933,7 +1159,7 @@ void OvrPlatform_RichPresence_GetDestinations(
     UGameInstance* GameInstance,
     OvrPlatform_RichPresence_GetDestinations_Delegate&& Delegate);
 
-/** DEPRECATED. Use GroupPresence_Set(). */
+/** \deprecated Use GroupPresence_Set(). */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_RichPresence_Set_Delegate, bool, FString);
 
 [[deprecated("Use GroupPresence_Set().")]]
@@ -960,7 +1186,7 @@ void OvrPlatform_User_Get(
     FOvrId UserID,
     OvrPlatform_User_Get_Delegate&& Delegate);
 
-/** Return an access token for this user, suitable for making REST calls against graph.oculus.com. */
+/** Return an access token string for this user, suitable for making REST calls against graph.oculus.com. */
 typedef TSharedPtr<FString> FStringPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_GetAccessToken_Delegate, bool, FStringPtr, FString);
 
@@ -993,7 +1219,7 @@ void OvrPlatform_User_GetLoggedInUser(
     UGameInstance* GameInstance,
     OvrPlatform_User_GetLoggedInUser_Delegate&& Delegate);
 
-/** Retrieve a list of the logged in user's bidirectional followers. */
+/** Retrieve a list of the logged in user's bidirectional followers. The payload type will be an array of FOvrUser  */
 typedef TSharedPtr<FOvrUserPages> FOvrUserArrayPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_GetLoggedInUserFriends_Delegate, bool, FOvrUserArrayPtr, FString);
 
@@ -1002,9 +1228,21 @@ void OvrPlatform_User_GetLoggedInUserFriends(
     OvrPlatform_User_GetLoggedInUserFriends_Delegate&& Delegate);
 
 /**
+ * Retrieve the currently signed in user's managed info.  This call is not available offline.
+ * 
+ * NOTE: This will return data only if the logged in user is a managed Meta account (MMA).
+ */
+typedef TSharedPtr<FOvrUser> FOvrUserPtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_GetLoggedInUserManagedInfo_Delegate, bool, FOvrUserPtr, FString);
+
+void OvrPlatform_User_GetLoggedInUserManagedInfo(
+    UGameInstance* GameInstance,
+    OvrPlatform_User_GetLoggedInUserManagedInfo_Delegate&& Delegate);
+
+/**
  * returns an ovrID which is unique per org. allows different apps within the same
  * org to identify the user. 
- * @param UserID - to load the org scoped id of
+ * @param UserID - The id of the user that we are going to get its org scoped ID FOvrOrgScopedID.
  */
 typedef TSharedPtr<FOvrOrgScopedID> FOvrOrgScopedIDPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_GetOrgScopedID_Delegate, bool, FOvrOrgScopedIDPtr, FString);
@@ -1028,7 +1266,7 @@ void OvrPlatform_User_GetSdkAccounts(
 /**
  * Part of the scheme to confirm the identity of a particular user in your backend.
  * You can pass the result of User_GetUserProof() and a user ID from
- * User_Get() to your your backend. Your server can then use our api
+ * User_Get() to your backend. Your server can then use our api
  * to verify identity.
  * 'https://graph.oculus.com/user_nonce_validate?nonce=USER_PROOF&amp;user_id=USER_ID&amp;access_token=ACCESS_TOKEN'
  * 
@@ -1046,7 +1284,7 @@ void OvrPlatform_User_GetUserProof(
  * Launch the flow for blocking the given user. You can't follow, be followed, invited,
  *  or searched by a blocked user, for example. You can remove the block via
  *  ovr_User_LaunchUnblockFlow.
- * @param UserID - User ID of user being blocked
+ * @param UserID - The ID of the user that the viewer is going to laucnh the block flow request.
  */
 typedef TSharedPtr<FOvrLaunchBlockFlowResult> FOvrLaunchBlockFlowResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_LaunchBlockFlow_Delegate, bool, FOvrLaunchBlockFlowResultPtr, FString);
@@ -1058,7 +1296,7 @@ void OvrPlatform_User_LaunchBlockFlow(
 
 /**
  * Launch the flow for sending a follow request to a user.
- * @param UserID - User ID of user to send a follow request to
+ * @param UserID - The ID of the target user that is going to send the friend follow request to.
  */
 typedef TSharedPtr<FOvrLaunchFriendRequestFlowResult> FOvrLaunchFriendRequestFlowResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_LaunchFriendRequestFlow_Delegate, bool, FOvrLaunchFriendRequestFlowResultPtr, FString);
@@ -1070,7 +1308,7 @@ void OvrPlatform_User_LaunchFriendRequestFlow(
 
 /**
  * Launch the flow for unblocking a user that the viewer has blocked.
- * @param UserID - User ID of user to unblock
+ * @param UserID - The ID of the user that the viewer is going to launch the unblock flow request.
  */
 typedef TSharedPtr<FOvrLaunchUnblockFlowResult> FOvrLaunchUnblockFlowResultPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_LaunchUnblockFlow_Delegate, bool, FOvrLaunchUnblockFlowResultPtr, FString);
@@ -1083,7 +1321,7 @@ void OvrPlatform_User_LaunchUnblockFlow(
 // ----------------------------------------------------------------------
 // UserAgeCategory
 
-/** Retrieve the user age category for the current user. */
+/** Retrieve the user age category for the current user. It can be used in field FOvrUserAccountAgeCategory::AgeCategory */
 typedef TSharedPtr<FOvrUserAccountAgeCategory> FOvrUserAccountAgeCategoryPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_UserAgeCategory_Get_Delegate, bool, FOvrUserAccountAgeCategoryPtr, FString);
 
@@ -1091,128 +1329,16 @@ void OvrPlatform_UserAgeCategory_Get(
     UGameInstance* GameInstance,
     OvrPlatform_UserAgeCategory_Get_Delegate&& Delegate);
 
-/** Report the current user's age category to Meta. */
+/**
+ * Report the current user's age category to Meta.
+ * @param AgeCategory - Age category for developers to send to Meta. There are two members, children age group (EOvrAppAgeCategory::Ch) and non-children age group (EOvrAppAgeCategory::Nch).
+ */
 DECLARE_DELEGATE_TwoParams(OvrPlatform_UserAgeCategory_Report_Delegate, bool, FString);
 
 void OvrPlatform_UserAgeCategory_Report(
     UGameInstance* GameInstance,
     EOvrAppAgeCategory AgeCategory,
     OvrPlatform_UserAgeCategory_Report_Delegate&& Delegate);
-
-// ----------------------------------------------------------------------
-// UserDataStore
-
-/**
- * Delete an entry by a key from a private user data store.
- * @param UserID - The ID of the user who owns this private user data store.
- * @param Key - The key of entry.
- */
-typedef TSharedPtr<FOvrUserDataStoreUpdateResponse> FOvrUserDataStoreUpdateResponsePtr;
-DECLARE_DELEGATE_ThreeParams(OvrPlatform_UserDataStore_PrivateDeleteEntryByKey_Delegate, bool, FOvrUserDataStoreUpdateResponsePtr, FString);
-
-void OvrPlatform_UserDataStore_PrivateDeleteEntryByKey(
-    UGameInstance* GameInstance,
-    FOvrId UserID,
-    FString Key,
-    OvrPlatform_UserDataStore_PrivateDeleteEntryByKey_Delegate&& Delegate);
-
-/**
- * Get entries from a private user data store.
- * @param UserID - The ID of the user who owns this private user data store.
- */
-typedef TSharedPtr<TMap<FString, FString>> FOvrDataStorePtr;
-DECLARE_DELEGATE_ThreeParams(OvrPlatform_UserDataStore_PrivateGetEntries_Delegate, bool, FOvrDataStorePtr, FString);
-
-void OvrPlatform_UserDataStore_PrivateGetEntries(
-    UGameInstance* GameInstance,
-    FOvrId UserID,
-    OvrPlatform_UserDataStore_PrivateGetEntries_Delegate&& Delegate);
-
-/**
- * Get an entry by a key from a private user data store.
- * @param UserID - The ID of the user who owns this private user data store.
- * @param Key - The key of entry.
- */
-typedef TSharedPtr<TMap<FString, FString>> FOvrDataStorePtr;
-DECLARE_DELEGATE_ThreeParams(OvrPlatform_UserDataStore_PrivateGetEntryByKey_Delegate, bool, FOvrDataStorePtr, FString);
-
-void OvrPlatform_UserDataStore_PrivateGetEntryByKey(
-    UGameInstance* GameInstance,
-    FOvrId UserID,
-    FString Key,
-    OvrPlatform_UserDataStore_PrivateGetEntryByKey_Delegate&& Delegate);
-
-/**
- * Write a single entry to a private user data store.
- * @param UserID - The ID of the user who owns this private user data store.
- * @param Key - The key of entry.
- * @param Value - The value of entry.
- */
-typedef TSharedPtr<FOvrUserDataStoreUpdateResponse> FOvrUserDataStoreUpdateResponsePtr;
-DECLARE_DELEGATE_ThreeParams(OvrPlatform_UserDataStore_PrivateWriteEntry_Delegate, bool, FOvrUserDataStoreUpdateResponsePtr, FString);
-
-void OvrPlatform_UserDataStore_PrivateWriteEntry(
-    UGameInstance* GameInstance,
-    FOvrId UserID,
-    FString Key,
-    FString Value,
-    OvrPlatform_UserDataStore_PrivateWriteEntry_Delegate&& Delegate);
-
-/**
- * Delete an entry by a key from a public user data store.
- * @param UserID - The ID of the user who owns this public user data store.
- * @param Key - The key of entry.
- */
-typedef TSharedPtr<FOvrUserDataStoreUpdateResponse> FOvrUserDataStoreUpdateResponsePtr;
-DECLARE_DELEGATE_ThreeParams(OvrPlatform_UserDataStore_PublicDeleteEntryByKey_Delegate, bool, FOvrUserDataStoreUpdateResponsePtr, FString);
-
-void OvrPlatform_UserDataStore_PublicDeleteEntryByKey(
-    UGameInstance* GameInstance,
-    FOvrId UserID,
-    FString Key,
-    OvrPlatform_UserDataStore_PublicDeleteEntryByKey_Delegate&& Delegate);
-
-/**
- * Get entries from a public user data store.
- * @param UserID - The ID of the user who owns this public user data store.
- */
-typedef TSharedPtr<TMap<FString, FString>> FOvrDataStorePtr;
-DECLARE_DELEGATE_ThreeParams(OvrPlatform_UserDataStore_PublicGetEntries_Delegate, bool, FOvrDataStorePtr, FString);
-
-void OvrPlatform_UserDataStore_PublicGetEntries(
-    UGameInstance* GameInstance,
-    FOvrId UserID,
-    OvrPlatform_UserDataStore_PublicGetEntries_Delegate&& Delegate);
-
-/**
- * Get an entry by a key from a public user data store.
- * @param UserID - The ID of the user who owns this public user data store.
- * @param Key - The key of entry.
- */
-typedef TSharedPtr<TMap<FString, FString>> FOvrDataStorePtr;
-DECLARE_DELEGATE_ThreeParams(OvrPlatform_UserDataStore_PublicGetEntryByKey_Delegate, bool, FOvrDataStorePtr, FString);
-
-void OvrPlatform_UserDataStore_PublicGetEntryByKey(
-    UGameInstance* GameInstance,
-    FOvrId UserID,
-    FString Key,
-    OvrPlatform_UserDataStore_PublicGetEntryByKey_Delegate&& Delegate);
-
-/**
- * Write a single entry to a public user data store.
- * @param UserID - The ID of the user who owns this public user data store.
- * @param Key - The key of entry.
- * @param Value - The value of entry.
- */
-typedef TSharedPtr<FOvrUserDataStoreUpdateResponse> FOvrUserDataStoreUpdateResponsePtr;
-DECLARE_DELEGATE_ThreeParams(OvrPlatform_UserDataStore_PublicWriteEntry_Delegate, bool, FOvrUserDataStoreUpdateResponsePtr, FString);
-
-void OvrPlatform_UserDataStore_PublicWriteEntry(
-    UGameInstance* GameInstance,
-    FOvrId UserID,
-    FString Key,
-    FString Value,
-    OvrPlatform_UserDataStore_PublicWriteEntry_Delegate&& Delegate);
 
 // ----------------------------------------------------------------------
 // Voip

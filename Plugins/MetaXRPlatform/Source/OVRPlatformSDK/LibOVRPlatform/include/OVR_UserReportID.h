@@ -7,6 +7,7 @@
 #include "OVR_Types.h"
 #include <stdbool.h>
 
+/// \deprecated Do not add new requests using this. Use launch_report_flow_result instead.
 typedef struct ovrUserReportID *ovrUserReportIDHandle;
 
 /// Whether the viewer chose to cancel the report flow.

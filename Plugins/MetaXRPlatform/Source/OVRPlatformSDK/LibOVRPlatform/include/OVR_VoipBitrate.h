@@ -20,7 +20,7 @@ typedef enum ovrVoipBitrate_ {
   ovrVoipBitrate_B64000,
   /// Even higher audio quality for music streaming or radio-like quality.
   ovrVoipBitrate_B96000,
-  /// At this point the audio quality should be preceptually indistinguishable
+  /// At this point the audio quality should be perceptually indistinguishable
   /// from the uncompressed input.
   ovrVoipBitrate_B128000,
 } ovrVoipBitrate;

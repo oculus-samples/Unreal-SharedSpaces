@@ -147,6 +147,23 @@ bool OvrPlatform_ChallengeEntryPages_FetchPreviousPage(
     OvrPlatform_ChallengeEntryPage_Delegate&& Delegate);
 
 // ----------------------------------------------------------------------
+// FOvrCowatchViewerPages paged array.
+
+bool OvrPlatform_CowatchViewerPages_GetPageEntries(
+    const FOvrCowatchViewerPages& CowatchViewerPages,
+    TArray<FOvrCowatchViewer>& Current);
+
+bool OvrPlatform_CowatchViewerPages_HasNextPage(
+    const FOvrCowatchViewerPages& CowatchViewerPages);
+
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_CowatchViewerPage_Delegate, bool, FOvrCowatchViewerPages, FString);
+
+bool OvrPlatform_CowatchViewerPages_FetchNextPage(
+    UGameInstance* GameInstance,
+    const FOvrCowatchViewerPages& CowatchViewerPages,
+    OvrPlatform_CowatchViewerPage_Delegate&& Delegate);
+
+// ----------------------------------------------------------------------
 // FOvrDestinationPages paged array.
 
 bool OvrPlatform_DestinationPages_GetPageEntries(

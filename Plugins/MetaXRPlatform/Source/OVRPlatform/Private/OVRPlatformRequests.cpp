@@ -1559,6 +1559,328 @@ void UOvrRequestsBlueprintLibrary::Challenges_UpdateInfo(
 }
 
 // ----------------------------------------------------------------------
+// Cowatching
+
+void UOvrRequestsBlueprintLibrary::Cowatching_GetPresenterData(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FString& StringPayload,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Cowatching_GetPresenterData();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&StringPayload](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        StringPayload = TEXT("");
+                    }
+                    else
+                    {
+                        StringPayload = UTF8_TO_TCHAR(ovr_Message_GetString(*MessagePtr));
+                    }
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Cowatching_GetViewersData(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FOvrCowatchViewerPages& CowatchViewerPages,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Cowatching_GetViewersData();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&CowatchViewerPages](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        CowatchViewerPages.Clear();
+                    }
+                    else
+                    {
+                        CowatchViewerPages.Update(ovr_Message_GetCowatchViewerArray(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Cowatching_IsInSession(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FOvrCowatchingState& CowatchingState,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Cowatching_IsInSession();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&CowatchingState](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        CowatchingState.Clear();
+                    }
+                    else
+                    {
+                        CowatchingState.Update(ovr_Message_GetCowatchingState(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Cowatching_JoinSession(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Cowatching_JoinSession();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // No payload in response
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Cowatching_LaunchInviteDialog(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Cowatching_LaunchInviteDialog();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // No payload in response
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Cowatching_LeaveSession(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Cowatching_LeaveSession();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // No payload in response
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Cowatching_RequestToPresent(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Cowatching_RequestToPresent();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // No payload in response
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Cowatching_ResignFromPresenting(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Cowatching_ResignFromPresenting();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // No payload in response
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Cowatching_SetPresenterData(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    FString VideoTitle,
+    FString PresenterData,
+    // Output
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [VideoTitle, PresenterData]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Cowatching_SetPresenterData(TCHAR_TO_UTF8(*VideoTitle), TCHAR_TO_UTF8(*PresenterData));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // No payload in response
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::Cowatching_SetViewerData(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    FString ViewerData,
+    // Output
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [ViewerData]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Cowatching_SetViewerData(TCHAR_TO_UTF8(*ViewerData));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // No payload in response
+                }));
+    }
+}
+
+// ----------------------------------------------------------------------
 // DeviceApplicationIntegrity
 
 void UOvrRequestsBlueprintLibrary::DeviceApplicationIntegrity_GetIntegrityToken(
@@ -3032,6 +3354,43 @@ void UOvrRequestsBlueprintLibrary::User_GetLoggedInUserFriends(
     }
 }
 
+void UOvrRequestsBlueprintLibrary::User_GetLoggedInUserManagedInfo(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FOvrUser& User,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_User_GetLoggedInUserManagedInfo();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&User](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        User.Clear();
+                    }
+                    else
+                    {
+                        User.Update(ovr_Message_GetUser(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
 void UOvrRequestsBlueprintLibrary::User_GetOrgScopedID(
     // Context
     UObject* WorldContextObject,
@@ -3335,353 +3694,6 @@ void UOvrRequestsBlueprintLibrary::UserAgeCategory_Report(
                 [](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
                 {
                     // No payload in response
-                }));
-    }
-}
-
-// ----------------------------------------------------------------------
-// UserDataStore
-
-void UOvrRequestsBlueprintLibrary::UserDataStore_PrivateDeleteEntryByKey(
-    // Context
-    UObject* WorldContextObject,
-    EOvrRequestOutputPins& OutExecs,
-    FLatentActionInfo LatentInfo,
-    // Input
-    FOvrId UserID,
-    FString Key,
-    // Output
-    FOvrUserDataStoreUpdateResponse& UserDataStoreUpdateResponse,
-    FString& ErrorMsg)
-{
-    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
-    {
-        OvrPlatformAddNewActionWithPreemption(
-            World,
-            LatentInfo.CallbackTarget, LatentInfo.UUID,
-            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
-                // Request Generator
-                [UserID, Key]()->ovrRequest
-                {
-                    ovrRequest RequestID = ovr_UserDataStore_PrivateDeleteEntryByKey(static_cast<ovrID>(UserID), TCHAR_TO_UTF8(*Key));
-
-                    return RequestID;
-                },
-                // Response Processor
-                [&UserDataStoreUpdateResponse](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
-                {
-                    if (bIsError)
-                    {
-                        UserDataStoreUpdateResponse.Clear();
-                    }
-                    else
-                    {
-                        UserDataStoreUpdateResponse.Update(ovr_Message_GetUserDataStoreUpdateResponse(*MessagePtr), MessagePtr);
-                    }
-                }));
-    }
-}
-
-void UOvrRequestsBlueprintLibrary::UserDataStore_PrivateGetEntries(
-    // Context
-    UObject* WorldContextObject,
-    EOvrRequestOutputPins& OutExecs,
-    FLatentActionInfo LatentInfo,
-    // Input
-    FOvrId UserID,
-    // Output
-    TMap<FString, FString>& DataStore,
-    FString& ErrorMsg)
-{
-    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
-    {
-        OvrPlatformAddNewActionWithPreemption(
-            World,
-            LatentInfo.CallbackTarget, LatentInfo.UUID,
-            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
-                // Request Generator
-                [UserID]()->ovrRequest
-                {
-                    ovrRequest RequestID = ovr_UserDataStore_PrivateGetEntries(static_cast<ovrID>(UserID));
-
-                    return RequestID;
-                },
-                // Response Processor
-                [&DataStore](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
-                {
-                    if (bIsError)
-                    {
-                        DataStore.Empty();
-                    }
-                    else
-                    {
-                        ovrDataStoreHandle DataStoreHandle = ovr_Message_GetDataStore(*MessagePtr);
-                        size_t DataStoreSize = ovr_DataStore_GetNumKeys(DataStoreHandle);
-                        for (size_t Index = 0; Index < DataStoreSize; Index++)
-                        {
-                            const char* CKey = ovr_DataStore_GetKey(DataStoreHandle, Index);
-                            DataStore[UTF8_TO_TCHAR(CKey)] = UTF8_TO_TCHAR(ovr_DataStore_GetValue(DataStoreHandle, CKey));
-                        }
-                    }
-                }));
-    }
-}
-
-void UOvrRequestsBlueprintLibrary::UserDataStore_PrivateGetEntryByKey(
-    // Context
-    UObject* WorldContextObject,
-    EOvrRequestOutputPins& OutExecs,
-    FLatentActionInfo LatentInfo,
-    // Input
-    FOvrId UserID,
-    FString Key,
-    // Output
-    TMap<FString, FString>& DataStore,
-    FString& ErrorMsg)
-{
-    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
-    {
-        OvrPlatformAddNewActionWithPreemption(
-            World,
-            LatentInfo.CallbackTarget, LatentInfo.UUID,
-            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
-                // Request Generator
-                [UserID, Key]()->ovrRequest
-                {
-                    ovrRequest RequestID = ovr_UserDataStore_PrivateGetEntryByKey(static_cast<ovrID>(UserID), TCHAR_TO_UTF8(*Key));
-
-                    return RequestID;
-                },
-                // Response Processor
-                [&DataStore](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
-                {
-                    if (bIsError)
-                    {
-                        DataStore.Empty();
-                    }
-                    else
-                    {
-                        ovrDataStoreHandle DataStoreHandle = ovr_Message_GetDataStore(*MessagePtr);
-                        size_t DataStoreSize = ovr_DataStore_GetNumKeys(DataStoreHandle);
-                        for (size_t Index = 0; Index < DataStoreSize; Index++)
-                        {
-                            const char* CKey = ovr_DataStore_GetKey(DataStoreHandle, Index);
-                            DataStore[UTF8_TO_TCHAR(CKey)] = UTF8_TO_TCHAR(ovr_DataStore_GetValue(DataStoreHandle, CKey));
-                        }
-                    }
-                }));
-    }
-}
-
-void UOvrRequestsBlueprintLibrary::UserDataStore_PrivateWriteEntry(
-    // Context
-    UObject* WorldContextObject,
-    EOvrRequestOutputPins& OutExecs,
-    FLatentActionInfo LatentInfo,
-    // Input
-    FOvrId UserID,
-    FString Key,
-    FString Value,
-    // Output
-    FOvrUserDataStoreUpdateResponse& UserDataStoreUpdateResponse,
-    FString& ErrorMsg)
-{
-    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
-    {
-        OvrPlatformAddNewActionWithPreemption(
-            World,
-            LatentInfo.CallbackTarget, LatentInfo.UUID,
-            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
-                // Request Generator
-                [UserID, Key, Value]()->ovrRequest
-                {
-                    ovrRequest RequestID = ovr_UserDataStore_PrivateWriteEntry(static_cast<ovrID>(UserID), TCHAR_TO_UTF8(*Key), TCHAR_TO_UTF8(*Value));
-
-                    return RequestID;
-                },
-                // Response Processor
-                [&UserDataStoreUpdateResponse](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
-                {
-                    if (bIsError)
-                    {
-                        UserDataStoreUpdateResponse.Clear();
-                    }
-                    else
-                    {
-                        UserDataStoreUpdateResponse.Update(ovr_Message_GetUserDataStoreUpdateResponse(*MessagePtr), MessagePtr);
-                    }
-                }));
-    }
-}
-
-void UOvrRequestsBlueprintLibrary::UserDataStore_PublicDeleteEntryByKey(
-    // Context
-    UObject* WorldContextObject,
-    EOvrRequestOutputPins& OutExecs,
-    FLatentActionInfo LatentInfo,
-    // Input
-    FOvrId UserID,
-    FString Key,
-    // Output
-    FOvrUserDataStoreUpdateResponse& UserDataStoreUpdateResponse,
-    FString& ErrorMsg)
-{
-    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
-    {
-        OvrPlatformAddNewActionWithPreemption(
-            World,
-            LatentInfo.CallbackTarget, LatentInfo.UUID,
-            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
-                // Request Generator
-                [UserID, Key]()->ovrRequest
-                {
-                    ovrRequest RequestID = ovr_UserDataStore_PublicDeleteEntryByKey(static_cast<ovrID>(UserID), TCHAR_TO_UTF8(*Key));
-
-                    return RequestID;
-                },
-                // Response Processor
-                [&UserDataStoreUpdateResponse](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
-                {
-                    if (bIsError)
-                    {
-                        UserDataStoreUpdateResponse.Clear();
-                    }
-                    else
-                    {
-                        UserDataStoreUpdateResponse.Update(ovr_Message_GetUserDataStoreUpdateResponse(*MessagePtr), MessagePtr);
-                    }
-                }));
-    }
-}
-
-void UOvrRequestsBlueprintLibrary::UserDataStore_PublicGetEntries(
-    // Context
-    UObject* WorldContextObject,
-    EOvrRequestOutputPins& OutExecs,
-    FLatentActionInfo LatentInfo,
-    // Input
-    FOvrId UserID,
-    // Output
-    TMap<FString, FString>& DataStore,
-    FString& ErrorMsg)
-{
-    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
-    {
-        OvrPlatformAddNewActionWithPreemption(
-            World,
-            LatentInfo.CallbackTarget, LatentInfo.UUID,
-            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
-                // Request Generator
-                [UserID]()->ovrRequest
-                {
-                    ovrRequest RequestID = ovr_UserDataStore_PublicGetEntries(static_cast<ovrID>(UserID));
-
-                    return RequestID;
-                },
-                // Response Processor
-                [&DataStore](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
-                {
-                    if (bIsError)
-                    {
-                        DataStore.Empty();
-                    }
-                    else
-                    {
-                        ovrDataStoreHandle DataStoreHandle = ovr_Message_GetDataStore(*MessagePtr);
-                        size_t DataStoreSize = ovr_DataStore_GetNumKeys(DataStoreHandle);
-                        for (size_t Index = 0; Index < DataStoreSize; Index++)
-                        {
-                            const char* CKey = ovr_DataStore_GetKey(DataStoreHandle, Index);
-                            DataStore[UTF8_TO_TCHAR(CKey)] = UTF8_TO_TCHAR(ovr_DataStore_GetValue(DataStoreHandle, CKey));
-                        }
-                    }
-                }));
-    }
-}
-
-void UOvrRequestsBlueprintLibrary::UserDataStore_PublicGetEntryByKey(
-    // Context
-    UObject* WorldContextObject,
-    EOvrRequestOutputPins& OutExecs,
-    FLatentActionInfo LatentInfo,
-    // Input
-    FOvrId UserID,
-    FString Key,
-    // Output
-    TMap<FString, FString>& DataStore,
-    FString& ErrorMsg)
-{
-    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
-    {
-        OvrPlatformAddNewActionWithPreemption(
-            World,
-            LatentInfo.CallbackTarget, LatentInfo.UUID,
-            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
-                // Request Generator
-                [UserID, Key]()->ovrRequest
-                {
-                    ovrRequest RequestID = ovr_UserDataStore_PublicGetEntryByKey(static_cast<ovrID>(UserID), TCHAR_TO_UTF8(*Key));
-
-                    return RequestID;
-                },
-                // Response Processor
-                [&DataStore](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
-                {
-                    if (bIsError)
-                    {
-                        DataStore.Empty();
-                    }
-                    else
-                    {
-                        ovrDataStoreHandle DataStoreHandle = ovr_Message_GetDataStore(*MessagePtr);
-                        size_t DataStoreSize = ovr_DataStore_GetNumKeys(DataStoreHandle);
-                        for (size_t Index = 0; Index < DataStoreSize; Index++)
-                        {
-                            const char* CKey = ovr_DataStore_GetKey(DataStoreHandle, Index);
-                            DataStore[UTF8_TO_TCHAR(CKey)] = UTF8_TO_TCHAR(ovr_DataStore_GetValue(DataStoreHandle, CKey));
-                        }
-                    }
-                }));
-    }
-}
-
-void UOvrRequestsBlueprintLibrary::UserDataStore_PublicWriteEntry(
-    // Context
-    UObject* WorldContextObject,
-    EOvrRequestOutputPins& OutExecs,
-    FLatentActionInfo LatentInfo,
-    // Input
-    FOvrId UserID,
-    FString Key,
-    FString Value,
-    // Output
-    FOvrUserDataStoreUpdateResponse& UserDataStoreUpdateResponse,
-    FString& ErrorMsg)
-{
-    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
-    {
-        OvrPlatformAddNewActionWithPreemption(
-            World,
-            LatentInfo.CallbackTarget, LatentInfo.UUID,
-            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
-                // Request Generator
-                [UserID, Key, Value]()->ovrRequest
-                {
-                    ovrRequest RequestID = ovr_UserDataStore_PublicWriteEntry(static_cast<ovrID>(UserID), TCHAR_TO_UTF8(*Key), TCHAR_TO_UTF8(*Value));
-
-                    return RequestID;
-                },
-                // Response Processor
-                [&UserDataStoreUpdateResponse](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
-                {
-                    if (bIsError)
-                    {
-                        UserDataStoreUpdateResponse.Clear();
-                    }
-                    else
-                    {
-                        UserDataStoreUpdateResponse.Update(ovr_Message_GetUserDataStoreUpdateResponse(*MessagePtr), MessagePtr);
-                    }
                 }));
     }
 }

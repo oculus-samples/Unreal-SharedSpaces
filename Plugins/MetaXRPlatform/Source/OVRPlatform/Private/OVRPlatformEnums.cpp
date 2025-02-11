@@ -134,6 +134,52 @@ EOvrAppAgeCategory ConvertAppAgeCategory(ovrAppAgeCategory Value)
     }
 }
 
+ovrAppInstallResult ConvertAppInstallResult(EOvrAppInstallResult Value)
+{
+    switch (Value)
+    {
+        case EOvrAppInstallResult::LowStorage:
+            return ovrAppInstallResult::ovrAppInstallResult_LowStorage;
+        case EOvrAppInstallResult::NetworkError:
+            return ovrAppInstallResult::ovrAppInstallResult_NetworkError;
+        case EOvrAppInstallResult::DuplicateRequest:
+            return ovrAppInstallResult::ovrAppInstallResult_DuplicateRequest;
+        case EOvrAppInstallResult::InstallerError:
+            return ovrAppInstallResult::ovrAppInstallResult_InstallerError;
+        case EOvrAppInstallResult::UserCancelled:
+            return ovrAppInstallResult::ovrAppInstallResult_UserCancelled;
+        case EOvrAppInstallResult::AuthorizationError:
+            return ovrAppInstallResult::ovrAppInstallResult_AuthorizationError;
+        case EOvrAppInstallResult::Success:
+            return ovrAppInstallResult::ovrAppInstallResult_Success;
+        default:
+        return ovrAppInstallResult::ovrAppInstallResult_Unknown;
+    }
+}
+
+EOvrAppInstallResult ConvertAppInstallResult(ovrAppInstallResult Value)
+{
+    switch (Value)
+    {
+        case ovrAppInstallResult::ovrAppInstallResult_LowStorage:
+            return EOvrAppInstallResult::LowStorage;
+        case ovrAppInstallResult::ovrAppInstallResult_NetworkError:
+            return EOvrAppInstallResult::NetworkError;
+        case ovrAppInstallResult::ovrAppInstallResult_DuplicateRequest:
+            return EOvrAppInstallResult::DuplicateRequest;
+        case ovrAppInstallResult::ovrAppInstallResult_InstallerError:
+            return EOvrAppInstallResult::InstallerError;
+        case ovrAppInstallResult::ovrAppInstallResult_UserCancelled:
+            return EOvrAppInstallResult::UserCancelled;
+        case ovrAppInstallResult::ovrAppInstallResult_AuthorizationError:
+            return EOvrAppInstallResult::AuthorizationError;
+        case ovrAppInstallResult::ovrAppInstallResult_Success:
+            return EOvrAppInstallResult::Success;
+        default:
+            return EOvrAppInstallResult::Unknown;
+    }
+}
+
 ovrAppStatus ConvertAppStatus(EOvrAppStatus Value)
 {
     switch (Value)
@@ -150,6 +196,8 @@ ovrAppStatus ConvertAppStatus(EOvrAppStatus Value)
             return ovrAppStatus::ovrAppStatus_Installed;
         case EOvrAppStatus::Uninstalling:
             return ovrAppStatus::ovrAppStatus_Uninstalling;
+        case EOvrAppStatus::InstallQueued:
+            return ovrAppStatus::ovrAppStatus_InstallQueued;
         default:
         return ovrAppStatus::ovrAppStatus_Unknown;
     }
@@ -171,6 +219,8 @@ EOvrAppStatus ConvertAppStatus(ovrAppStatus Value)
             return EOvrAppStatus::Installed;
         case ovrAppStatus::ovrAppStatus_Uninstalling:
             return EOvrAppStatus::Uninstalling;
+        case ovrAppStatus::ovrAppStatus_InstallQueued:
+            return EOvrAppStatus::InstallQueued;
         default:
             return EOvrAppStatus::Unknown;
     }

@@ -23,6 +23,9 @@
 #include "OVR_Challenge.h"
 #include "OVR_ChallengeArray.h"
 #include "OVR_ChallengeEntryArray.h"
+#include "OVR_CowatchingState.h"
+#include "OVR_CowatchViewerArray.h"
+#include "OVR_CowatchViewerUpdate.h"
 #include "OVR_DataStore.h"
 #include "OVR_DestinationArray.h"
 #include "OVR_Error.h"
@@ -96,6 +99,9 @@ OVRP_PUBLIC_FUNCTION(ovrBlockedUserArrayHandle)                   ovr_Message_Ge
 OVRP_PUBLIC_FUNCTION(ovrChallengeHandle)                          ovr_Message_GetChallenge(const ovrMessageHandle obj);
 OVRP_PUBLIC_FUNCTION(ovrChallengeArrayHandle)                     ovr_Message_GetChallengeArray(const ovrMessageHandle obj);
 OVRP_PUBLIC_FUNCTION(ovrChallengeEntryArrayHandle)                ovr_Message_GetChallengeEntryArray(const ovrMessageHandle obj);
+OVRP_PUBLIC_FUNCTION(ovrCowatchViewerArrayHandle)                 ovr_Message_GetCowatchViewerArray(const ovrMessageHandle obj);
+OVRP_PUBLIC_FUNCTION(ovrCowatchViewerUpdateHandle)                ovr_Message_GetCowatchViewerUpdate(const ovrMessageHandle obj);
+OVRP_PUBLIC_FUNCTION(ovrCowatchingStateHandle)                    ovr_Message_GetCowatchingState(const ovrMessageHandle obj);
 OVRP_PUBLIC_FUNCTION(ovrDataStoreHandle)                          ovr_Message_GetDataStore(const ovrMessageHandle obj);
 OVRP_PUBLIC_FUNCTION(ovrDestinationArrayHandle)                   ovr_Message_GetDestinationArray(const ovrMessageHandle obj);
 OVRP_PUBLIC_FUNCTION(ovrErrorHandle)                              ovr_Message_GetError(const ovrMessageHandle obj);

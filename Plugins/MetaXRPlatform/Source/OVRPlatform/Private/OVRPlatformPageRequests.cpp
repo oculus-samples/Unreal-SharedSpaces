@@ -574,6 +574,91 @@ void UOvrPageRequestsBlueprintLibrary::FetchChallengeEntryPage(
 }
 
 // ----------------------------------------------------------------------
+// CowatchViewerPages
+
+void UOvrPageRequestsBlueprintLibrary::FetchCowatchViewerPage(
+    UObject* WorldContextObject,
+    const EOvrForwardArrayIteratorInputPins& InExecs,
+    EOvrPageRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    const FOvrCowatchViewerPages& CowatchViewerPages,
+    // Output
+    TArray<FOvrCowatchViewer>& CowatchViewerArray,
+    bool& bHasNextPage,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformRequestGenerator RequestGenerator;
+
+        if (InExecs == EOvrForwardArrayIteratorInputPins::Execute)
+        {
+            RequestGenerator = [&CowatchViewerPages, &CowatchViewerArray, &bHasNextPage]()->ovrRequest
+            {
+                size_t Size = ovr_CowatchViewerArray_GetSize(CowatchViewerPages.PagedArrayHandle);
+                CowatchViewerArray.Empty(Size);
+                for (size_t Index = 0; Index < Size; ++Index)
+                {
+                    CowatchViewerArray.Add(FOvrCowatchViewer(ovr_CowatchViewerArray_GetElement(CowatchViewerPages.PagedArrayHandle, Index), CowatchViewerPages.PagedArrayMessageHandlePtr));
+                }
+                bHasNextPage = ovr_CowatchViewerArray_HasNextPage(CowatchViewerPages.PagedArrayHandle);
+
+                // Reading the current page, so no real request is needed.
+                return OVR_REQUEST_IMMEDIATE;
+            };
+        }
+        else // InExecs == EOvrForwardArrayIteratorInputPins::NextPage
+        {
+            if (!bHasNextPage)
+            {
+                RequestGenerator = []()->ovrRequest
+                {
+                    return OVR_REQUEST_NO_MORE_PAGES;
+                };
+            }
+            else
+            {
+                RequestGenerator = [&CowatchViewerPages]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_Cowatching_GetNextCowatchViewerArrayPage(CowatchViewerPages.PagedArrayHandle);
+                    return RequestID;
+                };
+            }
+
+        }
+
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrPageRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                std::move(RequestGenerator),
+                // Response Processor
+                [&CowatchViewerPages, &CowatchViewerArray, &bHasNextPage](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    // Defaults on outputs.
+                    CowatchViewerArray.Empty();
+
+                    // Message extraction if no error.
+                    if (!bIsError)
+                    {
+                        CowatchViewerPages.PagedArrayHandle = ovr_Message_GetCowatchViewerArray(*MessagePtr);
+                        CowatchViewerPages.PagedArrayMessageHandlePtr = MessagePtr;
+
+                        size_t Size = ovr_CowatchViewerArray_GetSize(CowatchViewerPages.PagedArrayHandle);
+                        CowatchViewerArray.Empty(Size);
+                        for (size_t Index = 0; Index < Size; ++Index)
+                        {
+                            CowatchViewerArray.Add(FOvrCowatchViewer(ovr_CowatchViewerArray_GetElement(CowatchViewerPages.PagedArrayHandle, Index), CowatchViewerPages.PagedArrayMessageHandlePtr));
+                        }
+                        bHasNextPage = ovr_CowatchViewerArray_HasNextPage(CowatchViewerPages.PagedArrayHandle);
+                    }
+                }));
+    }
+}
+
+// ----------------------------------------------------------------------
 // DestinationPages
 
 void UOvrPageRequestsBlueprintLibrary::FetchDestinationPage(

@@ -5,10 +5,15 @@
 
 #include "OVR_Platform_Defs.h"
 
+/// The destination represents where the user would like to go to in the app.
+/// It's usually associated with a travel or an invitation. Each destination
+/// has ovr_Destination_GetApiName(), ovr_Destination_GetDisplayName(),
+/// ovr_Destination_GetDeeplinkMessage() and ovr_Destination_GetShareableUri()
+/// link. Please refer to member data documentation for details.
 typedef struct ovrDestination *ovrDestinationHandle;
 
-/// Pass it into ovr_RichPresenceOptions_SetApiName() when calling
-/// ovr_RichPresence_Set() to set this user's rich presence
+/// You can pass it into ovr_GroupPresenceOptions_SetDestinationApiName when
+/// calling ovr_GroupPresence_Set() to set this user's group presence.
 OVRP_PUBLIC_FUNCTION(const char *) ovr_Destination_GetApiName(const ovrDestinationHandle obj);
 
 /// The information that will be in ovr_LaunchDetails_GetDeeplinkMessage() when
@@ -17,9 +22,12 @@ OVRP_PUBLIC_FUNCTION(const char *) ovr_Destination_GetApiName(const ovrDestinati
 /// user.
 OVRP_PUBLIC_FUNCTION(const char *) ovr_Destination_GetDeeplinkMessage(const ovrDestinationHandle obj);
 
-/// A URL that allows the user to deeplink directly to this destination
+/// A displayable string of the destination name and it can be retrieved with
+/// ovr_Destination_GetDisplayName().
+OVRP_PUBLIC_FUNCTION(const char *) ovr_Destination_GetDisplayName(const ovrDestinationHandle obj);
+
+/// A URI that allows the user to deeplink directly to this destination
 OVRP_PUBLIC_FUNCTION(const char *) ovr_Destination_GetShareableUri(const ovrDestinationHandle obj);
 
-OVRP_PUBLIC_FUNCTION(const char *) ovr_Destination_GetDisplayName(const ovrDestinationHandle obj);
 
 #endif

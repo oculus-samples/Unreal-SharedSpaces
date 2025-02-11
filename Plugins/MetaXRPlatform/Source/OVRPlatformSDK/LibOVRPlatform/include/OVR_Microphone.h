@@ -37,13 +37,12 @@ OVRP_PUBLIC_FUNCTION(size_t) ovr_Microphone_GetPCM(const ovrMicrophoneHandle obj
 /// This function can be safely called from any thread.
 OVRP_PUBLIC_FUNCTION(size_t) ovr_Microphone_GetPCMFloat(const ovrMicrophoneHandle obj, float *outputBuffer, size_t outputBufferNumElements);
 
-/// DEPRECATED. Use ovr_Microphone_GetPCMFloat() instead.
-///
 /// Gets all available samples of microphone data and copies it into
 /// outputBuffer. The microphone will generate data at roughly the rate of 480
 /// samples per 10ms. The data format is 32 bit floating point 48khz mono.
 ///
 /// This function can be safely called from any thread.
+/// \deprecated Use ovr_Microphone_GetPCMFloat() instead.
 OVRP_PUBLIC_FUNCTION(size_t) ovr_Microphone_ReadData(const ovrMicrophoneHandle obj, float *outputBuffer, size_t outputBufferSize);
 
 /// Indicates that the caller is fine with a certain delay in the delivery of

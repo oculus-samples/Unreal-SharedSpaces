@@ -5,10 +5,20 @@
 
 #include "OVR_Platform_Defs.h"
 
+/// Describe the filter type that can be enabled on the leaderboard.
 typedef enum ovrLeaderboardFilterType_ {
+  /// No filter enabled on the leaderboard.
   ovrLeaderboard_FilterNone,
+  /// Filter the leaderboard to include only friends of the current user.
   ovrLeaderboard_FilterFriends,
   ovrLeaderboard_FilterUnknown,
+  /// Filter the leaderboard to include specific user IDs. Use this filter to get
+  /// rankings for users that are competing against each other. You specify the
+  /// leaderboard name and whether to start at the top, or for the results to
+  /// center on the (client) user. Note that if you specify the results to center
+  /// on the client user, their leaderboard entry will be included in the
+  /// returned array, regardless of whether their ID is explicitly specified in
+  /// the list of IDs.
   ovrLeaderboard_FilterUserIds,
 } ovrLeaderboardFilterType;
 

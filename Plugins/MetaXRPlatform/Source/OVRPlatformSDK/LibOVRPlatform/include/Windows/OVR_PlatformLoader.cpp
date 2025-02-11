@@ -268,7 +268,7 @@ static ModuleHandleType OVR_FindLibraryPath(
         printfResult = swprintf(
             libraryPath,
             libraryPathCapacity,
-            L"%lsLibOVRPlatform%hs_%d.dll",
+            L"%lsLibOVRPlatformImpl%hs_%d.dll",
             directoryArray[i],
             pBitDepth,
             requestedMajorVersion);
@@ -354,7 +354,7 @@ ovrPlatformInitializeResult loaderInitHelper(int productVersion, int majorVersio
   swprintf(
       preLoadLibName,
       sizeof(preLoadLibName) / sizeof(preLoadLibName[0]),
-      L"LibOVRPlatform%hs_%d.dll",
+      L"LibOVRPlatformImpl%hs_%d.dll",
       pBitDepth,
       PLATFORM_MAJOR_VERSION);
   auto hLibPreLoad = GetModuleHandleW(preLoadLibName);
@@ -441,7 +441,7 @@ OVRPL_PUBLIC_FUNCTION(void) ovr_PlatformInitializeStandaloneAccessToken(const ch
   swprintf(
       preLoadLibName,
       sizeof(preLoadLibName) / sizeof(preLoadLibName[0]),
-      L"LibOVRPlatform%hs_%d.dll",
+      L"LibOVRPlatformImpl%hs_%d.dll",
       pBitDepth,
       PLATFORM_MAJOR_VERSION);
   auto hLibPreLoad = GetModuleHandleW(preLoadLibName);

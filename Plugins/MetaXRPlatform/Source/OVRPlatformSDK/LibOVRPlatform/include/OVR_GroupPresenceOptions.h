@@ -10,9 +10,15 @@
 
 
 struct ovrGroupPresenceOptions;
+/// The Group Presence Option, to be passed in to ovr_GroupPresence_Set(), is a
+/// set of fields that allows developers to specify the presence of a user in a
+/// group/squad/party. It provides a way for developers to create a more
+/// immersive and social experience for their users by allowing them to join
+/// and interact with other users.
 typedef struct ovrGroupPresenceOptions* ovrGroupPresenceOptionsHandle;
-
+/// \brief Creates a new instance of ovrGroupPresenceOptionsHandle() which is used to customize the option flow. It returns a handle to the newly created options object, which can be used to set various properties for the options.
 OVRP_PUBLIC_FUNCTION(ovrGroupPresenceOptionsHandle) ovr_GroupPresenceOptions_Create();
+/// \brief Destroys an existing instance of the ovrGroupPresenceOptionsHandle() and frees up memory when you're done using it.
 OVRP_PUBLIC_FUNCTION(void) ovr_GroupPresenceOptions_Destroy(ovrGroupPresenceOptionsHandle handle);
 /// Use ovr_GroupPresenceOptions_SetLobbySessionId or
 /// ovr_GroupPresenceOptions_SetMatchSessionId to specify the session. Use the

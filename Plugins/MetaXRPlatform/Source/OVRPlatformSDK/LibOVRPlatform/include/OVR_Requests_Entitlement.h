@@ -60,7 +60,11 @@
 /// Once the above steps are completed, the entitlement check should succeed even if
 /// running a local build of your application.
 
-/// Returns whether the current user is entitled to the current app.
+/// Returns whether the current user is entitled to the current app. The
+/// primary purpose of this function is to verify user access rights to the
+/// application, ensuring that the user is authorized to use it. See example
+/// usage [here](https://developer.oculus.com/documentation/native/ps-
+/// entitlement-check/#entitlement).
 ///
 /// A message with type ::ovrMessage_Entitlement_GetIsViewerEntitled will be generated in response.
 ///

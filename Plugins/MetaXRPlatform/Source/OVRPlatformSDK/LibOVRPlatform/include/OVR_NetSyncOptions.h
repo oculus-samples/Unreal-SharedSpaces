@@ -12,8 +12,9 @@
 
 struct ovrNetSyncOptions;
 typedef struct ovrNetSyncOptions* ovrNetSyncOptionsHandle;
-
+/// \brief Creates a new instance of ovrNetSyncOptionsHandle() which is used to customize the option flow. It returns a handle to the newly created options object, which can be used to set various properties for the options.
 OVRP_PUBLIC_FUNCTION(ovrNetSyncOptionsHandle) ovr_NetSyncOptions_Create();
+/// \brief Destroys an existing instance of the ovrNetSyncOptionsHandle() and frees up memory when you're done using it.
 OVRP_PUBLIC_FUNCTION(void) ovr_NetSyncOptions_Destroy(ovrNetSyncOptionsHandle handle);
 /// If provided, immediately set the voip_group to this value upon connection
 OVRP_PUBLIC_FUNCTION(void) ovr_NetSyncOptions_SetVoipGroup(ovrNetSyncOptionsHandle handle, const char * value);

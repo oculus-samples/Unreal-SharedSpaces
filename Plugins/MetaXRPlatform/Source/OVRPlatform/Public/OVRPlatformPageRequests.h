@@ -166,6 +166,23 @@ public:
         FString& ErrorMsg);
 
     /**
+     * Fetches a page from an FOvrCowatchViewerPages paged array.
+     * @param CowatchViewerPages - a FOvrCowatchViewerPages
+     * @param CowatchViewerArray - an array of FOvrCowatchViewer
+     * @param bHasNextPage - if more pages are available after this one.
+     */
+    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="CowatchViewerPages"), Category = "OvrPlatform|Models|CowatchViewerArray")
+    static void FetchCowatchViewerPage(
+        UObject* WorldContextObject,
+        const EOvrForwardArrayIteratorInputPins& InExecs,
+        EOvrPageRequestOutputPins& OutExecs,
+        FLatentActionInfo LatentInfo,
+        const FOvrCowatchViewerPages& CowatchViewerPages,
+        TArray<FOvrCowatchViewer>& CowatchViewerArray,
+        bool& bHasNextPage,
+        FString& ErrorMsg);
+
+    /**
      * Fetches a page from an FOvrDestinationPages paged array.
      * @param DestinationPages - a FOvrDestinationPages
      * @param DestinationArray - an array of FOvrDestination

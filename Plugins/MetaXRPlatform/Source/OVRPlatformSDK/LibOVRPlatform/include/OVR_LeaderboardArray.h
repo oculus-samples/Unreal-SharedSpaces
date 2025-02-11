@@ -8,11 +8,21 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+/// Represents a paginated list of ovrLeaderboardHandle elements
 typedef struct ovrLeaderboardArray *ovrLeaderboardArrayHandle;
 
+/// Access the indexed element in this list.
 OVRP_PUBLIC_FUNCTION(ovrLeaderboardHandle) ovr_LeaderboardArray_GetElement(const ovrLeaderboardArrayHandle obj, size_t index);
-OVRP_PUBLIC_FUNCTION(const char *)         ovr_LeaderboardArray_GetNextUrl(const ovrLeaderboardArrayHandle obj);
-OVRP_PUBLIC_FUNCTION(size_t)               ovr_LeaderboardArray_GetSize(const ovrLeaderboardArrayHandle obj);
-OVRP_PUBLIC_FUNCTION(bool)                 ovr_LeaderboardArray_HasNextPage(const ovrLeaderboardArrayHandle obj);
+
+/// The URL to request the next paginated list of elements.
+OVRP_PUBLIC_FUNCTION(const char *) ovr_LeaderboardArray_GetNextUrl(const ovrLeaderboardArrayHandle obj);
+
+/// The number of elements contained within this list. This is not equal to the
+/// total number of elements across multiple pages.
+OVRP_PUBLIC_FUNCTION(size_t) ovr_LeaderboardArray_GetSize(const ovrLeaderboardArrayHandle obj);
+
+/// Whether there is a next page of elements that can be retrieved.
+OVRP_PUBLIC_FUNCTION(bool) ovr_LeaderboardArray_HasNextPage(const ovrLeaderboardArrayHandle obj);
+
 
 #endif

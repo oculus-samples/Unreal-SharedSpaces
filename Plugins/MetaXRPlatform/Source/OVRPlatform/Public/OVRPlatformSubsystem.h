@@ -43,6 +43,14 @@ DECLARE_MULTICAST_DELEGATE_TwoParams(FOvrPlatformMulticastMessageOnComplete, TOv
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_AbuseReport_ReportButtonPressed, const FString&, ReportButtonPressed);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_ApplicationLifecycle_LaunchIntentChanged, const FString&, LaunchIntentChanged);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_AssetFile_DownloadUpdate, const FOvrAssetFileDownloadUpdate&, DownloadUpdate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Cowatching_ApiNotReady, const FString&, ApiNotReady);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Cowatching_ApiReady, const FString&, ApiReady);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Cowatching_InSessionChanged, const FOvrCowatchingState&, InSessionChanged);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Cowatching_Initialized, const FString&, Initialized);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Cowatching_PresenterDataChanged, const FString&, PresenterDataChanged);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Cowatching_SessionStarted, const FString&, SessionStarted);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Cowatching_SessionStopped, const FString&, SessionStopped);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Cowatching_ViewersDataChanged, const FOvrCowatchViewerUpdate&, ViewersDataChanged);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_GroupPresence_InvitationsSent, const FOvrLaunchInvitePanelFlowResult&, InvitationsSent);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_GroupPresence_JoinIntentReceived, const FOvrGroupPresenceJoinIntent&, JoinIntentReceived);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_GroupPresence_LeaveIntentReceived, const FOvrGroupPresenceLeaveIntent&, LeaveIntentReceived);
@@ -66,19 +74,27 @@ class OVRPLATFORM_API UOvrPlatformSubsystem
 
 public:
 
+	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
     virtual void Initialize(FSubsystemCollectionBase& Collection) override;
     virtual void Deinitialize() override;
 
 private:
 
-    bool bOculusInit;
+    // Whether this instance of subsystem being initiated is the first one in multiplayer context
+    static bool bFirstInstanceInit;
+    bool bOculusInit = false;
 
 #if PLATFORM_WINDOWS
     bool InitWithWindowsPlatform();
 #elif PLATFORM_ANDROID
     bool InitWithAndroidPlatform();
 #endif
+    void StartAsyncInit();
+    void GetAuthEmailAndPassword(FString& EmailOut, FString& PasswordOut);
     FString GetAppId();
+    bool GetDoAsyncInit();
+    bool IsEmailAndPasswordAuthRequested();
+    bool IsEmailAndPasswordAuthRequested(const FString& Email, const FString& Password);
 
     // OVR Notifications (handle and handler)
     FDelegateHandle OnPlatformInitializedStandaloneHandle;
@@ -113,10 +129,9 @@ public: // Notifications
     FOvrNotification_AbuseReport_ReportButtonPressed OnAbuseReportReportButtonPressed;
 
     /**
-     * Sent when a launch intent is received (for both cold and warm starts).
-     * The payload is the type of the intent.
-     * ApplicationLifecycle_GetLaunchDetails() should be called to
-     * get the other details.
+     * This event is triggered when a launch intent is received, whether it's a cold or warm start.
+     * The payload contains the type of intent that was received. To obtain additional details,
+     * you should call the ApplicationLifecycle_GetLaunchDetails() function.
      */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|ApplicationLifecycle")
     FOvrNotification_ApplicationLifecycle_LaunchIntentChanged OnApplicationLifecycleLaunchIntentChanged;
@@ -125,29 +140,72 @@ public: // Notifications
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|AssetFile")
     FOvrNotification_AssetFile_DownloadUpdate OnAssetFileDownloadUpdate;
 
+    /** Sets a callback function that will be triggered when the user is no longer in a copresent state and cowatching actions should not be performed. */
+    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Cowatching")
+    FOvrNotification_Cowatching_ApiNotReady OnCowatchingApiNotReady;
+
+    /** Sets a callback function that will be triggered when the user is in a copresent state and cowatching is ready to begin. */
+    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Cowatching")
+    FOvrNotification_Cowatching_ApiReady OnCowatchingApiReady;
+
+    /** Sets a callback function that will be triggered when the current user joins/leaves the cowatching session. */
+    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Cowatching")
+    FOvrNotification_Cowatching_InSessionChanged OnCowatchingInSessionChanged;
+
+    /** Sets a callback function that will be triggered when the cowatching API has been initialized. At this stage, the API is not yet ready for use. */
+    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Cowatching")
+    FOvrNotification_Cowatching_Initialized OnCowatchingInitialized;
+
+    /** Sets a callback function that will be triggered when the presenter updates the presenter data. */
+    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Cowatching")
+    FOvrNotification_Cowatching_PresenterDataChanged OnCowatchingPresenterDataChanged;
+
+    /** Sets a callback function that will be triggered when a user has started a cowatching session, and the ID of the session is reflected in the payload. */
+    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Cowatching")
+    FOvrNotification_Cowatching_SessionStarted OnCowatchingSessionStarted;
+
+    /** Sets a callback function that will be triggered when a cowatching session has ended. */
+    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Cowatching")
+    FOvrNotification_Cowatching_SessionStopped OnCowatchingSessionStopped;
+
+    /** Sets a callback function that will be triggered when a user joins or updates their viewer data. */
+    UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Cowatching")
+    FOvrNotification_Cowatching_ViewersDataChanged OnCowatchingViewersDataChanged;
+
     /**
-     * Sent when the user is finished using the invite panel to send out invitations.
-     * Contains a list of invitees.
+     * Sent when the user is finished using the invite panel to send out invitations. Contains a list of invitees.
+     * Parameter: Callback is a function that will be called when the invitation sent status changes.
+     * FOvrLaunchInvitePanelFlowResult has 1 member:
+     * UserList field FOvrLaunchInvitePanelFlowResult::InvitedUsers - A list of users that were sent an invitation to the session.
      */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|GroupPresence")
     FOvrNotification_GroupPresence_InvitationsSent OnGroupPresenceInvitationsSent;
 
     /**
-     * Sent when a user has chosen to join the destination/lobby/match. Read all
-     * the fields to figure out where the user wants to go and take the appropriate
-     * actions to bring them there. If the user is unable to go there, provide adequate
-     * messaging to the user on why they cannot go there. These notifications should
-     * be responded to immediately.
+     * Sent when a user has chosen to join the destination/lobby/match.
+     * Read all the fields to figure out where the user wants to go and take
+     * the appropriate actions to bring them there. If the user is unable to go there,
+     * provide adequate messaging to the user on why they cannot go there.
+     * These notifications should be responded to immediately.
+     * Parameter: Callback is a function that will be called when a user has chosen to join the destination/lobby/match.
+     * FOvrGroupPresenceJoinIntent has 4 members:
+     * string field FOvrGroupPresenceJoinIntent::DeeplinkMessage - An opaque string provided by the developer to help them deeplink to content.
+     * string field FOvrGroupPresenceJoinIntent::DestinationApiName - The destination the current user wants to go to.
+     * string field FOvrGroupPresenceJoinIntent::LobbySessionId - The lobby session the current user wants to go to.
+     * string field FOvrGroupPresenceJoinIntent::MatchSessionId - The match session the current user wants to go to.
      */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|GroupPresence")
     FOvrNotification_GroupPresence_JoinIntentReceived OnGroupPresenceJoinIntentReceived;
 
     /**
-     * Sent when the user has chosen to leave the destination/lobby/match from
-     * the Oculus menu. Read the specific fields to check the user is currently from
-     * the destination/lobby/match and take the appropriate actions to remove them.
-     * Update the user's presence clearing the appropriate fields to indicate the user
-     * has left. 
+     * Sent when the user has chosen to leave the destination/lobby/match from the Oculus menu.
+     * Read the specific fields to check the user is currently from the destination/lobby/match and take the appropriate actions to remove them.
+     * Update the user's presence clearing the appropriate fields to indicate the user has left.
+     * Parameter: Callback is a function that will be called when the user has chosen to leave the destination/lobby/match.
+     * FOvrGroupPresenceLeaveIntent has 3 members:
+     * string field FOvrGroupPresenceLeaveIntent::DestinationApiName - The destination the current user wants to leave.
+     * string field FOvrGroupPresenceLeaveIntent::LobbySessionId - The lobby session the current user wants to leave.
+     * string field FOvrGroupPresenceLeaveIntent::MatchSessionId - The match session the current user wants to leave.
      */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|GroupPresence")
     FOvrNotification_GroupPresence_LeaveIntentReceived OnGroupPresenceLeaveIntentReceived;
@@ -164,13 +222,13 @@ public: // Notifications
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Livestreaming")
     FOvrNotification_Livestreaming_StatusChange OnLivestreamingStatusChange;
 
-    /** Sent when the status of a connection has changed. */
+    /** Sent when the status of a connection has changed. The payload will be a type of FOvrNetSyncConnection. */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|NetSync")
     FOvrNotification_NetSync_ConnectionStatusChanged OnNetSyncConnectionStatusChanged;
 
     /**
      * Sent when the list of known connected sessions has changed. Contains
-     * the new list of sessions.
+     * the new list of sessions. The payload will be a type of FOvrNetSyncSessionsChangedNotification.
      */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|NetSync")
     FOvrNotification_NetSync_SessionsChanged OnNetSyncSessionsChanged;
@@ -215,6 +273,30 @@ private: // Notification delegate handles and handlers
     FDelegateHandle OnAssetFileDownloadUpdateHandle;
     void HandleOnAssetFileDownloadUpdate(TOvrMessageHandlePtr Message, bool bIsError);
 
+    FDelegateHandle OnCowatchingApiNotReadyHandle;
+    void HandleOnCowatchingApiNotReady(TOvrMessageHandlePtr Message, bool bIsError);
+
+    FDelegateHandle OnCowatchingApiReadyHandle;
+    void HandleOnCowatchingApiReady(TOvrMessageHandlePtr Message, bool bIsError);
+
+    FDelegateHandle OnCowatchingInSessionChangedHandle;
+    void HandleOnCowatchingInSessionChanged(TOvrMessageHandlePtr Message, bool bIsError);
+
+    FDelegateHandle OnCowatchingInitializedHandle;
+    void HandleOnCowatchingInitialized(TOvrMessageHandlePtr Message, bool bIsError);
+
+    FDelegateHandle OnCowatchingPresenterDataChangedHandle;
+    void HandleOnCowatchingPresenterDataChanged(TOvrMessageHandlePtr Message, bool bIsError);
+
+    FDelegateHandle OnCowatchingSessionStartedHandle;
+    void HandleOnCowatchingSessionStarted(TOvrMessageHandlePtr Message, bool bIsError);
+
+    FDelegateHandle OnCowatchingSessionStoppedHandle;
+    void HandleOnCowatchingSessionStopped(TOvrMessageHandlePtr Message, bool bIsError);
+
+    FDelegateHandle OnCowatchingViewersDataChangedHandle;
+    void HandleOnCowatchingViewersDataChanged(TOvrMessageHandlePtr Message, bool bIsError);
+
     FDelegateHandle OnGroupPresenceInvitationsSentHandle;
     void HandleOnGroupPresenceInvitationsSent(TOvrMessageHandlePtr Message, bool bIsError);
 
@@ -254,7 +336,7 @@ private: // Notification delegate handles and handlers
 private: // Message pump.
 
     // The message pump need to be explicity started with StartMessagePump()
-    bool bMessagePumpActivated;
+    bool bMessagePumpActivated = false;
 
     virtual void Tick(float DeltaTime) override;
     virtual bool IsTickable() const override;

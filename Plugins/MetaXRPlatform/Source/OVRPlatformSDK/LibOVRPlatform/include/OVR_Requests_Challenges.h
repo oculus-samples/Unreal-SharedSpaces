@@ -13,7 +13,7 @@
 #include "OVR_LeaderboardStartAt.h"
 #include <stdbool.h>
 
-/// DEPRECATED. Use server-to-server API call instead.
+/// \deprecated Use server-to-server API call instead.
 ///
 /// A message with type ::ovrMessage_Challenges_Create will be generated in response.
 ///
@@ -23,7 +23,10 @@
 /// Extract the payload from the message handle with ::ovr_Message_GetChallenge().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_Create(const char *leaderboardName, ovrChallengeOptionsHandle challengeOptions);
 
-/// If the current user has an invite to the challenge, decline the invite
+/// If the current user has the necessary permissions, they can decline a
+/// challenge by providing the challenge ID, which can be obtained using
+/// ovr_Challenge_GetID().
+/// \param challengeID The ID of challenge that the user is going to decline. It can be retrieved by ovr_Challenge_GetID().
 ///
 /// A message with type ::ovrMessage_Challenges_DeclineInvite will be generated in response.
 ///
@@ -33,7 +36,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_Create(const char *leaderboardNa
 /// Extract the payload from the message handle with ::ovr_Message_GetChallenge().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_DeclineInvite(ovrID challengeID);
 
-/// DEPRECATED. Use server-to-server API call instead.
+/// \deprecated Use server-to-server API call instead.
 ///
 /// A message with type ::ovrMessage_Challenges_Delete will be generated in response.
 ///
@@ -42,8 +45,9 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_DeclineInvite(ovrID challengeID)
 /// This response has no payload. If no error occurred, the request was successful. Yay!
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_Delete(ovrID challengeID);
 
-/// Gets the information for a single challenge
-/// \param challengeID The id of the challenge whose entries to return.
+/// Gets detailed information for a single challenge by providing the challenge
+/// ID, which can be retrieved by calling ovr_Challenge_GetID().
+/// \param challengeID The id of the challenge whose entries to return, which can be retrieved by calling ovr_Challenge_GetID().
 ///
 /// A message with type ::ovrMessage_Challenges_Get will be generated in response.
 ///
@@ -53,11 +57,17 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_Delete(ovrID challengeID);
 /// Extract the payload from the message handle with ::ovr_Message_GetChallenge().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_Get(ovrID challengeID);
 
-/// Requests a block of challenge entries.
-/// \param challengeID The id of the challenge whose entries to return.
-/// \param limit Defines the maximum number of entries to return.
-/// \param filter By using ovrLeaderboard_FilterFriends, this allows you to filter the returned values to bidirectional followers.
-/// \param startAt Defines whether to center the query on the user or start at the top of the challenge.
+/// Retrieves a list of entries for a specific challenge, with options to
+/// filter and limit the results. By providing the challengeID, you can specify
+/// which challenge's entries you want to retrieve. The limit parameter allows
+/// you to control the number of entries returned. The filter parameter enables
+/// you to refine the results to only include entries from users who are
+/// bidirectional followers. The startAt parameter allows you to define whether
+/// to center the query on the user or start at the top of the challenge.
+/// \param challengeID The id of the challenge whose entries to return, which can be retrieved by calling ovr_Challenge_GetID().
+/// \param limit Sets a limit on the maximum number of challenges to be fetched, which can be useful for pagination or performance reasons.
+/// \param filter By using the ovrLeaderboard_FilterLeaderboardFilterType, you can refine the results to only include entries from users who are bidirectional followers.
+/// \param startAt Defines whether to center the query on the user or start at the top of the challenge. If this is ovrLeaderboard_StartAtCenteredOnViewer or ovrLeaderboard_StartAtCenteredOnViewerOrTop, then the current user's ID will be automatically added to the query.
 ///
 /// A message with type ::ovrMessage_Challenges_GetEntries will be generated in response.
 ///
@@ -67,10 +77,14 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_Get(ovrID challengeID);
 /// Extract the payload from the message handle with ::ovr_Message_GetChallengeEntryArray().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_GetEntries(ovrID challengeID, int limit, ovrLeaderboardFilterType filter, ovrLeaderboardStartAt startAt);
 
-/// Requests a block of challenge entries.
-/// \param challengeID The id of the challenge whose entries to return.
-/// \param limit The maximum number of entries to return.
-/// \param afterRank The position after which to start.  For example, 10 returns challenge results starting with the 11th user.
+/// Returns a list of entries for a specific challenge, starting from a
+/// specified rank. By providing the challengeID and rank, you can specify
+/// which challenge's entries you want to retrieve and where to start the
+/// query. The limit parameter allows you to control the number of entries
+/// returned.
+/// \param challengeID The id of the challenge whose entries to return, which can be retrieved by calling ovr_Challenge_GetID().
+/// \param limit Sets a limit on the maximum number of challenges to be fetched, which can be useful for pagination or performance reasons.
+/// \param afterRank The position after which to start. For example, 10 returns challenge results starting with the 11th user.
 ///
 /// A message with type ::ovrMessage_Challenges_GetEntriesAfterRank will be generated in response.
 ///
@@ -80,10 +94,12 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_GetEntries(ovrID challengeID, in
 /// Extract the payload from the message handle with ::ovr_Message_GetChallengeEntryArray().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_GetEntriesAfterRank(ovrID challengeID, int limit, unsigned long long afterRank);
 
-/// Requests a block of challenge entries. Will return only entries matching
-/// the user IDs passed in.
-/// \param challengeID The id of the challenge whose entries to return.
-/// \param limit Defines the maximum number of entries to return.
+/// Retrieves a list of challenge entries for a specific set of user IDs, with
+/// options to filter and limit the results. This method is useful for
+/// retrieving a list of challenge entries for a specific set of users,
+/// allowing you to display their progress and rankings within the challenge.
+/// \param challengeID The id of the challenge whose entries to return, which can be retrieved by calling ovr_Challenge_GetID().
+/// \param limit Sets a limit on the maximum number of challenges to be fetched, which can be useful for pagination or performance reasons.
 /// \param startAt Defines whether to center the query on the user or start at the top of the challenge. If this is ovrLeaderboard_StartAtCenteredOnViewer or ovrLeaderboard_StartAtCenteredOnViewerOrTop, then the current user's ID will be automatically added to the query.
 /// \param userIDs Defines a list of user ids to get entries for.
 /// \param userIDLength The number of user IDs provided.
@@ -96,7 +112,12 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_GetEntriesAfterRank(ovrID challe
 /// Extract the payload from the message handle with ::ovr_Message_GetChallengeEntryArray().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_GetEntriesByIds(ovrID challengeID, int limit, ovrLeaderboardStartAt startAt, ovrID *userIDs, unsigned int userIDLength);
 
-/// Requests for a list of challenge
+/// Returns a list of challenges that match the specified options. The
+/// ovr_ChallengeOptions_Create parameter allows you to specify the criteria
+/// for the challenges you want to retrieve. The limit parameter allows you to
+/// control the number of challenges returned.
+/// \param challengeOptions This indicates the options of the challenge and it can be retrieved by ovr_ChallengeOptions_Create.
+/// \param limit Sets a limit on the maximum number of challenges to be fetched, which can be useful for pagination or performance reasons.
 ///
 /// A message with type ::ovrMessage_Challenges_GetList will be generated in response.
 ///
@@ -150,7 +171,10 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_GetPreviousChallenges(const ovrC
 /// Extract the payload from the message handle with ::ovr_Message_GetChallengeEntryArray().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_GetPreviousEntries(const ovrChallengeEntryArrayHandle handle);
 
-/// If the current user has permission, join the challenge
+/// If the current user has the necessary permissions to join, participate in a
+/// challenge by providing the challenge ID, which can be retrieved using
+/// ovr_Challenge_GetID().
+/// \param challengeID The ID of challenge that the user is going to join. It can be retrieved by ovr_Challenge_GetID().
 ///
 /// A message with type ::ovrMessage_Challenges_Join will be generated in response.
 ///
@@ -160,7 +184,10 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_GetPreviousEntries(const ovrChal
 /// Extract the payload from the message handle with ::ovr_Message_GetChallenge().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_Join(ovrID challengeID);
 
-/// If the current user has permission, leave the challenge
+/// If the current user has the necessary permissions, they can leave a
+/// challenge by providing the challenge ID, which can be obtained using
+/// ovr_Challenge_GetID().
+/// \param challengeID The ID of challenge that the user is going to leave. It can be retrieved by ovr_Challenge_GetID().
 ///
 /// A message with type ::ovrMessage_Challenges_Leave will be generated in response.
 ///
@@ -170,7 +197,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_Join(ovrID challengeID);
 /// Extract the payload from the message handle with ::ovr_Message_GetChallenge().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Challenges_Leave(ovrID challengeID);
 
-/// DEPRECATED. Use server-to-server API call instead.
+/// \deprecated Use server-to-server API call instead.
 ///
 /// A message with type ::ovrMessage_Challenges_UpdateInfo will be generated in response.
 ///

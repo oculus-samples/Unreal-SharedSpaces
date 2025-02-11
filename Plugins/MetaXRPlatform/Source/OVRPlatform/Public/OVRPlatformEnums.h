@@ -29,6 +29,7 @@
 #include "OVR_AccountAgeCategory.h"
 #include "OVR_AchievementType.h"
 #include "OVR_AppAgeCategory.h"
+#include "OVR_AppInstallResult.h"
 #include "OVR_AppStatus.h"
 #include "OVR_ChallengeCreationType.h"
 #include "OVR_ChallengeViewerFilter.h"
@@ -81,87 +82,143 @@ enum class EOvrAbuseReportType : uint8
 ovrAbuseReportType ConvertAbuseReportType(EOvrAbuseReportType Value);
 EOvrAbuseReportType ConvertAbuseReportType(ovrAbuseReportType Value);
 
-/** AccountAgeCategory enumeration. */
+/** Age category in Meta account. The values are used in UserAgeCategory_Get() API. */
 UENUM(BlueprintType)
 enum class EOvrAccountAgeCategory : uint8
 {
     Unknown,
+    /** Child age group for users between the ages of 10-12 (or applicable age in user's region) */
     Ch,
+    /** Teenage age group for users between the ages of 13-17 (or applicable age in user's region) */
     Tn,
+    /** Adult age group for users ages 18 and up (or applicable age in user's region) */
     Ad,
 };
 
 ovrAccountAgeCategory ConvertAccountAgeCategory(EOvrAccountAgeCategory Value);
 EOvrAccountAgeCategory ConvertAccountAgeCategory(ovrAccountAgeCategory Value);
 
-/** AchievementType enumeration. */
+/** Determines the type of the achievement. */
 UENUM(BlueprintType)
 enum class EOvrAchievementType : uint8
 {
     Unknown,
+    /** Simple achievements are unlocked by a single event or objective completion. */
     Simple,
+    /** Bitfield achievements are unlocked when a target number of bits are set within a bitfield. */
     Bitfield,
+    /** Count achievements are unlocked when a counter reaches a defined target. */
     Count,
 };
 
 ovrAchievementType ConvertAchievementType(EOvrAchievementType Value);
 EOvrAchievementType ConvertAchievementType(ovrAchievementType Value);
 
-/** AppAgeCategory enumeration. */
+/** Age category for developers to send to Meta. The values are used in UserAgeCategory_Report() API. */
 UENUM(BlueprintType)
 enum class EOvrAppAgeCategory : uint8
 {
     Unknown,
+    /** Child age group for users between the ages of 10-12 (or applicable age in user's region) */
     Ch,
+    /** Non-child age group for users ages 13 and up (or applicable age in user's region) */
     Nch,
 };
 
 ovrAppAgeCategory ConvertAppAgeCategory(EOvrAppAgeCategory Value);
 EOvrAppAgeCategory ConvertAppAgeCategory(ovrAppAgeCategory Value);
 
-/** AppStatus enumeration. */
+/**
+ * Result of installing an app. In case of an error during install process,
+ * the error message contains the string representation of this result. This is
+ * returned from Application_StartAppDownload(), Application_CancelAppDownload() and Application_InstallAppUpdateAndRelaunch() APIs.
+ */
+UENUM(BlueprintType)
+enum class EOvrAppInstallResult : uint8
+{
+    Unknown,
+    /** Install of the app failed due to low storage on the device */
+    LowStorage,
+    /** Install of the app failed due to a network error */
+    NetworkError,
+    /**
+     * Install of the app failed as another install request for this application
+     * is already being processed by the installer
+     */
+    DuplicateRequest,
+    /** Install of the app failed due to an internal installer error */
+    InstallerError,
+    /** Install of the app failed because the user canceled the install operation */
+    UserCancelled,
+    /** Install of the app failed due to a user authorization error */
+    AuthorizationError,
+    /** Install of the app succeeded */
+    Success,
+};
+
+ovrAppInstallResult ConvertAppInstallResult(EOvrAppInstallResult Value);
+EOvrAppInstallResult ConvertAppInstallResult(ovrAppInstallResult Value);
+
+/**
+ * Current status of the app on the device. An app can only check
+ * its own status.
+ */
 UENUM(BlueprintType)
 enum class EOvrAppStatus : uint8
 {
     Unknown,
+    /** User has valid entitlement to the app but it is not currently installed on the device. */
     Entitled,
+    /** Download of the app is currently queued. */
     DownloadQueued,
+    /** Download of the app is currently in progress. */
     Downloading,
+    /** Install of the app is currently in progress. */
     Installing,
+    /** App is installed on the device. */
     Installed,
+    /** App is being uninstalled from the device. */
     Uninstalling,
+    /** Install of the app is currently queued. */
+    InstallQueued,
 };
 
 ovrAppStatus ConvertAppStatus(EOvrAppStatus Value);
 EOvrAppStatus ConvertAppStatus(ovrAppStatus Value);
 
-/** ChallengeCreationType enumeration. */
+/** Describes the creator of the associated challenge. */
 UENUM(BlueprintType)
 enum class EOvrChallengeCreationType : uint8
 {
     Unknown,
+    /** The challenge was created by a User. */
     UserCreated,
+    /** The challenge was created by the app developer. */
     DeveloperCreated,
 };
 
 ovrChallengeCreationType ConvertChallengeCreationType(EOvrChallengeCreationType Value);
 EOvrChallengeCreationType ConvertChallengeCreationType(ovrChallengeCreationType Value);
 
-/** ChallengeViewerFilter enumeration. */
+/** The available filtering options on the FOvrChallenge returned by Challenges_GetList(). */
 UENUM(BlueprintType)
 enum class EOvrChallengeViewerFilter : uint8
 {
     Unknown,
+    /** Returns all public ((EOvrChallengeVisibility::Public)) and invite-only (EOvrChallengeVisibility::InviteOnly) FOvrChallenges in which the user is a participant or invitee. Excludes private (EOvrChallengeVisibility::Private) challenges. */
     AllVisible,
+    /** Returns challenges in which the user is a participant. */
     Participating,
+    /** Returns challenges that the user has been invited to. */
     Invited,
+    /** Returns challenges the user is either participating in or invited to. */
     ParticipatingOrInvited,
 };
 
 ovrChallengeViewerFilter ConvertChallengeViewerFilter(EOvrChallengeViewerFilter Value);
 EOvrChallengeViewerFilter ConvertChallengeViewerFilter(ovrChallengeViewerFilter Value);
 
-/** ChallengeVisibility enumeration. */
+/** The visibility of the challenge. A challenge may be invite-only, public, or private. */
 UENUM(BlueprintType)
 enum class EOvrChallengeVisibility : uint8
 {
@@ -190,16 +247,25 @@ enum class EOvrKeyValuePairType : uint8
 ovrKeyValuePairType ConvertKeyValuePairType(EOvrKeyValuePairType Value);
 EOvrKeyValuePairType ConvertKeyValuePairType(ovrKeyValuePairType Value);
 
-/** LaunchResult enumeration. */
+/**
+ * An enum that specifies the whether the attempt to launch this application via a deeplink was successful.
+ * The value is meant to be reported after a deeplink by calling ApplicationLifecycle_LogDeeplinkResult()
+ */
 UENUM(BlueprintType)
 enum class EOvrLaunchResult : uint8
 {
     Unknown,
+    /** The application launched successfully. */
     Success,
+    /** The application launch failed because the room was full. */
     FailedRoomFull,
+    /** The application launch failed because the game has already started. */
     FailedGameAlreadyStarted,
+    /** The appplicatin launch failed because the room couldn't be found. */
     FailedRoomNotFound,
+    /** The application launch failed because the user declined the invitation. */
     FailedUserDeclined,
+    /** The application launch failed due to some other reason. */
     FailedOtherReason,
 };
 
@@ -211,22 +277,41 @@ UENUM(BlueprintType)
 enum class EOvrLaunchType : uint8
 {
     Unknown,
+    /**  Normal launch from the user's library  */
     Normal,
+    /**
+     *  Launch from the user accepting an invite.  Check field FOvrLaunchDetails::LobbySessionID,
+     *     field FOvrLaunchDetails::MatchSessionID, field FOvrLaunchDetails::DestinationApiName and
+     *     field FOvrLaunchDetails::DeeplinkMessage. 
+     */
     Invite,
+    /**  DEPRECATED  */
     Coordinated,
+    /**
+     *  Launched from Application_LaunchOtherApp().
+     *     Check field FOvrLaunchDetails::LaunchSource and field FOvrLaunchDetails::DeeplinkMessage. 
+     */
     Deeplink,
 };
 
 ovrLaunchType ConvertLaunchType(EOvrLaunchType Value);
 EOvrLaunchType ConvertLaunchType(ovrLaunchType Value);
 
-/** LeaderboardFilterType enumeration. */
+/** Describe the filter type that can be enabled on the leaderboard. */
 UENUM(BlueprintType)
 enum class EOvrLeaderboardFilterType : uint8
 {
+    /** No filter enabled on the leaderboard. */
     None,
+    /** Filter the leaderboard to include only friends of the current user. */
     Friends,
     Unknown,
+    /**
+     * Filter the leaderboard to include specific user IDs.
+     * Use this filter to get rankings for users that are competing against each other.
+     * You specify the leaderboard name and whether to start at the top, or for the results to center on the (client) user.
+     * Note that if you specify the results to center on the client user, their leaderboard entry will be included in the returned array, regardless of whether their ID is explicitly specified in the list of IDs.
+     */
     UserIds,
 };
 
@@ -435,14 +520,21 @@ enum class EOvrNetSyncVoipStreamMode : uint8
 ovrNetSyncVoipStreamMode ConvertNetSyncVoipStreamMode(EOvrNetSyncVoipStreamMode Value);
 EOvrNetSyncVoipStreamMode ConvertNetSyncVoipStreamMode(ovrNetSyncVoipStreamMode Value);
 
-/** PartyUpdateAction enumeration. */
+/**
+ * An enum that specifies the action that the user can take, which will lead to a FOvrPartyUpdateNotification.
+ * It can be used in {'party_update': 'FOvrNotification_Party_PartyUpdate'} and can be retrieved using field FOvrPartyUpdateNotification::Action
+ */
 UENUM(BlueprintType)
 enum class EOvrPartyUpdateAction : uint8
 {
     Unknown,
+    /** Indicates the user joined the party. */
     Join,
+    /** Indicates the user left the party. */
     Leave,
+    /** Indicates the user was invited to the party. */
     Invite,
+    /** Indicates the user was uninvited to the party. */
     Uninvite,
 };
 
@@ -471,28 +563,40 @@ EOvrPermissionGrantStatus ConvertPermissionGrantStatus(ovrPermissionGrantStatus 
 UENUM(BlueprintType)
 enum class EOvrPlatformInitializeResult : uint8
 {
+    /** Oculus Platform SDK initialization succeeded. */
     Success = 0,
+    /** Oculus Platform SDK was not initialized. */
     Uninitialized = uint8(-1),
+    /** Oculus Platform SDK failed to initialize because the pre-loaded module was on a different path than the validated library. */
     PreLoaded = uint8(-2),
+    /** Oculus Platform SDK files failed to load. */
     FileInvalid = uint8(-3),
+    /** Oculus Platform SDK failed to initialize due to an invalid signature in the signed certificate. */
     SignatureInvalid = uint8(-4),
+    /** Oculus Platform SDK failed to verify the application's signature during initialization. */
     UnableToVerify = uint8(-5),
+    /** There was a mismatch between the version of Oculus Platform SDK used by the application and the version installed on the Oculus user's device. */
     VersionMismatch = uint8(-6),
     Unknown = uint8(-7),
+    /** Oculus Platform SDK failed to initialize because the Oculus user had an invalid account access token. */
     InvalidCredentials = uint8(-8),
+    /** Oculus Platform SDK failed to initialize because the Oculus user does not have the application entitlement. */
     NotEntitled = uint8(-9),
 };
 
 ovrPlatformInitializeResult ConvertPlatformInitializeResult(EOvrPlatformInitializeResult Value);
 EOvrPlatformInitializeResult ConvertPlatformInitializeResult(ovrPlatformInitializeResult Value);
 
-/** ReportRequestResponse enumeration. */
+/** Possible states that an app can respond to the platform notification that the in-app reporting flow has been requested by the user. */
 UENUM(BlueprintType)
 enum class EOvrReportRequestResponse : uint8
 {
     Unknown,
+    /** Response to the platform notification that the in-app reporting flow request is handled. */
     Handled,
+    /** Response to the platform notification that the in-app reporting flow request is not handled. */
     Unhandled,
+    /** Response to the platform notification that the in-app reporting flow is unavailable or non-existent. */
     Unavailable,
 };
 
@@ -606,12 +710,14 @@ enum class EOvrUserOrdering : uint8
 ovrUserOrdering ConvertUserOrdering(EOvrUserOrdering Value);
 EOvrUserOrdering ConvertUserOrdering(ovrUserOrdering Value);
 
-/** UserPresenceStatus enumeration. */
+/** Describe the current status of the user and it can be retrieved with field FOvrUser::PresenceStatus. */
 UENUM(BlueprintType)
 enum class EOvrUserPresenceStatus : uint8
 {
     Unknown,
+    /** The user status is currently online. */
     Online,
+    /** The user status is currently offline. */
     Offline,
 };
 
@@ -643,7 +749,7 @@ enum class EOvrVoipBitrate : uint8
     /** Even higher audio quality for music streaming or radio-like quality. */
     B96000,
     /**
-     * At this point the audio quality should be preceptually indistinguishable from the uncompressed
+     * At this point the audio quality should be perceptually indistinguishable from the uncompressed
      * input.
      */
     B128000,

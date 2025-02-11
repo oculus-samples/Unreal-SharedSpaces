@@ -9,7 +9,10 @@
 
 /// Returns Device and Application Integrity Attestation JSON Web Token. The
 /// token has format of header.claims.signature encoded in base64. Header
-/// contains algorithm type (PS256) and token type (JWT).
+/// contains algorithm type (PS256) and token type (JWT). See more details
+/// [here](https://developer.oculus.com/documentation/native/ps-attestation-
+/// api/#how-does-this-work).
+/// \param challenge_nonce A string that represents a nonce value used to generate the attestation token, ensuring uniqueness and security.
 ///
 /// A message with type ::ovrMessage_DeviceApplicationIntegrity_GetIntegrityToken will be generated in response.
 ///

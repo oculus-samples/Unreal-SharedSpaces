@@ -9,7 +9,7 @@
 #include "OVR_DestinationArray.h"
 #include "OVR_RichPresenceOptions.h"
 
-/// DEPRECATED. Use the clear method in group presence
+/// \deprecated Use the clear method in group presence
 ///
 /// A message with type ::ovrMessage_RichPresence_Clear will be generated in response.
 ///
@@ -38,7 +38,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_RichPresence_GetDestinations();
 /// Extract the payload from the message handle with ::ovr_Message_GetDestinationArray().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_RichPresence_GetNextDestinationArrayPage(ovrDestinationArrayHandle handle);
 
-/// DEPRECATED. Use ovr_GroupPresence_Set().
+/// \deprecated Use ovr_GroupPresence_Set().
 ///
 /// A message with type ::ovrMessage_RichPresence_Set will be generated in response.
 ///

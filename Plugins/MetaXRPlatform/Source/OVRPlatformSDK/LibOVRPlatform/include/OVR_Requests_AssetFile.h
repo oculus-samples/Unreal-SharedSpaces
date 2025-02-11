@@ -16,7 +16,7 @@
 ///
 /// If your apps supports asset files, users are able to download them from within the Oculus app on PDP page of the main app (including in Home), and you also can manage the asset files from your app itself via SDK calls.
 
-/// DEPRECATED. Use ovr_AssetFile_DeleteById()
+/// \deprecated Use ovr_AssetFile_DeleteById()
 ///
 /// A message with type ::ovrMessage_AssetFile_Delete will be generated in response.
 ///
@@ -26,7 +26,7 @@
 /// Extract the payload from the message handle with ::ovr_Message_GetAssetFileDeleteResult().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_Delete(ovrID assetFileID);
 
-/// Removes an previously installed asset file from the device by its ID.
+/// Removes a previously installed asset file from the device by its ID.
 /// Returns an object containing the asset ID and file name, and a success
 /// flag.
 /// \param assetFileID The asset file ID
@@ -39,7 +39,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_Delete(ovrID assetFileID);
 /// Extract the payload from the message handle with ::ovr_Message_GetAssetFileDeleteResult().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_DeleteById(ovrID assetFileID);
 
-/// Removes an previously installed asset file from the device by its name.
+/// Removes a previously installed asset file from the device by its name.
 /// Returns an object containing the asset ID and file name, and a success
 /// flag.
 /// \param assetFileName The asset file name
@@ -52,7 +52,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_DeleteById(ovrID assetFileID);
 /// Extract the payload from the message handle with ::ovr_Message_GetAssetFileDeleteResult().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_DeleteByName(const char *assetFileName);
 
-/// DEPRECATED. Use ovr_AssetFile_DownloadById()
+/// \deprecated Use ovr_AssetFile_DownloadById()
 ///
 /// A message with type ::ovrMessage_AssetFile_Download will be generated in response.
 ///
@@ -88,7 +88,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_DownloadById(ovrID assetFileID);
 /// Extract the payload from the message handle with ::ovr_Message_GetAssetFileDownloadResult().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_DownloadByName(const char *assetFileName);
 
-/// DEPRECATED. Use ovr_AssetFile_DownloadCancelById()
+/// \deprecated Use ovr_AssetFile_DownloadCancelById()
 ///
 /// A message with type ::ovrMessage_AssetFile_DownloadCancel will be generated in response.
 ///
@@ -124,8 +124,9 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_DownloadCancelById(ovrID assetFil
 /// Extract the payload from the message handle with ::ovr_Message_GetAssetFileDownloadCancelResult().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_DownloadCancelByName(const char *assetFileName);
 
-/// Returns an array of objects with asset file names and their associated IDs,
-/// and and whether it's currently installed.
+/// Returns an array of asset details with asset file names and their
+/// associated IDs ovr_AssetDetails_GetAssetId(), and whether it's currently
+/// installed ovr_AssetDetails_GetDownloadStatus().
 ///
 /// A message with type ::ovrMessage_AssetFile_GetList will be generated in response.
 ///
@@ -135,7 +136,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_DownloadCancelByName(const char *
 /// Extract the payload from the message handle with ::ovr_Message_GetAssetDetailsArray().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_GetList();
 
-/// DEPRECATED. Use ovr_AssetFile_StatusById()
+/// \deprecated Use ovr_AssetFile_StatusById()
 ///
 /// A message with type ::ovrMessage_AssetFile_Status will be generated in response.
 ///
@@ -145,8 +146,8 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_GetList();
 /// Extract the payload from the message handle with ::ovr_Message_GetAssetDetails().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_Status(ovrID assetFileID);
 
-/// Returns the details on a single asset: ID, file name, and whether it's
-/// currently installed
+/// Returns the details ovrAssetDetailsHandle on a single asset: ID, file name,
+/// and whether it's currently installed
 /// \param assetFileID The asset file ID
 ///
 /// A message with type ::ovrMessage_AssetFile_StatusById will be generated in response.
@@ -157,8 +158,8 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_Status(ovrID assetFileID);
 /// Extract the payload from the message handle with ::ovr_Message_GetAssetDetails().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_AssetFile_StatusById(ovrID assetFileID);
 
-/// Returns the details on a single asset: ID, file name, and whether it's
-/// currently installed
+/// Returns the details ovrAssetDetailsHandle on a single asset: ID, file name,
+/// and whether it's currently installed
 /// \param assetFileName The asset file name
 ///
 /// A message with type ::ovrMessage_AssetFile_StatusByName will be generated in response.
