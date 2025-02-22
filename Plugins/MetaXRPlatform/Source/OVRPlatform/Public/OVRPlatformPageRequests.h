@@ -1,22 +1,4 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) Meta Platforms, Inc. and affiliates.
 
 // This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
 
@@ -53,6 +35,10 @@ enum class EOvrBidirectionalArrayIteratorInputPins: uint8
 };
 
 UCLASS()
+/// UOvrPageRequestsBlueprintLibrary provides a set of functions for fetching pages of data from a paged array that
+/// can be used to interact with the Oculus platform.These functions include methods for handling achievements, application invites, blocking,
+/// challenges, cowatching, destinations, leaderboards, IAP, and user information.
+/// See more info about Platform Solution [here](https://developer.oculus.com/documentation/unreal/ps-platform-intro/).
 class OVRPLATFORM_API UOvrPageRequestsBlueprintLibrary : public UBlueprintFunctionLibrary
 {
     GENERATED_BODY()
@@ -64,6 +50,11 @@ public:
      * @param AchievementDefinitionPages - a FOvrAchievementDefinitionPages
      * @param AchievementDefinitionArray - an array of FOvrAchievementDefinition
      * @param bHasNextPage - if more pages are available after this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="AchievementDefinitionPages"), Category = "OvrPlatform|Models|AchievementDefinitionArray")
     static void FetchAchievementDefinitionPage(
@@ -81,6 +72,11 @@ public:
      * @param AchievementProgressPages - a FOvrAchievementProgressPages
      * @param AchievementProgressArray - an array of FOvrAchievementProgress
      * @param bHasNextPage - if more pages are available after this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="AchievementProgressPages"), Category = "OvrPlatform|Models|AchievementProgressArray")
     static void FetchAchievementProgressPage(
@@ -98,6 +94,11 @@ public:
      * @param ApplicationInvitePages - a FOvrApplicationInvitePages
      * @param ApplicationInviteArray - an array of FOvrApplicationInvite
      * @param bHasNextPage - if more pages are available after this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="ApplicationInvitePages"), Category = "OvrPlatform|Models|ApplicationInviteArray")
     static void FetchApplicationInvitePage(
@@ -115,6 +116,11 @@ public:
      * @param BlockedUserPages - a FOvrBlockedUserPages
      * @param BlockedUserArray - an array of FOvrBlockedUser
      * @param bHasNextPage - if more pages are available after this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="BlockedUserPages"), Category = "OvrPlatform|Models|BlockedUserArray")
     static void FetchBlockedUserPage(
@@ -133,6 +139,11 @@ public:
      * @param ChallengeArray - an array of FOvrChallenge
      * @param bHasNextPage - if more pages are available after this one.
      * @param bHasPreviousPage - if more pages are available before this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="ChallengePages"), Category = "OvrPlatform|Models|ChallengeArray")
     static void FetchChallengePage(
@@ -152,6 +163,11 @@ public:
      * @param ChallengeEntryArray - an array of FOvrChallengeEntry
      * @param bHasNextPage - if more pages are available after this one.
      * @param bHasPreviousPage - if more pages are available before this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="ChallengeEntryPages"), Category = "OvrPlatform|Models|ChallengeEntryArray")
     static void FetchChallengeEntryPage(
@@ -170,6 +186,11 @@ public:
      * @param CowatchViewerPages - a FOvrCowatchViewerPages
      * @param CowatchViewerArray - an array of FOvrCowatchViewer
      * @param bHasNextPage - if more pages are available after this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="CowatchViewerPages"), Category = "OvrPlatform|Models|CowatchViewerArray")
     static void FetchCowatchViewerPage(
@@ -187,6 +208,11 @@ public:
      * @param DestinationPages - a FOvrDestinationPages
      * @param DestinationArray - an array of FOvrDestination
      * @param bHasNextPage - if more pages are available after this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="DestinationPages"), Category = "OvrPlatform|Models|DestinationArray")
     static void FetchDestinationPage(
@@ -204,6 +230,11 @@ public:
      * @param LeaderboardPages - a FOvrLeaderboardPages
      * @param LeaderboardArray - an array of FOvrLeaderboard
      * @param bHasNextPage - if more pages are available after this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="LeaderboardPages"), Category = "OvrPlatform|Models|LeaderboardArray")
     static void FetchLeaderboardPage(
@@ -222,6 +253,11 @@ public:
      * @param LeaderboardEntryArray - an array of FOvrLeaderboardEntry
      * @param bHasNextPage - if more pages are available after this one.
      * @param bHasPreviousPage - if more pages are available before this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="LeaderboardEntryPages"), Category = "OvrPlatform|Models|LeaderboardEntryArray")
     static void FetchLeaderboardEntryPage(
@@ -240,6 +276,11 @@ public:
      * @param ProductPages - a FOvrProductPages
      * @param ProductArray - an array of FOvrProduct
      * @param bHasNextPage - if more pages are available after this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="ProductPages"), Category = "OvrPlatform|Models|ProductArray")
     static void FetchProductPage(
@@ -257,6 +298,11 @@ public:
      * @param PurchasePages - a FOvrPurchasePages
      * @param PurchaseArray - an array of FOvrPurchase
      * @param bHasNextPage - if more pages are available after this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="PurchasePages"), Category = "OvrPlatform|Models|PurchaseArray")
     static void FetchPurchasePage(
@@ -274,6 +320,11 @@ public:
      * @param UserPages - a FOvrUserPages
      * @param UserArray - an array of FOvrUser
      * @param bHasNextPage - if more pages are available after this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="UserPages"), Category = "OvrPlatform|Models|UserArray")
     static void FetchUserPage(
@@ -291,6 +342,11 @@ public:
      * @param UserCapabilityPages - a FOvrUserCapabilityPages
      * @param UserCapabilityArray - an array of FOvrUserCapability
      * @param bHasNextPage - if more pages are available after this one.
+     * @param WorldContextObject - the world context
+     * @param InExecs - an array of input pins that will be executed as a result of this request.
+     * @param OutExecs - an array of output pins that will be executed as a result of this request.
+     * @param LatentInfo - information about the latent action that will be performed as a result of this request.
+     * @param ErrorMsg - error message if the request failed, which contains failure reason, it is empty if the request succeeded.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "InExecs,OutExecs", AutoCreateRefTerm="UserCapabilityPages"), Category = "OvrPlatform|Models|UserCapabilityArray")
     static void FetchUserCapabilityPage(

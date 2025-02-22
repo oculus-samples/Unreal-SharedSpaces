@@ -1,22 +1,4 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) Meta Platforms, Inc. and affiliates.
 
 // This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
 
@@ -509,6 +491,49 @@ int64 UOvrBlockedUserPagesMethods::BlockedUserPages_GetSize(const FOvrBlockedUse
 bool UOvrBlockedUserPagesMethods::BlockedUserPages_HasNextPage(const FOvrBlockedUserPages& Model)
 {
     return ovr_BlockedUserArray_HasNextPage(Model.PagedArrayHandle);
+}
+
+// -----------------------------------------------------------------------------
+// FOvrContentRating
+
+FOvrContentRating::FOvrContentRating()
+{
+    Clear();
+}
+
+FOvrContentRating::FOvrContentRating(ovrContentRatingHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrContentRating::Clear()
+{
+    AgeRatingImageUri = TEXT("");
+    AgeRatingText = TEXT("");
+    Descriptors = TArray<FString>();
+    InteractiveElements = TArray<FString>();
+    RatingDefinitionUri = TEXT("");
+}
+
+void FOvrContentRating::Update(ovrContentRatingHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    AgeRatingImageUri = UTF8_TO_TCHAR(ovr_ContentRating_GetAgeRatingImageUri(OvrHandle));
+    AgeRatingText = UTF8_TO_TCHAR(ovr_ContentRating_GetAgeRatingText(OvrHandle));
+    // Descriptors id array transfer
+    size_t descriptors_array_size = ovr_ContentRating_GetDescriptorsSize(OvrHandle);
+    Descriptors.Reserve(descriptors_array_size);
+    for (size_t i=0; i<descriptors_array_size; i++)
+    {
+        Descriptors.Add(UTF8_TO_TCHAR(ovr_ContentRating_GetDescriptor(OvrHandle, i)));
+    }
+    // InteractiveElements id array transfer
+    size_t interactive_elements_array_size = ovr_ContentRating_GetInteractiveElementsSize(OvrHandle);
+    InteractiveElements.Reserve(interactive_elements_array_size);
+    for (size_t i=0; i<interactive_elements_array_size; i++)
+    {
+        InteractiveElements.Add(UTF8_TO_TCHAR(ovr_ContentRating_GetInteractiveElement(OvrHandle, i)));
+    }
+    RatingDefinitionUri = UTF8_TO_TCHAR(ovr_ContentRating_GetRatingDefinitionUri(OvrHandle));
 }
 
 // -----------------------------------------------------------------------------
@@ -1266,6 +1291,47 @@ void FOvrLivestreamingVideoStats::Update(ovrLivestreamingVideoStatsHandle OvrHan
 }
 
 // -----------------------------------------------------------------------------
+// FOvrManagedInfo
+
+FOvrManagedInfo::FOvrManagedInfo()
+{
+    Clear();
+}
+
+FOvrManagedInfo::FOvrManagedInfo(ovrManagedInfoHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrManagedInfo::Clear()
+{
+    Department = TEXT("");
+    Email = TEXT("");
+    EmployeeNumber = TEXT("");
+    ExternalId = TEXT("");
+    Location = TEXT("");
+    Manager = TEXT("");
+    Name = TEXT("");
+    OrganizationId = TEXT("");
+    OrganizationName = TEXT("");
+    Position = TEXT("");
+}
+
+void FOvrManagedInfo::Update(ovrManagedInfoHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Department = UTF8_TO_TCHAR(ovr_ManagedInfo_GetDepartment(OvrHandle));
+    Email = UTF8_TO_TCHAR(ovr_ManagedInfo_GetEmail(OvrHandle));
+    EmployeeNumber = UTF8_TO_TCHAR(ovr_ManagedInfo_GetEmployeeNumber(OvrHandle));
+    ExternalId = UTF8_TO_TCHAR(ovr_ManagedInfo_GetExternalId(OvrHandle));
+    Location = UTF8_TO_TCHAR(ovr_ManagedInfo_GetLocation(OvrHandle));
+    Manager = UTF8_TO_TCHAR(ovr_ManagedInfo_GetManager(OvrHandle));
+    Name = UTF8_TO_TCHAR(ovr_ManagedInfo_GetName(OvrHandle));
+    OrganizationId = UTF8_TO_TCHAR(ovr_ManagedInfo_GetOrganizationId(OvrHandle));
+    OrganizationName = UTF8_TO_TCHAR(ovr_ManagedInfo_GetOrganizationName(OvrHandle));
+    Position = UTF8_TO_TCHAR(ovr_ManagedInfo_GetPosition(OvrHandle));
+}
+
+// -----------------------------------------------------------------------------
 // FOvrMicrophone
 
 FOvrMicrophone::FOvrMicrophone()
@@ -1628,77 +1694,55 @@ void FOvrPlatformInitialize::Update(ovrPlatformInitializeHandle OvrHandle, TOvrM
 }
 
 // -----------------------------------------------------------------------------
-// FOvrProduct
+// FOvrPrice
 
-FOvrProduct::FOvrProduct()
+FOvrPrice::FOvrPrice()
 {
     Clear();
 }
 
-FOvrProduct::FOvrProduct(ovrProductHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+FOvrPrice::FOvrPrice(ovrPriceHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
 {
     Update(OvrHandle, MessageHandlePtr);
 }
 
-void FOvrProduct::Clear()
+void FOvrPrice::Clear()
 {
-    Description = TEXT("");
-    FormattedPrice = TEXT("");
-    Name = TEXT("");
-    SKU = TEXT("");
+    AmountInHundredths = 0;
+    Currency = TEXT("");
+    Formatted = TEXT("");
 }
 
-void FOvrProduct::Update(ovrProductHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+void FOvrPrice::Update(ovrPriceHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
 {
-    Description = UTF8_TO_TCHAR(ovr_Product_GetDescription(OvrHandle));
-    FormattedPrice = UTF8_TO_TCHAR(ovr_Product_GetFormattedPrice(OvrHandle));
-    Name = UTF8_TO_TCHAR(ovr_Product_GetName(OvrHandle));
-    SKU = UTF8_TO_TCHAR(ovr_Product_GetSKU(OvrHandle));
+    AmountInHundredths = static_cast<int32>(ovr_Price_GetAmountInHundredths(OvrHandle));
+    Currency = UTF8_TO_TCHAR(ovr_Price_GetCurrency(OvrHandle));
+    Formatted = UTF8_TO_TCHAR(ovr_Price_GetFormatted(OvrHandle));
 }
 
 // -----------------------------------------------------------------------------
-// FOvrProductPages
+// FOvrPaidOffer
 
-FOvrProductPages::FOvrProductPages()
+FOvrPaidOffer::FOvrPaidOffer()
 {
     Clear();
 }
 
-FOvrProductPages::FOvrProductPages(ovrProductArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+FOvrPaidOffer::FOvrPaidOffer(ovrPaidOfferHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
 {
-    Update(Handle, MessageHandlePtr);
+    Update(OvrHandle, MessageHandlePtr);
 }
 
-void FOvrProductPages::Clear()
+void FOvrPaidOffer::Clear()
 {
-    PagedArrayHandle = nullptr;
-    PagedArrayMessageHandlePtr.reset();
+    Price.Clear();
+    SubscriptionTerm = EOvrOfferTerm::Unknown;
 }
 
-void FOvrProductPages::Update(ovrProductArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+void FOvrPaidOffer::Update(ovrPaidOfferHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
 {
-    PagedArrayHandle = Handle;
-    PagedArrayMessageHandlePtr = MessageHandlePtr;
-}
-
-FOvrProduct UOvrProductPagesMethods::ProductPages_GetElement(const FOvrProductPages& Model, int64 Index)
-{
-    return FOvrProduct(ovr_ProductArray_GetElement(Model.PagedArrayHandle, static_cast<size_t>(Index)), Model.PagedArrayMessageHandlePtr);
-}
-
-FString UOvrProductPagesMethods::ProductPages_GetNextUrl(const FOvrProductPages& Model)
-{
-    return UTF8_TO_TCHAR(ovr_ProductArray_GetNextUrl(Model.PagedArrayHandle));
-}
-
-int64 UOvrProductPagesMethods::ProductPages_GetSize(const FOvrProductPages& Model)
-{
-    return static_cast<int64>(ovr_ProductArray_GetSize(Model.PagedArrayHandle));
-}
-
-bool UOvrProductPagesMethods::ProductPages_HasNextPage(const FOvrProductPages& Model)
-{
-    return ovr_ProductArray_HasNextPage(Model.PagedArrayHandle);
+    Price.Update(ovr_PaidOffer_GetPrice(OvrHandle), MessageHandlePtr);
+    SubscriptionTerm = ConvertOfferTerm(ovr_PaidOffer_GetSubscriptionTerm(OvrHandle));
 }
 
 // -----------------------------------------------------------------------------
@@ -1722,6 +1766,7 @@ void FOvrPurchase::Clear()
     PurchaseID = TEXT("");
     ReportingId = TEXT("");
     SKU = TEXT("");
+    Type = EOvrProductType::Unknown;
 }
 
 void FOvrPurchase::Update(ovrPurchaseHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
@@ -1732,6 +1777,7 @@ void FOvrPurchase::Update(ovrPurchaseHandle OvrHandle, TOvrMessageHandlePtr Mess
     PurchaseID = UTF8_TO_TCHAR(ovr_Purchase_GetPurchaseStrID(OvrHandle));
     ReportingId = UTF8_TO_TCHAR(ovr_Purchase_GetReportingId(OvrHandle));
     SKU = UTF8_TO_TCHAR(ovr_Purchase_GetSKU(OvrHandle));
+    Type = ConvertProductType(ovr_Purchase_GetType(OvrHandle));
 }
 
 // -----------------------------------------------------------------------------
@@ -1901,6 +1947,162 @@ void FOvrSystemVoipState::Update(ovrSystemVoipStateHandle OvrHandle, TOvrMessage
 }
 
 // -----------------------------------------------------------------------------
+// FOvrTrialOffer
+
+FOvrTrialOffer::FOvrTrialOffer()
+{
+    Clear();
+}
+
+FOvrTrialOffer::FOvrTrialOffer(ovrTrialOfferHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrTrialOffer::Clear()
+{
+    MaxTermCount = 0;
+    Price.Clear();
+    TrialTerm = EOvrOfferTerm::Unknown;
+    TrialType = EOvrOfferType::Unknown;
+}
+
+void FOvrTrialOffer::Update(ovrTrialOfferHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    MaxTermCount = static_cast<int32>(ovr_TrialOffer_GetMaxTermCount(OvrHandle));
+    Price.Update(ovr_TrialOffer_GetPrice(OvrHandle), MessageHandlePtr);
+    TrialTerm = ConvertOfferTerm(ovr_TrialOffer_GetTrialTerm(OvrHandle));
+    TrialType = ConvertOfferType(ovr_TrialOffer_GetTrialType(OvrHandle));
+}
+
+// -----------------------------------------------------------------------------
+// FOvrBillingPlan
+
+FOvrBillingPlan::FOvrBillingPlan()
+{
+    Clear();
+}
+
+FOvrBillingPlan::FOvrBillingPlan(ovrBillingPlanHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrBillingPlan::Clear()
+{
+    PaidOffer.Clear();
+    TrialOffers.Empty();
+}
+
+void FOvrBillingPlan::Update(ovrBillingPlanHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    PaidOffer.Update(ovr_BillingPlan_GetPaidOffer(OvrHandle), MessageHandlePtr);
+    // TrialOffers array transfer
+    ovrTrialOfferArrayHandle trial_offers_array_handle = ovr_BillingPlan_GetTrialOffers(OvrHandle);
+    size_t trial_offers_array_size = ovr_TrialOfferArray_GetSize(trial_offers_array_handle);
+    TrialOffers.Reserve(trial_offers_array_size);
+    for (size_t i=0; i<trial_offers_array_size; i++)
+    {
+        TrialOffers.Add(FOvrTrialOffer(ovr_TrialOfferArray_GetElement(trial_offers_array_handle, i), MessageHandlePtr));
+    }
+}
+
+// -----------------------------------------------------------------------------
+// FOvrProduct
+
+FOvrProduct::FOvrProduct()
+{
+    Clear();
+}
+
+FOvrProduct::FOvrProduct(ovrProductHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrProduct::Clear()
+{
+    BillingPlans.Empty();
+    ContentRating.Clear();
+    CoverUrl = TEXT("");
+    Description = TEXT("");
+    FormattedPrice = TEXT("");
+    IconUrl = TEXT("");
+    Name = TEXT("");
+    Price.Clear();
+    ShortDescription = TEXT("");
+    SKU = TEXT("");
+    Type = EOvrProductType::Unknown;
+}
+
+void FOvrProduct::Update(ovrProductHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    // BillingPlans array transfer
+    ovrBillingPlanArrayHandle billing_plans_array_handle = ovr_Product_GetBillingPlans(OvrHandle);
+    size_t billing_plans_array_size = ovr_BillingPlanArray_GetSize(billing_plans_array_handle);
+    BillingPlans.Reserve(billing_plans_array_size);
+    for (size_t i=0; i<billing_plans_array_size; i++)
+    {
+        BillingPlans.Add(FOvrBillingPlan(ovr_BillingPlanArray_GetElement(billing_plans_array_handle, i), MessageHandlePtr));
+    }
+    ContentRating.Update(ovr_Product_GetContentRating(OvrHandle), MessageHandlePtr);
+    CoverUrl = UTF8_TO_TCHAR(ovr_Product_GetCoverUrl(OvrHandle));
+    Description = UTF8_TO_TCHAR(ovr_Product_GetDescription(OvrHandle));
+    FormattedPrice = UTF8_TO_TCHAR(ovr_Product_GetFormattedPrice(OvrHandle));
+    IconUrl = UTF8_TO_TCHAR(ovr_Product_GetIconUrl(OvrHandle));
+    Name = UTF8_TO_TCHAR(ovr_Product_GetName(OvrHandle));
+    Price.Update(ovr_Product_GetPrice(OvrHandle), MessageHandlePtr);
+    ShortDescription = UTF8_TO_TCHAR(ovr_Product_GetShortDescription(OvrHandle));
+    SKU = UTF8_TO_TCHAR(ovr_Product_GetSKU(OvrHandle));
+    Type = ConvertProductType(ovr_Product_GetType(OvrHandle));
+}
+
+// -----------------------------------------------------------------------------
+// FOvrProductPages
+
+FOvrProductPages::FOvrProductPages()
+{
+    Clear();
+}
+
+FOvrProductPages::FOvrProductPages(ovrProductArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(Handle, MessageHandlePtr);
+}
+
+void FOvrProductPages::Clear()
+{
+    PagedArrayHandle = nullptr;
+    PagedArrayMessageHandlePtr.reset();
+}
+
+void FOvrProductPages::Update(ovrProductArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    PagedArrayHandle = Handle;
+    PagedArrayMessageHandlePtr = MessageHandlePtr;
+}
+
+FOvrProduct UOvrProductPagesMethods::ProductPages_GetElement(const FOvrProductPages& Model, int64 Index)
+{
+    return FOvrProduct(ovr_ProductArray_GetElement(Model.PagedArrayHandle, static_cast<size_t>(Index)), Model.PagedArrayMessageHandlePtr);
+}
+
+FString UOvrProductPagesMethods::ProductPages_GetNextUrl(const FOvrProductPages& Model)
+{
+    return UTF8_TO_TCHAR(ovr_ProductArray_GetNextUrl(Model.PagedArrayHandle));
+}
+
+int64 UOvrProductPagesMethods::ProductPages_GetSize(const FOvrProductPages& Model)
+{
+    return static_cast<int64>(ovr_ProductArray_GetSize(Model.PagedArrayHandle));
+}
+
+bool UOvrProductPagesMethods::ProductPages_HasNextPage(const FOvrProductPages& Model)
+{
+    return ovr_ProductArray_HasNextPage(Model.PagedArrayHandle);
+}
+
+// -----------------------------------------------------------------------------
 // FOvrUser
 
 FOvrUser::FOvrUser()
@@ -1918,6 +2120,7 @@ void FOvrUser::Clear()
     DisplayName = TEXT("");
     ID = 0;
     ImageUrl = TEXT("");
+    ManagedInfo.Clear();
     OculusID = TEXT("");
     Presence = TEXT("");
     PresenceDeeplinkMessage = TEXT("");
@@ -1933,6 +2136,7 @@ void FOvrUser::Update(ovrUserHandle OvrHandle, TOvrMessageHandlePtr MessageHandl
     DisplayName = UTF8_TO_TCHAR(ovr_User_GetDisplayName(OvrHandle));
     ID = static_cast<FOvrId>(ovr_User_GetID(OvrHandle));
     ImageUrl = UTF8_TO_TCHAR(ovr_User_GetImageUrl(OvrHandle));
+    ManagedInfo.Update(ovr_User_GetManagedInfo(OvrHandle), MessageHandlePtr);
     OculusID = UTF8_TO_TCHAR(ovr_User_GetOculusID(OvrHandle));
     Presence = UTF8_TO_TCHAR(ovr_User_GetPresence(OvrHandle));
     PresenceDeeplinkMessage = UTF8_TO_TCHAR(ovr_User_GetPresenceDeeplinkMessage(OvrHandle));

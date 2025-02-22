@@ -13,7 +13,7 @@ public class SharedSpacesTarget : TargetRules
 		bUseLoggingInShipping = true;
 		BuildEnvironment = TargetBuildEnvironment.Unique;
 		DefaultBuildSettings = BuildSettingsVersion.V5;
-		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_4;
+		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_5;
 		ExtraModuleNames.Add("SharedSpaces");
 	}
 }

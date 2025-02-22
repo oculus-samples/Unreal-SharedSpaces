@@ -6,6 +6,7 @@
 
 #include "Interfaces/OnlineIdentityInterface.h"
 #include "Kismet/GameplayStatics.h"
+#include "Misc/EngineVersionComparison.h"
 #include "Misc/OutputDeviceNull.h"
 #include "Online/OnlineSessionNames.h"
 
@@ -134,7 +135,9 @@ void UEOSSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	SessionPtr->OnDestroySessionCompleteDelegates.AddUObject(this, &UEOSSubsystem::OnDestroySessionComplete);
 	SessionPtr->OnSessionParticipantJoinedDelegates.AddUObject(this, &UEOSSubsystem::OnPlayerJoinedSession);
 	SessionPtr->OnSessionParticipantLeftDelegates.AddUObject(this, &UEOSSubsystem::OnPlayerLeftSession);
+#if UE_VERSION_OLDER_THAN(5, 5, 0)
 	SessionPtr->OnSessionParticipantsChangeDelegates.AddUObject(this, &UEOSSubsystem::OnPlayerJoinOrLeftSession);
+#endif
 
 	FCoreDelegates::ApplicationWillEnterBackgroundDelegate.AddUObject(this, &UEOSSubsystem::HandleApplicationEnterBackground);
 	FCoreDelegates::ApplicationHasEnteredForegroundDelegate.AddUObject(this, &UEOSSubsystem::HandleApplicationEnterForeground);
@@ -200,7 +203,7 @@ void UEOSSubsystem::OnCreateSessionComplete(FName NewSessionName, bool bWasSucce
 void UEOSSubsystem::OnFindSessionsComplete(bool bWasSuccessful)
 {
 	++BackgroundCounter;
-	if (bWasSuccessful && SessionSearch->SearchResults.Num() > 0)
+	if (bWasSuccessful && SessionSearch.IsValid() && SessionSearch->SearchResults.Num() > 0)
 	{
 		int32 Index = 0;
 		for (FOnlineSessionSearchResult Lobby : SessionSearch->SearchResults)

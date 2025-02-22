@@ -1,22 +1,4 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) Meta Platforms, Inc. and affiliates.
 
 // This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
 
@@ -38,6 +20,23 @@ bool UOvrPlatformSubsystem::bFirstInstanceInit = true;
 void UOvrPlatformSubsystem::StartMessagePump()
 {
     bMessagePumpActivated = true;
+
+    if (!bOculusInit && GetDoAsyncInit())
+    {
+        StartAsyncInit();
+    }
+}
+
+bool UOvrPlatformSubsystem::ShouldCreateSubsystem (UObject * Outer) const
+{
+	if (IsRunningCommandlet() || GIsBuildMachine)
+	{
+		// Avoids initialization time expense & errors due to no local logged-in
+		// user on build machines/cook runs/commandlets.
+		return false;
+	}
+
+	return !HasAnyFlags(RF_Transient) && Super::ShouldCreateSubsystem(Outer);
 }
 
 void UOvrPlatformSubsystem::Initialize(FSubsystemCollectionBase& Collection)
@@ -142,15 +141,27 @@ void UOvrPlatformSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
     bOculusInit = false;
 
+    bool bDoAsyncInit = GetDoAsyncInit();
+
+    if (bDoAsyncInit && IsEmailAndPasswordAuthRequested())
+    {
+        UE_LOG(LogOvrPlatform, Warning,
+            TEXT("Async init and standalone (Username+Password) init are incompatible.  Falling back to blocking, standaline init."));
+        bDoAsyncInit = false;
+    }
+
+    if (!bDoAsyncInit)
+    {
 #if TICK_SUBSYSTEM
 #if PLATFORM_WINDOWS
-    bOculusInit = InitWithWindowsPlatform();
+        bOculusInit = InitWithWindowsPlatform();
 #elif PLATFORM_ANDROID
-    bOculusInit = InitWithAndroidPlatform();
+        bOculusInit = InitWithAndroidPlatform();
 #endif
 #endif
 
-    NotifyGameInstanceThatSubsystemStarted(bOculusInit);
+        NotifyGameInstanceThatSubsystemStarted(bOculusInit);
+    }
 }
 
 void UOvrPlatformSubsystem::Deinitialize()
@@ -236,14 +247,9 @@ bool UOvrPlatformSubsystem::InitWithWindowsPlatform()
 
     // We can start in standalone mode by providing credentials via either the command line or in DefaultEngine.ini.
     FString Email, Password;
-    if (!FParse::Value(FCommandLine::Get(), TEXT("OculusEmail"), Email) ||
-        !FParse::Value(FCommandLine::Get(), TEXT("OculusPassword"), Password))
-    {
-        Email = GConfig->GetStr(TEXT("OnlineSubsystemOculus"), TEXT("OculusEmail"), GEngineIni);
-        Password = GConfig->GetStr(TEXT("OnlineSubsystemOculus"), TEXT("OculusPassword"), GEngineIni);
-    }
+    GetAuthEmailAndPassword(Email, Password);
 
-    if (!Email.IsEmpty() && !Password.IsEmpty())
+    if (IsEmailAndPasswordAuthRequested(Email, Password))
     {
         std::string EmailANSI = TCHAR_TO_UTF8(*Email);
         std::string PasswordANSI = TCHAR_TO_UTF8(*Password);
@@ -351,6 +357,67 @@ bool UOvrPlatformSubsystem::InitWithAndroidPlatform()
 }
 #endif
 
+void  UOvrPlatformSubsystem::StartAsyncInit()
+{
+    // :TODO: Can we move this bootstrapping onto a thread?
+    auto OculusAppId = GetAppId();
+    if (OculusAppId.IsEmpty())
+    {
+        UE_LOG(LogOvrPlatform, Error, TEXT("Missing MobileAppId key in OnlineSubsystemOculus of DefaultEngine.ini"));
+        NotifyGameInstanceThatSubsystemStarted(false);
+        return;
+    }
+
+    ovrRequest OvrReqId;
+
+#if PLATFORM_WINDOWS
+    {
+        ovrPlatformInitializeResult Result = ovrPlatformInitialize_Unknown;
+        UE_LOG(LogOvrPlatform, Display, TEXT("Invoking ovr_PlatformInitializeWindowsAsynchronous(%s)"), *OculusAppId);
+        OvrReqId = ovr_PlatformInitializeWindowsAsynchronous(TCHAR_TO_ANSI(*OculusAppId), &Result);
+        if (Result != ovrPlatformInitialize_Success)
+        {
+            char const * const  szResult  = ovrPlatformInitializeResult_ToString(Result);
+            UE_LOG(LogOvrPlatform, Error, TEXT("ovr_PlatformInitializeWindowsAsynchronous() failed (%d): %s"), (int)Result, ANSI_TO_TCHAR(szResult));
+            NotifyGameInstanceThatSubsystemStarted(false);
+            return;
+        }
+    }
+#elif PLATFORM_ANDROID
+    {
+        JNIEnv* Env = FAndroidApplication::GetJavaEnv();
+
+        if (Env == nullptr)
+        {
+            UE_LOG(LogOvrPlatform, Error, TEXT("Missing JNIEnv"));
+            NotifyGameInstanceThatSubsystemStarted(false);
+            return;
+        }
+
+        UE_LOG(LogOvrPlatform, Display, TEXT("Invoking ovr_PlatformInitializeAndroidAsynchronous(%s, ...)"), *OculusAppId);
+        OvrReqId = ovr_PlatformInitializeAndroidAsynchronous(TCHAR_TO_ANSI(*OculusAppId), FAndroidApplication::GetGameActivityThis(), Env);
+    }
+#endif
+
+    AddRequestDelegate(OvrReqId, FOvrPlatformMessageOnComplete::CreateUObject(this, &UOvrPlatformSubsystem::HandleOnPlatformInitialized));
+}
+
+void UOvrPlatformSubsystem::GetAuthEmailAndPassword(FString & EmailOut, FString & PasswordOut)
+{
+    EmailOut.Reset();
+    PasswordOut.Reset();
+
+#if PLATFORM_WINDOWS
+    // Only Windows supports standalone mode / Username + Password auth.
+    if (!FParse::Value(FCommandLine::Get(), TEXT("OculusEmail"), EmailOut) ||
+        !FParse::Value(FCommandLine::Get(), TEXT("OculusPassword"), PasswordOut))
+    {
+        EmailOut = GConfig->GetStr(TEXT("OnlineSubsystemOculus"), TEXT("OculusEmail"), GEngineIni);
+        PasswordOut = GConfig->GetStr(TEXT("OnlineSubsystemOculus"), TEXT("OculusPassword"), GEngineIni);
+    }
+#endif // PLATFORM_WINDOWS
+}
+
 FString UOvrPlatformSubsystem::GetAppId()
 {
     // Try to get the platform specific field before the generic one
@@ -373,6 +440,30 @@ FString UOvrPlatformSubsystem::GetAppId()
     return GConfig->GetStr(TEXT("OnlineSubsystemOculus"), TEXT("OculusAppId"), GEngineIni);
 }
 
+bool UOvrPlatformSubsystem::GetDoAsyncInit()
+{
+    bool bDoAsyncInit = false;
+    GConfig->GetBool(TEXT("OnlineSubsystemOculus"), TEXT("DoAsyncInit"), bDoAsyncInit, GEngineIni);
+    return bDoAsyncInit;
+}
+
+bool UOvrPlatformSubsystem::IsEmailAndPasswordAuthRequested()
+{
+    FString Email, Password;
+    GetAuthEmailAndPassword(Email, Password);
+    return IsEmailAndPasswordAuthRequested(Email, Password);
+}
+
+bool UOvrPlatformSubsystem::IsEmailAndPasswordAuthRequested(const FString & Email, const FString & Password)
+{
+#if PLATFORM_WINDOWS
+    // Only Windows supports standalone mode / Username + Password auth.
+    return !Email.IsEmpty() && !Password.IsEmpty();
+#else
+    return false;
+#endif
+}
+
 void UOvrPlatformSubsystem::HandleOnPlatformInitialized(TOvrMessageHandlePtr Message, bool bIsError)
 {
     UE_LOG(LogOvrPlatform, Verbose, TEXT("UOvrPlatformSubsystem::OnPlatformInitialized()"));
@@ -388,8 +479,10 @@ void UOvrPlatformSubsystem::HandleOnPlatformInitialized(TOvrMessageHandlePtr Mes
     {
         UE_LOG(LogOvrPlatform, Error, TEXT("The Oculus platform failed to initialize asynchronously"));
         UE_LOG(LogOvrPlatform, Error, TEXT("Check the credentials used, and entitlement to the app id provided."));
-        return;
     }
+
+    bOculusInit = !bIsError;
+    NotifyGameInstanceThatSubsystemStarted(!bIsError);
 }
 
 void UOvrPlatformSubsystem::AddRequestDelegate(ovrRequest RequestId, FOvrPlatformMessageOnComplete&& Delegate)

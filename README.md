@@ -6,6 +6,14 @@ SharedSpaces was built by the VR Developer Tools team to demonstrate how you can
 
 **NOTE:** The EOS version of Shared Spaces can only be used with the Meta Quest fork of Unreal Engine. See <a href="#build-instructions">Build Instructions</a> for more information.
 
+## 13 February 2025 Update
+
+We updated the project to UE5.5.
+
+We updated the MetaXRPlatform plugin to SDK v72.
+
+We fixed a crash when playing in editor with "Number of Players" > 1.
+
 ## 23 August 2024 Update - Shared Spaces EOS!
 
 We have created a new branch `eos-5.x` which contains a [new version of Shared Spaces using Epic Online Services](https://github.com/oculus-samples/Unreal-SharedSpaces/tree/eos-5.x) as its network layer (instead of Photon). This version also includes updates to support the latest [Meta fork of Unreal Engine](https://github.com/Oculus-VR/UnrealEngine)  `5.4.3-v68`.

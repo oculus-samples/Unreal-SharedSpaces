@@ -1,6 +1,7 @@
 // Copyright (c) Meta Platforms, Inc. and affiliates.  All rights reserved.
 
 using UnrealBuildTool;
+using System.IO;
 
 public class OculusUtils : ModuleRules
 {
@@ -19,7 +20,7 @@ public class OculusUtils : ModuleRules
 		PrivateIncludePaths.AddRange(
 			new string[]
 			{
-				// ... add other private include paths required here ...
+				Path.Combine(GetModuleDirectory("OculusXRHMD"), "Private")
 			}
 		);
 

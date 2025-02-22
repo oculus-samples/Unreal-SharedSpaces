@@ -1,22 +1,4 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) Meta Platforms, Inc. and affiliates.
 
 // This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
 
@@ -27,16 +9,27 @@
 #include "OVRPlatformOptions.generated.h"
 
 
+/**
+ * The Abuse Report Options provide a way for developers to customize the reporting flow and specify the type of content being reported,
+ * which can be either a EOvrAbuseReportType::User or an EOvrAbuseReportType::Object,
+ * helping to maintain a safe and respectful community within their application.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|AbuseReport")
 struct OVRPLATFORM_API FOvrAbuseReportOptions
 {
     GENERATED_USTRUCT_BODY()
 
-    /** Set whether or not to show the user selection step in the report dialog. */
+    /**
+     * Set whether or not to show the user selection step.
+     * If the reported object is a user, they can choose to block the reported user from further interactions within the platform.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AbuseReport|Option")
     bool PreventPeopleChooser;
 
-    /** The intended entity being reported, whether user or object/content. */
+    /**
+     * The intended entity type #EOvrAbuseReportType being reported, it can be either a user EOvrAbuseReportType::User
+     * or an object/content EOvrAbuseReportType::Object.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AbuseReport|Option")
     EOvrAbuseReportType ReportType;
 
@@ -47,23 +40,34 @@ struct OVRPLATFORM_API FOvrAbuseReportOptions
     }
 };
 
+/**
+ * The Advanced Abuse Report Options provides a way for developers to customize the reporting flow and specify the type of content being reported,
+ * which can be either a EOvrAbuseReportType::User or an EOvrAbuseReportType::Object,
+ * helping to maintain a safe and respectful community within their application.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|AdvancedAbuseReport")
 struct OVRPLATFORM_API FOvrAdvancedAbuseReportOptions
 {
     GENERATED_USTRUCT_BODY()
 
     /**
-     * This field is intended to allow developers to pass custom metadata through the report flow. The metadata passed through is included with the report
-     * received by the developer.
+     * This field is intended to allow developers to pass custom metadata through the report flow.
+     * The metadata passed through is included with the report received by the developer.
      */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AdvancedAbuseReport|Option")
     TMap<FString, FString> DeveloperDefinedContext;
 
-    /** If report_type is object/content, a string representing the type of content being reported. This should correspond to the object_type string used in the UI */
+    /**
+     * If #EOvrAbuseReportType is EOvrAbuseReportType::Object, a string representing the type of content being reported.
+     * This should correspond to the object_type string used in the UI.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AdvancedAbuseReport|Option")
     FString ObjectType;
 
-    /** The intended entity being reported, whether user or object/content. */
+    /**
+     * The intended entity type #EOvrAbuseReportType being reported, it can be either a user EOvrAbuseReportType::User
+     * or an object/content EOvrAbuseReportType::Object.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AdvancedAbuseReport|Option")
     EOvrAbuseReportType ReportType;
 
@@ -81,6 +85,12 @@ struct OVRPLATFORM_API FOvrAdvancedAbuseReportOptions
     }
 };
 
+/**
+ * The Application option contains additional configuration to be passed in to UOvrRequestsBlueprintLibrary::Application_LaunchOtherApp() and
+ * UOvrRequestsBlueprintLibrary::Application_InstallAppUpdateAndRelaunch(). It contains 5 fields FOvrApplicationOptions::DeeplinkMessage,
+ * FOvrApplicationOptions::DestinationApiName, FOvrApplicationOptions::LobbySessionId, FOvrApplicationOptions::MatchSessionId
+ * and FOvrApplicationOptions::RoomId.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Application")
 struct OVRPLATFORM_API FOvrApplicationOptions
 {
@@ -88,14 +98,14 @@ struct OVRPLATFORM_API FOvrApplicationOptions
 
     /**
      * A message to be passed to a launched app, which can be retrieved
-     * with field FOvrLaunchDetails::DeeplinkMessage
+     * with field FOvrLaunchDetails::DeeplinkMessage.
      */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Application|Option")
     FString DeeplinkMessage;
 
     /**
      * If provided, the intended destination to be passed to the launched
-     * app
+     * app, which can be retrieved with field FOvrLaunchDetails::DestinationApiName.
      */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Application|Option")
     FString DestinationApiName;
@@ -103,14 +113,14 @@ struct OVRPLATFORM_API FOvrApplicationOptions
     /**
      * If provided, the intended lobby where the launched app should take
      * the user. All users with the same lobby_session_id should end up grouped
-     * together in the launched app.
+     * together in the launched app, which can be retrieved with field FOvrLaunchDetails::LobbySessionID.
      */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Application|Option")
     FString LobbySessionId;
 
     /**
      * If provided, the intended instance of the destination that a user
-     * should be launched into
+     * should be launched into, which can be retrieved with field FOvrLaunchDetails::MatchSessionID.
      */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Application|Option")
     FString MatchSessionId;
@@ -133,12 +143,21 @@ struct OVRPLATFORM_API FOvrApplicationOptions
     }
 };
 
+/**
+ *  The Avatar Editor Option is a feature that allows users to create and customize their avatars.
+ * It is launched by the UOvrRequestsBlueprintLibrary::Avatar_LaunchAvatarEditor() request and provides a way for users
+ * to specify the source of the request, allowing for more flexibility and customization in the avatar creation process.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|AvatarEditor")
 struct OVRPLATFORM_API FOvrAvatarEditorOptions
 {
     GENERATED_USTRUCT_BODY()
 
-    /** Optional: Override for where the request is coming from. */
+    /**
+     * Optional override for where the request is coming from. This field allows you to specify the source of the request
+     * in the launched editor by calling UOvrRequestsBlueprintLibrary::Avatar_LaunchAvatarEditor(), which can be useful in cases where you want to track
+     * or identify the origin of the request.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|AvatarEditor|Option")
     FString SourceOverride;
 
@@ -148,39 +167,85 @@ struct OVRPLATFORM_API FOvrAvatarEditorOptions
     }
 };
 
+/**
+ * The Challenge Option is a parameter that can be passed in the UOvrRequestsBlueprintLibrary::Challenges_GetList() method to retrieve
+ * a list of challenges that match the specified options. The FOvrChallengeOptions parameter allows you to
+ * specify the criteria for the challenges you want to retrieve, such as the viewer filter, the visibility, or the date range.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Challenge")
 struct OVRPLATFORM_API FOvrChallengeOptions
 {
     GENERATED_USTRUCT_BODY()
 
+    /**
+     * The description of the challenge is a detailed and informative text that provides a comprehensive overview of the challenge's
+     * objectives, rules, and requirements, which can be retrieved with field FOvrChallenge::Description.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     FString Description;
 
+    /** The challenge end date is the timestamp when this challenge ends, which can be retrieved using field FOvrChallenge::EndDate. */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     FDateTime EndDate;
 
+    /**
+     * This option indicates whether to include challenges that are currently active in the search results. By default, this is set to true,
+     * meaning that only active challenges will be returned.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     bool IncludeActiveChallenges;
 
+    /**
+     * This option indicates whether to include challenges that have not yet started in the search results. By default, this is set to false,
+     * meaning that only active will be returned.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     bool IncludeFutureChallenges;
 
+    /**
+     * This option indicates whether to include challenges that have already ended in the search results. By default, this is set to false,
+     * meaning that only active will be returned.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     bool IncludePastChallenges;
 
-    /** Optional: Only find challenges belonging to this leaderboard. */
+    /**
+     * Optional: Only find challenges belonging to this leaderboard. This filter allows you to narrow down the search results to only include challenges
+     * that are associated with a specific leaderboard.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     FString LeaderboardName;
 
+    /** The challenge start date is the timestamp when this challenge begins, which can be retrieved using field FOvrChallenge::StartDate. */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     FDateTime StartDate;
 
+    /**
+     * The title of the challenge is a descriptive label that provides a concise summary of the challenge's purpose and objectives,
+     * which can be retrieved with field FOvrChallenge::Title.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     FString Title;
 
+    /**
+     * An enum that specifies what filter to apply to the list of returned challenges.
+     * 
+     * Returns all public (EOvrChallengeVisibility::Public) and invite-only (EOvrChallengeVisibility::InviteOnly) FOvrChallenge in which the user is a participant or invitee. Excludes private (EOvrChallengeVisibility::Private) challenges.
+     * 
+     * EOvrChallengeViewerFilter::Participating - Returns challenges the user is participating in.
+     * 
+     * EOvrChallengeViewerFilter::Invited - Returns challenges the user is invited to.
+     * 
+     * EOvrChallengeViewerFilter::ParticipatingOrInvited - Returns challenges the user is either participating in or invited to.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     EOvrChallengeViewerFilter ViewerFilter;
 
+    /**
+     * The challenge visibility setting specifies who can see and participate in this challenge, which be retrieved with field FOvrChallenge::Visibility.
+     * There are three visibility levels: EOvrChallengeVisibility::Public, EOvrChallengeVisibility::InviteOnly and
+     * EOvrChallengeVisibility::Private.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Challenge|Option")
     EOvrChallengeVisibility Visibility;
 
@@ -199,6 +264,10 @@ struct OVRPLATFORM_API FOvrChallengeOptions
     }
 };
 
+/**
+ * The Group Presence Option, to be passed in to UOvrRequestsBlueprintLibrary::GroupPresence_Set(), is a set of fields that allows developers to specify the presence of a user in a group/squad/party.
+ * It provides a way for developers to create a more immersive and social experience for their users by allowing them to join and interact with other users.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|GroupPresence")
 struct OVRPLATFORM_API FOvrGroupPresenceOptions
 {
@@ -249,22 +318,62 @@ struct OVRPLATFORM_API FOvrGroupPresenceOptions
     }
 };
 
+/**
+ * The Invite Option, to be passed in to UOvrRequestsBlueprintLibrary::GroupPresence_GetInvitableUsers() and UOvrRequestsBlueprintLibrary::GroupPresence_LaunchInvitePanel(),
+ * is a field that allows developers to specify a list of suggested users to be added to the invitable users list, making it easier for users to
+ * connect with others and create a more social experience.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Invite")
 struct OVRPLATFORM_API FOvrInviteOptions
 {
     GENERATED_USTRUCT_BODY()
 
-    /** Passing in these users will add them to the invitable users list */
+    /**
+     * Passing in these users will add them to the invitable users list. From the UOvrRequestsBlueprintLibrary::GroupPresence_LaunchInvitePanel(), the user can open the invite list,
+     * where the suggested users will be added.
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Invite|Option")
     TArray<FOvrId> SuggestedUsers;
 };
 
+/**
+ * The multiplayer error option is a feature that allows developers to display general error messages to FOvrUser in invokable error dialogs.
+ * This option is particularly useful in multiplayer games or applications where errors can occur due to various reasons such as network connectivity
+ * issues, server downtime, or other technical problems.
+ * Read more about error dialogues in our [docs](https://developer.oculus.com/documentation/unreal/ps-error-dialogs/).
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|MultiplayerError")
 struct OVRPLATFORM_API FOvrMultiplayerErrorOptions
 {
     GENERATED_USTRUCT_BODY()
 
-    /** Key associated with the predefined error message to be shown to users. */
+    /**
+     * Key associated with the predefined error message to be shown to users.
+     * 
+     * Key List:
+     * 
+     * - EOvrMultiplayerErrorErrorKey::DestinationUnavailable
+     * 
+     * - EOvrMultiplayerErrorErrorKey::DlcRequired
+     * 
+     * - EOvrMultiplayerErrorErrorKey::General
+     * 
+     * - EOvrMultiplayerErrorErrorKey::GroupFull
+     * 
+     * - EOvrMultiplayerErrorErrorKey::InviterNotJoinable
+     * 
+     * - EOvrMultiplayerErrorErrorKey::LevelNotHighEnough
+     * 
+     * - EOvrMultiplayerErrorErrorKey::LevelNotUnlocked
+     * 
+     * - EOvrMultiplayerErrorErrorKey::NetworkTimeout
+     * 
+     * - EOvrMultiplayerErrorErrorKey::NoLongerAvailable
+     * 
+     * - EOvrMultiplayerErrorErrorKey::UpdateRequired
+     * 
+     * - EOvrMultiplayerErrorErrorKey::TutorialRequired
+     */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|MultiplayerError|Option")
     EOvrMultiplayerErrorErrorKey ErrorKey;
 
@@ -274,6 +383,11 @@ struct OVRPLATFORM_API FOvrMultiplayerErrorOptions
     }
 };
 
+/**
+ * The NetSyncOption configures network connections, focusing on VoIP data streams.
+ * It includes 'zone_id' for unique identifiers within the application, 'voip_stream_default' to set default VoIP stream modes , and 'voip_group' to assign a VoIP group upon connection.
+ * It can be set when create a new connection and retrieved using FOvrNetSyncConnection.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|NetSync")
 struct OVRPLATFORM_API FOvrNetSyncOptions
 {
@@ -281,19 +395,20 @@ struct OVRPLATFORM_API FOvrNetSyncOptions
 
     /**
      * If provided, immediately set the voip_group to this value upon
-     * connection
+     * connection and can be retrieved using field FOvrNetSyncSession::VoipGroup
      */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|NetSync|Option")
     FString VoipGroup;
 
     /**
      * When a new remote voip user connects, default that connection to this
-     * stream type by default.
+     * stream type by default. There are three modes:
+     * EOvrNetSyncVoipStreamMode::Unknown, EOvrNetSyncVoipStreamMode::Ambisonic, EOvrNetSyncVoipStreamMode::Mono.
      */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|NetSync|Option")
     EOvrNetSyncVoipStreamMode VoipStreamDefault;
 
-    /** Unique identifier within the current application grouping */
+    /** A `string` represents the unique identifier within the current application grouping.  */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|NetSync|Option")
     FString ZoneId;
 
@@ -310,15 +425,15 @@ struct OVRPLATFORM_API FOvrRichPresenceOptions
 {
     GENERATED_USTRUCT_BODY()
 
-    /** DEPRECATED. Use FOvrGroupPresenceOptions::DestinationApiName */
+    /** \deprecated Use FOvrGroupPresenceOptions::DestinationApiName */
     UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::DestinationApiName"), Category = "OvrPlatform|Options|RichPresence|Option")
     FString ApiName;
 
-    /** DEPRECATED. Use FOvrGroupPresenceOptions::DeeplinkMessageOverride */
+    /** \deprecated Use FOvrGroupPresenceOptions::DeeplinkMessageOverride  */
     UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::DeeplinkMessageOverride"), Category = "OvrPlatform|Options|RichPresence|Option")
     FString DeeplinkMessageOverride;
 
-    /** DEPRECATED. Use FOvrGroupPresenceOptions::IsJoinable */
+    /** \deprecated Use FOvrGroupPresenceOptions::IsJoinable */
     UPROPERTY(BlueprintReadWrite, meta = (DeprecatedProperty, DeprecationMessage="Use FOvrGroupPresenceOptions::IsJoinable"), Category = "OvrPlatform|Options|RichPresence|Option")
     bool IsJoinable;
 
@@ -330,30 +445,39 @@ struct OVRPLATFORM_API FOvrRichPresenceOptions
     }
 };
 
+/** The roster option, to be passed into UOvrRequestsBlueprintLibrary::GroupPresence_LaunchRosterPanel() which is used to launch the panel displaying the current users in the roster/party. You can read more about rosters in our [docs](https://developer.oculus.com/documentation/unreal/ps-roster/). */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Roster")
 struct OVRPLATFORM_API FOvrRosterOptions
 {
     GENERATED_USTRUCT_BODY()
 
     /**
-     * Passing in these users will add them to the invitable users list. From the roster panel, the user can open the invite list,
+     * Passing in these users will add them to the invitable users list. From the UOvrRequestsBlueprintLibrary::GroupPresence_LaunchRosterPanel(), the FOvrUser can open the invite list,
      * where the suggested users will be added.
      */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|Roster|Option")
     TArray<FOvrId> SuggestedUsers;
 };
 
+/**
+ * The user_options configuration is used to specify additional settings for the FOvrUser.
+ * It allows you to customize the response by specifying the time window,
+ * maximum number of users, and service providers for which linked accounts should be retrieved.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|User")
 struct OVRPLATFORM_API FOvrUserOptions
 {
     GENERATED_USTRUCT_BODY()
 
+    /** This field specifies the maximum number of FOvrUser that should be returned in the response.  */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|User|Option")
     int32 MaxUsers;
 
+    /** It's an array of #EOvrServiceProvider objects that specifies the service providers for which linked accounts should be retrieved. */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|User|Option")
     TArray<EOvrServiceProvider> ServiceProviders;
 
+    /** This field specifies the time window in seconds for which the linked accounts should be retrieved. */
     UPROPERTY(BlueprintReadWrite, Category = "OvrPlatform|Options|User|Option")
     EOvrTimeWindow TimeWindow;
 
@@ -364,6 +488,11 @@ struct OVRPLATFORM_API FOvrUserOptions
     }
 };
 
+/**
+ * The voip_options configuration is used to specify additional settings for the VoIP transmission for a FOvrUser.
+ * It consists of two primary options which include using DTX for transmission and setting a maxmimum bitrate for the network connection.
+ * You can read more about VoIP [here](https://developer.oculus.com/documentation/unity/ps-parties/#voip-options).
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|Voip")
 struct OVRPLATFORM_API FOvrVoipOptions
 {
@@ -381,7 +510,7 @@ struct OVRPLATFORM_API FOvrVoipOptions
 
     /**
      * Set the opus codec to use discontinous transmission (DTX). DTX only transmits
-     * data when a person is speaking. Setting this to true takes advantage of the fact
+     * data when a person is speaking. Setting this to EOvrVoipDtxState::Enabled takes advantage of the fact
      * that in a two-way converstation each individual speaks for less than half the time.
      * Enabling DTX will conserve battery power and reduce transmission rate when a pause
      * in the voice chat is detected.

@@ -1,22 +1,4 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) Meta Platforms, Inc. and affiliates.
 
 // This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
 
@@ -1024,6 +1006,78 @@ EOvrNetSyncVoipStreamMode ConvertNetSyncVoipStreamMode(ovrNetSyncVoipStreamMode 
     }
 }
 
+ovrOfferTerm ConvertOfferTerm(EOvrOfferTerm Value)
+{
+    switch (Value)
+    {
+        case EOvrOfferTerm::WEEKLY:
+            return ovrOfferTerm::ovrOfferTerm_WEEKLY;
+        case EOvrOfferTerm::BIWEEKLY:
+            return ovrOfferTerm::ovrOfferTerm_BIWEEKLY;
+        case EOvrOfferTerm::MONTHLY:
+            return ovrOfferTerm::ovrOfferTerm_MONTHLY;
+        case EOvrOfferTerm::QUARTERLY:
+            return ovrOfferTerm::ovrOfferTerm_QUARTERLY;
+        case EOvrOfferTerm::SEMIANNUAL:
+            return ovrOfferTerm::ovrOfferTerm_SEMIANNUAL;
+        case EOvrOfferTerm::ANNUAL:
+            return ovrOfferTerm::ovrOfferTerm_ANNUAL;
+        case EOvrOfferTerm::BIANNUAL:
+            return ovrOfferTerm::ovrOfferTerm_BIANNUAL;
+        default:
+        return ovrOfferTerm::ovrOfferTerm_Unknown;
+    }
+}
+
+EOvrOfferTerm ConvertOfferTerm(ovrOfferTerm Value)
+{
+    switch (Value)
+    {
+        case ovrOfferTerm::ovrOfferTerm_WEEKLY:
+            return EOvrOfferTerm::WEEKLY;
+        case ovrOfferTerm::ovrOfferTerm_BIWEEKLY:
+            return EOvrOfferTerm::BIWEEKLY;
+        case ovrOfferTerm::ovrOfferTerm_MONTHLY:
+            return EOvrOfferTerm::MONTHLY;
+        case ovrOfferTerm::ovrOfferTerm_QUARTERLY:
+            return EOvrOfferTerm::QUARTERLY;
+        case ovrOfferTerm::ovrOfferTerm_SEMIANNUAL:
+            return EOvrOfferTerm::SEMIANNUAL;
+        case ovrOfferTerm::ovrOfferTerm_ANNUAL:
+            return EOvrOfferTerm::ANNUAL;
+        case ovrOfferTerm::ovrOfferTerm_BIANNUAL:
+            return EOvrOfferTerm::BIANNUAL;
+        default:
+            return EOvrOfferTerm::Unknown;
+    }
+}
+
+ovrOfferType ConvertOfferType(EOvrOfferType Value)
+{
+    switch (Value)
+    {
+        case EOvrOfferType::INTROOFFER:
+            return ovrOfferType::ovrOfferType_INTROOFFER;
+        case EOvrOfferType::FREETRIAL:
+            return ovrOfferType::ovrOfferType_FREETRIAL;
+        default:
+        return ovrOfferType::ovrOfferType_Unknown;
+    }
+}
+
+EOvrOfferType ConvertOfferType(ovrOfferType Value)
+{
+    switch (Value)
+    {
+        case ovrOfferType::ovrOfferType_INTROOFFER:
+            return EOvrOfferType::INTROOFFER;
+        case ovrOfferType::ovrOfferType_FREETRIAL:
+            return EOvrOfferType::FREETRIAL;
+        default:
+            return EOvrOfferType::Unknown;
+    }
+}
+
 ovrPartyUpdateAction ConvertPartyUpdateAction(EOvrPartyUpdateAction Value)
 {
     switch (Value)
@@ -1139,6 +1193,36 @@ EOvrPlatformInitializeResult ConvertPlatformInitializeResult(ovrPlatformInitiali
             return EOvrPlatformInitializeResult::NotEntitled;
         default:
             return EOvrPlatformInitializeResult::Unknown;
+    }
+}
+
+ovrProductType ConvertProductType(EOvrProductType Value)
+{
+    switch (Value)
+    {
+        case EOvrProductType::DURABLE:
+            return ovrProductType::ovrProductType_DURABLE;
+        case EOvrProductType::CONSUMABLE:
+            return ovrProductType::ovrProductType_CONSUMABLE;
+        case EOvrProductType::SUBSCRIPTION:
+            return ovrProductType::ovrProductType_SUBSCRIPTION;
+        default:
+        return ovrProductType::ovrProductType_Unknown;
+    }
+}
+
+EOvrProductType ConvertProductType(ovrProductType Value)
+{
+    switch (Value)
+    {
+        case ovrProductType::ovrProductType_DURABLE:
+            return EOvrProductType::DURABLE;
+        case ovrProductType::ovrProductType_CONSUMABLE:
+            return EOvrProductType::CONSUMABLE;
+        case ovrProductType::ovrProductType_SUBSCRIPTION:
+            return EOvrProductType::SUBSCRIPTION;
+        default:
+            return EOvrProductType::Unknown;
     }
 }
 

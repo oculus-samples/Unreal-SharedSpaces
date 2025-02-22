@@ -1,22 +1,4 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) Meta Platforms, Inc. and affiliates.
 
 #pragma once
 
@@ -91,7 +73,8 @@ typedef std::function<void(TOvrMessageHandlePtr Message, bool bIsError)> OvrPlat
 #define OVR_REQUEST_IMMEDIATE ovrRequest(-1)
 #define OVR_REQUEST_NO_MORE_PAGES ovrRequest(-2)
 
-// Interface for our latent actions that can be interrupted.
+/// An Interface for our latent actions that can be interrupted. It provide a way to handle OVR Platform requests that are initiated by blueprint nodes. 
+/// These requests often involve network communication and require a response handler to be registered with the UOvrPlatformSubsystem.
 class FOvrPreemptableLatentAction
     : public FPendingLatentAction
 {
@@ -108,40 +91,48 @@ public:
     {}
 
     virtual ~FOvrPreemptableLatentAction();
-
+    /// This function can be called to ignore the response from the Oculus Platform SDK. When this function is called, the latent action will not wait for a response from the SDK and will instead continue execution immediately.
     void IgnoreResponse();
 
 protected:
-
+    /// This is the name of the function that will be executed when the latent action is triggered.
     FName ExecutionFunction;
+    /// This variable is used to store the output link.
     int32 OutputLink;
+    /// This is a weak pointer to an object that will be notified when the latent action is complete. 
     FWeakObjectPtr CallbackTarget;
-
+    /// This is an instance of the OvrPlatformRequestGenerator class, which is used to generate requests to the Oculus Platform SDK.
     OvrPlatformRequestGenerator RequestGenerator;
+    /// This is an instance of the OvrPlatformResponseProcessor class, which is used to process the response from the Oculus Platform SDK.
     OvrPlatformResponseProcessor ResponseProcessor;
-
+    /// This is the ID of the request.
     ovrRequest RequestID;
-
+    /// This variable indicates whether the response from the Oculus VR Platform (OVRP) Subsystem should be ignored.
     bool bIgnoreResponse;
-
+    /// This function returns a pointer to the UOvrPlatformSubsystem object, which provides access to the Oculus Platform SDK. The subsystem is used to perform various operations with the Oculus Platform, such as making requests and processing responses.
     UOvrPlatformSubsystem* GetOvrPlatform();
+    /// This function unlinks the request delegate from the Oculus Platform SDK. The request delegate is used to handle the response from the SDK, and unlinking it allows the latent action to ignore the response if desired.
     void UnlinkRequestDelegate();
-
-    // FPendingLatentAction implementation
+    /// This function is a virtual function that is called when the object associated with the latent action is destroyed. 
     virtual void NotifyObjectDestroyed() override;
 };
 
-// Latent action for most blueprint nodes that wait for OVR Platform responses.
+/// FOvrRequestLatentAction is a latent action class for blueprint nodes that wait for OVR Platform UOvrPlatformSubsystem responses. 
+/// It handles most requests and has two function objects, RequestGenerator and ResponseProcessor, which are used to generate the request and process the response, respectively. 
+/// The class also has several member variables to track the status of the request and response processing.
 class FOvrRequestLatentAction
     : public FOvrPreemptableLatentAction
 {
 public:
-
+    /// This variable is a `boolean` that indicates whether the "then" pin of the latent action has been executed.
     bool bThenPinExecuted;
+    /// This variable is a `boolean` that indicates whether the response from the Oculus VR Platform (OVR) Subsystem has been processed.
     bool bResponseProcessed;
+    /// This variable is a `boolean` that indicates whether the request to the OVR Subsystem was successful.
     bool bRequestSuccessful;
-
+    ///  A reference to an ::EOvrRequestOutputPins enum, which represents the output pins for the request.
     EOvrRequestOutputPins& OutExecs;
+    ///  A reference to a string, which represents the error message for the request.
     FString& ErrorMsg;
 
     FOvrRequestLatentAction(const FLatentActionInfo& LatentInfo, EOvrRequestOutputPins& OutExecs, FString& ErrorMsg, OvrPlatformRequestGenerator&& RG, OvrPlatformResponseProcessor&& RP)
@@ -153,7 +144,8 @@ public:
         , ErrorMsg(ErrorMsg)
     {}
 
-    // FPendingLatentAction implementation
+    /// It's responsible for updating the state of the latent 
+    /// action while it is waiting for a response from the OVR Platform.
     virtual void UpdateOperation(FLatentResponse& Response) override;
 
 #if WITH_EDITOR
@@ -162,17 +154,21 @@ public:
 #endif
 };
 
-// Latent action for most blueprint nodes that wait for OVR Platform responses.
+/// It's a latent action for most blueprint nodes that wait for OVR Platform responses. 
+/// It provides a way to handle requests for paged arrays in a latent manner, allowing for the processing of responses, such as UOvrPageRequestsBlueprintLibrary::FetchAchievementDefinitionPage.
 class FOvrPageRequestLatentAction
     : public FOvrPreemptableLatentAction
 {
 public:
-
+    /// \brief This variable indicates whether the "then" pin of the latent action has been executed.
     bool bThenPinExecuted;
+    /// \brief This variable indicates whether the response from the Oculus VR Platform (OVRP) Subsystem has been processed.
     bool bResponseProcessed;
+    /// \brief This variable indicates whether the request to the OVRP Subsystem was successful.
     bool bRequestSuccessful;
-
+    /// \brief The current page number. This output pin is used to pass an array of execution pins back to the blueprint. Each execution pin represents a page of data that was retrieved from the OVRP Subsystem.
     EOvrPageRequestOutputPins& OutExecs;
+    /// \brief This output pin is used to pass an error message back to the blueprint if the request to the OVRP Subsystem failed.
     FString& ErrorMsg;
 
     FOvrPageRequestLatentAction(const FLatentActionInfo& LatentInfo, EOvrPageRequestOutputPins& OutExecs, FString& ErrorMsg, OvrPlatformRequestGenerator&& RG, OvrPlatformResponseProcessor&& RP)
@@ -184,7 +180,7 @@ public:
         , ErrorMsg(ErrorMsg)
     {}
 
-    // FPendingLatentAction implementation
+    /// \brief It's responsible for updating the state of the latent action based on the current state of the request to the Oculus VR Platform (OVRP) Subsystem.
     virtual void UpdateOperation(FLatentResponse& Response) override;
 
 #if WITH_EDITOR
