@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "",
+	"EngineAssociation": "{A3C5713A-4250-2164-BC86-7497AE627E5E}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -11,7 +11,7 @@
 			"Dependencies": [
 				"Engine",
 				"UMG",
-				"XRbase",
+				"XRbase"
 			]
 		}
 	],
@@ -31,7 +31,7 @@
 		},
 		{
 			"Name": "OculusAudio",
-			"Enabled": true
+			"Enabled": false
 		},
 		{
 			"Name": "Wwise",
