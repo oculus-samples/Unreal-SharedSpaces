@@ -11,7 +11,6 @@ public class SharedSpacesEditorTarget : TargetRules
 	{
 		Type = TargetType.Editor;
         DefaultBuildSettings = BuildSettingsVersion.V5;
-        bValidateFormatStrings = false;
         IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
         ExtraModuleNames.Add("SharedSpaces");
 	}

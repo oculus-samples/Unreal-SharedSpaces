@@ -11,7 +11,6 @@ public class SharedSpacesTarget : TargetRules
 	{
 		Type = TargetType.Game;
         DefaultBuildSettings = BuildSettingsVersion.V5;
-        bValidateFormatStrings = false;
         IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
         ExtraModuleNames.Add("SharedSpaces");
 	}
