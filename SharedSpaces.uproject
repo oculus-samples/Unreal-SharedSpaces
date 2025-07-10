@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{A3C5713A-4250-2164-BC86-7497AE627E5E}",
+	"EngineAssociation": "",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -28,10 +28,6 @@
 		{
 			"Name": "XRBase",
 			"Enabled": true
-		},
-		{
-			"Name": "OculusAudio",
-			"Enabled": false
 		},
 		{
 			"Name": "Wwise",
