@@ -9,6 +9,15 @@ SharedSpaces is available on the [Quest AppLab](https://www.oculus.com/experienc
 ## Release Notes
 
 <details>
+  <summary><b>10 July 2025 Update</b></summary>
+
+We updated the project to UE5.5.
+
+We updated the MetaXRPlatform plugin to SDK v77.
+
+Deprecated OculusAudio plugin was removed.
+</details>
+<details>
     <summary><b>26 August 2024 Update - Shared Spaces EOS!</b></summary>
 
 We have created a new branch `eos-5.x` which contains a [new version of Shared Spaces using Epic Online Services](https://github.com/oculus-samples/Unreal-SharedSpaces/tree/eos-5.x) as its network layer (instead of Photon). This version also includes updates to support the latest [Meta fork of Unreal Engine](https://github.com/Oculus-VR/UnrealEngine)  `5.4.3-v68`.
