@@ -1,0 +1,163 @@
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ * All rights reserved.
+ *
+ * Licensed under the Oculus SDK License Agreement (the "License");
+ * you may not use the Oculus SDK except in compliance with the License,
+ * which is provided at the time of installation or download, or which
+ * otherwise accompanies this software in either electronic or hard copy form.
+ *
+ * You may obtain a copy of the License at
+ *
+ * https://developer.oculus.com/licenses/oculussdk/
+ *
+ * Unless required by applicable law or agreed to in writing, the Oculus SDK
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+// This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
+
+#ifndef OVR_REQUESTS_COWATCHING_H
+#define OVR_REQUESTS_COWATCHING_H
+
+#include "OVR_Types.h"
+#include "OVR_Platform_Defs.h"
+
+#include "OVR_CowatchViewerArray.h"
+
+
+/// \file
+/// The Cowatching API provides a set of methods for managing cowatching
+/// sessions in a shared virtual home environment. It allows users to request
+/// to present, resign from presenting, join or leave a session, check if they
+/// are in a session ovr_CowatchingState_GetInSession(), set and get presenter
+/// data, set and get viewer data, and launch an invite dialog.
+
+/// Get the next page of entries
+/// \param handle The handle to the array to get the next page of entries.
+///
+/// A message with type ::ovrMessage_Cowatching_GetNextCowatchViewerArrayPage will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// If no error occurred, the message will contain a payload of type ::ovrCowatchViewerArrayHandle.
+/// Extract the payload from the message handle with ::ovr_Message_GetCowatchViewerArray().
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Cowatching_GetNextCowatchViewerArrayPage(ovrCowatchViewerArrayHandle handle);
+
+/// Retrieve the presenter data that drives an active cowatching session. This
+/// method can be called when there is an ongoing cowatching session, allowing
+/// developers to access and utilize the presenter data to enhance the user
+/// experience.
+///
+/// A message with type ::ovrMessage_Cowatching_GetPresenterData will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// If no error occurred, the message will contain a payload of type const char *.
+/// Extract the payload from the message handle with ::ovr_Message_GetString().
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Cowatching_GetPresenterData();
+
+/// Retrieve the viewer data of everyone who is in a cowatching session whose
+/// data was set by ovr_Cowatching_SetViewerData() viewer_data. This can be
+/// called when there is an active cowatching session.
+///
+/// A message with type ::ovrMessage_Cowatching_GetViewersData will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// If no error occurred, the message will contain a payload of type ::ovrCowatchViewerArrayHandle.
+/// Extract the payload from the message handle with ::ovr_Message_GetCowatchViewerArray().
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Cowatching_GetViewersData();
+
+/// Check whether the current user is participating in the ongoing cowatching
+/// session. It returns a boolean value ovr_CowatchingState_GetInSession()
+/// indicating the user's presence in the session.
+///
+/// A message with type ::ovrMessage_Cowatching_IsInSession will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// If no error occurred, the message will contain a payload of type ::ovrCowatchingStateHandle.
+/// Extract the payload from the message handle with ::ovr_Message_GetCowatchingState().
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Cowatching_IsInSession();
+
+/// Join the ongoing cowatching session as a viewer, updating data only
+/// possible for users already in the session.
+///
+/// A message with type ::ovrMessage_Cowatching_JoinSession will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// This response has no payload. If no error occurred, the request was successful. Yay!
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Cowatching_JoinSession();
+
+/// Launch a dialog for inviting users to cowatch in Copresent Home.
+///
+/// A message with type ::ovrMessage_Cowatching_LaunchInviteDialog will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// This response has no payload. If no error occurred, the request was successful. Yay!
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Cowatching_LaunchInviteDialog();
+
+/// Leave the current cowatching session, rendering viewer data obsolete and no
+/// longer relevant to the ongoing experience.
+///
+/// A message with type ::ovrMessage_Cowatching_LeaveSession will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// This response has no payload. If no error occurred, the request was successful. Yay!
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Cowatching_LeaveSession();
+
+/// Request to initiate a cowatching session as the presenter while being
+/// copresent in a shared virtual home environment.
+///
+/// A message with type ::ovrMessage_Cowatching_RequestToPresent will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// This response has no payload. If no error occurred, the request was successful. Yay!
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Cowatching_RequestToPresent();
+
+/// Stop being the presenter and terminate the ongoing cowatching session. This
+/// action will effectively end the shared media experience.
+///
+/// A message with type ::ovrMessage_Cowatching_ResignFromPresenting will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// This response has no payload. If no error occurred, the request was successful. Yay!
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Cowatching_ResignFromPresenting();
+
+/// Set the data that drives a cowatching session. This method is only callable
+/// by the presenter. The video title cannot exceed 100 characters, and the
+/// data size is limited to 500 characters. The data will be eventually
+/// consistent across all users.
+/// \param video_title A string representing the title of the video being played in the cowatching session. This parameter must not exceed 100 characters in length.
+/// \param presenter_data A string containing data that drives the cowatching session, such as video metadata or playback information. This parameter is limited to 500 characters in length and will be eventually consistent across all users participating in the session.
+///
+/// A message with type ::ovrMessage_Cowatching_SetPresenterData will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// This response has no payload. If no error occurred, the request was successful. Yay!
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Cowatching_SetPresenterData(const char *video_title, const char *presenter_data);
+
+/// Set the current user's viewer data to be shared with copresent users. This
+/// can be called when there is an active cowatching session. The data size is
+/// limited to 500 characters, and it will eventually become consistent across
+/// all users.
+/// \param viewer_data A string containing data about the current user's viewer state, such as their preferences or settings. This data is shared with copresent users during an active cowatching session and is limited to 500 characters in size. The data will eventually become consistent across all users participating in the session.
+///
+/// A message with type ::ovrMessage_Cowatching_SetViewerData will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// This response has no payload. If no error occurred, the request was successful. Yay!
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_Cowatching_SetViewerData(const char *viewer_data);
+
+#endif

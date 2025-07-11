@@ -1,22 +1,4 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) Meta Platforms, Inc. and affiliates.
 
 // This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
 
@@ -66,6 +48,9 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOvrNotification_Vrcamera_GetSurface
 
 // OVR Platform Subsystem
 UCLASS(Blueprintable)
+/// UOvrPlatformSubsystem is a class that provides functionality for interacting with the Oculus platform.
+/// It includes several public member functions and attributes, and its attributes include delegates for various Oculus platform notifications.
+/// See more info about Platform Solutions [here](https://developer.oculus.com/documentation/unreal/ps-platform-intro/).
 class OVRPLATFORM_API UOvrPlatformSubsystem
     : public UGameInstanceSubsystem
     , public FTickableGameObject
@@ -73,9 +58,26 @@ class OVRPLATFORM_API UOvrPlatformSubsystem
     GENERATED_BODY()
 
 public:
-
+    /**
+    * Determines whether the subsystem should be created.
+    *
+    * @param Outer The outer object that this subsystem is being created for.
+    * @return True if the subsystem should be created, false otherwise.
+    */
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
+    /**
+    * Initializes the subsystem.
+    *
+    * This function is called when the subsystem is first created. It is responsible for setting up any initial state or resources that the subsystem needs to operate.
+    *
+    * @param Collection The collection of subsystems that this subsystem is a part of.
+    */
     virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+    /**
+    * Deinitializes the subsystem.
+    *
+    * This function is called when the subsystem is being shut down. It is responsible for releasing any resources or cleaning up any state that was created during initialization.
+    */
     virtual void Deinitialize() override;
 
 private:
@@ -114,12 +116,42 @@ public:
 
 public:
 
-    // You can make direct OVR requests and register for responses.
+    /**
+    * Adds a delegate to be called when an OVR request completes.
+    *
+    * This function allows you to register a callback function that will be executed when a specific OVR request completes.The delegate will be passed a single argument, which is the result of the request.
+    *
+    * @param RequestId The ID of the request that the delegate will be called for.
+    * @param Delegate The delegate to be called when the request completes. The delegate should take a single argument of type FOvrPlatformMessageOnComplete.
+    */
     void AddRequestDelegate(ovrRequest RequestId, FOvrPlatformMessageOnComplete&& Delegate);
+
+    /**
+    * Removes a delegate that was previously added with AddRequestDelegate.
+    *
+    * This function removes a delegate that was previously registered to be called when an OVR request completes.
+    *
+    * @param RequestId The ID of the request that the delegate was added for.
+    */
     void RemoveRequestDelegate(ovrRequest RequestId);
 
-    // You can also register to be notified of any message type.
+    /**
+    * Gets a multicast delegate that will be called for all messages of a specific type.
+    *
+    * This function returns a reference to a multicast delegate that will be called for all messages of a specific type. You can use this delegate to register a callback function that will be executed whenever a message of the specified type is received.
+    *
+    * @param MessageType The type of message that the delegate will be called for.
+    * @return A reference to the multicast delegate. The delegate should take a single argument of type FOvrPlatformMulticastMessageOnComplete.
+    */
     FOvrPlatformMulticastMessageOnComplete& GetNotifDelegate(ovrMessageType MessageType);
+    /**
+    * Removes a delegate that was previously registered with GetNotifDelegate.
+    *
+    * This function removes a delegate that was previously registered to be called for all messages of a specific type.
+    *
+    * @param MessageType The type of message that the delegate was registered for.
+    * @param Delegate The delegate to remove.
+    */
     void RemoveNotifDelegate(ovrMessageType MessageType, const FDelegateHandle& Delegate);
 
 public: // Notifications
@@ -131,7 +163,7 @@ public: // Notifications
     /**
      * This event is triggered when a launch intent is received, whether it's a cold or warm start.
      * The payload contains the type of intent that was received. To obtain additional details,
-     * you should call the ApplicationLifecycle_GetLaunchDetails() function.
+     * you should call the UOvrFunctionsBlueprintLibrary::ApplicationLifecycle_GetLaunchDetails function.
      */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|ApplicationLifecycle")
     FOvrNotification_ApplicationLifecycle_LaunchIntentChanged OnApplicationLifecycleLaunchIntentChanged;
@@ -217,7 +249,7 @@ public: // Notifications
     /**
      * Indicates that the livestreaming session has been updated. You can use this information to
      * throttle your game performance or increase CPU/GPU performance.  Use
-     * field FOvrMessage::LivestreamingStatus to extract the updated livestreaming status.
+     * FOvrLivestreamingStatus to extract the updated livestreaming status.
      */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Livestreaming")
     FOvrNotification_Livestreaming_StatusChange OnLivestreamingStatusChange;
@@ -233,20 +265,19 @@ public: // Notifications
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|NetSync")
     FOvrNotification_NetSync_SessionsChanged OnNetSyncSessionsChanged;
 
-    /** Indicates that party has been updated */
+    /** Indicates that party has been updated. This will return a FOvrPartyUpdateNotification object. */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Party")
     FOvrNotification_Party_PartyUpdate OnPartyPartyUpdate;
 
-    /** Indicates that the current microphone availability state has been updated. Use Voip_GetMicrophoneAvailability() to extract the microphone availability state. */
+    /** Indicates that the current microphone availability state has been updated. Use UOvrRequestsBlueprintLibrary::Voip_GetMicrophoneAvailability() to extract the microphone availability state. */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Voip")
     FOvrNotification_Voip_MicrophoneAvailabilityStateUpdate OnVoipMicrophoneAvailabilityStateUpdate;
 
     /**
      * Sent to indicate that some part of the overall state of SystemVoip
-     * has changed. Use field FOvrMessage::SystemVoipState and
+     * has changed. Use field FOvrSystemVoipState::Status and
      * the properties of FOvrSystemVoipState to extract the state that triggered the
      * notification.
-     * 
      * Note that the state may have changed further since the notification was
      * generated, and that you may call the `GetSystemVoip...()` family of functions at any time
      * to get the current state directly.
@@ -254,11 +285,18 @@ public: // Notifications
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Voip")
     FOvrNotification_Voip_SystemVoipState OnVoipSystemVoipState;
 
-    /** Get vr camera related webrtc data channel messages for update. */
+    /**
+     * Gets VR camera related WebRTC data channel messages for update. This method is used to retrieve messages that are sent over the WebRTC
+     * data channel, which can include information about the VR camera system, such as its current state or any errors that may have occurred. 
+     */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Vrcamera")
     FOvrNotification_Vrcamera_GetDataChannelMessageUpdate OnVrcameraGetDataChannelMessageUpdate;
 
-    /** Get surface and update action from platform webrtc for update. */
+    /**
+     * Gets the surface and update action from the platform WebRTC for update. This method is used to retrieve information about
+     * the current state of the VR camera system, including any updates that may be required.
+     * See more info about Platform Solutions [here](https://developer.oculus.com/documentation/unreal/ps-platform-intro/).
+     */
     UPROPERTY(BlueprintAssignable, Category = "OvrPlatform|Vrcamera")
     FOvrNotification_Vrcamera_GetSurfaceUpdate OnVrcameraGetSurfaceUpdate;
 

@@ -1,22 +1,4 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) Meta Platforms, Inc. and affiliates.
 
 #pragma once
 
@@ -29,7 +11,8 @@
 #include "OVRPlatformEnums.h"
 #include "OVRPlatformTypes.generated.h"
 
-/** UE type corresponding to OVR Platform ::ovrID. It is used to represent an ID in the OVR Platform and provides a convenient way to work with IDs in the OVR Platform within Unreal Engine. */
+/// It represents a UE type corresponding to OVR Platform ::ovrID. 
+/// It is used to represent an ID in the OVR Platform and provides a convenient way to work with IDs in the OVR Platform within Unreal Engine. 
 USTRUCT(BlueprintType, Category = "OvrPlatform|CustomModels|ID")
 struct OVRPLATFORM_API FOvrId
 {
@@ -90,27 +73,28 @@ struct OVRPLATFORM_API FOvrVariant
     }
 };
 
-// Wrapper to manage ovrMessageHandle lifetime.
-// Some payloads, like paged arrays, require the message that transports them
-// to outlive the lifetime of their initial handlers, as they get deallocated
-// at the same time.  See OVRPlatformModelsPageRequests.h/.cpp.
+/// Wrapper to manage ::ovrMessageHandle lifetime.
+/// Some payloads, like paged arrays, require the message that transports them
+/// to outlive the lifetime of their initial handlers, as they get deallocated
+/// at the same time.  See OVRPlatformModelsPageRequests.h/.cpp.
 class TOvrMessageHandle
 {
 public:
+    /// This is the default constructor for the class. It initializes the Handle member variable to nullptr.
 	TOvrMessageHandle():
 		Handle(nullptr)
 	{}
-
+    /// This is an explicit constructor that takes an ::ovrMessageHandle parameter and initializes the Handle member variable with it.
 	explicit TOvrMessageHandle(ovrMessageHandle Handle):
 		Handle(Handle)
 	{}
-
+    /// This is a destructor that frees the ::ovrMessageHandle pointed to by the Handle member variable.
 	~TOvrMessageHandle()
 	{
 		ovr_FreeMessage(Handle);
 		Handle = nullptr;
 	}
-
+    /// This is an implicit conversion operator that allows a TOvrMessageHandle object to be converted to an ovrMessageHandle value
 	operator ovrMessageHandle() const { return Handle; }
 
 private:

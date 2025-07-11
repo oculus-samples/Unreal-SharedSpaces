@@ -11,7 +11,7 @@
 			"Dependencies": [
 				"Engine",
 				"UMG",
-				"XRbase",
+				"XRbase"
 			]
 		}
 	],
@@ -27,10 +27,6 @@
 		},
 		{
 			"Name": "XRBase",
-			"Enabled": true
-		},
-		{
-			"Name": "OculusAudio",
 			"Enabled": true
 		},
 		{

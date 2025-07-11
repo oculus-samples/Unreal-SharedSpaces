@@ -1,22 +1,4 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) Meta Platforms, Inc. and affiliates.
 
 // This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
 
@@ -59,7 +41,7 @@ struct OVRPLATFORM_API FOvrAbuseReportRecording
 /**
  * An AchievementDefinition defines an achievement; this includes its name and how it is unlocked.
  * For an individual user's progress in unlocking an achievement, see AchievementProgress.
- * It can be retrieved using Achievements_GetAllDefinitions().
+ * It can be retrieved using UOvrRequestsBlueprintLibrary::Achievements_GetAllDefinitions().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AchievementDefinition")
 struct OVRPLATFORM_API FOvrAchievementDefinition
@@ -73,11 +55,11 @@ struct OVRPLATFORM_API FOvrAchievementDefinition
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementDefinition|Field")
     EOvrAchievementType AchievementType;
 
-    /** A string of the api name of the achievement. It can be used to get the achievement progress by name by the function Achievements_GetProgressByName(). */
+    /** A string of the api name of the achievement. It can be used to get the achievement progress by name by the function UOvrRequestsBlueprintLibrary::Achievements_GetProgressByName(). */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementDefinition|Field")
     FString ApiName;
 
-    /** It is required for bitfield achievements(EOvrAchievementType::Bitfield). This represents the size of the bitfield for this achievement. */
+    /** It is required for bitfield achievements: EOvrAchievementType::Bitfield. This represents the size of the bitfield for this achievement. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AchievementDefinition|Field")
     int32 BitfieldLength;
 
@@ -97,7 +79,7 @@ struct OVRPLATFORM_API FOvrAchievementDefinition
     void Update(ovrAchievementDefinitionHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** Represents a paginated list of FOvrAchievementDefinition elements */
+/** Represents a paginated list of FOvrAchievementDefinition elements. It allows you to easily access and manipulate the elements in the paginated list, such as the size of the list and if there is a next page of elements available. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AchievementDefinitionArray")
 struct OVRPLATFORM_API FOvrAchievementDefinitionPages
 {
@@ -115,22 +97,23 @@ struct OVRPLATFORM_API FOvrAchievementDefinitionPages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrAchievementDefinitionArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrAchievementDefinitionArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrAchievementDefinitionArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrAchievementDefinitionPages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrAchievementDefinitionPages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrAchievementDefinitionPagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** Access the indexed element in this list. */
+    /** Access the indexed element in this list. Note that the index is zero-based, so the first element has an index of 0. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|AchievementDefinitionPages")
     static FOvrAchievementDefinition AchievementDefinitionPages_GetElement(const FOvrAchievementDefinitionPages& Model, int64 Index);
 
@@ -142,14 +125,14 @@ public:
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|AchievementDefinitionPages")
     static int64 AchievementDefinitionPages_GetSize(const FOvrAchievementDefinitionPages& Model);
 
-    /** Whether there is a next page of elements that can be retrieved. */
+    /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|AchievementDefinitionPages")
     static bool AchievementDefinitionPages_HasNextPage(const FOvrAchievementDefinitionPages& Model);
 };
 
 
 /**
- * The unlock progress of a particular achievement can be retrieved using Achievements_GetAllProgress().
+ * The unlock progress of a particular achievement can be retrieved using UOvrRequestsBlueprintLibrary::Achievements_GetAllProgress().
  * It can be used to display the progress of each achievement in your game.
  * See the following [link](https://developer.oculus.com/documentation/unreal/ps-achievements/) for more information.
  */
@@ -201,7 +184,7 @@ struct OVRPLATFORM_API FOvrAchievementProgress
     void Update(ovrAchievementProgressHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** Represents a paginated list of FOvrAchievementProgress elements */
+/** Represents a paginated list of FOvrAchievementProgress elements. It allows you to easily access and manipulate the elements in the paginated list, such as the size of the list and if there is a next page of elements available. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AchievementProgressArray")
 struct OVRPLATFORM_API FOvrAchievementProgressPages
 {
@@ -219,22 +202,23 @@ struct OVRPLATFORM_API FOvrAchievementProgressPages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrAchievementProgressArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrAchievementProgressArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrAchievementProgressArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrAchievementProgressPages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrAchievementProgressPages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrAchievementProgressPagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** Access the indexed element in this list. */
+    /** Access the indexed element in this list. Note that the index is zero-based, so the first element has an index of 0. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|AchievementProgressPages")
     static FOvrAchievementProgress AchievementProgressPages_GetElement(const FOvrAchievementProgressPages& Model, int64 Index);
 
@@ -246,7 +230,7 @@ public:
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|AchievementProgressPages")
     static int64 AchievementProgressPages_GetSize(const FOvrAchievementProgressPages& Model);
 
-    /** Whether there is a next page of elements that can be retrieved. */
+    /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|AchievementProgressPages")
     static bool AchievementProgressPages_HasNextPage(const FOvrAchievementProgressPages& Model);
 };
@@ -254,8 +238,8 @@ public:
 
 /**
  * Represents an update to an existing achievement. It will be the payload if there is any updates on achievements,
- * as unlocking an achievement by Achievements_Unlock(), adding 'count' to the achievement by Achievements_AddCount(),
- * and unlocking fields of a BITFIELD achievement by Achievements_AddFields().
+ * as unlocking an achievement by UOvrRequestsBlueprintLibrary::Achievements_Unlock(), adding 'count' to the achievement by UOvrRequestsBlueprintLibrary::Achievements_AddCount(),
+ * and unlocking fields of a BITFIELD achievement by UOvrRequestsBlueprintLibrary::Achievements_AddFields().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AchievementUpdate")
 struct OVRPLATFORM_API FOvrAchievementUpdate
@@ -286,7 +270,7 @@ struct OVRPLATFORM_API FOvrAchievementUpdate
 
 /**
  * Represents the result of the download of an application. You can retrieve it using
- * CheckAppDownloadProgress API (Application_CheckAppDownloadProgress()).
+ * CheckAppDownloadProgress API (UOvrRequestsBlueprintLibrary::Application_CheckAppDownloadProgress()).
  * You can use this to check the progress and the status of an ongoing app download operation.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AppDownloadProgressResult")
@@ -324,8 +308,8 @@ struct OVRPLATFORM_API FOvrAppDownloadProgressResult
  * Represents the result of an app download. You will use it when you start an app download,
  * cancel an app download or install an app update which was previous downloaded.
  * In those scenarios, the app download result will be the payload of
- * Application_StartAppDownload(), Application_CancelAppDownload()
- * or Application_InstallAppUpdateAndRelaunch() API calls.
+ * UOvrRequestsBlueprintLibrary::Application_StartAppDownload(), UOvrRequestsBlueprintLibrary::Application_CancelAppDownload()
+ * or UOvrRequestsBlueprintLibrary::Application_InstallAppUpdateAndRelaunch() API calls.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AppDownloadResult")
 struct OVRPLATFORM_API FOvrAppDownloadResult
@@ -334,7 +318,7 @@ struct OVRPLATFORM_API FOvrAppDownloadResult
 
     /**
      * Result of the install operation returned by the installer. You can find more information
-     *  about possible members from EOvrAppInstallResult. In case of an error during
+     *  about possible members from #EOvrAppInstallResult. In case of an error during
      *  install process, the error message contains the string representation of this result.
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AppDownloadResult|Field")
@@ -362,7 +346,7 @@ struct OVRPLATFORM_API FOvrAppDownloadResult
  * Represents the version information for an application. The information includes the date of
  * latest release, the size of the latest release and the application name
  * and version code of currently installed version and the latest release. You can retrieve it
- * with Application_GetVersion().
+ * with UOvrRequestsBlueprintLibrary::Application_GetVersion().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ApplicationVersion")
 struct OVRPLATFORM_API FOvrApplicationVersion
@@ -415,7 +399,7 @@ struct OVRPLATFORM_API FOvrApplicationVersion
 
 /**
  * An AssetFileDeleteResult contains the result of a deleted asset file. You can delete an asset file by
- * using AssetFile_DeleteById() or AssetFile_DeleteByName().
+ * using UOvrRequestsBlueprintLibrary::AssetFile_DeleteById() or UOvrRequestsBlueprintLibrary::AssetFile_DeleteByName().
  * The delete result contains the field FOvrAssetFileDeleteResult::AssetId, the file path,
  * and the success status of the deleted asset. 
  */
@@ -432,6 +416,7 @@ struct OVRPLATFORM_API FOvrAssetFileDeleteResult
      * This represents the ID of the asset file. When you want to
      * use field FOvrAssetFileDeleteResult::AssetFileId, you need to use
      * field FOvrAssetFileDeleteResult::AssetId instead.
+     * It can be retrieved using field FOvrAssetDetails::AssetId.
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDeleteResult|Field")
     FOvrId AssetId;
@@ -458,7 +443,7 @@ struct OVRPLATFORM_API FOvrAssetFileDeleteResult
 };
 
 
-/** An AssetFileDownloadCancelResult represents the result of a canceled download action of an asset file. You can cancel a download of an asset file by using AssetFile_DownloadCancelById() or AssetFile_DownloadCancelById(). The result contains three fields which are the asset file ID(use field FOvrAssetFileDownloadCancelResult::AssetId to access), the file path, and success status of the canceled download. */
+/** An AssetFileDownloadCancelResult represents the result of a canceled download action of an asset file. You can cancel a download of an asset file by using UOvrRequestsBlueprintLibrary::AssetFile_DownloadCancelById() or UOvrRequestsBlueprintLibrary::AssetFile_DownloadCancelByName(). The result contains three fields which are the asset file ID(use field FOvrAssetFileDownloadCancelResult::AssetId to access), the file path, and success status of the canceled download. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AssetFileDownloadCancelResult")
 struct OVRPLATFORM_API FOvrAssetFileDownloadCancelResult
 {
@@ -497,7 +482,7 @@ struct OVRPLATFORM_API FOvrAssetFileDownloadCancelResult
 /**
  * An AssetFileDownloadResult represents an asset that has been successfully downloaded.
  * It's used to store information about an asset that has been downloaded, such as its location on the local file system and its unique identifier asset file ID.
- * It can be retrieved using AssetFile_DownloadByName().
+ * It can be retrieved using UOvrRequestsBlueprintLibrary::AssetFile_DownloadByName().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AssetFileDownloadResult")
 struct OVRPLATFORM_API FOvrAssetFileDownloadResult
@@ -506,7 +491,7 @@ struct OVRPLATFORM_API FOvrAssetFileDownloadResult
 
     /**
      * ID of the asset file. It can be retrieved using field FOvrAssetDetails::AssetId.
-     *  It can be used to retrieve the AssetFileDownloadResult by AssetFile_DownloadById().
+     *  It can be used to retrieve the AssetFileDownloadResult by UOvrRequestsBlueprintLibrary::AssetFile_DownloadById().
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetFileDownloadResult|Field")
     FOvrId AssetId;
@@ -532,7 +517,10 @@ struct OVRPLATFORM_API FOvrAssetFileDownloadResult
 /**
  * An AssetFileDownloadUpdate represents the download status of an update for an asset file.
  * It contains the asset file ID, the download progress of the update, and its completion status.
- * It can be retrieved using FOvrNotification_AssetFile_DownloadUpdate. 
+ * It can be retrieved using UOvrPlatformSubsystem::OnAssetFileDownloadUpdate(). 
+ * 
+ * field FOvrAssetFileDownloadUpdate::Completed is true means downloaded but probably not installed yet.
+ * Call UOvrRequestsBlueprintLibrary::AssetFile_StatusById() until field FOvrAssetDetails::DownloadStatus changes from 'available' to 'installed'. 
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AssetFileDownloadUpdate")
 struct OVRPLATFORM_API FOvrAssetFileDownloadUpdate
@@ -574,15 +562,15 @@ struct OVRPLATFORM_API FOvrAssetFileDownloadUpdate
 
 
 /**
- * This is the result that can be extracted from message payload when the avatar editor is launched.
- * It can be retrieved using Avatar_LaunchAvatarEditor().
+ * This is the result that can be extracted from message payload when the avatar editor is launched via a call to UOvrRequestsBlueprintLibrary::Avatar_LaunchAvatarEditor().
+ * It contains information about whether the avatar editor result has successfully been sent.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AvatarEditorResult")
 struct OVRPLATFORM_API FOvrAvatarEditorResult
 {
     GENERATED_USTRUCT_BODY()
 
-    /** Whether the request has sent. */
+    /** This indicates whether the request has been sent successfully. This is an optional `boolean`. If the boolean field isn't there, it indicates that the response is an error and will throw an error message. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AvatarEditorResult|Field")
     bool RequestSent;
 
@@ -602,7 +590,7 @@ struct OVRPLATFORM_API FOvrAvatarEditorResult
 
 /**
  * It contains an array of users who have been blocked by the logged in user.
- * You can't follow, be followed, invited, or searched by a blocked user. It can be retrieved using User_GetBlockedUsers().
+ * You can't follow, be followed, invited, or searched by a blocked user. It can be retrieved using UOvrRequestsBlueprintLibrary::User_GetBlockedUsers().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|BlockedUser")
 struct OVRPLATFORM_API FOvrBlockedUser
@@ -629,7 +617,7 @@ struct OVRPLATFORM_API FOvrBlockedUser
     void Update(ovrBlockedUserHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** Represents a paginated list of FOvrBlockedUser elements */
+/** Represents a paginated list of FOvrBlockedUser elements. It allows you to easily access and manipulate the elements in the paginated list, such as the size of the list and if there is a next page of elements available. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|BlockedUserArray")
 struct OVRPLATFORM_API FOvrBlockedUserPages
 {
@@ -647,22 +635,23 @@ struct OVRPLATFORM_API FOvrBlockedUserPages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrBlockedUserArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrBlockedUserArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrBlockedUserArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrBlockedUserPages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrBlockedUserPages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrBlockedUserPagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** Access the indexed element in this list. */
+    /** Access the indexed element in this list. Note that the index is zero-based, so the first element has an index of 0. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|BlockedUserPages")
     static FOvrBlockedUser BlockedUserPages_GetElement(const FOvrBlockedUserPages& Model, int64 Index);
 
@@ -674,15 +663,55 @@ public:
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|BlockedUserPages")
     static int64 BlockedUserPages_GetSize(const FOvrBlockedUserPages& Model);
 
-    /** Whether there is a next page of elements that can be retrieved. */
+    /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|BlockedUserPages")
     static bool BlockedUserPages_HasNextPage(const FOvrBlockedUserPages& Model);
 };
 
 
+/** A Content Rating of a FOvrProduct. This rating is sourced by the International Age Rating Coalition (IARC) certificate from the local rating authority. An Add-on's Content Rating can be configured by adding a IARC certificate in the developer dashboard. The Add-on can also inherit the Content Rating of the base App. */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ContentRating")
+struct OVRPLATFORM_API FOvrContentRating
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** URI for the image that needs to be shown for the content rating of the FOvrProduct. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ContentRating|Field")
+    FString AgeRatingImageUri;
+
+    /** The age rating text is the text version of the rating used to describe age appropriateness by the International Age Rating Coalition (IARC). */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ContentRating|Field")
+    FString AgeRatingText;
+
+    /** The list of descriptors which indicate content within the product that may have triggered a particular age rating or may be of interest or concern to consumers, e.g.,  "Blood and Gore", "Intense Violence", etc. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ContentRating|Field")
+    TArray<FString> Descriptors;
+
+    /** The list of interactive elements, which advise consumers up front that a FOvrProduct includes interactive or online behaviors/options that may be of interest or concern, e.g., "In-App Purchases". */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ContentRating|Field")
+    TArray<FString> InteractiveElements;
+
+    /** The URI pointing to a website with International Age Rating Coalition (IARC) rating definitions from local rating authorities (e.g., Australian Classification Board, ESRB, GRAC, etc). */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ContentRating|Field")
+    FString RatingDefinitionUri;
+
+    /// \brief This is the default constructor for the struct, which initializes the ::ovrContentRatingHandle and ::TOvrMessageHandlePtr to their default values.
+    FOvrContentRating();
+
+    /// \brief Copying values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    FOvrContentRating(ovrContentRatingHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    /// \brief  Setting all values to their defaults, effectively clearing the struct.
+    void Clear();
+
+    /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    void Update(ovrContentRatingHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
+
 /**
  * Cowatch viewer represents a viewer in a cowatching session, including their user ID and any data that they have set.
- * The cowatch viewer data can be retrieved using Cowatching_GetViewersData().
+ * The cowatch viewer data can be retrieved using UOvrRequestsBlueprintLibrary::Cowatching_GetViewersData().
  * It can be useful for tracking the participants in a cowatching session and managing their data.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CowatchViewer")
@@ -690,7 +719,7 @@ struct OVRPLATFORM_API FOvrCowatchViewer
 {
     GENERATED_USTRUCT_BODY()
 
-    /** Represents the viewer data set by this cowatching viewer. It's an optional `string` and can be set by Cowatching_SetViewerData(). */
+    /** Represents the viewer data set by this cowatching viewer. It's an optional `string` and can be set by UOvrRequestsBlueprintLibrary::Cowatching_SetViewerData(). */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CowatchViewer|Field")
     FString Data;
 
@@ -711,7 +740,7 @@ struct OVRPLATFORM_API FOvrCowatchViewer
     void Update(ovrCowatchViewerHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** Represents a paginated list of FOvrCowatchViewer elements */
+/** Represents a paginated list of FOvrCowatchViewer elements. It allows you to easily access and manipulate the elements in the paginated list, such as the size of the list and if there is a next page of elements available. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CowatchViewerArray")
 struct OVRPLATFORM_API FOvrCowatchViewerPages
 {
@@ -729,22 +758,23 @@ struct OVRPLATFORM_API FOvrCowatchViewerPages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrCowatchViewerArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrCowatchViewerArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrCowatchViewerArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrCowatchViewerPages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrCowatchViewerPages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrCowatchViewerPagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** Access the indexed element in this list. */
+    /** Access the indexed element in this list. Note that the index is zero-based, so the first element has an index of 0. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|CowatchViewerPages")
     static FOvrCowatchViewer CowatchViewerPages_GetElement(const FOvrCowatchViewerPages& Model, int64 Index);
 
@@ -756,7 +786,7 @@ public:
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|CowatchViewerPages")
     static int64 CowatchViewerPages_GetSize(const FOvrCowatchViewerPages& Model);
 
-    /** Whether there is a next page of elements that can be retrieved. */
+    /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|CowatchViewerPages")
     static bool CowatchViewerPages_HasNextPage(const FOvrCowatchViewerPages& Model);
 };
@@ -764,14 +794,14 @@ public:
 
 /**
  * CowatchWiewerUpdate is used to represent updates to viewer data within a cowatching session. It's essential for managing and synchronizing viewer data in real-time during cowatching sessions.
- * It can be retrieved using FOvrNotification_Cowatching_ViewersDataChanged when a user joins or updates their viewer data.
+ * It can be retrieved using UOvrPlatformSubsystem::OnCowatchingViewersDataChanged() when a user joins or updates their viewer data.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CowatchViewerUpdate")
 struct OVRPLATFORM_API FOvrCowatchViewerUpdate
 {
     GENERATED_USTRUCT_BODY()
 
-    /** List of viewer data of all cowatch participants who is in a cowatching session. It can be retrieved using Cowatching_GetViewersData(). */
+    /** List of viewer data of all cowatch participants who is in a cowatching session. It can be retrieved using UOvrRequestsBlueprintLibrary::Cowatching_GetViewersData(). */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CowatchViewerUpdate|Field")
     FOvrCowatchViewerPages DataList;
 
@@ -795,14 +825,14 @@ struct OVRPLATFORM_API FOvrCowatchViewerUpdate
 
 /**
  * It's designed to manage cowatching sessions within a shared virtual home environment. This state primarily focuses on tracking whether a user is currently participating in a cowatching session.
- * If there is any change in the cowatching state, it can be retrieved using FOvrNotification_Cowatching_InSessionChanged.
+ * If there is any change in the cowatching state, it can be retrieved using UOvrPlatformSubsystem::OnCowatchingInSessionChanged().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|CowatchingState")
 struct OVRPLATFORM_API FOvrCowatchingState
 {
     GENERATED_USTRUCT_BODY()
 
-    /** A `boolean` indicates if the current user is in a cowatching session. It can be retrieved using Cowatching_IsInSession(). */
+    /** A `boolean` indicates if the current user is in a cowatching session. It can be retrieved using UOvrRequestsBlueprintLibrary::Cowatching_IsInSession(). */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|CowatchingState|Field")
     bool InSession;
 
@@ -834,7 +864,7 @@ struct OVRPLATFORM_API FOvrDestination
 
     /**
      * You can pass it into FOvrGroupPresenceOptions::DestinationApiName when calling
-     * GroupPresence_Set() to set this user's group presence.
+     * UOvrRequestsBlueprintLibrary::GroupPresence_Set() to set this user's group presence.
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Destination|Field")
     FString ApiName;
@@ -868,7 +898,7 @@ struct OVRPLATFORM_API FOvrDestination
     void Update(ovrDestinationHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** Represents a paginated list of FOvrDestination elements */
+/** Represents a paginated list of FOvrDestination elements. It allows you to easily access and manipulate the elements in the paginated list, such as the size of the list and if there is a next page of elements available. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|DestinationArray")
 struct OVRPLATFORM_API FOvrDestinationPages
 {
@@ -886,22 +916,23 @@ struct OVRPLATFORM_API FOvrDestinationPages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrDestinationArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrDestinationArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrDestinationArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrDestinationPages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrDestinationPages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrDestinationPagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** Access the indexed element in this list. */
+    /** Access the indexed element in this list. Note that the index is zero-based, so the first element has an index of 0. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|DestinationPages")
     static FOvrDestination DestinationPages_GetElement(const FOvrDestinationPages& Model, int64 Index);
 
@@ -913,7 +944,7 @@ public:
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|DestinationPages")
     static int64 DestinationPages_GetSize(const FOvrDestinationPages& Model);
 
-    /** Whether there is a next page of elements that can be retrieved. */
+    /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|DestinationPages")
     static bool DestinationPages_HasNextPage(const FOvrDestinationPages& Model);
 };
@@ -1081,7 +1112,7 @@ struct OVRPLATFORM_API FOvrGroupPresenceLeaveIntent
 
 /**
  * Represents an update to an HTTP transfer, which is a process of transferring data over the internet using the HTTP protocol.
- * It provides a way for developers to monitor the progress of an HTTP transfer and can be retrieved using FOvrNotification_HTTP_Transfer.
+ * It provides a way for developers to monitor the progress of an HTTP transfer and can be retrieved using UOvrPlatformSubsystem::OnHTTPTransfer().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|HttpTransferUpdate")
 struct OVRPLATFORM_API FOvrHttpTransferUpdate
@@ -1168,15 +1199,20 @@ struct OVRPLATFORM_API FOvrInstalledApplication
 
 
 /**
- * The information about the user's invitation to others to join their current session.
- * It can be retrieved using GroupPresence_LaunchInvitePanel()}.
+ * It contains information about the user's invitation to others to join their current session.
+ * It is used to provide feedback to the user about whether their invitations have been successfully sent.
+ * It can be retrieved using UOvrRequestsBlueprintLibrary::GroupPresence_LaunchInvitePanel().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|InvitePanelResultInfo")
 struct OVRPLATFORM_API FOvrInvitePanelResultInfo
 {
     GENERATED_USTRUCT_BODY()
 
-    /** A boolean for whether or not any invites have been sent. */
+    /**
+     *  This field indicates whether any invitations have been sent successfully.
+     * It is a boolean value where true means that one or more invites have been successfully sent,
+     * and false indicates that no invites were sent or the sending process failed.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|InvitePanelResultInfo|Field")
     bool InvitesSent;
 
@@ -1233,14 +1269,14 @@ struct OVRPLATFORM_API FOvrLanguagePackInfo
 /**
  * An AssetDetails object contains detailed metadata for an asset file, including the asset file ID,
  * file path, asset type, and additional metadata that characterizes the asset. You can retrieve the
- * asset details using AssetFile_GetList()
+ * asset details using UOvrRequestsBlueprintLibrary::AssetFile_GetList()
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AssetDetails")
 struct OVRPLATFORM_API FOvrAssetDetails
 {
     GENERATED_USTRUCT_BODY()
 
-    /**  ID of the asset file. You can use this ID to uniquely identify a single asset. You can find more details from AssetFile_StatusById() */
+    /**  ID of the asset file. You can use this ID to uniquely identify a single asset. You can find more details from UOvrRequestsBlueprintLibrary::AssetFile_StatusById() */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|AssetDetails|Field")
     FOvrId AssetId;
 
@@ -1294,7 +1330,7 @@ struct OVRPLATFORM_API FOvrAssetDetails
 
 /**
  * It's used to block a user. Results of the launched block dialog including  whether the user was successfully blocked and whether the viewer canceled the block flow.
- * It can be retrieved using User_LaunchBlockFlow()
+ * It can be retrieved using UOvrRequestsBlueprintLibrary::User_LaunchBlockFlow()
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchBlockFlowResult")
 struct OVRPLATFORM_API FOvrLaunchBlockFlowResult
@@ -1333,7 +1369,7 @@ struct OVRPLATFORM_API FOvrLaunchBlockFlowResult
  * Users may find this process more convenient than using the Meta Quest mobile
  * app or returning to Meta Horizon Home to send follow requests since it is
  * less disruptive to the app experience they are currently focused on.
- * You can retrieve it using User_LaunchFriendRequestFlow().
+ * You can retrieve it using UOvrRequestsBlueprintLibrary::User_LaunchFriendRequestFlow().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchFriendRequestFlowResult")
 struct OVRPLATFORM_API FOvrLaunchFriendRequestFlowResult
@@ -1366,7 +1402,7 @@ struct OVRPLATFORM_API FOvrLaunchFriendRequestFlowResult
 
 
 /**
- * Results of the launched report dialog including resulting report ID and user action. It can be retrieved using AbuseReport_ReportRequestHandled() to handle the result of a report request.
+ * Results of the launched report dialog including resulting report ID and user action. It can be retrieved using UOvrRequestsBlueprintLibrary::AbuseReport_ReportRequestHandled() to handle the result of a report request.
  * Learn more about our [User Reporting Service](https://developer.oculus.com/resources/reporting-service#faq_856753478660534).
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchReportFlowResult")
@@ -1401,7 +1437,7 @@ struct OVRPLATFORM_API FOvrLaunchReportFlowResult
 
 /**
  * It's used to unblock a user. Results of the launched unblock dialog including whether the user was successfully unblocked and whether the viewer canceled the unblock flow.
- * It can be retrieved using User_LaunchUnblockFlow().
+ * It can be retrieved using UOvrRequestsBlueprintLibrary::User_LaunchUnblockFlow().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchUnblockFlowResult")
 struct OVRPLATFORM_API FOvrLaunchUnblockFlowResult
@@ -1468,7 +1504,7 @@ struct OVRPLATFORM_API FOvrLeaderboard
     void Update(ovrLeaderboardHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** Represents a paginated list of FOvrLeaderboard elements */
+/** Represents a paginated list of FOvrLeaderboard elements. It allows you to easily access and manipulate the elements in the paginated list, such as the size of the list and if there is a next page of elements available. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LeaderboardArray")
 struct OVRPLATFORM_API FOvrLeaderboardPages
 {
@@ -1486,22 +1522,23 @@ struct OVRPLATFORM_API FOvrLeaderboardPages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrLeaderboardArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrLeaderboardArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrLeaderboardArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrLeaderboardPages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrLeaderboardPages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrLeaderboardPagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** Access the indexed element in this list. */
+    /** Access the indexed element in this list. Note that the index is zero-based, so the first element has an index of 0. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|LeaderboardPages")
     static FOvrLeaderboard LeaderboardPages_GetElement(const FOvrLeaderboardPages& Model, int64 Index);
 
@@ -1513,25 +1550,28 @@ public:
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|LeaderboardPages")
     static int64 LeaderboardPages_GetSize(const FOvrLeaderboardPages& Model);
 
-    /** Whether there is a next page of elements that can be retrieved. */
+    /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|LeaderboardPages")
     static bool LeaderboardPages_HasNextPage(const FOvrLeaderboardPages& Model);
 };
 
 
-/** This object contains information about the status of the request to update the leaderboard.  */
+/**
+ * This object is a response from the server that contains information about the status of the request to update the leaderboard.
+ * It can be retrieved using two different API requests: UOvrRequestsBlueprintLibrary::Leaderboard_WriteEntry() and UOvrRequestsBlueprintLibrary::Leaderboard_WriteEntryWithSupplementaryMetric().
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LeaderboardUpdateStatus")
 struct OVRPLATFORM_API FOvrLeaderboardUpdateStatus
 {
     GENERATED_USTRUCT_BODY()
 
-    /** Whether the leaderboard was updated. */
+    /** A `boolean` indicates whether the leaderboard was updated. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardUpdateStatus|Field")
     bool DidUpdate;
 
     /**
      * If the leaderboard is updated, this represents the updated challenge IDs.
-     * The updated challenge IDs can be used by Challenges_GetEntries(), Challenges_GetEntriesAfterRank(), or Challenges_GetEntriesByIds() APIs.
+     * The updated challenge IDs can be used by UOvrRequestsBlueprintLibrary::Challenges_GetEntries(), UOvrRequestsBlueprintLibrary::Challenges_GetEntriesAfterRank(), or UOvrRequestsBlueprintLibrary::Challenges_GetEntriesByIds() APIs.
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardUpdateStatus|Field")
     TArray<FOvrId> UpdatedChallengeIds;
@@ -1569,7 +1609,7 @@ struct OVRPLATFORM_API FOvrLinkedAccount
 
     /**
      * Service provider with which the linked account is associated.
-     * There are several possible service providers that can be found in EOvrServiceProvider.
+     * There are several possible service providers that can be found in #EOvrServiceProvider.
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LinkedAccount|Field")
     EOvrServiceProvider ServiceProvider;
@@ -1597,8 +1637,8 @@ struct OVRPLATFORM_API FOvrLinkedAccount
 
 /**
  * The livestreaming application status represents the status result of whether
- * the livestreaming is enabled for an app. If your app is enabled, you will receive
- * FOvrNotification_Livestreaming_StatusChange when the livestreaming session gets updated.
+ * the livestreaming is enabled for an app. If your app is enabled, you will receive a notification by
+ * UOvrPlatformSubsystem::OnLivestreamingStatusChange() when the livestreaming session gets updated.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LivestreamingApplicationStatus")
 struct OVRPLATFORM_API FOvrLivestreamingApplicationStatus
@@ -1635,7 +1675,7 @@ struct OVRPLATFORM_API FOvrLivestreamingStartResult
 
     /**
      * This livestreaming result represents the start status of your livestream.
-     * You can refer to EOvrLivestreamingStartStatus for possible status info.
+     * You can refer to #EOvrLivestreamingStartStatus for possible status info.
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingStartResult|Field")
     EOvrLivestreamingStartStatus StreamingResult;
@@ -1656,7 +1696,7 @@ struct OVRPLATFORM_API FOvrLivestreamingStartResult
 
 /**
  * The livestreaming status represents the status of a livestreaming event in your app.
- * You will receive FOvrNotification_Livestreaming_StatusChange whenever your livestreaming
+ * You will receive a notification by UOvrPlatformSubsystem::OnLivestreamingStatusChange() whenever your livestreaming
  * session gets updated. The status contains info about your livestream type, whether your mic
  * is enabled, whether the comments are visible and etc.
  */
@@ -1675,7 +1715,7 @@ struct OVRPLATFORM_API FOvrLivestreamingStatus
 
     /**
      * This boolean field indicates if your app is livestreaming enabled. If your app is enabled,
-     * you will receive FOvrNotification_Livestreaming_StatusChange when the livestreaming
+     * you will receive a notification by UOvrPlatformSubsystem::OnLivestreamingStatusChange() when the livestreaming
      * session gets updated.
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LivestreamingStatus|Field")
@@ -1739,38 +1779,71 @@ struct OVRPLATFORM_API FOvrLivestreamingVideoStats
 };
 
 
+/**
+ * If the user is a Meta Managed Account(MMA), the managed account for the user will contain further metadata information.
+ * There must be user consent via dialog during installation, your app must have
+ * [DUC](https://developer.oculus.com/resources/publish-data-use/) enabled, and the app must be admin-approved.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ManagedInfo")
 struct OVRPLATFORM_API FOvrManagedInfo
 {
     GENERATED_USTRUCT_BODY()
 
+    /**
+     * A string represents the department name in the organization
+     * to which the user belongs to.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ManagedInfo|Field")
     FString Department;
 
+    /**
+     * The email address of the account user
+     * which owns the MMA, i.e., Meta Managed Account.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ManagedInfo|Field")
     FString Email;
 
+    /**
+     * A string represents the employee number of the person who owns
+     * MMA, i.e., Meta Managed Account.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ManagedInfo|Field")
     FString EmployeeNumber;
 
+    /**
+     * A string which can be used to uniquely identify the user of the
+     * MMA, i.e., Meta Managed Account.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ManagedInfo|Field")
     FString ExternalId;
 
+    /** A string contains the information about the location of the user. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ManagedInfo|Field")
     FString Location;
 
+    /** A string contains the information about the manager of the user. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ManagedInfo|Field")
     FString Manager;
 
+    /** A string contrains the information about the user's name. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ManagedInfo|Field")
     FString Name;
 
+    /**
+     * A string which can be used to uniquely identify the organization
+     * which owns the MMA, i.e., Meta Managed Account.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ManagedInfo|Field")
     FString OrganizationId;
 
+    /**
+     * The name of the organization to which the MMA(i.e., Meta Managed Account)
+     * account user belongs to.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ManagedInfo|Field")
     FString OrganizationName;
 
+    /** A string contains the position information of the user. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ManagedInfo|Field")
     FString Position;
 
@@ -1788,6 +1861,11 @@ struct OVRPLATFORM_API FOvrManagedInfo
 };
 
 
+/**
+ * This object provides a comprehensive way to access and manipulate audio data from a microphone device.
+ * Its availability can be retrieving using field FOvrMicrophoneAvailabilityState::MicrophoneAvailable.
+ * With Microphone class, developers can build engaging and interactive applications that leverage real-time audio input, such as voice chat, audio recording, or speech recognition.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Microphone")
 struct OVRPLATFORM_API FOvrMicrophone
 {
@@ -1805,10 +1883,15 @@ struct OVRPLATFORM_API FOvrMicrophone
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrMicrophoneHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR Handle for methods
+    /// \brief OVR Handle for methods
     ovrMicrophoneHandle Handle;
 };
 
+/**
+ * This object provides a comprehensive way to access and manipulate audio data from a microphone device.
+ * Its availability can be retrieving using field FOvrMicrophoneAvailabilityState::MicrophoneAvailable.
+ * With Microphone class, developers can build engaging and interactive applications that leverage real-time audio input, such as voice chat, audio recording, or speech recognition.
+ */
 UCLASS()
 class OVRPLATFORM_API UOvrMicrophoneMethods : public UObject
 {
@@ -1824,7 +1907,7 @@ public:
      */
     /*
      * Not exposed to blueprints, call C API directly: size_t ovr_Microphone_GetNumSamplesAvailable(const ovrMicrophoneHandle obj);
-     */
+     */ 
 
     /**
      * Returns the size of the internal ringbuffer used by the microhone in elements.  This size is the maximum
@@ -1835,7 +1918,7 @@ public:
      */
     /*
      * Not exposed to blueprints, call C API directly: size_t ovr_Microphone_GetOutputBufferMaxSize(const ovrMicrophoneHandle obj);
-     */
+     */ 
 
     /**
      * Gets all available samples of microphone data and
@@ -1847,7 +1930,7 @@ public:
      */
     /*
      * Not exposed to blueprints, call C API directly: size_t ovr_Microphone_GetPCM(const ovrMicrophoneHandle obj, int16_t *outputBuffer, size_t outputBufferNumElements);
-     */
+     */ 
 
     /**
      * Gets all available samples of microphone data and
@@ -1859,7 +1942,7 @@ public:
      */
     /*
      * Not exposed to blueprints, call C API directly: size_t ovr_Microphone_GetPCMFloat(const ovrMicrophoneHandle obj, float *outputBuffer, size_t outputBufferNumElements);
-     */
+     */ 
 
     /**
      * Gets all available samples of microphone data and
@@ -1872,7 +1955,7 @@ public:
      */
     /*
      * Not exposed to blueprints, call C API directly: size_t ovr_Microphone_ReadData(const ovrMicrophoneHandle obj, float *outputBuffer, size_t outputBufferSize);
-     */
+     */ 
 
     /**
      * Indicates that the caller is fine with a certain delay in the
@@ -1886,12 +1969,11 @@ public:
     /** Register a callback that will be called whenever audio data is available for the microphone. */
     /*
      * Not exposed to blueprints, call C API directly: void ovr_Microphone_SetAudioDataAvailableCallback(const ovrMicrophoneHandle obj, MicrophoneDataAvailableCallback cb, void *userData);
-     */
+     */ 
 
     /**
-     * Starts microphone recording.  After this is called pcm data can be extracted using
+     * Starts microphone recording. The VoIP session can be established by UOvrFunctionsBlueprintLibrary::Voip_Start. After this is called pcm data can be extracted using
      * field FOvrMicrophone::GetPCM.
-     * 
      * 
      * This function can be safely called from any thread.
      */
@@ -1899,7 +1981,7 @@ public:
     static void Microphone_Start(FOvrMicrophone& Model);
 
     /**
-     * Stops microphone recording.
+     * Stops microphone recording. The VoIP session can be terminated by UOvrFunctionsBlueprintLibrary::Voip_Stop.
      * 
      * 
      * This function can be safely called from any thread.
@@ -1909,11 +1991,21 @@ public:
 };
 
 
+/**
+ * It represents the availability of a microphone device.
+ * It can be retrieved using UOvrRequestsBlueprintLibrary::Voip_GetMicrophoneAvailability().
+ * It has only one field, microphone_available, which is a boolean value that indicates whether a microphone is available or not.
+ * This data structure can be used by applications to determine whether they can use the microphone for audio input or not.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|MicrophoneAvailabilityState")
 struct OVRPLATFORM_API FOvrMicrophoneAvailabilityState
 {
     GENERATED_USTRUCT_BODY()
 
+    /**
+     * A `boolean` indicates whether the microphone is currently available or not.
+     * If there is any update on the microphone availability, it will be retrieved as a notification using UOvrPlatformSubsystem::OnVoipMicrophoneAvailabilityStateUpdate().
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|MicrophoneAvailabilityState|Field")
     bool MicrophoneAvailable;
 
@@ -1931,28 +2023,45 @@ struct OVRPLATFORM_API FOvrMicrophoneAvailabilityState
 };
 
 
+/**
+ * It represents the connection of a network synchronization system that allows multiple clients to connect and communicate with each other in real-time.
+ * It provides a way to manage and facilitate real-time communication and data synchronization between multiple clients in a networked environment.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|NetSyncConnection")
 struct OVRPLATFORM_API FOvrNetSyncConnection
 {
     GENERATED_USTRUCT_BODY()
 
+    /** A 'long' integer ID which can be used to uniquely identify the network synchronization connection. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncConnection|Field")
     int64 ConnectionId;
 
-    /** If status is Disconnected, specifies the reason. */
+    /**
+     * If the status is EOvrNetSyncConnectionStatus::Disconnected, #EOvrNetSyncDisconnectReason specifies the reason.
+     * EOvrNetSyncDisconnectReason::Unknown - The disconnect reason was unknown.
+     * EOvrNetSyncDisconnectReason::LocalTerminated - The disconnect was requested by an user.
+     * EOvrNetSyncDisconnectReason::ServerTerminated - The server closed the connection.
+     * EOvrNetSyncDisconnectReason::Failed - The initial connection never succeeded.
+     * EOvrNetSyncDisconnectReason::Lost - The disconnect was caused by network timeout.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncConnection|Field")
     EOvrNetSyncDisconnectReason DisconnectReason;
 
-    /**
-     * The ID of the local session. Will be null if the connection is not
-     * active
-     */
+    /** The ID of the local session. Will be null if the connection is not active. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncConnection|Field")
     FOvrId SessionId;
 
+    /**
+     * A #EOvrNetSyncConnectionStatus that defines the different status of the network synchronization connection.
+     * EOvrNetSyncConnectionStatus::Unknown - The current connection status is unknown.
+     * EOvrNetSyncConnectionStatus::Connecting - The connection has been started and the process is ongoing.
+     * EOvrNetSyncConnectionStatus::Disconnected - The current connection status is disconnected.
+     * EOvrNetSyncConnectionStatus::Connected - The connection has been established.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncConnection|Field")
     EOvrNetSyncConnectionStatus Status;
 
+    /** A `string` represents the unique identifier within the current application grouping. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncConnection|Field")
     FString ZoneId;
 
@@ -1970,28 +2079,37 @@ struct OVRPLATFORM_API FOvrNetSyncConnection
 };
 
 
+/**
+ * It represents the session of FOvrNetSyncConnection
+ * that allows multiple clients to connect and communicate with each other in real-time.
+ * It provides a way to manage and facilitate real-time communication and data synchronization
+ * between multiple clients in a networked environment.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|NetSyncSession")
 struct OVRPLATFORM_API FOvrNetSyncSession
 {
     GENERATED_USTRUCT_BODY()
 
-    /** Which connection this session exists within */
+    /**
+     * A `long` integer represents the unique ID of the FOvrNetSyncConnection
+     * within which this session exists.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSession|Field")
     int64 ConnectionId;
 
-    /** True if the local session has muted this session. */
+    /** `True` if the local session has muted this session. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSession|Field")
     bool Muted;
 
-    /** The cloud networking internal session ID that represents this connection. */
+    /** The cloud networking internal session ID that can uniquely represent this session within the connection. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSession|Field")
     FOvrId SessionId;
 
-    /** The ovrID of the user behind this session */
+    /** The ovrID of the user behind this session. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSession|Field")
     FOvrId UserId;
 
-    /** The name of the voip group that this session is subscribed to */
+    /** A `string` represents the name of the voip group that this session is subscribed to. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSession|Field")
     FString VoipGroup;
 
@@ -2009,15 +2127,21 @@ struct OVRPLATFORM_API FOvrNetSyncSession
 };
 
 
+/**
+ * When a new list of sessions was added or the list of known connected sessions has changed,
+ * this UOvrPlatformSubsystem::OnNetSyncSessionsChanged() will be sent. When the status of a
+ * connection has changed, the UOvrPlatformSubsystem::OnNetSyncConnectionStatusChanged() will be sent.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|NetSyncSessionsChangedNotification")
 struct OVRPLATFORM_API FOvrNetSyncSessionsChangedNotification
 {
     GENERATED_USTRUCT_BODY()
 
+    /** A `long` integer ID which can be used to uniquely identify the network synchronization connection. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSessionsChangedNotification|Field")
     int64 ConnectionId;
 
-    /** The new list of sessions */
+    /** An `array` which contains the new list of FOvrNetSyncSession. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSessionsChangedNotification|Field")
     TArray<FOvrNetSyncSession> Sessions;
 
@@ -2035,12 +2159,17 @@ struct OVRPLATFORM_API FOvrNetSyncSessionsChangedNotification
 };
 
 
+/**
+ * A FOvrNetSyncConnection allows multiple clients to connect and communicate with each other in real-time.
+ * This is the payload from setting the properties of FOvrNetSyncSession. You can retrieve the result session
+ * via field FOvrNetSyncSetSessionPropertyResult::Session.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|NetSyncSetSessionPropertyResult")
 struct OVRPLATFORM_API FOvrNetSyncSetSessionPropertyResult
 {
     GENERATED_USTRUCT_BODY()
 
-    /** Which session the operation was modifying */
+    /** It contains the FOvrNetSyncSession that the operation was modifying. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncSetSessionPropertyResult|Field")
     FOvrNetSyncSession Session;
 
@@ -2058,16 +2187,24 @@ struct OVRPLATFORM_API FOvrNetSyncSetSessionPropertyResult
 };
 
 
+/**
+ * The value is used in the [VoIP system](https://developer.oculus.com/documentation/unreal/ps-parties/#voip-options).
+ * The value determines how much the audio volume is reduced as the distance between players increases.
+ * This helps to create a more immersive experience by making distant players' voices sound fainter.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|NetSyncVoipAttenuationValue")
 struct OVRPLATFORM_API FOvrNetSyncVoipAttenuationValue
 {
     GENERATED_USTRUCT_BODY()
 
-    /** decibel fall-off value */
+    /** fall-off value in decibel */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncVoipAttenuationValue|Field")
     float Decibels;
 
-    /** The starting distance of this attenuation value */
+    /**
+     * The starting distance of the attenuation value. As the distance between players increases,
+     * the audio volumn is reduced.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|NetSyncVoipAttenuationValue|Field")
     float Distance;
 
@@ -2086,15 +2223,15 @@ struct OVRPLATFORM_API FOvrNetSyncVoipAttenuationValue
 
 
 /**
- * An ID for a FOvrUser which is unique per Developer Center organization.
- * It can be retrieved using User_GetOrgScopedID().
+ * An ID for a FOvrUser which is unique per Developer Center organization. This ID allows different apps within the same
+ *   org to be able to identify the user. You can retrieve this ID by using UOvrRequestsBlueprintLibrary::User_GetOrgScopedID().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|OrgScopedID")
 struct OVRPLATFORM_API FOvrOrgScopedID
 {
     GENERATED_USTRUCT_BODY()
 
-    /** The unique id of the user, allowing different apps within the same Developer Center organization to have a consistent id for the same user. */
+    /** The unique id of the FOvrUser in each organization, allowing different apps within the same Developer Center organization to have a consistent id for the same user. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|OrgScopedID|Field")
     FOvrId ID;
 
@@ -2112,14 +2249,26 @@ struct OVRPLATFORM_API FOvrOrgScopedID
 };
 
 
+/**
+ * A packet owned by an FOvrInstalledApplication is a basic unit of data transmission over a network,
+ * allowing devices to communicate with each other efficiently and reliably. UDP and TCP are two protocols that
+ * govern how those packets are transmitted over a network. UDP is suitable for applications that require fast
+ * transmission and can tolerate some packet loss, while TCP is better suited for applications that require
+ * reliable data transfer.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Packet")
 struct OVRPLATFORM_API FOvrPacket
 {
     GENERATED_USTRUCT_BODY()
 
+    /**
+     * This size field represents the size of the packet in bytes. Ideally, it is
+     * recommended to keep a message under 1200 bytes so that data can fit into a single packet.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Packet|Field")
     TArray<uint8> Bytes;
 
+    /** This `id` field represents the id of the sender of the packet. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Packet|Field")
     FOvrId SenderID;
 
@@ -2135,10 +2284,17 @@ struct OVRPLATFORM_API FOvrPacket
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrPacketHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR Handle for methods
+    /// \brief OVR Handle for methods
     ovrPacketHandle Handle;
 };
 
+/**
+ * A packet owned by an FOvrInstalledApplication is a basic unit of data transmission over a network,
+ * allowing devices to communicate with each other efficiently and reliably. UDP and TCP are two protocols that
+ * govern how those packets are transmitted over a network. UDP is suitable for applications that require fast
+ * transmission and can tolerate some packet loss, while TCP is better suited for applications that require
+ * reliable data transfer.
+ */
 UCLASS()
 class OVRPLATFORM_API UOvrPacketMethods : public UObject
 {
@@ -2146,13 +2302,17 @@ class OVRPLATFORM_API UOvrPacketMethods : public UObject
 
 public:
 
+    /**
+     * This method is used to release the memory of a packet which is owned by an FOvrInstalledApplication
+     * and contains data transmitted over the network.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|Packet")
     static void Packet_Free(FOvrPacket& Model);
 };
 
 
 /**
- * The party ID is a unique identifier of the party that will be generated for every distinct party. This ID can be used to make requests such as Party_Join(), Party_Leave(), Party_Create(), etc.
+ * The party ID is a unique identifier of the party that will be generated for every distinct party. This ID can be used to make requests such as UOvrRequestsBlueprintLibrary::Party_GetCurrent() to get the current party by its id.
  * Read more about [parties](https://developer.oculus.com/documentation/unreal/ps-parties/).
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PartyID")
@@ -2178,22 +2338,26 @@ struct OVRPLATFORM_API FOvrPartyID
 };
 
 
-/** The notification about updating a party status information to a participating user. Party Notifications are intended to update the user on various actions that are occurring in the user's party. This is primarily used in {'party_update': 'FOvrNotification_Party_PartyUpdate'}. */
+/**
+ * The notification about updating a party status information to a participating user.
+ * Party Notifications are intended to update the user on various actions that are occurring
+ * in the user's party. It can be retrieved using UOvrPlatformSubsystem::OnPartyPartyUpdate().
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PartyUpdateNotification")
 struct OVRPLATFORM_API FOvrPartyUpdateNotification
 {
     GENERATED_USTRUCT_BODY()
 
     /**
-     * An enum that specifies the type of action related to the party and user that this notification holds. It can be retrieved by using field FOvrPartyUpdateNotification::Action.
+     * An enum that specifies the type of action related to the party and user that this notification holds.
      * 
-     * EOvrPartyUpdateAction::Join: The user is going to join the party.
+     * EOvrPartyUpdateAction::Join: The user joined the party.
      * 
-     * EOvrPartyUpdateAction::Leave: The user is going to leave the party.
+     * EOvrPartyUpdateAction::Leave: The user left the party.
      * 
-     * EOvrPartyUpdateAction::Invite: The user is invited to the party. 
+     * EOvrPartyUpdateAction::Invite: The user was invited to the party. 
      * 
-     * EOvrPartyUpdateAction::Uninvite: The user is uninvited from the party. 
+     * EOvrPartyUpdateAction::Uninvite: The user was uninvited to the party. 
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PartyUpdateNotification|Field")
     EOvrPartyUpdateAction Action;
@@ -2236,11 +2400,17 @@ struct OVRPLATFORM_API FOvrPartyUpdateNotification
 };
 
 
+/**
+ * The pid refers to "Process ID," which is a unique identifier assigned to each process running in a system.
+ * This identifier plays a crucial role in managing and tracking processes.
+ * See more info about Platform Solutions [here](https://developer.oculus.com/documentation/unreal/ps-platform-intro/).
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Pid")
 struct OVRPLATFORM_API FOvrPid
 {
     GENERATED_USTRUCT_BODY()
 
+    /** Unique identifier assigned to each process running in a system, used for tracking and managing purposes. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Pid|Field")
     FString Id;
 
@@ -2258,7 +2428,7 @@ struct OVRPLATFORM_API FOvrPid
 };
 
 
-/**  A PlatformInitialize object defines an attempt at initializing the Platform SDK. It contains the result of attempting to initialize the platform. The different types of initialization results are EOvrPlatformInitializeResult. */
+/**  A PlatformInitialize object defines an attempt at initializing the Platform SDK. It contains the result of attempting to initialize the platform. The different types of initialization results are #EOvrPlatformInitializeResult. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PlatformInitialize")
 struct OVRPLATFORM_API FOvrPlatformInitialize
 {
@@ -2302,7 +2472,10 @@ struct OVRPLATFORM_API FOvrPlatformInitialize
 };
 
 
-/** The price of a FOvrProduct. A price with a currency of "USD" and an amount in hundredths of 99 has a formatted string of "$0.99". */
+/**
+ * The price of a FOvrProduct. A price contains a currency code, an amount in hundredths, and its formatted string representation.
+ * For example, a price with a currency code of "USD" and an amount in hundredths of 99 has a formatted string of "$0.99".
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Price")
 struct OVRPLATFORM_API FOvrPrice
 {
@@ -2312,11 +2485,11 @@ struct OVRPLATFORM_API FOvrPrice
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Price|Field")
     int32 AmountInHundredths;
 
-    /** The ISO 4217 currency code for the price of the product. */
+    /** The ISO 4217 currency code for the price of the product. For example, "USD", "GBP", "JPY". */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Price|Field")
     FString Currency;
 
-    /** The formatted string representation of the price. */
+    /** The formatted string representation of the price, e.g., "$0.78". The value depends on the field FOvrPrice::Currency and field FOvrPrice::AmountInHundredths. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Price|Field")
     FString Formatted;
 
@@ -2334,96 +2507,49 @@ struct OVRPLATFORM_API FOvrPrice
 };
 
 
-/**
- * The class that represents the product information for a specific IAP which is available for purchase in your app.
- *   You can retrieve more information about the product(s) by using their SKU with IAP_GetProductsBySKU()
- */
-USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Product")
-struct OVRPLATFORM_API FOvrProduct
+/** Contains the details about the paid offer associated with a FOvrBillingPlan. */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PaidOffer")
+struct OVRPLATFORM_API FOvrPaidOffer
 {
     GENERATED_USTRUCT_BODY()
 
-    /** The description for the product. The description should be meaningful and explanatory to help outline the product and its features. */
-    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
-    FString Description;
-
-    /** The formatted string for the FOvrPrice. This is the same value stored in FOvrPrice. */
-    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
-    FString FormattedPrice;
-
-    /** The name of the product. This will be used as a the display name and should be aligned with the user facing title. */
-    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
-    FString Name;
-
-    /** The FOvrPrice of the product contains the currency code, the amount in hundredths, and the formatted string representation. */
-    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    /** The FOvrPrice of the paid offer contains the currency code, the amount in hundredths, and the formatted string representation. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PaidOffer|Field")
     FOvrPrice Price;
 
-    /** The unique string that you use to reference the product in your app. The SKU is case-sensitive and should match the SKU reference in your code. */
-    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
-    FString SKU;
+    /**
+     * An enum that specifies the term.
+     * 
+     * EOvrOfferTerm::Unknown: unknown
+     * 
+     * EOvrOfferTerm::WEEKLY: WEEKLY
+     * 
+     * EOvrOfferTerm::BIWEEKLY: BIWEEKLY
+     * 
+     * EOvrOfferTerm::MONTHLY: MONTHLY
+     * 
+     * EOvrOfferTerm::QUARTERLY: QUARTERLY
+     * 
+     * EOvrOfferTerm::SEMIANNUAL: SEMIANNUAL
+     * 
+     * EOvrOfferTerm::ANNUAL: ANNUAL
+     * 
+     * EOvrOfferTerm::BIANNUAL: BIANNUAL
+     */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PaidOffer|Field")
+    EOvrOfferTerm SubscriptionTerm;
 
-    /// \brief This is the default constructor for the struct, which initializes the ::ovrProductHandle and ::TOvrMessageHandlePtr to their default values.
-    FOvrProduct();
+    /// \brief This is the default constructor for the struct, which initializes the ::ovrPaidOfferHandle and ::TOvrMessageHandlePtr to their default values.
+    FOvrPaidOffer();
 
     /// \brief Copying values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
-    FOvrProduct(ovrProductHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+    FOvrPaidOffer(ovrPaidOfferHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 
     /// \brief  Setting all values to their defaults, effectively clearing the struct.
     void Clear();
 
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
-    void Update(ovrProductHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
-};
-
-/** Represents a paginated list of FOvrProduct elements */
-USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ProductArray")
-struct OVRPLATFORM_API FOvrProductPages
-{
-    GENERATED_USTRUCT_BODY()
-
-    /// \brief This is the default constructor for the struct, which initializes the ::ovrProductArrayHandle and ::TOvrMessageHandlePtr to their default values.
-    FOvrProductPages();
-
-    /// \brief Copying values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
-    FOvrProductPages(ovrProductArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
-
-    /// \brief  Setting all values to their defaults, effectively clearing the struct.
-    void Clear();
-
-    /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
-    void Update(ovrProductArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
-
-    // OVR array handle for methods
-    mutable ovrProductArrayHandle PagedArrayHandle;
-
-    // Original ref-counted message to hold onto array handle
-    mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
-};
-
-UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrProductPages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
-class OVRPLATFORM_API UOvrProductPagesMethods : public UObject
-{
-    GENERATED_BODY()
-
-public:
-
-    /** Access the indexed element in this list. */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ProductPages")
-    static FOvrProduct ProductPages_GetElement(const FOvrProductPages& Model, int64 Index);
-
-    /** The URL to request the next paginated list of elements. */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ProductPages")
-    static FString ProductPages_GetNextUrl(const FOvrProductPages& Model);
-
-    /** The number of elements contained within this list. This is not equal to the total number of elements across multiple pages. */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ProductPages")
-    static int64 ProductPages_GetSize(const FOvrProductPages& Model);
-
-    /** Whether there is a next page of elements that can be retrieved. */
-    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ProductPages")
-    static bool ProductPages_HasNextPage(const FOvrProductPages& Model);
+    void Update(ovrPaidOfferHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
 
@@ -2445,6 +2571,7 @@ struct OVRPLATFORM_API FOvrPurchase
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FDateTime GrantTime;
 
+    /** The unique identifier of a FOvrPurchase represents a user's unique entitlement to a FOvrProduct. This value is 0 for shared IAP entitlements. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FString PurchaseID;
 
@@ -2452,9 +2579,13 @@ struct OVRPLATFORM_API FOvrPurchase
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FString ReportingId;
 
-    /** The SKU of the IAP FOvrProduct that was purchased. This value is case-sensitive. To retrieve the product information, you can use this value when calling IAP_GetProductsBySKU(). */
+    /** The SKU of the IAP FOvrProduct that was purchased. This value is case-sensitive. To retrieve the product information, you can use this value when calling UOvrRequestsBlueprintLibrary::IAP_GetProductsBySKU(). */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FString SKU;
+
+    /** The Type of the IAP FOvrProduct that was purchased. The values can be EOvrProductType::DURABLE, EOvrProductType::CONSUMABLE, or a EOvrProductType::SUBSCRIPTION. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
+    EOvrProductType Type;
 
     /// \brief This is the default constructor for the struct, which initializes the ::ovrPurchaseHandle and ::TOvrMessageHandlePtr to their default values.
     FOvrPurchase();
@@ -2469,7 +2600,7 @@ struct OVRPLATFORM_API FOvrPurchase
     void Update(ovrPurchaseHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** Represents a paginated list of FOvrPurchase elements */
+/** Represents a paginated list of FOvrPurchase elements. It allows you to easily access and manipulate the elements in the paginated list, such as the size of the list and if there is a next page of elements available. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PurchaseArray")
 struct OVRPLATFORM_API FOvrPurchasePages
 {
@@ -2487,22 +2618,23 @@ struct OVRPLATFORM_API FOvrPurchasePages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrPurchaseArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrPurchaseArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrPurchaseArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrPurchasePages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrPurchasePages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrPurchasePagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** Access the indexed element in this list. */
+    /** Access the indexed element in this list. Note that the index is zero-based, so the first element has an index of 0. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|PurchasePages")
     static FOvrPurchase PurchasePages_GetElement(const FOvrPurchasePages& Model, int64 Index);
 
@@ -2514,14 +2646,42 @@ public:
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|PurchasePages")
     static int64 PurchasePages_GetSize(const FOvrPurchasePages& Model);
 
-    /** Whether there is a next page of elements that can be retrieved. */
+    /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|PurchasePages")
     static bool PurchasePages_HasNextPage(const FOvrPurchasePages& Model);
 };
 
 
 /**
- * A boolean that indicates the result of GroupPresence_LaunchRejoinDialog().
+ * A PushNotificationResult represents the outcome of a user registering for third-party (3P) notifications.
+ * This object contains essential information about the registered notification, which can be used to send push notifications to the user.
+ * It can be retrieved using UOvrRequestsBlueprintLibrary::PushNotification_Register()
+ */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PushNotificationResult")
+struct OVRPLATFORM_API FOvrPushNotificationResult
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** The registered notification id is a type of string which you can push notification to. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PushNotificationResult|Field")
+    FString Id;
+
+    /// \brief This is the default constructor for the struct, which initializes the ::ovrPushNotificationResultHandle and ::TOvrMessageHandlePtr to their default values.
+    FOvrPushNotificationResult();
+
+    /// \brief Copying values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    FOvrPushNotificationResult(ovrPushNotificationResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    /// \brief  Setting all values to their defaults, effectively clearing the struct.
+    void Clear();
+
+    /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    void Update(ovrPushNotificationResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
+
+/**
+ * A boolean that indicates the result of UOvrRequestsBlueprintLibrary::GroupPresence_LaunchRejoinDialog().
  * 'True' indicates that the application will rejoin the dialog, otherwise the application will not rejoin the dialog.
  * Read more about the [rejoin dialog](https://developer.oculus.com/documentation/unreal/ps-rejoin/#rejoin-apis).
  */
@@ -2530,7 +2690,7 @@ struct OVRPLATFORM_API FOvrRejoinDialogResult
 {
     GENERATED_USTRUCT_BODY()
 
-    /** A boolean for if the user has decided to rejoin. This is used in GroupPresence_LaunchRejoinDialog(). */
+    /** A boolean for if the user has decided to rejoin. This is used in UOvrRequestsBlueprintLibrary::GroupPresence_LaunchRejoinDialog(). */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|RejoinDialogResult|Field")
     bool RejoinSelected;
 
@@ -2548,7 +2708,7 @@ struct OVRPLATFORM_API FOvrRejoinDialogResult
 };
 
 
-/** A single user can have multiple sdk accounts associated with it. SDK accounts represent the oculus user and x-accounts that are linked to the particular user. Retrieve the SDK accounts by using, User_GetSdkAccounts(). */
+/** A single user can have multiple sdk accounts associated with it. SDK accounts represent the oculus user and x-accounts that are linked to the particular user. Retrieve the SDK accounts by using, UOvrRequestsBlueprintLibrary::User_GetSdkAccounts(). */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|SdkAccount")
 struct OVRPLATFORM_API FOvrSdkAccount
 {
@@ -2584,7 +2744,7 @@ struct OVRPLATFORM_API FOvrSdkAccount
 };
 
 
-/** The result from users launching the Share to Facebook modal which enables them to share local media files through Media_ShareToFacebook(). The result will contain a status field, EOvrShareMediaStatus. */
+/** The result from users launching the Share to Facebook modal which enables them to share local media files through UOvrRequestsBlueprintLibrary::Media_ShareToFacebook(). The result will contain a status field, #EOvrShareMediaStatus. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ShareMediaResult")
 struct OVRPLATFORM_API FOvrShareMediaResult
 {
@@ -2618,7 +2778,7 @@ struct OVRPLATFORM_API FOvrShareMediaResult
 
 /**
  * This is a supplemental piece of data that is used for a single write to leaderboard entries. This metric is used for tiebreaker scenarios.
- *  You can make such an entry by using Leaderboard_WriteEntryWithSupplementaryMetric()
+ *  You can make such an entry by using UOvrRequestsBlueprintLibrary::Leaderboard_WriteEntryWithSupplementaryMetric()
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|SupplementaryMetric")
 struct OVRPLATFORM_API FOvrSupplementaryMetric
@@ -2647,14 +2807,35 @@ struct OVRPLATFORM_API FOvrSupplementaryMetric
 };
 
 
+/** The state of the voip that is used in parties and horizon home. This class contains different statuses that is used to control the microphone and input/output for commands or chat in your application. You can read more about system voip [here](https://developer.oculus.com/documentation/unreal/ps-parties/#voip-options). */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|SystemVoipState")
 struct OVRPLATFORM_API FOvrSystemVoipState
 {
     GENERATED_USTRUCT_BODY()
 
+    /**
+     * A flag that is used to indicate the current state of the microphone. The status can be of the following types:
+     * 
+     * - Unknown: EOvrVoipMuteState::Unknown
+     * 
+     * - Muted: EOvrVoipMuteState::Muted
+     * 
+     * - Unmuted: EOvrVoipMuteState::Unmuted
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|SystemVoipState|Field")
     EOvrVoipMuteState MicrophoneMuted;
 
+    /**
+     * The status enum that indicates the current state of the system voip. The status can be of the following types:
+     * 
+     * - Unknown: EOvrSystemVoipStatus::Unknown
+     * 
+     * - Unavailable: EOvrSystemVoipStatus::Unavailable
+     * 
+     * - Suppressed: EOvrSystemVoipStatus::Suppressed
+     * 
+     * - Active: EOvrSystemVoipStatus::Active
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|SystemVoipState|Field")
     EOvrSystemVoipStatus Status;
 
@@ -2672,6 +2853,212 @@ struct OVRPLATFORM_API FOvrSystemVoipState
 };
 
 
+/** Contains the details about the trial offer associated with a FOvrBillingPlan. */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|TrialOffer")
+struct OVRPLATFORM_API FOvrTrialOffer
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** Represents the maximum term for which a trial_offer is valid. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|TrialOffer|Field")
+    int32 MaxTermCount;
+
+    /** The FOvrPrice of the trial offer contains the currency code, the amount in hundredths, and the formatted string representation. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|TrialOffer|Field")
+    FOvrPrice Price;
+
+    /**
+     * An enum that specifies the term.
+     * 
+     * EOvrOfferTerm::Unknown: unknown
+     * 
+     * EOvrOfferTerm::WEEKLY: WEEKLY
+     * 
+     * EOvrOfferTerm::BIWEEKLY: BIWEEKLY
+     * 
+     * EOvrOfferTerm::MONTHLY: MONTHLY
+     * 
+     * EOvrOfferTerm::QUARTERLY: QUARTERLY
+     * 
+     * EOvrOfferTerm::SEMIANNUAL: SEMIANNUAL
+     * 
+     * EOvrOfferTerm::ANNUAL: ANNUAL
+     * 
+     * EOvrOfferTerm::BIANNUAL: BIANNUAL
+     */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|TrialOffer|Field")
+    EOvrOfferTerm TrialTerm;
+
+    /**
+     * An enum that specifies the type of the trial.
+     * 
+     * EOvrOfferType::INTROOFFER: Intro Offer.
+     * 
+     * EOvrOfferType::FREETRIAL: Free Trial.
+     */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|TrialOffer|Field")
+    EOvrOfferType TrialType;
+
+    /// \brief This is the default constructor for the struct, which initializes the ::ovrTrialOfferHandle and ::TOvrMessageHandlePtr to their default values.
+    FOvrTrialOffer();
+
+    /// \brief Copying values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    FOvrTrialOffer(ovrTrialOfferHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    /// \brief  Setting all values to their defaults, effectively clearing the struct.
+    void Clear();
+
+    /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    void Update(ovrTrialOfferHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
+
+/** Contains the detailed billing plan information for a EOvrProductType::SUBSCRIPTION. A BillingPlan can have a FOvrPaidOffer and an array of FOvrTrialOffer. The FOvrTrialOfferArray can contain a FREE_TRIAL and an INTRO_OFFER. */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|BillingPlan")
+struct OVRPLATFORM_API FOvrBillingPlan
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** Represents the FOvrPaidOffer associated with the billing_plan. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|BillingPlan|Field")
+    FOvrPaidOffer PaidOffer;
+
+    /** A list of FOvrTrialOffer associated with the billing_plan. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|BillingPlan|Field")
+    TArray<FOvrTrialOffer> TrialOffers;
+
+    /// \brief This is the default constructor for the struct, which initializes the ::ovrBillingPlanHandle and ::TOvrMessageHandlePtr to their default values.
+    FOvrBillingPlan();
+
+    /// \brief Copying values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    FOvrBillingPlan(ovrBillingPlanHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    /// \brief  Setting all values to their defaults, effectively clearing the struct.
+    void Clear();
+
+    /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    void Update(ovrBillingPlanHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
+
+/**
+ * The class that represents the product information for a specific IAP which is available for purchase in your app.
+ *   You can retrieve more information about the product(s) by using their SKU with UOvrRequestsBlueprintLibrary::IAP_GetProductsBySKU()
+ */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Product")
+struct OVRPLATFORM_API FOvrProduct
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** Billing plans related to the product. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    TArray<FOvrBillingPlan> BillingPlans;
+
+    /** The content rating of a FOvrProduct that specifies the age rating as well as other important information that needs to be displayed to the user per local regulations. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    FOvrContentRating ContentRating;
+
+    /** The URI for the cover image for the FOvrProduct being sold. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    FString CoverUrl;
+
+    /** The description for the product. The description should be meaningful and explanatory to help outline the product and its features. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    FString Description;
+
+    /** The formatted string for the FOvrPrice. This is the same value stored in FOvrPrice. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    FString FormattedPrice;
+
+    /** The URI for FOvrProduct icon. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    FString IconUrl;
+
+    /** The name of the product. This will be used as a the display name and should be aligned with the user facing title. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    FString Name;
+
+    /** The FOvrPrice of the product contains the currency code, the amount in hundredths, and the formatted string representation. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    FOvrPrice Price;
+
+    /** The short description of a FOvrProduct which provides more information about the FOvrProduct. To be used in conjunction with the description of the FOvrProduct. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    FString ShortDescription;
+
+    /** The unique string that you use to reference the product in your app. The SKU is case-sensitive and should match the SKU reference in your code. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    FString SKU;
+
+    /** The type of product. An In-app purchase (IAP) add-on can be EOvrProductType::DURABLE, EOvrProductType::CONSUMABLE, or a EOvrProductType::SUBSCRIPTION. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Product|Field")
+    EOvrProductType Type;
+
+    /// \brief This is the default constructor for the struct, which initializes the ::ovrProductHandle and ::TOvrMessageHandlePtr to their default values.
+    FOvrProduct();
+
+    /// \brief Copying values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    FOvrProduct(ovrProductHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    /// \brief  Setting all values to their defaults, effectively clearing the struct.
+    void Clear();
+
+    /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    void Update(ovrProductHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+};
+
+/** Represents a paginated list of FOvrProduct elements. It allows you to easily access and manipulate the elements in the paginated list, such as the size of the list and if there is a next page of elements available. */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ProductArray")
+struct OVRPLATFORM_API FOvrProductPages
+{
+    GENERATED_USTRUCT_BODY()
+
+    /// \brief This is the default constructor for the struct, which initializes the ::ovrProductArrayHandle and ::TOvrMessageHandlePtr to their default values.
+    FOvrProductPages();
+
+    /// \brief Copying values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    FOvrProductPages(ovrProductArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    /// \brief  Setting all values to their defaults, effectively clearing the struct.
+    void Clear();
+
+    /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    void Update(ovrProductArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrProductArrayHandle type, which is used to store the handle to the paged array. 
+    mutable ovrProductArrayHandle PagedArrayHandle;
+
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
+    mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
+};
+
+UCLASS()
+/// This class provides methods for accessing and manipulating the elements in a FOvrProductPages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+class OVRPLATFORM_API UOvrProductPagesMethods : public UObject
+{
+    GENERATED_BODY()
+
+public:
+
+    /** Access the indexed element in this list. Note that the index is zero-based, so the first element has an index of 0. */
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ProductPages")
+    static FOvrProduct ProductPages_GetElement(const FOvrProductPages& Model, int64 Index);
+
+    /** The URL to request the next paginated list of elements. */
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ProductPages")
+    static FString ProductPages_GetNextUrl(const FOvrProductPages& Model);
+
+    /** The number of elements contained within this list. This is not equal to the total number of elements across multiple pages. */
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ProductPages")
+    static int64 ProductPages_GetSize(const FOvrProductPages& Model);
+
+    /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
+    UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ProductPages")
+    static bool ProductPages_HasNextPage(const FOvrProductPages& Model);
+};
+
+
 /**
  * This is the class that represents the individual users who use your application.
  * Use the User object to retrieve information about your users, help them interact with your application, and customize their experience.
@@ -2683,15 +3070,15 @@ struct OVRPLATFORM_API FOvrUser
 {
     GENERATED_USTRUCT_BODY()
 
-    /** A potentially non unique displayable name chosen by the FOvrUser. Could also be the same as the oculus_ID. This is often the name shown to other users. */
+    /** A potentially non unique displayable name chosen by the user. Could also be the same as the oculus_ID. This is often the name shown to other users. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString DisplayName;
 
-    /** The ID of the user, field FOvrUser::ID. This is a unique value for every individual FOvrUser. */
+    /** The ID of the user, field FOvrUser::ID. This is a unique value for every individual user. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FOvrId ID;
 
-    /** The url of the profile picture that is chosen by the user. Retrieve this url by using field FOvrUser::ImageUrl. */
+    /** The url of the profile picture that is chosen by the user. Retrieve this url by using UOvrRequestsBlueprintLibrary::User_GetLoggedInUser(). */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString ImageUrl;
 
@@ -2702,7 +3089,7 @@ struct OVRPLATFORM_API FOvrUser
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FOvrManagedInfo ManagedInfo;
 
-    /** The oculus ID of the FOvrUser. This is used across the developer dashboard and is unique to oculus. */
+    /** The oculus ID of the user. This is used across the developer dashboard and is unique to oculus. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|User|Field")
     FString OculusID;
 
@@ -2812,7 +3199,7 @@ struct OVRPLATFORM_API FOvrApplicationInvite
     void Update(ovrApplicationInviteHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** Represents a paginated list of FOvrApplicationInvite elements */
+/** Represents a paginated list of FOvrApplicationInvite elements. It allows you to easily access and manipulate the elements in the paginated list, such as the size of the list and if there is a next page of elements available. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ApplicationInviteArray")
 struct OVRPLATFORM_API FOvrApplicationInvitePages
 {
@@ -2830,22 +3217,23 @@ struct OVRPLATFORM_API FOvrApplicationInvitePages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrApplicationInviteArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrApplicationInviteArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrApplicationInviteArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrApplicationInvitePages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrApplicationInvitePages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrApplicationInvitePagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** Access the indexed element in this list. */
+    /** Access the indexed element in this list. Note that the index is zero-based, so the first element has an index of 0. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ApplicationInvitePages")
     static FOvrApplicationInvite ApplicationInvitePages_GetElement(const FOvrApplicationInvitePages& Model, int64 Index);
 
@@ -2857,7 +3245,7 @@ public:
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ApplicationInvitePages")
     static int64 ApplicationInvitePages_GetSize(const FOvrApplicationInvitePages& Model);
 
-    /** Whether there is a next page of elements that can be retrieved. */
+    /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ApplicationInvitePages")
     static bool ApplicationInvitePages_HasNextPage(const FOvrApplicationInvitePages& Model);
 };
@@ -2865,7 +3253,7 @@ public:
 
 /**
  * A challenge entry object contains information about an individual entry within a challenge such as the user who made the entry, the score achieved, and other relevant details.
- * It's the array element type of FOvrChallengeEntryArray and can be retrieved using Challenges_GetEntries().
+ * It's the array element type of FOvrChallengeEntryArray and can be retrieved using UOvrRequestsBlueprintLibrary::Challenges_GetEntries().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ChallengeEntry")
 struct OVRPLATFORM_API FOvrChallengeEntry
@@ -2880,7 +3268,7 @@ struct OVRPLATFORM_API FOvrChallengeEntry
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ChallengeEntry|Field")
     TArray<uint8> ExtraData;
 
-    /** The unique identifier of this challenge entry which can be used by Challenges_GetEntriesByIds() and Challenges_GetEntries(). */
+    /** The unique identifier of this challenge entry which can be used by UOvrRequestsBlueprintLibrary::Challenges_GetEntriesByIds() and UOvrRequestsBlueprintLibrary::Challenges_GetEntries(). */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ChallengeEntry|Field")
     FOvrId ID;
 
@@ -2913,7 +3301,10 @@ struct OVRPLATFORM_API FOvrChallengeEntry
     void Update(ovrChallengeEntryHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** A paginated array of FOvrChallengeEntry which can be retrieved by Challenges_GetEntries(). */
+/**
+ * A paginated array of FOvrChallengeEntry that can be retrieved by UOvrRequestsBlueprintLibrary::Challenges_GetEntries().
+ * It provides information about the size of the array, whether there are more pages available, and the URLs for navigating to the next or previous pages.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ChallengeEntryArray")
 struct OVRPLATFORM_API FOvrChallengeEntryPages
 {
@@ -2931,34 +3322,38 @@ struct OVRPLATFORM_API FOvrChallengeEntryPages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrChallengeEntryArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrChallengeEntryArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrChallengeEntryArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrChallengeEntryPages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrChallengeEntryPages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrChallengeEntryPagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** The element of this array and the element type is FOvrChallengeEntry. */
+    /**
+     * The element of this array and the element type is FOvrChallengeEntry.
+     * It contains information about a specific challenge entry, such as its unique identifier, the user who created it, the date and time of creation, and any additional metadata.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengeEntryPages")
     static FOvrChallengeEntry ChallengeEntryPages_GetElement(const FOvrChallengeEntryPages& Model, int64 Index);
 
-    /** The url of the next page of challenge entries. */
+    /** It's a type of `string` contains the information about the url of the next page of challenge entries. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengeEntryPages")
     static FString ChallengeEntryPages_GetNextUrl(const FOvrChallengeEntryPages& Model);
 
-    /** The url of the previous page of challenge entries. */
+    /** It's a type of `string` contains the information about the url of the previous page of challenge entries. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengeEntryPages")
     static FString ChallengeEntryPages_GetPreviousUrl(const FOvrChallengeEntryPages& Model);
 
-    /** The size of this challenge entry array in bytes. */
+    /** The size of this challenge entry array in bytes. It provides information about the amount of data that is stored in the array. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengeEntryPages")
     static int64 ChallengeEntryPages_GetSize(const FOvrChallengeEntryPages& Model);
 
@@ -2966,11 +3361,11 @@ public:
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengeEntryPages")
     static int64 ChallengeEntryPages_GetTotalCount(const FOvrChallengeEntryPages& Model);
 
-    /** Whether this challenge entry array has a next page. */
+    /** A `boolean` indicates whether this challenge entry array has a next page. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengeEntryPages")
     static bool ChallengeEntryPages_HasNextPage(const FOvrChallengeEntryPages& Model);
 
-    /** Whether this challenge entry array has a previous page. */
+    /** A `boolean` indicates whether this challenge entry array has a previous page. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengeEntryPages")
     static bool ChallengeEntryPages_HasPreviousPage(const FOvrChallengeEntryPages& Model);
 };
@@ -2978,8 +3373,8 @@ public:
 
 /**
  * A leaderboard entry object contains information about the FOvrUser who made the entry, their score, and other relevant details in the leaderboard.
- *  It provides a way for a game to keep track of players and their scores in relation to other. A single leaderboard entry can be written by Leaderboard_WriteEntry().
- *  A block of leaderboard entries can be retrieved using Leaderboard_GetEntries().
+ *  It provides a way for a game to keep track of players and their scores in relation to other. A single leaderboard entry can be written by UOvrRequestsBlueprintLibrary::Leaderboard_WriteEntry().
+ *  A block of leaderboard entries can be retrieved using UOvrRequestsBlueprintLibrary::Leaderboard_GetEntries().
  *  Visit our [website](https://developer.oculus.com/documentation/unreal/ps-leaderboards/) for more information about the leaderboard entry.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LeaderboardEntry")
@@ -2990,14 +3385,14 @@ struct OVRPLATFORM_API FOvrLeaderboardEntry
     /**
      * The formatted score that will be displayed in the leaderboard of this entry.
      * You can select a score type to determine how scores are displayed on Leaderboard.
-     * See [here](https://developer.oculus.com/documentation/unity/ps-leaderboards/#create) for examples of different score type.
+     * See [here](https://developer.oculus.com/documentation/unreal/ps-leaderboards/#create) for examples of different score type.
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     FString DisplayScore;
 
     /**
      * A 2KB custom data field that is associated with the leaderboard entry. This can be a game replay or anything that provides more detail about the entry to the viewer.
-     * It will be used by two entry methods: Leaderboard_WriteEntry() and Leaderboard_WriteEntryWithSupplementaryMetric()
+     * It will be used by two entry methods: UOvrRequestsBlueprintLibrary::Leaderboard_WriteEntry() and UOvrRequestsBlueprintLibrary::Leaderboard_WriteEntryWithSupplementaryMetric()
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     TArray<uint8> ExtraData;
@@ -3008,7 +3403,7 @@ struct OVRPLATFORM_API FOvrLeaderboardEntry
 
     /**
      * The rank of this leaderboard entry in the leaderboard. It is of type `int`.
-     * It can be used in Leaderboard_GetEntriesAfterRank() to retrieve leaderboard entries starting from a specified rank.
+     * It can be used in UOvrRequestsBlueprintLibrary::Leaderboard_GetEntriesAfterRank() to retrieve leaderboard entries starting from a specified rank.
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     int32 Rank;
@@ -3020,7 +3415,7 @@ struct OVRPLATFORM_API FOvrLeaderboardEntry
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     int64 Score;
 
-    /** FOvrSupplementaryMetric is a supplemental piece of data that can be used for tiebreakers by Leaderboard_WriteEntryWithSupplementaryMetric(). */
+    /** FOvrSupplementaryMetric is a supplemental piece of data that can be used for tiebreakers by UOvrRequestsBlueprintLibrary::Leaderboard_WriteEntryWithSupplementaryMetric(). */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     FOvrSupplementaryMetric SupplementaryMetric;
 
@@ -3030,7 +3425,7 @@ struct OVRPLATFORM_API FOvrLeaderboardEntry
 
     /**
      * User of this leaderboard entry. It is of type FOvrUser.
-     * You can request a block of leaderboard entries for the specified user ID(s) by Leaderboard_GetEntriesByIds().
+     * You can request a block of leaderboard entries for the specified user ID(s) by UOvrRequestsBlueprintLibrary::Leaderboard_GetEntriesByIds().
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LeaderboardEntry|Field")
     FOvrUser User;
@@ -3048,7 +3443,10 @@ struct OVRPLATFORM_API FOvrLeaderboardEntry
     void Update(ovrLeaderboardEntryHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** An array of paginated leaderboard entries.  */
+/**
+ * An array of paginated leaderboard entries. It can be retrieved using UOvrRequestsBlueprintLibrary::Leaderboard_GetEntries().
+ * It provides information about the leaderboard entries, such as their size, whether there are next or previous pages, the URLs for those pages, and the total count of entries in the leaderboard.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LeaderboardEntryArray")
 struct OVRPLATFORM_API FOvrLeaderboardEntryPages
 {
@@ -3066,45 +3464,62 @@ struct OVRPLATFORM_API FOvrLeaderboardEntryPages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrLeaderboardEntryArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrLeaderboardEntryArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrLeaderboardEntryArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrLeaderboardEntryPages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrLeaderboardEntryPages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrLeaderboardEntryPagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
+    /**
+     * This field represents an individual FOvrLeaderboardEntry within the array.
+     * It contains information about the leaderboard entry, such as its rank, score, and player name.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|LeaderboardEntryPages")
     static FOvrLeaderboardEntry LeaderboardEntryPages_GetElement(const FOvrLeaderboardEntryPages& Model, int64 Index);
 
-    /** The url of the next page of leaderboard entries */
+    /**
+     * The url of the next page of leaderboard entries.
+     * It provides a link to the next set of entries in the leaderboard.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|LeaderboardEntryPages")
     static FString LeaderboardEntryPages_GetNextUrl(const FOvrLeaderboardEntryPages& Model);
 
-    /** The url of the previous leaderboard entries */
+    /**
+     * The url of the previous leaderboard entries.
+     * It provides a link to the previous set of entries in the leaderboard.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|LeaderboardEntryPages")
     static FString LeaderboardEntryPages_GetPreviousUrl(const FOvrLeaderboardEntryPages& Model);
 
-    /** The size of this leaderboard entry array in bytes */
+    /**
+     * The size of this leaderboard entry array in bytes.
+     * It provides information about the amount of data stored in the array.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|LeaderboardEntryPages")
     static int64 LeaderboardEntryPages_GetSize(const FOvrLeaderboardEntryPages& Model);
 
-    /** The total count of this leaderboard entry array, ignoring the pagination. */
+    /**
+     * The total count of this leaderboard entry array, ignoring the pagination.
+     * It provides information about the total number of entries in the leaderboard.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|LeaderboardEntryPages")
     static int64 LeaderboardEntryPages_GetTotalCount(const FOvrLeaderboardEntryPages& Model);
 
-    /** Whether this leaderboard entry array has next page */
+    /** A `boolean` indicates whether this leaderboard entry array has next page. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|LeaderboardEntryPages")
     static bool LeaderboardEntryPages_HasNextPage(const FOvrLeaderboardEntryPages& Model);
 
-    /** Whether this leaderboard entry array has previous page */
+    /** A `boolean` indicates whether this leaderboard entry array has previous page. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|LeaderboardEntryPages")
     static bool LeaderboardEntryPages_HasPreviousPage(const FOvrLeaderboardEntryPages& Model);
 };
@@ -3112,14 +3527,14 @@ public:
 
 /**
  * The result of sending an invite to a user or list of users shows invites were sent successfully through the resulting array.
- * This is the model returned in a successful response to the GroupPresence_SendInvites() api.
+ * This is the model returned in a successful response to the UOvrRequestsBlueprintLibrary::GroupPresence_SendInvites() api.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|SendInvitesResult")
 struct OVRPLATFORM_API FOvrSendInvitesResult
 {
     GENERATED_USTRUCT_BODY()
 
-    /** The list of invites that was sent through GroupPresence_SendInvites(). This invite list can comprise of friends and recently met users. */
+    /** The list of invites that was sent through UOvrRequestsBlueprintLibrary::GroupPresence_SendInvites(). This invite list can comprise of friends and recently met users. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|SendInvitesResult|Field")
     FOvrApplicationInvitePages Invites;
 
@@ -3140,14 +3555,14 @@ struct OVRPLATFORM_API FOvrSendInvitesResult
 /**
  * A UserAccountAgeCategory represents the age category of a Meta user. This object contains information
  *  about the user's age group, which can be used for various purposes such as targeted advertising or content restriction.
- *  The possible values for the age category are defined in the EOvrAccountAgeCategory.
+ *  The possible values for the age category are defined in the #EOvrAccountAgeCategory.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserAccountAgeCategory")
 struct OVRPLATFORM_API FOvrUserAccountAgeCategory
 {
     GENERATED_USTRUCT_BODY()
 
-    /** Age category of the user in Meta account. This field represents the age group that the user falls into, and the possible values for this field are defined in the EOvrAccountAgeCategory. */
+    /** Age category of the user in Meta account. This field represents the age group that the user falls into, and the possible values for this field are defined in the #EOvrAccountAgeCategory. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|UserAccountAgeCategory|Field")
     EOvrAccountAgeCategory AgeCategory;
 
@@ -3164,7 +3579,7 @@ struct OVRPLATFORM_API FOvrUserAccountAgeCategory
     void Update(ovrUserAccountAgeCategoryHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** Represents a paginated list of FOvrUser elements */
+/** Represents a paginated list of FOvrUser elements. It allows you to easily access and manipulate the elements in the paginated list, such as the size of the list and if there is a next page of elements available. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserArray")
 struct OVRPLATFORM_API FOvrUserPages
 {
@@ -3182,22 +3597,23 @@ struct OVRPLATFORM_API FOvrUserPages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrUserArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrUserArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrUserArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrUserPages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrUserPages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrUserPagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** Access the indexed element in this list. */
+    /** Access the indexed element in this list. Note that the index is zero-based, so the first element has an index of 0. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|UserPages")
     static FOvrUser UserPages_GetElement(const FOvrUserPages& Model, int64 Index);
 
@@ -3209,7 +3625,7 @@ public:
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|UserPages")
     static int64 UserPages_GetSize(const FOvrUserPages& Model);
 
-    /** Whether there is a next page of elements that can be retrieved. */
+    /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|UserPages")
     static bool UserPages_HasNextPage(const FOvrUserPages& Model);
 };
@@ -3292,7 +3708,11 @@ struct OVRPLATFORM_API FOvrChallenge
     void Update(ovrChallengeHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** A paginated array of FOvrChallenges that can be retrieved by Challenges_GetList(). */
+/**
+ *  This is a paginated array of FOvrChallenges that can be retrieved using the UOvrRequestsBlueprintLibrary::Challenges_GetList() request.
+ * The array contains elements of type FOvrChallenge, which represent individual challenges.
+ * See more details of Challenges in [here](https://developer.oculus.com/documentation/unreal/ps-challenges/).
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|ChallengeArray")
 struct OVRPLATFORM_API FOvrChallengePages
 {
@@ -3310,46 +3730,62 @@ struct OVRPLATFORM_API FOvrChallengePages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrChallengeArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrChallengeArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrChallengeArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrChallengePages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrChallengePages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrChallengePagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** The element of this challenge array. The element type is FOvrChallenge. */
+    /**
+     * This field represents an individual element within the challenge array. Each element is of type FOvrChallenge,
+     * which contains detailed information about a specific challenge.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengePages")
     static FOvrChallenge ChallengePages_GetElement(const FOvrChallengePages& Model, int64 Index);
 
-    /** The url of the next page of challenges. */
+    /** This field contains the URL of the next page of challenges. If there is no next page, this field will be empty. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengePages")
     static FString ChallengePages_GetNextUrl(const FOvrChallengePages& Model);
 
-    /** The url of the previous page of challenges. */
+    /**
+     * The URL of the previous page of challenges. If has_previous_page is true, this field provides the URL that the
+     * client can use to request the previous page of results.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengePages")
     static FString ChallengePages_GetPreviousUrl(const FOvrChallengePages& Model);
 
-    /** The size of this challenge array in bytes. */
+    /** This field indicates the total size of the challenge array in bytes.  */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengePages")
     static int64 ChallengePages_GetSize(const FOvrChallengePages& Model);
 
-    /** The total count of challenges contained in array, across all pages. */
+    /**
+     * The total count of challenges contained in the array, across all pages. This field provides the total number of
+     * challenges that match the search criteria, regardless of the current page or pagination settings.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengePages")
     static int64 ChallengePages_GetTotalCount(const FOvrChallengePages& Model);
 
-    /** Whether this challenge array has a next page. */
+    /**
+     * This field indicates whether there is a next page of challenges available in the array. If this value is true,
+     * it means that there are more challenges to retrieve beyond the current page.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengePages")
     static bool ChallengePages_HasNextPage(const FOvrChallengePages& Model);
 
-    /** Whether this challenge array has a previous page. */
+    /**
+     * This field indicates whether there is a previous page of challenges available in the array. If this value is true,
+     * it means that there are more challenges to retrieve before the current page.
+     */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|ChallengePages")
     static bool ChallengePages_HasPreviousPage(const FOvrChallengePages& Model);
 };
@@ -3358,7 +3794,7 @@ public:
 /**
  * Details about the launch of the appplication.
  *  It can be used to check if your app is being launched using App to App Travel.
- * It can be retrieved using ApplicationLifecycle_GetLaunchDetails().
+ * It can be retrieved using UOvrFunctionsBlueprintLibrary::ApplicationLifecycle_GetLaunchDetails.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchDetails")
 struct OVRPLATFORM_API FOvrLaunchDetails
@@ -3384,10 +3820,10 @@ struct OVRPLATFORM_API FOvrLaunchDetails
     FString LaunchSource;
 
     /**
-     * A EOvrLaunchType that defines the different ways in which an application can be launched.
+     * A #EOvrLaunchType that defines the different ways in which an application can be launched.
      * EOvrLaunchType::Normal - Normal launch from the user's library.
      * EOvrLaunchType::Invite - Launch from the user accepting an invite.
-     * EOvrLaunchType::Deeplink - Launched from a deeplink. This flow is typically kicked off from Application_LaunchOtherApp()
+     * EOvrLaunchType::Deeplink - Launched from a deeplink. This flow is typically kicked off from UOvrRequestsBlueprintLibrary::Application_LaunchOtherApp()
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchDetails|Field")
     EOvrLaunchType LaunchType;
@@ -3423,15 +3859,16 @@ struct OVRPLATFORM_API FOvrLaunchDetails
 
 
 /**
- * Sent when the user is finished using the invite panel to send out invitations.
- * Contains a list of invitees. It can be retrieved using FOvrNotification_GroupPresence_InvitationsSent.
+ * Represents the result of a user's interaction with the invite panel, which is used to send out invitations to other users.
+ * It provides a way for developers to track the results of a user's interaction with the invite panel, including the list of users who were invited to the session.
+ * It can be retrieved using UOvrPlatformSubsystem::OnGroupPresenceInvitationsSent().
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|LaunchInvitePanelFlowResult")
 struct OVRPLATFORM_API FOvrLaunchInvitePanelFlowResult
 {
     GENERATED_USTRUCT_BODY()
 
-    /** A list of users that were sent an invitation to the session. */
+    /** A list of FOvrUser who were invited to the session by the user who interacted with the invite panel. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|LaunchInvitePanelFlowResult|Field")
     FOvrUserPages InvitedUsers;
 
@@ -3450,15 +3887,16 @@ struct OVRPLATFORM_API FOvrLaunchInvitePanelFlowResult
 
 
 /**
- * Parties allow users to start a voice chat with other members of the party.
- *  Party voice chats persist across apps in VR and users can continue to interact while navigating between apps. You can load a user's party by using Party_GetCurrent().
+ * Parties allow users to start a voice chat with other members of the party. Party voice chats
+ * persist across apps in VR and users can continue to interact while navigating between apps.
+ * You can use UOvrRequestsBlueprintLibrary::Party_GetCurrent() to load the party the current user is in.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|Party")
 struct OVRPLATFORM_API FOvrParty
 {
     GENERATED_USTRUCT_BODY()
 
-    /** A unique identifier of this party. It can be used by Party_Join(), Party_Leave(), and Party_Invite(). */
+    /** A unique identifier of this party. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Party|Field")
     FOvrId ID;
 
@@ -3470,7 +3908,11 @@ struct OVRPLATFORM_API FOvrParty
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Party|Field")
     FOvrUser Leader;
 
-    /** An array that contains the users who are currently in this party. These users will remain in the party while navigating between apps. */
+    /**
+     * An array that contains the users who are currently in this party. These users will remain
+     * in the party while navigating between apps. Each user in the party will get the update by UOvrPlatformSubsystem::OnPartyPartyUpdate()
+     * which is intended to update the user on various actions that are occurring in the party.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Party|Field")
     FOvrUserPages Users;
 
@@ -3488,7 +3930,7 @@ struct OVRPLATFORM_API FOvrParty
 };
 
 
-/** This object represents a permission or capability for a particular user. You can fetch all the user capabilities for a logged-in FOvrUser by using User_GetUserCapabilities(). There is a unique name for every user capability. */
+/** This object represents a permission or capability for the logged in user, which can be retrieved by UOvrRequestsBlueprintLibrary::User_GetLoggedInUser(). It's a type of array and there is a unique name for every user capability. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserCapability")
 struct OVRPLATFORM_API FOvrUserCapability
 {
@@ -3536,7 +3978,7 @@ struct OVRPLATFORM_API FOvrUserCapability
     void Update(ovrUserCapabilityHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
-/** Represents a paginated list of FOvrUserCapability elements */
+/** Represents a paginated list of FOvrUserCapability elements. It allows you to easily access and manipulate the elements in the paginated list, such as the size of the list and if there is a next page of elements available. */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserCapabilityArray")
 struct OVRPLATFORM_API FOvrUserCapabilityPages
 {
@@ -3554,22 +3996,23 @@ struct OVRPLATFORM_API FOvrUserCapabilityPages
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrUserCapabilityArrayHandle Handle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR array handle for methods
+    /// \brief This field represents the OVR array handle for methods. It is a mutable ::ovrUserCapabilityArrayHandle type, which is used to store the handle to the paged array. 
     mutable ovrUserCapabilityArrayHandle PagedArrayHandle;
 
-    // Original ref-counted message to hold onto array handle
+    /// \brief  This field represents the original ref-counted message to hold onto the array handle. It's used to store a reference to the message that originated the paged array.
     mutable TOvrMessageHandlePtr PagedArrayMessageHandlePtr;
 };
 
 UCLASS()
-/// \brief This class provides methods for accessing and manipulating the elements in a FOvrUserCapabilityPages paginated list. It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
+/// This class provides methods for accessing and manipulating the elements in a FOvrUserCapabilityPages paginated list.
+/// It allows you to easily retrieve and modify the elements in the list, as well as check if there is a next page of elements available.
 class OVRPLATFORM_API UOvrUserCapabilityPagesMethods : public UObject
 {
     GENERATED_BODY()
 
 public:
 
-    /** Access the indexed element in this list. */
+    /** Access the indexed element in this list. Note that the index is zero-based, so the first element has an index of 0. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|UserCapabilityPages")
     static FOvrUserCapability UserCapabilityPages_GetElement(const FOvrUserCapabilityPages& Model, int64 Index);
 
@@ -3581,7 +4024,7 @@ public:
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|UserCapabilityPages")
     static int64 UserCapabilityPages_GetSize(const FOvrUserCapabilityPages& Model);
 
-    /** Whether there is a next page of elements that can be retrieved. */
+    /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|UserCapabilityPages")
     static bool UserCapabilityPages_HasNextPage(const FOvrUserCapabilityPages& Model);
 };
@@ -3590,13 +4033,17 @@ public:
 /**
  * This payload contains information about the result of an update request to the user data store.
  * It includes a success field field FOvrUserDataStoreUpdateResponse::Success that indicates whether the update was successful or not.
+ * See more info about Platform Solutions [here](https://developer.oculus.com/documentation/unreal/ps-platform-intro/).
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserDataStoreUpdateResponse")
 struct OVRPLATFORM_API FOvrUserDataStoreUpdateResponse
 {
     GENERATED_USTRUCT_BODY()
 
-    /** Indicates whether the update request was successful or not. A value of true indicates that the update was successful, while a value of false indicates that the update failed. */
+    /**
+     * Indicates whether the update request was successful or not. A value of true indicates that the update was successful,
+     * while a value of false indicates that the update failed.
+     */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|UserDataStoreUpdateResponse|Field")
     bool Success;
 
@@ -3615,7 +4062,7 @@ struct OVRPLATFORM_API FOvrUserDataStoreUpdateResponse
 
 
 /**
- * This object is retrieved from the User_GetUserProof() request and will contain a nonce that is used to verify the identity of the User.
+ * This object is retrieved from the UOvrRequestsBlueprintLibrary::User_GetUserProof() request and will contain a nonce that is used to verify the identity of the User.
  * Read more about user verification in our [User Verification guide](https://developer.oculus.com/documentation/unreal/ps-ownership/#integrate-user-verification)
  * 
  * NOTE: The nonce is only good for one check and then it is invalidated.
@@ -3643,7 +4090,7 @@ struct OVRPLATFORM_API FOvrUserProof
 };
 
 
-/** \deprecated Do not add new requests using this. Use launch_report_flow_result instead.  */
+/** \deprecated Do not add new requests using this. Use FOvrLaunchReportFlowResult instead.  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserReportID")
 struct OVRPLATFORM_API FOvrUserReportID
 {
@@ -3670,6 +4117,10 @@ struct OVRPLATFORM_API FOvrUserReportID
 };
 
 
+/**
+ * It's a custom decoder for voice over internet protocol (VoIP) data. A VoIP session can be established by UOvrFunctionsBlueprintLibrary::Voip_Start
+ * It provides a way to decode compressed VoIP data into PCM format, which can then be played back or further processed.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|VoipDecoder")
 struct OVRPLATFORM_API FOvrVoipDecoder
 {
@@ -3687,10 +4138,14 @@ struct OVRPLATFORM_API FOvrVoipDecoder
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrVoipDecoderHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR Handle for methods
+    /// \brief OVR Handle for methods
     ovrVoipDecoderHandle Handle;
 };
 
+/**
+ * It's a custom decoder for voice over internet protocol (VoIP) data. A VoIP session can be established by UOvrFunctionsBlueprintLibrary::Voip_Start
+ * It provides a way to decode compressed VoIP data into PCM format, which can then be played back or further processed.
+ */
 UCLASS()
 class OVRPLATFORM_API UOvrVoipDecoderMethods : public UObject
 {
@@ -3698,16 +4153,26 @@ class OVRPLATFORM_API UOvrVoipDecoderMethods : public UObject
 
 public:
 
+    /**
+     * This method is responsible for decoding the compressed VoIP data into a format that can be played back or further processed.
+     * The compressed VoIP data can be retrieved using UOvrFunctionsBlueprintLibrary::Voip_GetPCM
+     */
     /*
      * Not exposed to blueprints, call C API directly: void ovr_VoipDecoder_Decode(const ovrVoipDecoderHandle obj, const unsigned char *compressedData, size_t compressedSize);
-     */
+     */ 
 
+    /** It's responsible for retrieving the decoded PCM data from the decoder. This method returns the number of samples written to the output buffer */
     /*
      * Not exposed to blueprints, call C API directly: size_t ovr_VoipDecoder_GetDecodedPCM(const ovrVoipDecoderHandle obj, float *outputBuffer, size_t outputBufferSize);
-     */
+     */ 
 };
 
 
+/**
+ * This is a custom encoder for voice over internet protocol (VoIP) data.
+ * A VoIP session can be established by UOvrFunctionsBlueprintLibrary::Voip_Start.
+ * It provides a way to encode PCM data into compressed VoIP data.
+ */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|VoipEncoder")
 struct OVRPLATFORM_API FOvrVoipEncoder
 {
@@ -3725,10 +4190,15 @@ struct OVRPLATFORM_API FOvrVoipEncoder
     /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
     void Update(ovrVoipEncoderHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 
-    // OVR Handle for methods
+    /// \brief OVR Handle for methods
     ovrVoipEncoderHandle Handle;
 };
 
+/**
+ * This is a custom encoder for voice over internet protocol (VoIP) data.
+ * A VoIP session can be established by UOvrFunctionsBlueprintLibrary::Voip_Start.
+ * It provides a way to encode PCM data into compressed VoIP data.
+ */
 UCLASS()
 class OVRPLATFORM_API UOvrVoipEncoderMethods : public UObject
 {
@@ -3736,16 +4206,28 @@ class OVRPLATFORM_API UOvrVoipEncoderMethods : public UObject
 
 public:
 
+    /**
+     * This class is responsible for adding PCM (Pulse Code Modulation) data to the encoder.
+     * This method takes in the PCM data and adds it to the internal buffer of the encoder.
+     */
     /*
      * Not exposed to blueprints, call C API directly: void ovr_VoipEncoder_AddPCM(const ovrVoipEncoderHandle obj, const float *inputData, unsigned int inputSize);
-     */
+     */ 
 
+    /**
+     * This method retrieves the compressed data from the encoder.
+     * This method returns the actual compressed data, which can then be transmitted or stored.
+     */
     /*
      * Not exposed to blueprints, call C API directly: size_t ovr_VoipEncoder_GetCompressedData(const ovrVoipEncoderHandle obj, unsigned char *outputBuffer, size_t intputSize);
-     */
+     */ 
 
+    /**
+     * This method returns the size of the compressed VoIP data that will be generated by the encoder.
+     * This method can be used to determine the amount of memory needed to store the compressed data.
+     */
     /*
      * Not exposed to blueprints, call C API directly: size_t ovr_VoipEncoder_GetCompressedDataSize(const ovrVoipEncoderHandle obj);
-     */
+     */ 
 };
 

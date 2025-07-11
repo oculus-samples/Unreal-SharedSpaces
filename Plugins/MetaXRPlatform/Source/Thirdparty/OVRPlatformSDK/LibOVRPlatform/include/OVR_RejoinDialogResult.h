@@ -1,0 +1,43 @@
+/*
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ * All rights reserved.
+ *
+ * Licensed under the Oculus SDK License Agreement (the "License");
+ * you may not use the Oculus SDK except in compliance with the License,
+ * which is provided at the time of installation or download, or which
+ * otherwise accompanies this software in either electronic or hard copy form.
+ *
+ * You may obtain a copy of the License at
+ *
+ * https://developer.oculus.com/licenses/oculussdk/
+ *
+ * Unless required by applicable law or agreed to in writing, the Oculus SDK
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+// This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
+
+#ifndef OVR_REJOINDIALOGRESULT_H
+#define OVR_REJOINDIALOGRESULT_H
+
+#include "OVR_Platform_Defs.h"
+#include <stdbool.h>
+
+/// \file
+/// A boolean that indicates the result of
+/// ovr_GroupPresence_LaunchRejoinDialog(). 'True' indicates that the
+/// application will rejoin the dialog, otherwise the application will not
+/// rejoin the dialog. Read more about the [rejoin
+/// dialog](https://developer.oculus.com/documentation/native/ps-
+/// rejoin/#rejoin-apis).
+typedef struct ovrRejoinDialogResult *ovrRejoinDialogResultHandle;
+
+/// A boolean for if the user has decided to rejoin. This is used in
+/// ovr_GroupPresence_LaunchRejoinDialog().
+OVRP_PUBLIC_FUNCTION(bool) ovr_RejoinDialogResult_GetRejoinSelected(const ovrRejoinDialogResultHandle obj);
+
+
+#endif

@@ -1,22 +1,4 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) Meta Platforms, Inc. and affiliates.
 
 // This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
 
@@ -2341,6 +2323,37 @@ void OvrPlatform_Party_GetCurrent(
 }
 
 // ----------------------------------------------------------------------
+// PushNotification
+
+void OvrPlatform_PushNotification_Register(
+    UGameInstance* GameInstance,
+    OvrPlatform_PushNotification_Register_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_PushNotification_Register(),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrPushNotificationResultPtr ResponsePtr = MakeShared<FOvrPushNotificationResult>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ResponsePtr->Update(ovr_Message_GetPushNotificationResult(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
+// ----------------------------------------------------------------------
 // RichPresence
 
 void OvrPlatform_RichPresence_Clear(
@@ -2499,6 +2512,41 @@ void OvrPlatform_User_GetBlockedUsers(
                     else
                     {
                         ResponsePtr->Update(ovr_Message_GetBlockedUserArray(*MessagePtr), MessagePtr);
+                    }
+
+                    Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);
+                }));
+    }
+}
+
+void OvrPlatform_User_GetLinkedAccounts(
+    UGameInstance* GameInstance,
+    FOvrUserOptions UserOptions,
+    OvrPlatform_User_GetLinkedAccounts_Delegate&& Delegate)
+{
+    if (UOvrPlatformSubsystem* OvrPlatform = GameInstance->GetSubsystem<UOvrPlatformSubsystem>())
+    {
+        OvrPlatform->AddRequestDelegate(
+            ovr_User_GetLinkedAccounts(FOvrUserOptionsConverter(UserOptions)),
+            FOvrPlatformMessageOnComplete::CreateLambda(
+                [Delegate](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    FOvrLinkedAccountArrayPtr ResponsePtr = MakeShared<TArray<FOvrLinkedAccount>>();
+                    FString ErrMsg;
+                    if (bIsError)
+                    {
+                        ovrErrorHandle Error = ovr_Message_GetError(*MessagePtr);
+                        ErrMsg = UTF8_TO_TCHAR(ovr_Error_GetMessage(Error));
+                    }
+                    else
+                    {
+                        ovrLinkedAccountArrayHandle LinkedAccountArrayHandle = ovr_Message_GetLinkedAccountArray(*MessagePtr);
+                        size_t LinkedAccountArraySize = ovr_LinkedAccountArray_GetSize(LinkedAccountArrayHandle);
+                        ResponsePtr->Empty(LinkedAccountArraySize);
+                        for (size_t Index = 0; Index < LinkedAccountArraySize; ++Index)
+                        {
+                            ResponsePtr->Add(FOvrLinkedAccount(ovr_LinkedAccountArray_GetElement(LinkedAccountArrayHandle, Index), MessagePtr));
+                        }
                     }
 
                     Delegate.ExecuteIfBound(!bIsError, ResponsePtr, ErrMsg);

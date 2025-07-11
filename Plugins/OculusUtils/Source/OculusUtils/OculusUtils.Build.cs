@@ -1,12 +1,14 @@
 // Copyright (c) Meta Platforms, Inc. and affiliates.  All rights reserved.
 
 using UnrealBuildTool;
+using System.IO;
 
 public class OculusUtils : ModuleRules
 {
 	public OculusUtils(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+		PrivateIncludePaths.Add(Path.Combine(EngineDirectory, "Plugins/Runtime/OculusXR/OculusXR/Source/OculusXRHMD/Private"));
 
 		PublicIncludePaths.AddRange(
 			new string[]
