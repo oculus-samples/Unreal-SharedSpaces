@@ -967,7 +967,7 @@ public:
     // GroupPresence
 
     /**
-     * Clears the current group presence settings for your app. Use this when a user’s group presence setting in your app
+     * Clears the current group presence settings for your app. Use this when a user's group presence setting in your app
      * needs to be changed when moving to new destinations in your app.
      */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|GroupPresence")
@@ -1049,7 +1049,7 @@ public:
 
     /**
      * Launch the dialog allowing users to rejoin a previous lobby or match.
-     * Either the user’s FOvrGroupPresenceOptions::LobbySessionId, their FOvrGroupPresenceOptions::MatchSessionId,
+     * Either the user's FOvrGroupPresenceOptions::LobbySessionId, their FOvrGroupPresenceOptions::MatchSessionId,
      * or both must be populated as valid rejoinable destinations.
      * Check the Rejoin documentation for use cases and information on this feature.
      */
@@ -1104,7 +1104,7 @@ public:
         EOvrRequestOutputPins& OutExecs,
         /// Information about the latent action that will be performed as a result of this request.
         FLatentActionInfo LatentInfo,
-        /// userIDs is a list of users’ ids to send invites to.
+        /// userIDs is a list of users' ids to send invites to.
         TArray<FOvrId> UserIDs,
         /// Represents the payload of the request, if the request succeeded. These results can be used to provide more context and information about the outcome of the request.
         FOvrSendInvitesResult& SendInvitesResult,
@@ -1134,7 +1134,7 @@ public:
      * Sets the user's FOvrGroupPresenceOptions::DeeplinkMessageOverride while keeping the other group presence parameters the same.
      * If the destination of the user is not set, the deeplink message cannot be set as there's no deeplink message to override.
      * This method does not power travel from the Meta Quest platform to your app.
-     * You must set a user’s FOvrGroupPresenceOptions::DestinationApiName, FOvrGroupPresenceOptions::IsJoinable status,
+     * You must set a user's FOvrGroupPresenceOptions::DestinationApiName, FOvrGroupPresenceOptions::IsJoinable status,
      * and FOvrGroupPresenceOptions::LobbySessionId to enable travel to your app. Check Group Presence overview for more information about these values.
      * Note: Instead of using this standalone API, we recommend setting all GroupPresence parameters in one call to UOvrRequestsBlueprintLibrary::GroupPresence_Set().
      */
@@ -1171,12 +1171,12 @@ public:
         FString& ErrorMsg);
 
     /**
-     * Sets a user’s current presence as joinable. Use this method to update a user’s joinability as it changes.
+     * Sets a user's current presence as joinable. Use this method to update a user's joinability as it changes.
      * For example, when the game starts, the lobby becomes full, the user moves to a private,
      * non joinable instance while keeping all other GroupPresence parameters
      * (i.e  FOvrGroupPresenceOptions::DestinationApiName, FOvrGroupPresenceOptions::LobbySessionId,
      * FOvrGroupPresenceOptions::MatchSessionId) the same.
-     * Setting a user’s destination is required to enable travel from the Meta Quest Platform to your app.
+     * Setting a user's destination is required to enable travel from the Meta Quest Platform to your app.
      * Note: Instead of using this individual API, we recommend setting all GroupPresence information with the UOvrRequestsBlueprintLibrary::GroupPresence_Set()
      * method and its associated parameters to simply managing all presence information.
      * This helps ensure that all relevant presence information is singularly updated and helps reduce presence errors.
@@ -1569,7 +1569,7 @@ public:
     // ----------------------------------------------------------------------
     // Party
 
-    /** Load the current party the current FOvrUser is in. The returned FOvrParty will then contain information about other users in the party and invited users. */
+    /** Load the current party the current FOvrUser is in. The returned FOvrParty will then contain information about other users in the party and invited users. If the user is not currently in a party, the request will return an error message with code 10. */
     UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|Party")
     static void Party_GetCurrent(
         /// Word context
@@ -1580,6 +1580,23 @@ public:
         FLatentActionInfo LatentInfo,
         /// Represents the payload of the request, if the request succeeded. These results can be used to provide more context and information about the outcome of the request.
         FOvrParty& Party,
+        /// Error message if the request failed, which contains failure reason, it is empty if the request succeeded.
+        FString& ErrorMsg);
+
+    // ----------------------------------------------------------------------
+    // PushNotification
+
+    /** Register the device to receive push notification. The registered notification id can be fetched by field FOvrPushNotificationResult::Id. */
+    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|PushNotification")
+    static void PushNotification_Register(
+        /// Word context
+        UObject* WorldContextObject,
+        /// Reference to an array of output pins that will be executed as a result of this request.
+        EOvrRequestOutputPins& OutExecs,
+        /// Information about the latent action that will be performed as a result of this request.
+        FLatentActionInfo LatentInfo,
+        /// Represents the payload of the request, if the request succeeded. These results can be used to provide more context and information about the outcome of the request.
+        FOvrPushNotificationResult& PushNotificationResult,
         /// Error message if the request failed, which contains failure reason, it is empty if the request succeeded.
         FString& ErrorMsg);
 
@@ -1675,6 +1692,40 @@ public:
         FLatentActionInfo LatentInfo,
         /// Represents the payload of the request, if the request succeeded. These results can be used to provide more context and information about the outcome of the request.
         FOvrBlockedUserPages& BlockedUserPages,
+        /// Error message if the request failed, which contains failure reason, it is empty if the request succeeded.
+        FString& ErrorMsg);
+
+    /**
+     * Returns a list of linked accounts that are associated with the specified service providers.
+     * 
+     * Customization can be done via UserOptions. Create this object withFOvrUserOptions.
+     * The params that could be used are:
+     * 
+     * 1. FOvrUserOptions::ServiceProviders.Emplace() - returns the list of linked accounts
+     * that are associated with these specified service providers.
+     * 
+     * Example custom C++ usage:
+     * 
+     * <codeblock>
+     * auto options = ovr_UserOptions_Create();
+     * ovr_UserOptions_AddServiceProvider(options, ovrServiceProvider_Google);
+     * ovr_UserOptions_AddServiceProvider(options, ovrServiceProvider_Dropbox);
+     * ovr_User_GetLinkedAccounts(options);
+     * ovr_UserOptions_Destroy(options);
+     * </codeblock>
+     */
+    UFUNCTION(BlueprintCallable, meta = (Latent, LatentInfo = "LatentInfo", WorldContext = "WorldContextObject", ExpandEnumAsExecs = "OutExecs"), Category = "OvrPlatform|User")
+    static void User_GetLinkedAccounts(
+        /// Word context
+        UObject* WorldContextObject,
+        /// Reference to an array of output pins that will be executed as a result of this request.
+        EOvrRequestOutputPins& OutExecs,
+        /// Information about the latent action that will be performed as a result of this request.
+        FLatentActionInfo LatentInfo,
+        /// Additional configuration for this request It is optional and the options can be created by {{options.user.create}}
+        FOvrUserOptions UserOptions,
+        /// Represents the payload of the request, if the request succeeded. These results can be used to provide more context and information about the outcome of the request.
+        TArray<FOvrLinkedAccount>& LinkedAccountArray,
         /// Error message if the request failed, which contains failure reason, it is empty if the request succeeded.
         FString& ErrorMsg);
 

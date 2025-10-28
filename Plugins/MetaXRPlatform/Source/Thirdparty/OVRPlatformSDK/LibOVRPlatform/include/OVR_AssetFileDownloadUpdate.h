@@ -32,6 +32,11 @@
 /// an asset file. It contains the asset file ID, the download progress of the
 /// update, and its completion status. It can be retrieved using
 /// #ovrMessage_Notification_AssetFile_DownloadUpdate.
+///
+/// ovr_AssetFileDownloadUpdate_GetCompleted() is true means downloaded but
+/// probably not installed yet. Call ovr_AssetFile_StatusById() until
+/// ovr_AssetDetails_GetDownloadStatus() changes from 'available' to
+/// 'installed'.
 typedef struct ovrAssetFileDownloadUpdate *ovrAssetFileDownloadUpdateHandle;
 
 /// \deprecated Use ovr_AssetFileDownloadUpdate_GetAssetId().

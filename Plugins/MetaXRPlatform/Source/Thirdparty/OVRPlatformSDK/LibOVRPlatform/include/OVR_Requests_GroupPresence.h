@@ -35,17 +35,23 @@
 
 
 /// \file
-/// The Group Presence API updates the platform with a user's current
-/// ovr_Destination_GetApiName() and status, whether they are
-/// ovr_GroupPresenceOptions_SetIsJoinable(),
-/// ovr_GroupPresenceOptions_SetLobbySessionId() and
-/// ovr_GroupPresenceOptions_SetMatchSessionId() information. A user's location
-/// can be shown both in VR and out of it on social platforms, and can
-/// highlight popular destinations in your app. Joinable means that a user is
-/// in an area of your app that supports other users playing with them.
+/// The Group Presence API currently supports immersive apps and is designed to
+/// update the platform with a user's current ovr_Destination_GetApiName() and
+/// status, including whether they are
+/// ovr_GroupPresenceOptions_SetIsJoinable(), their
+/// ovr_GroupPresenceOptions_SetLobbySessionId(), and
+/// ovr_GroupPresenceOptions_SetMatchSessionId(). This allows a user's location
+/// to be displayed both in VR and outside of it on social platforms, and
+/// highlights popular destinations in your app. "Joinable" indicates that a
+/// user is in an area of your app that supports other users interacting with
+/// them.
+///
+/// Note These APIs are currently supported only for immersive mode. For non-
+/// immersive apps, such as regular Android-based panel apps or 2D experiences,
+/// this functionality is not yet supported.
 
 /// Clears the current group presence settings for your app. Use this when a
-/// user’s group presence setting in your app needs to be changed when moving
+/// user's group presence setting in your app needs to be changed when moving
 /// to new destinations in your app.
 ///
 /// A message with type ::ovrMessage_GroupPresence_Clear will be generated in response.
@@ -115,7 +121,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_GroupPresence_LaunchInvitePanel(ovrInviteOp
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_GroupPresence_LaunchMultiplayerErrorDialog(ovrMultiplayerErrorOptionsHandle options);
 
 /// Launch the dialog allowing users to rejoin a previous lobby or match.
-/// Either the user’s ovr_GroupPresenceOptions_SetLobbySessionId(), their
+/// Either the user's ovr_GroupPresenceOptions_SetLobbySessionId(), their
 /// ovr_GroupPresenceOptions_SetMatchSessionId(), or both must be populated as
 /// valid rejoinable destinations. Check the Rejoin documentation for use cases
 /// and information on this feature.
@@ -149,7 +155,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_GroupPresence_LaunchRosterPanel(ovrRosterOp
 /// ovr_GroupPresence_LaunchInvitePanel() which delegates the invite flow to
 /// the system invite module. ovr_GroupPresence_LaunchInvitePanel() is the
 /// recommended approach.
-/// \param userIDs userIDs is a list of users’ ids to send invites to.
+/// \param userIDs userIDs is a list of users' ids to send invites to.
 /// \param userIDLength The number of user IDs provided.
 ///
 /// A message with type ::ovrMessage_GroupPresence_SendInvites will be generated in response.
@@ -180,7 +186,7 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_GroupPresence_Set(ovrGroupPresenceOptionsHa
 /// keeping the other group presence parameters the same. If the destination of
 /// the user is not set, the deeplink message cannot be set as there's no
 /// deeplink message to override. This method does not power travel from the
-/// Meta Quest platform to your app. You must set a user’s
+/// Meta Quest platform to your app. You must set a user's
 /// ovr_GroupPresenceOptions_SetDestinationApiName(),
 /// ovr_GroupPresenceOptions_SetIsJoinable() status, and
 /// ovr_GroupPresenceOptions_SetLobbySessionId() to enable travel to your app.
@@ -214,13 +220,13 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_GroupPresence_SetDeeplinkMessageOverride(co
 /// This response has no payload. If no error occurred, the request was successful. Yay!
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_GroupPresence_SetDestination(const char *api_name);
 
-/// Sets a user’s current presence as joinable. Use this method to update a
-/// user’s joinability as it changes. For example, when the game starts, the
+/// Sets a user's current presence as joinable. Use this method to update a
+/// user's joinability as it changes. For example, when the game starts, the
 /// lobby becomes full, the user moves to a private, non joinable instance
 /// while keeping all other GroupPresence parameters (i.e
 /// ovr_GroupPresenceOptions_SetDestinationApiName(),
 /// ovr_GroupPresenceOptions_SetLobbySessionId(),
-/// ovr_GroupPresenceOptions_SetMatchSessionId()) the same. Setting a user’s
+/// ovr_GroupPresenceOptions_SetMatchSessionId()) the same. Setting a user's
 /// destination is required to enable travel from the Meta Quest Platform to
 /// your app. Note: Instead of using this individual API, we recommend setting
 /// all GroupPresence information with the ovr_GroupPresence_Set() method and

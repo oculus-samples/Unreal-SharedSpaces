@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.104.0",
+	"VersionName": "1.109.0",
 	"FriendlyName": "Meta XR Platform",
 	"Description": "Blueprint and C++ interface to Oculus Platform APIs",
 	"Category": "Online Platform",

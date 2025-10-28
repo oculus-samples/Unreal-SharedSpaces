@@ -57,7 +57,8 @@
 
 /// Load the current party the current ::ovrUserHandle is in. The returned
 /// ::ovrPartyHandle will then contain information about other users in the
-/// party and invited users.
+/// party and invited users. If the user is not currently in a party, the
+/// request will return an error message with code 10.
 ///
 /// A message with type ::ovrMessage_Party_GetCurrent will be generated in response.
 ///

@@ -3047,6 +3047,46 @@ void UOvrRequestsBlueprintLibrary::Party_GetCurrent(
 }
 
 // ----------------------------------------------------------------------
+// PushNotification
+
+void UOvrRequestsBlueprintLibrary::PushNotification_Register(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Output
+    FOvrPushNotificationResult& PushNotificationResult,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                []()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_PushNotification_Register();
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&PushNotificationResult](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        PushNotificationResult.Clear();
+                    }
+                    else
+                    {
+                        PushNotificationResult.Update(ovr_Message_GetPushNotificationResult(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
+// ----------------------------------------------------------------------
 // RichPresence
 
 void UOvrRequestsBlueprintLibrary::RichPresence_Clear(
@@ -3257,6 +3297,51 @@ void UOvrRequestsBlueprintLibrary::User_GetBlockedUsers(
                     else
                     {
                         BlockedUserPages.Update(ovr_Message_GetBlockedUserArray(*MessagePtr), MessagePtr);
+                    }
+                }));
+    }
+}
+
+void UOvrRequestsBlueprintLibrary::User_GetLinkedAccounts(
+    // Context
+    UObject* WorldContextObject,
+    EOvrRequestOutputPins& OutExecs,
+    FLatentActionInfo LatentInfo,
+    // Input
+    FOvrUserOptions UserOptions,
+    // Output
+    TArray<FOvrLinkedAccount>& LinkedAccountArray,
+    FString& ErrorMsg)
+{
+    if (auto World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+    {
+        OvrPlatformAddNewActionWithPreemption(
+            World,
+            LatentInfo.CallbackTarget, LatentInfo.UUID,
+            new FOvrRequestLatentAction(LatentInfo, OutExecs, ErrorMsg,
+                // Request Generator
+                [UserOptions]()->ovrRequest
+                {
+                    ovrRequest RequestID = ovr_User_GetLinkedAccounts(FOvrUserOptionsConverter(UserOptions));
+
+                    return RequestID;
+                },
+                // Response Processor
+                [&LinkedAccountArray](TOvrMessageHandlePtr MessagePtr, bool bIsError)->void
+                {
+                    if (bIsError)
+                    {
+                        LinkedAccountArray.Empty();
+                    }
+                    else
+                    {
+                        ovrLinkedAccountArrayHandle LinkedAccountArrayHandle = ovr_Message_GetLinkedAccountArray(*MessagePtr);
+                        size_t LinkedAccountArraySize = ovr_LinkedAccountArray_GetSize(LinkedAccountArrayHandle);
+                        LinkedAccountArray.Empty(LinkedAccountArraySize);
+                        for (size_t Index = 0; Index < LinkedAccountArraySize; ++Index)
+                        {
+                            LinkedAccountArray.Add(FOvrLinkedAccount(ovr_LinkedAccountArray_GetElement(LinkedAccountArrayHandle, Index), MessagePtr));
+                        }
                     }
                 }));
     }

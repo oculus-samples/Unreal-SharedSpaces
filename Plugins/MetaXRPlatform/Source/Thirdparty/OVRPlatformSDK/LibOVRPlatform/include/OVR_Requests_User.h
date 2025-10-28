@@ -93,6 +93,32 @@ OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetAccessToken();
 /// Extract the payload from the message handle with ::ovr_Message_GetBlockedUserArray().
 OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetBlockedUsers();
 
+/// Returns a list of linked accounts that are associated with the specified
+/// service providers.
+///
+/// Customization can be done via UserOptions. Create this object
+/// withovr_UserOptions_Create(). The params that could be used are:
+///
+/// 1. ovr_UserOptions_AddServiceProvider() - returns the list of linked
+/// accounts that are associated with these specified service providers.
+///
+/// Example custom C++ usage:
+///
+///   auto options = ovr_UserOptions_Create();
+///   ovr_UserOptions_AddServiceProvider(options, ovrServiceProvider_Google);
+///   ovr_UserOptions_AddServiceProvider(options, ovrServiceProvider_Dropbox);
+///   ovr_User_GetLinkedAccounts(options);
+///   ovr_UserOptions_Destroy(options);
+/// \param userOptions Additional configuration for this request It is optional and the options can be created by ovr_UserOptions_Create()
+///
+/// A message with type ::ovrMessage_User_GetLinkedAccounts will be generated in response.
+///
+/// First call ::ovr_Message_IsError() to check if an error occurred.
+///
+/// If no error occurred, the message will contain a payload of type ::ovrLinkedAccountArrayHandle.
+/// Extract the payload from the message handle with ::ovr_Message_GetLinkedAccountArray().
+OVRP_PUBLIC_FUNCTION(ovrRequest) ovr_User_GetLinkedAccounts(ovrUserOptionsHandle userOptions);
+
 /// Retrieve the currently signed in user. This call is available offline.
 ///
 /// NOTE: This will not return the user's presence as it should always be

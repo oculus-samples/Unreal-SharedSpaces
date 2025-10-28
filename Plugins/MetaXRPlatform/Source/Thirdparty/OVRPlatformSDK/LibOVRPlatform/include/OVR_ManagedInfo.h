@@ -34,7 +34,7 @@
 typedef struct ovrManagedInfo *ovrManagedInfoHandle;
 
 /// A string represents the department name in the organization to which the
-/// user blongs to.
+/// user belongs to.
 OVRP_PUBLIC_FUNCTION(const char *) ovr_ManagedInfo_GetDepartment(const ovrManagedInfoHandle obj);
 
 /// The email address of the account user which owns the MMA, i.e., Meta

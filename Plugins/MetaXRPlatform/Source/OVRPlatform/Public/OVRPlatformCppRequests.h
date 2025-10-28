@@ -766,7 +766,7 @@ void OVRPLATFORM_API OvrPlatform_Entitlement_GetIsViewerEntitled(
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_Clear_Delegate, bool, FString);
 
 /**
- * Clears the current group presence settings for your app. Use this when a user’s group presence setting in your app
+ * Clears the current group presence settings for your app. Use this when a user's group presence setting in your app
  * needs to be changed when moving to new destinations in your app.
  */
 void OVRPLATFORM_API OvrPlatform_GroupPresence_Clear(
@@ -831,7 +831,7 @@ DECLARE_DELEGATE_ThreeParams(OvrPlatform_GroupPresence_LaunchRejoinDialog_Delega
 
 /**
  * Launch the dialog allowing users to rejoin a previous lobby or match.
- * Either the user’s FOvrGroupPresenceOptions::LobbySessionId, their FOvrGroupPresenceOptions::MatchSessionId,
+ * Either the user's FOvrGroupPresenceOptions::LobbySessionId, their FOvrGroupPresenceOptions::MatchSessionId,
  * or both must be populated as valid rejoinable destinations.
  * Check the Rejoin documentation for use cases and information on this feature.
  */
@@ -874,7 +874,7 @@ DECLARE_DELEGATE_ThreeParams(OvrPlatform_GroupPresence_SendInvites_Delegate, boo
 void OVRPLATFORM_API OvrPlatform_GroupPresence_SendInvites(
     /// Instance of the game
     UGameInstance* GameInstance,
-    /// userIDs is a list of users’ ids to send invites to.
+    /// userIDs is a list of users' ids to send invites to.
     TArray<FOvrId> UserIDs,
     /// Delegate to be called when the request is complete
     OvrPlatform_GroupPresence_SendInvites_Delegate&& Delegate);
@@ -901,7 +901,7 @@ DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_SetDeeplinkMessageOverride_
  * Sets the user's FOvrGroupPresenceOptions::DeeplinkMessageOverride while keeping the other group presence parameters the same.
  * If the destination of the user is not set, the deeplink message cannot be set as there's no deeplink message to override.
  * This method does not power travel from the Meta Quest platform to your app.
- * You must set a user’s FOvrGroupPresenceOptions::DestinationApiName, FOvrGroupPresenceOptions::IsJoinable status,
+ * You must set a user's FOvrGroupPresenceOptions::DestinationApiName, FOvrGroupPresenceOptions::IsJoinable status,
  * and FOvrGroupPresenceOptions::LobbySessionId to enable travel to your app. Check Group Presence overview for more information about these values.
  * Note: Instead of using this standalone API, we recommend setting all GroupPresence parameters in one call to UOvrRequestsBlueprintLibrary::GroupPresence_Set().
  */
@@ -932,12 +932,12 @@ void OVRPLATFORM_API OvrPlatform_GroupPresence_SetDestination(
 DECLARE_DELEGATE_TwoParams(OvrPlatform_GroupPresence_SetIsJoinable_Delegate, bool, FString);
 
 /**
- * Sets a user’s current presence as joinable. Use this method to update a user’s joinability as it changes.
+ * Sets a user's current presence as joinable. Use this method to update a user's joinability as it changes.
  * For example, when the game starts, the lobby becomes full, the user moves to a private,
  * non joinable instance while keeping all other GroupPresence parameters
  * (i.e  FOvrGroupPresenceOptions::DestinationApiName, FOvrGroupPresenceOptions::LobbySessionId,
  * FOvrGroupPresenceOptions::MatchSessionId) the same.
- * Setting a user’s destination is required to enable travel from the Meta Quest Platform to your app.
+ * Setting a user's destination is required to enable travel from the Meta Quest Platform to your app.
  * Note: Instead of using this individual API, we recommend setting all GroupPresence information with the UOvrRequestsBlueprintLibrary::GroupPresence_Set()
  * method and its associated parameters to simply managing all presence information.
  * This helps ensure that all relevant presence information is singularly updated and helps reduce presence errors.
@@ -1264,12 +1264,25 @@ void OVRPLATFORM_API OvrPlatform_Notification_MarkAsRead(
 typedef TSharedPtr<FOvrParty> FOvrPartyPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_Party_GetCurrent_Delegate, bool, FOvrPartyPtr, FString);
 
-/** Load the current party the current FOvrUser is in. The returned FOvrParty will then contain information about other users in the party and invited users. */
+/** Load the current party the current FOvrUser is in. The returned FOvrParty will then contain information about other users in the party and invited users. If the user is not currently in a party, the request will return an error message with code 10. */
 void OVRPLATFORM_API OvrPlatform_Party_GetCurrent(
     /// Instance of the game
     UGameInstance* GameInstance,
     /// Delegate to be called when the request is complete
     OvrPlatform_Party_GetCurrent_Delegate&& Delegate);
+
+// ----------------------------------------------------------------------
+// PushNotification
+
+typedef TSharedPtr<FOvrPushNotificationResult> FOvrPushNotificationResultPtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_PushNotification_Register_Delegate, bool, FOvrPushNotificationResultPtr, FString);
+
+/** Register the device to receive push notification. The registered notification id can be fetched by field FOvrPushNotificationResult::Id. */
+void OVRPLATFORM_API OvrPlatform_PushNotification_Register(
+    /// Instance of the game
+    UGameInstance* GameInstance,
+    /// Delegate to be called when the request is complete
+    OvrPlatform_PushNotification_Register_Delegate&& Delegate);
 
 // ----------------------------------------------------------------------
 // RichPresence
@@ -1345,6 +1358,36 @@ void OVRPLATFORM_API OvrPlatform_User_GetBlockedUsers(
     UGameInstance* GameInstance,
     /// Delegate to be called when the request is complete
     OvrPlatform_User_GetBlockedUsers_Delegate&& Delegate);
+
+typedef TSharedPtr<TArray<FOvrLinkedAccount>> FOvrLinkedAccountArrayPtr;
+DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_GetLinkedAccounts_Delegate, bool, FOvrLinkedAccountArrayPtr, FString);
+
+/**
+ * Returns a list of linked accounts that are associated with the specified service providers.
+ * 
+ * Customization can be done via UserOptions. Create this object withFOvrUserOptions.
+ * The params that could be used are:
+ * 
+ * 1. FOvrUserOptions::ServiceProviders.Emplace() - returns the list of linked accounts
+ * that are associated with these specified service providers.
+ * 
+ * Example custom C++ usage:
+ * 
+ * <codeblock>
+ * auto options = ovr_UserOptions_Create();
+ * ovr_UserOptions_AddServiceProvider(options, ovrServiceProvider_Google);
+ * ovr_UserOptions_AddServiceProvider(options, ovrServiceProvider_Dropbox);
+ * ovr_User_GetLinkedAccounts(options);
+ * ovr_UserOptions_Destroy(options);
+ * </codeblock>
+ */
+void OVRPLATFORM_API OvrPlatform_User_GetLinkedAccounts(
+    /// Instance of the game
+    UGameInstance* GameInstance,
+    /// Additional configuration for this request It is optional and the options can be created by {{options.user.create}}
+    FOvrUserOptions UserOptions,
+    /// Delegate to be called when the request is complete
+    OvrPlatform_User_GetLinkedAccounts_Delegate&& Delegate);
 
 typedef TSharedPtr<FOvrUser> FOvrUserPtr;
 DECLARE_DELEGATE_ThreeParams(OvrPlatform_User_GetLoggedInUser_Delegate, bool, FOvrUserPtr, FString);

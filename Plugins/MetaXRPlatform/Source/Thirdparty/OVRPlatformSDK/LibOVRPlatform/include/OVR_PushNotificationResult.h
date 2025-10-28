@@ -20,20 +20,22 @@
  
 // This file was @generated with LibOVRPlatform/codegen/main. Do not modify it!
 
-#ifndef OVR_USERREPORTID_H
-#define OVR_USERREPORTID_H
+#ifndef OVR_PUSHNOTIFICATIONRESULT_H
+#define OVR_PUSHNOTIFICATIONRESULT_H
 
 #include "OVR_Platform_Defs.h"
-#include "OVR_Types.h"
-#include <stdbool.h>
 
 /// \file
-/// \deprecated Do not add new requests using this. Use ::ovrLaunchReportFlowResultHandle instead.
-typedef struct ovrUserReportID *ovrUserReportIDHandle;
+/// A PushNotificationResult represents the outcome of a user registering for
+/// third-party (3P) notifications. This object contains essential information
+/// about the registered notification, which can be used to send push
+/// notifications to the user. It can be retrieved using
+/// ovr_PushNotification_Register()
+typedef struct ovrPushNotificationResult *ovrPushNotificationResultHandle;
 
-/// Whether the viewer chose to cancel the report flow.
-OVRP_PUBLIC_FUNCTION(bool) ovr_UserReportID_GetDidCancel(const ovrUserReportIDHandle obj);
+/// The registered notification id is a type of string which you can push
+/// notification to.
+OVRP_PUBLIC_FUNCTION(const char *) ovr_PushNotificationResult_GetId(const ovrPushNotificationResultHandle obj);
 
-OVRP_PUBLIC_FUNCTION(ovrID) ovr_UserReportID_GetID(const ovrUserReportIDHandle obj);
 
 #endif

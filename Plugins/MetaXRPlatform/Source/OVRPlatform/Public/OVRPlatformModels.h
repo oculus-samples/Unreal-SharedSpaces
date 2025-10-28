@@ -518,6 +518,9 @@ struct OVRPLATFORM_API FOvrAssetFileDownloadResult
  * An AssetFileDownloadUpdate represents the download status of an update for an asset file.
  * It contains the asset file ID, the download progress of the update, and its completion status.
  * It can be retrieved using UOvrPlatformSubsystem::OnAssetFileDownloadUpdate(). 
+ * 
+ * field FOvrAssetFileDownloadUpdate::Completed is true means downloaded but probably not installed yet.
+ * Call UOvrRequestsBlueprintLibrary::AssetFile_StatusById() until field FOvrAssetDetails::DownloadStatus changes from 'available' to 'installed'. 
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|AssetFileDownloadUpdate")
 struct OVRPLATFORM_API FOvrAssetFileDownloadUpdate
@@ -1788,7 +1791,7 @@ struct OVRPLATFORM_API FOvrManagedInfo
 
     /**
      * A string represents the department name in the organization
-     * to which the user blongs to.
+     * to which the user belongs to.
      */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|ManagedInfo|Field")
     FString Department;
@@ -2568,6 +2571,7 @@ struct OVRPLATFORM_API FOvrPurchase
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FDateTime GrantTime;
 
+    /** The unique identifier of a FOvrPurchase represents a user's unique entitlement to a FOvrProduct. This value is 0 for shared IAP entitlements. */
     UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|Purchase|Field")
     FString PurchaseID;
 
@@ -2645,6 +2649,34 @@ public:
     /** Indicates whether there is a next page of elements that can be retrieved. If this value is true, you can use the next_url field to request the next page of elements. */
     UFUNCTION(BlueprintCallable, Category = "OvrPlatform|Models|PurchasePages")
     static bool PurchasePages_HasNextPage(const FOvrPurchasePages& Model);
+};
+
+
+/**
+ * A PushNotificationResult represents the outcome of a user registering for third-party (3P) notifications.
+ * This object contains essential information about the registered notification, which can be used to send push notifications to the user.
+ * It can be retrieved using UOvrRequestsBlueprintLibrary::PushNotification_Register()
+ */
+USTRUCT(BlueprintType, Category = "OvrPlatform|Models|PushNotificationResult")
+struct OVRPLATFORM_API FOvrPushNotificationResult
+{
+    GENERATED_USTRUCT_BODY()
+
+    /** The registered notification id is a type of string which you can push notification to. */
+    UPROPERTY(BlueprintReadOnly, Category = "OvrPlatform|Models|PushNotificationResult|Field")
+    FString Id;
+
+    /// \brief This is the default constructor for the struct, which initializes the ::ovrPushNotificationResultHandle and ::TOvrMessageHandlePtr to their default values.
+    FOvrPushNotificationResult();
+
+    /// \brief Copying values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    FOvrPushNotificationResult(ovrPushNotificationResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
+
+    /// \brief  Setting all values to their defaults, effectively clearing the struct.
+    void Clear();
+
+    /// \brief Updating values from an OVR handle to the array, and the originating message to prevent the handle from being freed.
+    void Update(ovrPushNotificationResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr);
 };
 
 
@@ -4058,7 +4090,7 @@ struct OVRPLATFORM_API FOvrUserProof
 };
 
 
-/** \deprecated Do not add new requests using this. Use launch_report_flow_result instead.  */
+/** \deprecated Do not add new requests using this. Use FOvrLaunchReportFlowResult instead.  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Models|UserReportID")
 struct OVRPLATFORM_API FOvrUserReportID
 {

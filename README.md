@@ -6,60 +6,6 @@ SharedSpaces was built by the VR Developer Tools team to demonstrate how you can
 
 **NOTE:** The EOS version of Shared Spaces can only be used with the Meta Quest fork of Unreal Engine. See <a href="#build-instructions">Build Instructions</a> for more information.
 
-## 13 February 2025 Update
-
-We updated the project to UE5.5.
-
-We updated the MetaXRPlatform plugin to SDK v72.
-
-We fixed a crash when playing in editor with "Number of Players" > 1.
-
-## 23 August 2024 Update - Shared Spaces EOS!
-
-We have created a new branch `eos-5.x` which contains a [new version of Shared Spaces using Epic Online Services](https://github.com/oculus-samples/Unreal-SharedSpaces/tree/eos-5.x) as its network layer (instead of Photon). This version also includes updates to support the latest [Meta fork of Unreal Engine](https://github.com/Oculus-VR/UnrealEngine)  `5.4.3-v68`.
-
-## 06 December 2023 Update
-
-We updated the project to UE5.3.
-
-We updated the MetaXRPlatform plugin to SDK v59.
-
-## 30 August 2023 Update
-
-We updated the settings for UE5.2.
-
-We updated the OVRPlatform plugin to use the new MetaXRPlatform plugin found [here](https://developer.oculus.com/downloads/package/unreal-5-platform-sdk-plugin/). We updated to SDK v56.
-
-We have added the the ability to handle [User Reporting](https://developer.oculus.com/resources/reporting-plugin/). This allow users to notify the developer about conduct within the application that does not adhere to the [Code of Conduct](https://developer.oculus.com/resources/vrc-content-3/) in Virtual Experiences.
-
-## 08 March 2023 Update
-
-We have added a demo for the [App to App Travel](https://developer.oculus.com/documentation/unreal/ps-app-to-app-travel/) platform feature.
-
-For that purpose we added a door that will launch another of our showcase [_Ultimate Glove Ball_](https://github.com/oculus-samples/Unity-UltimateGloveBall) joining directly in an arena of the same session, making it so that every user in the same lobby can join the same arena.
-Implementation details can be found [here](./Documentation/SharedSpaces.md#6-external-application-portal).
-
-## 20 October 2022 Update
-
-We have added a demo of the new Blocked Users flows presented at
-[Connect 2022](https://metaconnect.com/en-us/program/fbc023/).
-
-For that purpose, pulling the controller trigger no longer changes your robot color,
-but instead starts the block/unblock flow with the character in front of you (if any).
-You can still change your robot color by stepping on the paint shop plate in the lobby.
-
-## 18 May 2022 Update
-
-For the original SharedSpaces for UE4, we created a new plugin, *Plugin/OculusPlatform*, to expose the
-new OVR Platform APIs that we needed, in particular the group presence ones.  Instead of using both
-the old Oculus OSS and the new plugin, we just moved everything that we needed into the new plugin.
-
-In this update, the plugin has been renamed *Plugin/OVRPlatform* and now covers all OVR Platform APIs.
-A key feature of this plugin is that it is codegened, which means that it will be kept in sync with the
-OVR Platform.  That was not possible with the older Oculus OSS, has it required manual adaptation of
-UE4 OSS to Oculus VR Platform services.  We are planning on releasing it as an engine level plugin in
-the near future.
-
 SharedSpaces is available on the [Horizon Store](https://www.meta.com/experiences/4540942155998634/).
 
 ## Documentation
@@ -84,15 +30,16 @@ git lfs install
 ```sh
 git clone https://github.com/oculus-samples/Unreal-SharedSpaces.git
 ```
-3. This project requires the Oculus fork of the UE5.4 game engine that you can find [here](https://github.com/Oculus-VR/UnrealEngine/tree/oculus-5.4).<br/>*NOTE:* access to the Oculus fork requires [access to Epic's GitHub](https://www.unrealengine.com/en-US/ue-on-github).
-4. You need [Visual Studio](https://docs.unrealengine.com/5.4/en-US/setting-up-visual-studio-development-environment-for-cplusplus-projects-in-unreal-engine/) installed to build the engine and the project plugins.
-5. Open a command prompt, change directory to your Unreal root (see step 3), then run this command:
+3. [Get access to the Unreal source code](https://www.unrealengine.com/en-US/ue-on-github).
+4. [Clone the `oculus-5.5` branch of the Oculus fork](https://github.com/Oculus-VR/UnrealEngine/tree/oculus-5.5).
+5. You need [Visual Studio](https://docs.unrealengine.com/5.4/en-US/setting-up-visual-studio-development-environment-for-cplusplus-projects-in-unreal-engine/) installed to build the engine and the project plugins.
+6. Open a command prompt, change directory to your Unreal root (see step 3), then run this command:
 ```sh
 .\GenerateProjectFiles.bat -Game SharedSpaces -Engine <full path to Unreal-SharedSpaces directory>\SharedSpaces.uproject
 ```
-6. Open the `SharedSpaces.sln` file that has been generated in the `Unreal-SharedSpaces` directory.
-7. Set `SharedSpaces` as the start-up project and `Development Editor` as the configuration.
-8. Hit `F5` to build and debug the project (and the engine).
+7. Open the `SharedSpaces.sln` file that has been generated in the `Unreal-SharedSpaces` directory.
+8. Set `SharedSpaces` as the start-up project and `Development Editor` as the configuration.
+9. Hit `F5` to build and debug the project (and the engine).
 
 ## License
 

@@ -117,6 +117,7 @@
 #include "OVR_ProductArray.h"
 #include "OVR_Purchase.h"
 #include "OVR_PurchaseArray.h"
+#include "OVR_PushNotificationResult.h"
 #include "OVR_RejoinDialogResult.h"
 #include "OVR_SdkAccount.h"
 #include "OVR_SdkAccountArray.h"
@@ -154,6 +155,7 @@
 #include "OVR_Requests_Media.h"
 #include "OVR_Requests_Notification.h"
 #include "OVR_Requests_Party.h"
+#include "OVR_Requests_PushNotification.h"
 #include "OVR_Requests_RichPresence.h"
 #include "OVR_Requests_User.h"
 #include "OVR_Requests_UserAgeCategory.h"
@@ -176,7 +178,7 @@
 
 /// \file
 /// To use the Platform SDK, you only need to include this OVR_Platform.h file 
-/// because it includes other [Platform SDK headers](https://developer.oculus.com/reference/platform/latest/all_files_outline/).
+/// because it includes other Platform SDK headers.
 /// The code example regarding how to initialize the Platform SDK, make a request and then 
 /// handle the response can be found in [reference guide](https://developer.oculus.com/reference/platform/latest/).
 

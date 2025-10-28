@@ -385,7 +385,7 @@ struct OVRPLATFORM_API FOvrMultiplayerErrorOptions
 
 /**
  * The NetSyncOption configures network connections, focusing on VoIP data streams.
- * It includes 'zone_id' for unique identifiers within the application, 'voip_stream_default' to set default VoIP stream modes , and 'voip_group' to assign a VoIP group upon connection.
+ * It includes 'zone_id' for unique identifiers within the application, 'voip_stream_default' to set default VoIP stream modes, and 'voip_group' to assign a VoIP group upon connection.
  * It can be set when create a new connection and retrieved using FOvrNetSyncConnection.
  */
 USTRUCT(BlueprintType, Category = "OvrPlatform|Options|NetSync")

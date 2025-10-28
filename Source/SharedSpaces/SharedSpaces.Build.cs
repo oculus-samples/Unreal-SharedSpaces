@@ -37,6 +37,7 @@ public class SharedSpaces : ModuleRules
 				"OnlineSubsystem",
 				"OnlineSubsystemEOS",
 				"OnlineSubsystemUtils",
+				"OculusXRHMD",
 			});
 
 		if (Target.Platform == UnrealTargetPlatform.Android && Target.Configuration == UnrealTargetConfiguration.Shipping)

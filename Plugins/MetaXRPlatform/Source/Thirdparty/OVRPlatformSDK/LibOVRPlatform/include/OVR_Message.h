@@ -83,6 +83,7 @@
 #include "OVR_ProductArray.h"
 #include "OVR_Purchase.h"
 #include "OVR_PurchaseArray.h"
+#include "OVR_PushNotificationResult.h"
 #include "OVR_RejoinDialogResult.h"
 #include "OVR_SdkAccountArray.h"
 #include "OVR_SendInvitesResult.h"
@@ -221,6 +222,8 @@ OVRP_PUBLIC_FUNCTION(ovrProductArrayHandle)                       ovr_Message_Ge
 OVRP_PUBLIC_FUNCTION(ovrPurchaseHandle)                           ovr_Message_GetPurchase(const ovrMessageHandle obj);
 /// Retrieves the model payload from the response ::ovr_Message_GetPurchaseArray. Intended to be used by clients to handle the structured payload
 OVRP_PUBLIC_FUNCTION(ovrPurchaseArrayHandle)                      ovr_Message_GetPurchaseArray(const ovrMessageHandle obj);
+/// Retrieves the model payload from the response ::ovr_Message_GetPushNotificationResult. Intended to be used by clients to handle the structured payload
+OVRP_PUBLIC_FUNCTION(ovrPushNotificationResultHandle)             ovr_Message_GetPushNotificationResult(const ovrMessageHandle obj);
 /// Retrieves the model payload from the response ::ovr_Message_GetRejoinDialogResult. Intended to be used by clients to handle the structured payload
 OVRP_PUBLIC_FUNCTION(ovrRejoinDialogResultHandle)                 ovr_Message_GetRejoinDialogResult(const ovrMessageHandle obj);
 /// Retrieves the model payload from the response ::ovr_Message_GetRequestID. Intended to be used by clients to handle the structured payload

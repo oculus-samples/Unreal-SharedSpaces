@@ -45,6 +45,9 @@ OVRP_PUBLIC_FUNCTION(unsigned long long) ovr_Purchase_GetExpirationTime(const ov
 /// ::ovrProductHandle that was purchased.
 OVRP_PUBLIC_FUNCTION(unsigned long long) ovr_Purchase_GetGrantTime(const ovrPurchaseHandle obj);
 
+/// The unique identifier of a ::ovrPurchaseHandle represents a user's unique
+/// entitlement to a ::ovrProductHandle. This value is 0 for shared IAP
+/// entitlements.
 /// \deprecated  Use ovr_Purchase_GetPurchaseStrID() instead.
 OVRP_PUBLIC_FUNCTION(ovrID) ovr_Purchase_GetPurchaseID(const ovrPurchaseHandle obj);
 

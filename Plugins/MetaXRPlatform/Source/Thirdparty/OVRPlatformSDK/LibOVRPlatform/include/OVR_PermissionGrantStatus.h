@@ -26,7 +26,7 @@
 #include "OVR_Platform_Defs.h"
 
 /// \file
-/// This `enum` represents the all possible statuses of a premission request.
+/// This `enum` represents the all possible statuses of a permission request.
 /// For example, if an user wants to participate in a challenge, the user may
 /// request the permission to join the ::ovrChallengeHandle first. If the
 /// permission grant status is granted, the user can call ovr_Challenges_Join()

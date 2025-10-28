@@ -1826,6 +1826,29 @@ bool UOvrPurchasePagesMethods::PurchasePages_HasNextPage(const FOvrPurchasePages
 }
 
 // -----------------------------------------------------------------------------
+// FOvrPushNotificationResult
+
+FOvrPushNotificationResult::FOvrPushNotificationResult()
+{
+    Clear();
+}
+
+FOvrPushNotificationResult::FOvrPushNotificationResult(ovrPushNotificationResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Update(OvrHandle, MessageHandlePtr);
+}
+
+void FOvrPushNotificationResult::Clear()
+{
+    Id = TEXT("");
+}
+
+void FOvrPushNotificationResult::Update(ovrPushNotificationResultHandle OvrHandle, TOvrMessageHandlePtr MessageHandlePtr)
+{
+    Id = UTF8_TO_TCHAR(ovr_PushNotificationResult_GetId(OvrHandle));
+}
+
+// -----------------------------------------------------------------------------
 // FOvrRejoinDialogResult
 
 FOvrRejoinDialogResult::FOvrRejoinDialogResult()
