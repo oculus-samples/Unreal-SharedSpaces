@@ -17,7 +17,8 @@ D. <a href="#D">Oculus Application Configuration</a><br/>
 &nbsp;&nbsp;&nbsp;1. <a href="#D1">Application Identifier</a><br/>
 &nbsp;&nbsp;&nbsp;2. <a href="#D2">Destinations</a><br/>
 &nbsp;&nbsp;&nbsp;3. <a href="#D3">Data Use Checkup</a><br/>
-&nbsp;&nbsp;&nbsp;4. <a href="#D4">EOS Configuration</a><br/>
+&nbsp;&nbsp;&nbsp;4. <a href="#D4">Upload to Release Channel</a><br/>
+&nbsp;&nbsp;&nbsp;5. <a href="#D5">EOS Configuration</a><br/>
 </td>
 </tr>
 </table>
@@ -57,7 +58,7 @@ dedicated server.
 ## *A Private Lobby Connected to Rooms*
 <div style="text-align: center; padding: 10pt;"><img src="./Media/layout.png" align="middle" width="600"></div>
 
-SharedSpaces is made of a few connected levels, known as destinations.  In the center is your personal lobby 
+SharedSpaces is made of a few connected levels, known as destinations.  In the center is your personal lobby
 with doors leading to the surrounding matches.  The matches on the left are private and are reachable from your
 own lobby only.  The match on the right is public, reachable from any lobby.
 
@@ -71,7 +72,7 @@ one for your lobby session id, which should not change very often, and one for y
 only set when you join a match.
 
 The destinations are specific areas of your application that are defined on the
-[Oculus dashboard](https://developer.oculus.com/manage) under **Platform Services > Destinations**.
+[Oculus dashboard](https://developers.meta.com/horizon/manage/) under **Platform Services > Destinations**.
 The lobby session id represents a tight group of people that want to stay together between games and
 possibly play as part of the same team during matches.  The match session id is shared by people currently
 playing a match together, whether they are on the same team or not.
@@ -80,7 +81,7 @@ playing a match together, whether they are on the same team or not.
 
 When you first launch SharedSpaces, you start in your own private lobby for which we create a unique id.
 To form a group to be with before and after matches, you invite people to share your lobby.  If they accept
-the invitation, their lobby session id will be updated to be the same as yours, and whenever you will be in 
+the invitation, their lobby session id will be updated to be the same as yours, and whenever you will be in
 the lobby at the same time, you will be together in the same space.
 
 You can think of the lobby as the base camp for your group.  Different groups always go back to their respective
@@ -95,7 +96,7 @@ This only affects the match session ids of their group presence.
 
 You can also grant access to your private match to anyone.  You invite them from that match, and they join you
 when they accept the invitation.  In SharedSpaces, accepting an invitation to a match only affects your match
-session id, not your lobby session id.  
+session id, not your lobby session id.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/respective_lobbies.png" align="middle" width="650"></div>
 
@@ -111,7 +112,7 @@ invitation.
 
 ## *Transport Layer - EOS Lobbies*
 
-To connect users, EOS has the concept of lobby.  People in the same match or lobby instance will be in the same 
+To connect users, EOS has the concept of lobby.  People in the same match or lobby instance will be in the same
 EOS lobby in order for data to flow between them. The transport layer is responsible for routing packets
 between your users who are most likely behind network firewalls.
 
@@ -192,7 +193,7 @@ the lobby, as indicated by the star next to her name.
 
 Alice wants Bob to form a group with her so that they can be together between matches.
 To do that, she steps on the invite panel switch and she sends him an invitation from her lobby.
-By accepting, SharedSpaces starts on Bob’s headset with a deeplink message that will let him join Alice in game. 
+By accepting, SharedSpaces starts on Bob’s headset with a deeplink message that will let him join Alice in game.
 From now on, Bob will have the same lobby session id as Alice and they will share the same lobby.
 
 <div style="text-align: center; padding: 10pt;">
@@ -311,7 +312,7 @@ both major subsystems.
     + On Log Entry: Sets up the ability to log EOS information, warnings and errors.
 	+ On Login: Event for when the user attempts to login.
         Need to be logged in to the EOS system before initialization continues.
-	+ On Room Created: Event for when the user attempts to create an EOS lobby. 
+	+ On Room Created: Event for when the user attempts to create an EOS lobby.
     	This triggers a UE4 client/server connection.
 	+ On Room Found: Event for when searching for an EOS lobby is finished. If a lobby was found, the user will join it,
     	else the user will create the lobby.
@@ -344,7 +345,7 @@ user's social platform group presence which includes a destination and his lobby
 Let's review the information required for connecting the players together:
 
 + __Destination Api Name__: you can define a list of destinations for your application on the
-	[Oculus application dashboard](https://developer.oculus.com/manage).  These can be deep linked
+	[Oculus application dashboard](https://developers.meta.com/horizon/manage/).  These can be deep linked
 	for seamless navigation to your application.  In the case of SharedSpaces, we have created one
 	destination for the lobby, and one for each of the colored rooms.
 	<div style="text-align: center; padding: 10pt;">
@@ -465,7 +466,7 @@ EOS setup region of the blueprint.
 
 UE4 network connections are mainly established after joining (or rejoining) an EOS lobby.
 The key information that we need is our EOS room master client status, the host address
-associated with the current master client of the space that we are connecting to, and an 
+associated with the current master client of the space that we are connecting to, and an
 optional start location.
 
 <div style="text-align: center; padding: 10pt;">
@@ -487,7 +488,7 @@ we need to host the level or join an existing server.
 +  __Normal Client__:  open &lt;address&gt; # &lt;startpos&gt;
 
 The EOS room master client opens up a level by name and uses the "?listen" parameter to
-indicate that we will also accept client connections.  This is known as the __listen-server__ 
+indicate that we will also accept client connections.  This is known as the __listen-server__
 mode.  Everybody else simply opens a connection to that server using the address provided.
 In the case of SharedSpaces, that address is the application-specific user id of the host
 followed by ".oculus".
@@ -572,7 +573,7 @@ of a destination as you have defined them on the dashboard.
 When the user enters the portal, we find his current lobby id and we query the name of the
 level from the destination's record.  We perform a network launch with those values and with
 the match id empty in all cases, even when we travel to a match.  This is allowed since match
-ids are derived from lobby session ids when we go through portals, as explained earlier. 
+ids are derived from lobby session ids when we go through portals, as explained earlier.
 
 ## 4. <a id="C4">SharedSpaces Character</a>
 
@@ -600,7 +601,7 @@ variables on the SharedSpaces Game Instance.  If you scroll back to the implemen
 for __UE4 Open Level__, you will see where we use the current destination, for example.
 
 Now let's talk about the replication of a user's name, color and master client status.  These
-values need to be propagated to all players in order for them to see who's who, hopefully with a 
+values need to be propagated to all players in order for them to see who's who, hopefully with a
 distinctive color and with a star above your head when you are the current master client.
 
 <div style="text-align: center; padding: 10pt;">
@@ -672,7 +673,7 @@ not the character has moved (*IsStationary*) and the last time and location with
 After checking that we are using a VR headset, there are two gates that we need to go through
 before we allow the camera to reset.  The first one checks that the character is stationary.
 The second one checks that we have moved enough since our last camera reset and waited enough
-since we stopped moving.  
+since we stopped moving.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/manual_reset.png">
@@ -716,24 +717,24 @@ Then the SharedSpaces Game Instance will validate the inputs and call the Platfo
 	<img src="./Media/external_app_launch.png"  width="1200">
 </div>
 
-This is the implementation for the [App to App Travel](https://developer.oculus.com/documentation/unreal/ps-app-to-app-travel/) platform feature.
+This is the implementation for the [App to App Travel](https://developers.meta.com/horizon/documentation/unreal/ps-app-to-app-travel/) platform feature.
 
 ## 7. <a id="C6">User Reporting</a>
 
-When the user presses the Oculus button and selects _Report_, your application is required to notify 
-the system how you will handle it. You may handle the report by providing your own in-app reporting 
+When the user presses the Oculus button and selects _Report_, your application is required to notify
+the system how you will handle it. You may handle the report by providing your own in-app reporting
 flow or choose to defer to the system reporting flow by selecting _Unhandled_.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/user_reporting.png"  width="1200">
 </div>
 
-This is the implementation for the [User Reporting](https://developer.oculus.com/resources/reporting-plugin/) platform feature.
+This is the implementation for the [User Reporting](https://developers.meta.com/horizon/resources/reporting-plugin/) platform feature.
 
 # D. <a id="D">Oculus Application Configuration</a>
 
 To build and run your own copy of SharedSpaces, you will need to create an application for it
-on the [Oculus developer dashboard](https://developer.oculus.com/).
+on the [Oculus developer dashboard](https://developers.meta.com/horizon/).
 
 ## 1. <a id="D1">Application Identifier</a>
 
@@ -789,7 +790,18 @@ public room (the purple room).  Here are the settings for each of them.
 In addition to these settings, you need to set __Deeplink Type__ to __Enabled__ and add an image for your
 destination.  In the case of SharedSpaces, the destination is __Audience__ is set to __Everyone__. Also make sure to set the max group launch capacity for each destination so that the group launch feature can be used.
 
-Next, you need to upload a build to a release channel.
+## 3. <a id="D3">Data Use Checkup</a>
+
+You will need to request access to platform data needed by SharedSpaces. Under __Data Use Checkup__, add the following items and submit for certification.
+
++  User ID
++  User Profile
++  Deep Linking
++  Friends
++  Invites
+
+## 4. <a id="D4">Upload to Release Channel</a>
+To use the platform features, you will first need to upload an initial build to a release channel.
 To do this Go to [Unreal Sign Project for Release](https://dev.epicgames.com/documentation/en-us/unreal-engine/signing-android-projects-for-release-on-the-google-play-store-with-unreal-engine)
 and follow the instructions.
 
@@ -798,7 +810,7 @@ and follow the instructions.
 </div>
 
 After that, package your project, open the Meta Developer Hub app,
-go to App Distrbution and find your created app. 
+go to App Distrbution and find your created app.
 Choose one of the the Release Channels and press Upload.
 
 Once your build is uploaded you will see it on the
@@ -821,17 +833,11 @@ and the entitlement check will always pass.
 Everytime you upload a new build you need to delete the app data on your Quest device before launching the app.
 This is done by going to the Settings -> Storage, find your app and then Delete App Data.
 
-## 3. <a id="D3">Data Use Checkup</a>
+Then to be able to test with other users you will need to add them to the channel, more information in the [Add Users to Release Channel](https://developers.meta.com/horizon/resources/publish-release-channels-add-users/) topic.
 
-You will need to request access to platform data needed by SharedSpaces. Under __Data Use Checkup__, add the following items and submit for certification.
+Once the initial build is uploaded you will be able to use any development build with the same application Id, no need to upload every build to test local changes.
 
-+  User ID
-+  User Profile
-+  Deep Linking
-+  Friends
-+  Invites
-
-## 4. <a id="D4">EOS Configuration</a>
+## 5. <a id="D5">EOS Configuration</a>
 
 You will also need to configure EOS. Find instructions for this [here](EOSConfiguration.md).
 
