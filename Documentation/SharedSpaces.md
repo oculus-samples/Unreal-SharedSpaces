@@ -26,19 +26,18 @@ D. <a href="#D">Oculus Application Configuration</a><br/>
 
 
 # A. <a id="A">Overview of SharedSpaces</a>
-SharedSpaces was built by the VR Developer Tools team to demonstrate how you can quickly get people together
-in VR using the Oculus Social Platform APIs.  This version was built for the Unreal Engine using the Unreal EOS plugin as
-the transport layer.  Other versions are available, in particular one built for the Unity game engine.
+
+The VR Developer Tools team built SharedSpaces to show how to quickly gather people in VR using Oculus Social Platform APIs. This version uses Unreal Engine with the Unreal EOS plugin as the transport layer. Other versions exist, including one for Unity.
 
 <div style="margin: auto; width: 60%; padding: 10pt;">
 <table>
 <tr style="background-color:#FFEEEE;">
 	<td style="border:0px;"><b>Oculus</b></td>
-	<td style="border:0px;">Group presence with <i>destination</i>, <i>lobby</i> and <i>match</i> ids.</td>
+	<td style="border:0px;">Group presence with <i>destination</i>, <i>lobby</i>, and <i>match</i> IDs.</td>
 </tr>
 <tr style="background-color:#EEFFEE;">
 	<td style="border:0px;"><b>EOS</b></td>
-	<td style="border:0px;">Transport via a <i>room</i> named after the <i>lobby</i> or <i>match</i> id.</td>
+	<td style="border:0px;">Transport via a <i>room</i> named after the <i>lobby</i> or <i>match</i> ID.</td>
 </tr>
 <tr style="background-color:#EEEEFF;">
 	<td style="border:0px;"><b>UE4</b></td>
@@ -47,142 +46,99 @@ the transport layer.  Other versions are available, in particular one built for 
 </table>
 </div>
 
-SharedSpaces networking is divided into three layers.  The Oculus layer provides presence information needed
-to find and connect with friends.  The EOS layer provides the transport layer for sending messages to other
-players.  And the UE4 layer handles the replication of game objects.
+SharedSpaces networking has three layers. The Oculus layer provides presence info to find and connect with friends. The EOS layer transports messages between players. The UE4 layer replicates game objects.
 
-In this overview we will explore each of these layers and show how we connected them together to make a
-simple multiplayer application which allows people to connect and play together, without the need for a
-dedicated server.
+This overview explains each layer and how they connect to create a simple multiplayer app. It lets people connect and play together without a dedicated server.
 
 ## *A Private Lobby Connected to Rooms*
+
 <div style="text-align: center; padding: 10pt;"><img src="./Media/layout.png" align="middle" width="600"></div>
 
-SharedSpaces is made of a few connected levels, known as destinations.  In the center is your personal lobby
-with doors leading to the surrounding matches.  The matches on the left are private and are reachable from your
-own lobby only.  The match on the right is public, reachable from any lobby.
+SharedSpaces consists of connected levels called destinations. Your personal lobby sits at the center, with doors leading to surrounding matches. Matches on the left are private and accessible only from your lobby. The match on the right is public and reachable from any lobby.
 
 ## *Social Layer - Destination, Lobby & Match Session IDs*
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/presence.png" align="middle" width="750"></div>
 
-We use this layout as a direct representation of the new group presence apis.  To get you to a SharedSpaces
-destination, we first set your destination and a pair of session identifiers in your group presence:
-one for your lobby session id, which should not change very often, and one for your match session id,
-only set when you join a match.
+This layout directly represents the new group presence APIs. To send you to a SharedSpaces destination, we set your destination and two session IDs in your group presence: a lobby session ID, which rarely changes, and a match session ID, set only when you join a match.
 
-The destinations are specific areas of your application that are defined on the
-[Oculus dashboard](https://developers.meta.com/horizon/manage/) under **Platform Services > Destinations**.
-The lobby session id represents a tight group of people that want to stay together between games and
-possibly play as part of the same team during matches.  The match session id is shared by people currently
-playing a match together, whether they are on the same team or not.
+Destinations are specific app areas defined on the [Developer Dashboard](https://developers.meta.com/horizon/manage/) under **Platform Services > Destinations**. The lobby session ID identifies a close group that stays together between games and may play as a team. The match session ID identifies players currently in a match, regardless of team.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/invitation_to_lobby.png" align="middle" width="600"></div>
 
-When you first launch SharedSpaces, you start in your own private lobby for which we create a unique id.
-To form a group to be with before and after matches, you invite people to share your lobby.  If they accept
-the invitation, their lobby session id will be updated to be the same as yours, and whenever you will be in
-the lobby at the same time, you will be together in the same space.
+When you launch SharedSpaces, you start in your private lobby with a unique ID. To form a group before and after matches, you invite others to share your lobby. If they accept, their lobby session ID matches yours. When you are in the lobby simultaneously, you share the same space.
 
-You can think of the lobby as the base camp for your group.  Different groups always go back to their respective
-lobbies after matches.
+Think of the lobby as your group's base camp. Different groups return to their own lobbies after matches.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/private_room.png" align="middle" width="700"></div>
 
-Members of your group are free to travel at any time between your lobby and their private matches.
-This only affects the match session ids of their group presence.
+Group members can move anytime between their lobby and private matches. This only changes their match session IDs.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/invitation_to_match.png" align="middle" width="700"></div>
 
-You can also grant access to your private match to anyone.  You invite them from that match, and they join you
-when they accept the invitation.  In SharedSpaces, accepting an invitation to a match only affects your match
-session id, not your lobby session id.
+You can invite anyone to your private match. When they accept, they join you and their match session ID updates. Accepting a match invitation does not change the lobby session ID.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/respective_lobbies.png" align="middle" width="650"></div>
 
-As a consequence, when they leave the match through the lobby door, users effectively go back to
-their separate lobbies if they are not members of the same group.
+When players leave a match through the lobby door, they return to their own lobbies if they are not in the same group.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/public_room.png" align="middle" width="650"></div>
 
-SharedSpaces also has the purple room to represent a public match that is reachable from all lobbies.
-Again, anybody is free to go from their lobby to the purple room at any time, and it only affects
-their match session id.  It is a space where you can meet people from outside your group without a prior
-invitation.
+SharedSpaces also includes a purple room representing a public match accessible from all lobbies. Anyone can enter from their lobby at any time. This room lets you meet people outside your group without invitations.
 
 ## *Transport Layer - EOS Lobbies*
 
-To connect users, EOS has the concept of lobby.  People in the same match or lobby instance will be in the same
-EOS lobby in order for data to flow between them. The transport layer is responsible for routing packets
-between your users who are most likely behind network firewalls.
+EOS uses lobbies to connect users. Players in the same match or lobby share an EOS lobby, allowing data to flow between them. The transport layer routes packets between users, often behind firewalls.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/session_to_room.png" align="middle" width="650"></div>
 
-EOS lobbies have *unique names*.  The name of the room that we will use comes directly from the social layer:
-we either use your match session id, if you have one, or your lobby session id, otherwise.
+EOS lobbies have *unique names*. We name rooms using the social layer’s session IDs: either the match session ID if set, or the lobby session ID otherwise.
 
-A key feature of the EOS lobby system is that it keeps track of the oldest member in the room, called
-the “master client”, here identified with stars.
+A key EOS feature is tracking the oldest member, called the “master client,” marked with stars.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/eos_join_or_create.png" align="middle" width="650"></div>
 
-Let’s look at Alice, Bob and Charlie entering the Purple room.  Charlie is first to join, so the room is
-created for him and he is marked as its **master client**.  Alice and Bob join shortly after and they are
-added as **normal clients**.
+For example, when Alice, Bob, and Charlie enter the Purple room, Charlie joins first, creating the room and becoming the **master client**. Alice and Bob join later as **normal clients**.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/eos_notification.png" align="middle" width="650"></div>
 
-If Charlie, as the master client, leaves the room, a new master client is selected and all remaining clients
-are notified of that change.  This is a key feature for the next networking layer.
+If Charlie leaves, EOS selects a new master client and notifies all clients. This feature supports the next networking layer.
 
 ## *Game Replication Layer - Unreal Engine Clients and Listen-Server*
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/ue4_dedicated_server.png" align="middle" width="650"></div>
 
-UE4 has a client-server architecture.  Clients connect to the server and rely on it to enforce the rules of the
-application and to replicate the objects that are relevant to each of them.
+UE4 uses a client-server model. Clients connect to a server that enforces rules and replicates relevant objects.
 
-For applications that require a trusted authority, or powerful hardware, the server is typically running in a
-data center as a dedicated server.  In this configuration, each UE4 client runs on its own headset and connects to that dedicated server.
+For trusted authority or powerful hardware, the server runs as a dedicated server in a data center. Each UE4 client runs on its own headset and connects to this server.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/ue4_listen_server.png" align="middle" width="650"></div>
 
-For some applications, like SharedSpaces, we can instead host the server on one of the headsets as a
-listen-server.  In that mode, Unreal Engine acts both as a server and as its first connected client.  It
-will accept connections from the other players.
+SharedSpaces hosts the server on one headset as a listen-server. Here, Unreal Engine acts as both server and first client, accepting connections from others.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/ue4_open.png" align="middle" width="650"></div>
 
-So for each room, we need to select one of the users to be the UE4 listen-server.  This decision comes from
-the transport layer: the **master client** of the corresponding EOS room will be our host.  In UE4 terms,
-the host opens a map with the ‘listen’ option while the clients connect to the master client using an address
-that is understood by our EOS Net Driver.
-
+For each room, the transport layer selects the UE4 listen-server host. The **master client** of the EOS room becomes the host. The host opens a map with the ‘listen’ option. Clients connect to the host using an EOS Net Driver address.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/EOS_to_ue4_1.png" align="middle" width="650"></div>
 
-When the player hosting leaves, we perform a host migration.  Here we can see that Alice is leaving the purple
-room. EOS picks Bob as the new master client. The remaining members of the room are notified and they
-reestablish their UE4 connections.
+When the host leaves, host migration occurs. For example, Alice leaves the purple room. EOS selects Bob as the new master client. Remaining members are notified and reconnect to Bob.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/eos_to_ue4_2.png" align="middle" width="650"></div>
 
-We end up with two EOS rooms, the Purple room is now hosted by Bob, with Charlie and Donna connected to him.
-Alice just left the room through the door to her lobby, but since she is the only one there, she becomes both
-the master client and host of her group lobby.
+Now, two EOS rooms exist. The Purple room is hosted by Bob, with Charlie and Donna connected. Alice left through the door to her lobby. Since she is alone there, she becomes the master client and host of her group lobby.
 
 
 # B. <a id="B">SharedSpaces in Action</a>
 
-Let’s have a look at SharedSpaces in action.
+Let's see how SharedSpaces works.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/screenshots/1a.jpg" width="250">
 	<img src="./Media/screenshots/1b.jpg" width="250">
 </div>
 
-When Alice starts SharedSpaces, she starts alone in her private lobby.  She is the master client and host of
-the lobby, as indicated by the star next to her name.
+Alice starts SharedSpaces alone in her private lobby. She is the master client and host, shown by the star next to her name.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/screenshots/2a.jpg" width="250">
@@ -191,10 +147,7 @@ the lobby, as indicated by the star next to her name.
 	<img src="./Media/screenshots/2d.jpg" width="250">
 </div>
 
-Alice wants Bob to form a group with her so that they can be together between matches.
-To do that, she steps on the invite panel switch and she sends him an invitation from her lobby.
-By accepting, SharedSpaces starts on Bob’s headset with a deeplink message that will let him join Alice in game.
-From now on, Bob will have the same lobby session id as Alice and they will share the same lobby.
+Alice wants Bob to join her group so they can stay together between matches. She steps on the invite panel switch and sends him an invitation from her lobby. When Bob accepts, SharedSpaces launches on his headset with a deeplink message that lets him join Alice in-game. Bob’s lobby session ID updates to match Alice’s, so they share the same lobby.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/screenshots/3a.jpg" width="250">
@@ -203,10 +156,7 @@ From now on, Bob will have the same lobby session id as Alice and they will shar
 	<img src="./Media/screenshots/3d.jpg" width="250">
 </div>
 
-Bob goes through the blue door to start a private match, followed by Alice.
-They end up in the same Blue Room and they now have the same match session id that corresponds
-to their private room.  Since Bob was there first, he is the one hosting the room and Alice is
-connected to him.
+Bob enters the blue door to start a private match, followed by Alice. They arrive in the same Blue Room with a shared match session ID for their private room. Since Bob arrived first, he hosts the room, and Alice connects to him.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/screenshots/4a_id.jpg" width="250">
@@ -215,21 +165,15 @@ connected to him.
 	<img src="./Media/screenshots/4d.jpg" width="250">
 </div>
 
-Alice decides to invite her friend Charlie to join their match, and he happens to be in his own
-lobby when he accepts the invitation.  Charlie has his match session id updated with the private match id,
-but on the other hand he still retains his own lobby session id.  He is still part of a different group.
+Alice invites her friend Charlie to join their match. Charlie accepts while in his own lobby. His match session ID updates to the private match ID, but he keeps his original lobby session ID. This means he remains in a different group.
 
-<div style="text-align: center; padding: 10pt;">
+<div style="text-align: center; padding="10pt;">
 	<img src="./Media/screenshots/5a.jpg" width="250">
 	<img src="./Media/screenshots/5b.jpg" width="250">
 	<img src="./Media/screenshots/5c.jpg" width="250">
 </div>
 
-When Bob leaves the blue room, EOS notifies Alice and Charlie that the master client has changed.
-A host migration is needed: Alice opens a new UE4 listen-server, since she is the new master client
-of the blue room, and Charlie connects to her.
-
-As for Bob, he started hosting his group lobby.
+When Bob leaves the blue room, EOS notifies Alice and Charlie that the master client changed. Alice becomes the new master client and opens a UE4 listen-server. Charlie connects to her. Meanwhile, Bob starts hosting his own group lobby.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/screenshots/6a.jpg" width="250">
@@ -241,17 +185,14 @@ As for Bob, he started hosting his group lobby.
 	<img src="./Media/screenshots/6e_id.jpg" width="250">
 </div>
 
-Now when Charlie leaves the blue room, he does not join Bob.
-They are not part of the same group since they do have different lobby session ids.
-Instead, he goes back to his own separate lobby.  This can be checked by stepping on the roster panel switch
-and you will see your different groups explicitly listed.
+When Charlie leaves the blue room, he does not join Bob because they have different lobby session IDs. Instead, Charlie returns to his separate lobby. You can verify this by stepping on the roster panel switch, which lists your different groups.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/screenshots/7a.jpg" width="250">
 	<img src="./Media/screenshots/7b.jpg" width="250">
 </div>
 
-In the case of Alice, therefore, going back to lobby means that she will rejoin Bob who is waiting for her.
+For Alice, returning to the lobby means rejoining Bob, who is waiting for her.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/screenshots/8a_id.jpg" width="250">
@@ -260,201 +201,125 @@ In the case of Alice, therefore, going back to lobby means that she will rejoin 
 	<img src="./Media/screenshots/8d.jpg" width="250">
 </div>
 
-To have Charlie join their group, Alice or Bob simply need to send him an invitation from their lobby.
-Again, by accepting an invitation to lobby, you also accept to join a group.
-Charlie’s lobby session id is updated and the three of them will now share the same lobby between matches.
+To add Charlie to their group, Alice or Bob simply send him an invitation from their lobby. When Charlie accepts, his lobby session ID updates, and all three share the same lobby between matches.
 
 
 # C. <a id="C">SharedSpaces Implementation</a>
 
-SharedSpaces uses the Oculus Platform and Unreal EOS plugin.  For each of these we have created a
-[game instance subsystem](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Subsystems/)
-deployed in its own separate plugin.  This makes them easy to reuse in your own projects.
+SharedSpaces uses the Oculus Platform and Unreal EOS plugin. Each has a [game instance subsystem](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Subsystems/) implemented in its own plugin. This design makes them easy to reuse in your projects.
 
-The plugins have their own documentation available here that you can access for details:
+You can find detailed documentation for these plugins here:
 - [Oculus Platform](../Plugins/OculusPlatform/Documentation/OculusPlatform.md)
 
-Let's dive into how these are used at the project level.
+Next, we explain how these subsystems integrate at the project level.
 
 ## <a id="C1">1. SharedSpaces Game Instance</a>
 
-The most important piece of logic at the project level is the SharedSpaces Game Instance blueprint.
-In the Unreal Engine, the game instance is a persistent singleton object that exists for the duration
-of the process.  It survives map loads, in particular.
+The core logic at the project level is the SharedSpaces Game Instance blueprint. In Unreal Engine, the game instance is a persistent singleton object that lasts for the entire process, surviving map loads.
 
-You can see below its overall layout.
+Below is its overall layout.
 
 <div style="text-align: center;  padding: 10pt;">
 	<img src="./Media/game_instance_overview.png" width="400">
 </div>
 
-We can logically split it into an initialization with our subsystems and the use of those subsystems
-to establish communication between the players through a cascade of social, transport and application
-networking.
+We can divide it into two parts: initializing subsystems and using them to enable player communication through social, transport, and application networking.
 
 ### 1a. Registering Subsystem Callbacks
 
-At the top we have the regions of the blueprint that take care of registering our event handlers with
-both major subsystems.
+At the top, the blueprint registers event handlers for both major subsystems.
 
-+ Oculus Platform Subsystem
-	+ On Login Complete: we need to wait to be fully logged in with Oculus before we identify ourself
-		with the EOS system, since we reuse the same identifiers.  Note that those identifiers are
-		unique per user and per application, so this is not revealing any personal information.
-    + On Launch Intent Changed: this event is generated when the application is started.  We only
-		care about the case where the application was launched manually by the user (i.e. "normal" launch)
-		so that we can start in the default destination.
-    + On Group Launch Intent Received: this event is triggered when the application receives an
-		Oculus group presence launch intent.  These are all the cases where the application is asked
-		to join a specific destination with lobby and match identifiers, along with a deeplink message.
-		Typically it will generated when the user explicitly accepts an invitation to join someone in game.
-+ EOS Subsystem
-    + On Log Entry: Sets up the ability to log EOS information, warnings and errors.
-	+ On Login: Event for when the user attempts to login.
-        Need to be logged in to the EOS system before initialization continues.
-	+ On Room Created: Event for when the user attempts to create an EOS lobby.
-    	This triggers a UE4 client/server connection.
-	+ On Room Found: Event for when searching for an EOS lobby is finished. If a lobby was found, the user will join it,
-    	else the user will create the lobby.
-	+ On Room Joined: Event for when the user attempts to join a lobby.This triggers a UE4 client/server connection.
-	+ On Master Client Changed: This is an important event for ensuring host migration.  The EOS
-		master client is responsible for hosting the UE4 server, so when they leave the room, all
-		remaining users are notified of that change so that they can reestablish connection: the new
-		master client starts a listen-server and the other users connect to them.
-	+ On Room Destroyed: Event for when a user leaves a lobby. If the user is the only one in the lobby when leaving, it is destroyed.
-	+ On Player Joined: Event to notify the master client when a player joins the lobby.
-	+ On Player Left: Event to notify the master client when a player leaves the lobby.
-	+ On App Enters Foreground: Most often this is caused by the user removing their headset and
-		putting it back on a bit later.  Here we rejoin the lobby that we were in.
++ **Oculus Platform Subsystem**
+	+ **On Login Complete:** Wait until Oculus login finishes before identifying with EOS, since both use the same unique user and application identifiers. These identifiers do not reveal personal information.
+	+ **On Launch Intent Changed:** Triggered when the app starts. We only handle manual launches to start at the default destination.
+	+ **On Group Launch Intent Received:** Triggered when the app receives an Oculus group presence launch intent. This happens when joining a specific destination with lobby and match IDs plus a deeplink message, usually after accepting an invitation.
 
-These game instance subsystems benefit from the same lifecycle guarantees as the game instance: they
-are singletons that live as long as the application.  The only issue that we need to be careful of
-is the timing dependencies between the subsystems and the game instance itself.  There are many ways
-to control the ordering of actions and here we have opted for the Oculus Platform Subsystem and EOS subsystem to notify
-the game instance by calling OculusPlatformSubsystemStarted and EOSInitializated event.  No prior bindings are required
-as this is called by name in code.
++ **EOS Subsystem**
+	+ **On Log Entry:** Enables logging of EOS info, warnings, and errors.
+	+ **On Login:** Fires when the user attempts EOS login. EOS login must succeed before continuing initialization.
+	+ **On Room Created:** Fires when creating an EOS lobby, triggering a UE4 client/server connection.
+	+ **On Room Found:** Fires after searching for an EOS lobby. If found, the user joins it; otherwise, they create a new lobby.
+	+ **On Room Joined:** Fires when joining a lobby, triggering a UE4 client/server connection.
+	+ **On Master Client Changed:** Handles host migration. When the EOS master client leaves, remaining users are notified. The new master client starts a listen-server, and others connect to it.
+	+ **On Room Destroyed:** Fires when a user leaves a lobby. If the user was alone, the lobby is destroyed.
+	+ **On Player Joined:** Notifies the master client when a player joins.
+	+ **On Player Left:** Notifies the master client when a player leaves.
+	+ **On App Enters Foreground:** Usually triggered when the user removes and replaces their headset. The app rejoins the previous lobby.
 
-### 1b. Social Networking: Setting your Group Presence
+These subsystems share the game instance’s lifecycle: they are singletons that live as long as the app. The main challenge is managing timing dependencies between subsystems and the game instance. Here, the Oculus Platform and EOS subsystems notify the game instance by calling `OculusPlatformSubsystemStarted` and `EOSInitialized` events. These calls happen by name in code, so no prior bindings are needed.
+
+### 1b. Social Networking: Setting Your Group Presence
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/network_launch.png" width="200">
 </div>
 
-The rest of the blueprint is concerned with the *Network Launch* sequence that is initiated with a
-user's social platform group presence which includes a destination and his lobby and match identifiers.
-Let's review the information required for connecting the players together:
+The rest of the blueprint handles the *Network Launch* sequence, which starts with a user's social platform group presence. This presence includes a destination and lobby and match IDs. Here is the information needed to connect players:
 
-+ __Destination Api Name__: you can define a list of destinations for your application on the
-	[Oculus application dashboard](https://developers.meta.com/horizon/manage/).  These can be deep linked
-	for seamless navigation to your application.  In the case of SharedSpaces, we have created one
-	destination for the lobby, and one for each of the colored rooms.
++ **Destination Api Name:** Define destinations for your app on the [Oculus application dashboard](https://developers.meta.com/horizon/manage/). These destinations support deep linking for seamless navigation. SharedSpaces defines one destination for the lobby and one for each colored room.
 	<div style="text-align: center; padding: 10pt;">
 		<img src="./Media/dashboard_destinations.png" width="1200">
 	</div>
 
-+ __Level Name__: in SharedSpaces, each destination is associated with a distinct level.  This is a design
-	choice &mdash; not a requirement &mdash; that helps us illustrate destinations with simple
-	spaces of different colors.  Which level to load for a given destination is stored in the
-	configuration of that destination on the dashboard.
++ **Level Name:** Each destination links to a distinct level in SharedSpaces. This design choice helps illustrate destinations as simple, colored spaces. The level to load is stored in the destination’s dashboard configuration.
 	<div style="text-align: center; padding: 10pt;">
 		<img src="./Media/destination_config.png" width="400">
 	</div>
-	The <i>deeplink message</i> is an optional application-specific string.  In the case of
-    SharedSpaces, we have opted for a simple JSON format to store key-value pairs and every
-	destination comes with a "map" key as shown here for the Red Room.
+	The *deeplink message* is an optional app-specific string. SharedSpaces uses a simple JSON format with key-value pairs. Every destination includes a "map" key, as shown for the Red Room.
 
-+ __Lobby Id__: the Oculus group presence has a couple of identifiers to be more specific about your
-	location.  The first one is the *lobby session id*.  People sharing a lobby session id are
-	meant to stick together beyond a single match.  When you open the roster panel (see below),
-	people sharing the same lobby id appear grouped.  What you decide to do with that grouping
-	is more or less left for your application to decide, but there is a general expectation that
-	people from the same lobby will still be together between matches and that when they participate
-	to the same match, if applicable and possible, that they will be part of the same team.
++ **Lobby Id:** Oculus group presence includes identifiers to specify location. The *lobby session id* groups users who stay together beyond a single match. In the roster panel, users sharing a lobby id appear grouped. Your app decides how to use this grouping, but generally, users in the same lobby stay together between matches and, if possible, on the same team.
 
-	In SharedSpaces, a unique lobby id is given to you when you start the application.  As
-	shown earlier in this document, you share your lobby id by inviting others to join you
-	in the Lobby destination.  If they accept the invitation to lobby, they join your team.
+	In SharedSpaces, you receive a unique lobby id when starting the app. You share your lobby id by inviting others to join your Lobby destination. Accepting the invitation adds them to your team.
 
-	When at the Lobby destination, you join the EOS room named after your lobby id.
+	At the Lobby destination, you join the EOS room named after your lobby id.
 
-+ __Match Id__: the other identifier linked to your group presence is the *match session id*.
-	You can think of it as the unique identifier of your current destination when you are not
-	in your team lobby.
++ **Match Id:** The *match session id* identifies your current destination when not in the team lobby.
 
-	For the private matches (the Red, Green and Blue rooms), these
-	match session ids are uniquely linked to your lobby (e.g. "RedRoom_for_Lobby123").
-	For public matches (the Purple room), these get a unique common shared name that is not
-	linked to your lobby (e.g. "ThePurpleRoom").  There is currently only one purple room,
-	which is a scheme that doesn't scale in real life.  Public rooms should be handled
-	using a matchmaking system to distribute players into separate instances for load
-	balancing, taking your lobby session id into consideration to try to keep your team
-	together.  We have plans on expanding in that direction in a future version of the showcase.
+	For private matches (Red, Green, Blue rooms), match ids link uniquely to your lobby (e.g., "RedRoom_for_Lobby123"). For public matches (Purple room), match ids use a shared public name (e.g., "ThePurpleRoom"). Currently, only one purple room exists, which does not scale. Public rooms should use matchmaking to distribute players across instances, considering lobby ids to keep teams together. We plan to add this in a future version.
 
-	When at a colored room destination, you join the EOS room named after your match id.
+	At a colored room destination, you join the EOS room named after your match id.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/query_destination.png" width="1000">
 </div>
 
-The group presence is set quite differently whether we are joining a lobby or a match.
-Similar to the level name, the destination type is also stored in the destination deeplink
-on the application dashboard.  We query the destination by name and extract this information
-using the *Get Is Lobby* node from the deeplink.  Since this way of storing data in the deeplink
-is application specific, that node is implemented in a project blueprint library
-(see [SharedSpacesFunctionLibrary.h](../Source/SharedSpaces/Public/SharedSpacesFunctionLibrary.h)).
+Group presence setup differs when joining a lobby versus a match. The destination type is stored in the destination deeplink on the dashboard. We query the destination by name and extract this info using the *Get Is Lobby* node from the deeplink. Since this data format is app-specific, the node is implemented in a project blueprint library (see [SharedSpacesFunctionLibrary.h](../Source/SharedSpaces/Public/SharedSpacesFunctionLibrary.h)).
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/lobby_match_split.png" width="1000">
 </div>
 
-When joining a lobby, we set the user's presence to the lobby session id parameter passed to
-*Network Launch*.  In the case of an invitation, this is the lobby id of the user who sent it
-which means that we join their team and their lobby.  Note that when you join a lobby, your
-match session id is always cleared.
+When joining a lobby, we set the user's presence to the lobby session id passed to *Network Launch*. For invitations, this is the sender’s lobby id, so you join their team and lobby. Joining a lobby always clears your match session id.
 
-There are two ways to join a match: by going through a portal or by accepting an invitation.
-In the first case, we derive the match id based on the lobby of origin (e.g. "RedRoom_for_Lobby123").
-Since all people present in a specific lobby instance have by definition the same lobby session id,
-they are guaranteed to join the same match by going through a given portal.
+You can join a match in two ways: through a portal or by accepting an invitation. When using a portal, we derive the match id from the origin lobby (e.g., "RedRoom_for_Lobby123"). Since all users in a lobby share the same lobby id, they join the same match via the portal.
 
-When accepting an invitation to a match, a user keeps his current *presence lobby id* and uses
-the match id passed to *Network Launch* as his presence lobby id.
+When accepting a match invitation, a user keeps their current presence lobby id but uses the match id passed to *Network Launch* as their presence match id.
 
-Finally, in the case of a public match, we override the match id with that room's
-public name, as discussed earlier.
+For public matches, we override the match id with the room’s public name, as explained earlier.
 
-### 1c. Transport Layer: Joining or Rejoining a EOS Lobby
+### 1c. Transport Layer: Joining or Rejoining an EOS Lobby
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/FindSession.png" width="600">
 </div>
 
-The name of the EOS Lobby that we join is trivially based on the user's group presence
-set in the previous section: we use the match id if we have one, and the lobby id otherwise.
+We join an EOS Lobby based on the user's group presence set earlier: we use the match ID if available, otherwise the lobby ID.
 
-We find the lobby using *Find Session*.
+We locate the lobby using *Find Session*.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/FindSessionDelegate.png" width="600">
 </div>
 
-When *Find Session* is done, a callback is called and if they lobby was found, the user will
-attempt to join it by calling *Join Session*, otherwise the lobby is created by calling
-*Create Session* and the user becomes the initial master client.
-
-
+After *Find Session* completes, a callback runs. If the lobby is found, the user attempts to join it by calling *Join Session*. If not, the lobby is created with *Create Session*, and the user becomes the initial master client.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/OnAppEntersForeground.png" width="600">
 </div>
 
-There are a few situations that require us to rejoin the current EOS room: when we lose
-connection to the EOS lobby, which should be rare, and when our application goes back
-to foreground, which is much more frequent.  You can find how we handle those events in the
-EOS setup region of the blueprint.
+We must rejoin the current EOS room in two cases: when the connection to the EOS lobby is lost (rare) and when the application returns to the foreground (common). The EOS setup region of the blueprint handles these events.
 
 ### 1d. Application Replication: Establishing UE4 Client-Server Connections
-
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/LobbyCreation.png" width="1200">
@@ -464,95 +329,67 @@ EOS setup region of the blueprint.
 	<img src="./Media/JoinLobby.png" width="1200">
 </div>
 
-UE4 network connections are mainly established after joining (or rejoining) an EOS lobby.
-The key information that we need is our EOS room master client status, the host address
-associated with the current master client of the space that we are connecting to, and an
-optional start location.
+UE4 network connections are established after joining or rejoining an EOS lobby. We need three key pieces of information: the EOS room master client status, the host address of the current master client, and an optional start location.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/host_migration.png" width="1200">
 </div>
 
-When there is a change of master client, we are forced to perform a host migration which is
-basically just a question of reestablishing our UE4 network connections.
+When the master client changes, we perform a host migration by reestablishing UE4 network connections.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/ue4_open_level.png" width="1200">
 </div>
 
-We create our UE4 connection using the __open__ console command.  That command takes a parameter
-that looks like an HTTP URL.  It takes two different forms depending on whether or not
-we need to host the level or join an existing server.
+We create the UE4 connection using the __open__ console command. This command takes a parameter resembling an HTTP URL and has two forms depending on whether we host the level or join an existing server:
 
 +  __Master Client__: open &lt;level&gt; # &lt;startpos&gt; ? listen
 +  __Normal Client__:  open &lt;address&gt; # &lt;startpos&gt;
 
-The EOS room master client opens up a level by name and uses the "?listen" parameter to
-indicate that we will also accept client connections.  This is known as the __listen-server__
-mode.  Everybody else simply opens a connection to that server using the address provided.
-In the case of SharedSpaces, that address is the application-specific user id of the host
-followed by ".oculus".
+The EOS room master client opens the level by name and adds "?listen" to accept client connections, enabling __listen-server__ mode. Other clients connect using the host address, which in SharedSpaces is the host's application-specific user ID followed by ".oculus".
 
-The start position takes two forms:
+The start position has two forms:
 
-+  __Joining__: the destination of origin
-+  __Rejoining__: the location and rotation in string form
++  __Joining__: the destination origin
++  __Rejoining__: the current location and rotation as a string
 
-As we have shown earlier, there are a number of different situations that cause users to
-join or rejoin a server, and we attempt to give the user a sensible start position.
+We provide a sensible start position depending on whether the user is joining or rejoining.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/start_positions.png" width="600">
 </div>
 
-The way it works is through the placement of a number of player start objects in the level.
-These look like console controllers with a flag.
+We place several player start objects in the level, which look like console controllers with flags.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/player_start_tag.png" width="300">
 </div>
 
-Each player start has an optional *Player Start Tag*.  In SharedSpaces, we have placed one
-default player start without any tag that is used when you start the game the first time.
-We have also placed player starts in front of all the portals with a tag that matches the
-corresponding destination.  When you travel between spaces, we spawn you near the door that
-leads to your space of origin.
+Each player start can have an optional *Player Start Tag*. SharedSpaces includes one default player start without a tag for first-time game starts. We also place tagged player starts in front of portals matching their destinations. When traveling between spaces, players spawn near the door leading to their origin.
 
-In the cases where you rejoin a space, let's say during a host migration, we instead use
-your current location and orientation to respawn you.  To do that, we actually create a new
-player start for you at that location, and use it during the player spawn process.
+When rejoining a space, such as during host migration, we respawn the player at their current location and orientation. We create a new player start at that location and use it during spawning.
 
 ## 2. <a id="C2">Roster and Invite Panels</a>
 
-The roster panel is an important part of the Oculus group presence system.  It is a system
-panel that appears in 3D in your field of view, on top of any other game content that may be
-currently displayed.  You can see who you are currently playing with, and who you have invited
-to join you.
+The roster panel is a key part of the Oculus group presence system. It appears as a 3D system panel in your field of view, overlaying any game content. It shows who you are playing with and who you have invited.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/roster_panel.jpg" width="400">
 </div>
 
-In SharedSpaces, opening up the roster panel is done by moving your character on top of the
-corresponding pressure plate.  The essence of the RosterPanelLaunchTrigger blueprint is to
-ask the Oculus Platform Subsystem to launch it.
+In SharedSpaces, you open the roster panel by moving your character onto a pressure plate. The *RosterPanelLaunchTrigger* blueprint calls the Oculus Platform Subsystem to launch the panel.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/launch_roster_panel.png" width="400">
 </div>
 
-An important caveat when opening a system panel is that VROS absorbs all controller input
-until the panel is closed again.  In UE4 a consequence is that if your player triggers the
-panel while moving, he will continue moving even if you release the controller thumbstick.
-To prevent that, the blueprint waits for you character to stop moving and then does a final
-check that you are still on the pressure plate before opening the roster panel.
+When the system panel opens, VROS absorbs all controller input until the panel closes. In UE4, this means if your player triggers the panel while moving, they will keep moving even after releasing the thumbstick. To prevent this, the blueprint waits for the character to stop moving and confirms the character is still on the pressure plate before opening the panel.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/screenshots/4b_id.jpg" width="400">
 </div>
 
-The invite panel can be opened directly from the roster panel (lower left button).  It can
-also be opened directly with a separate call to the Oculus Platform Subsystem.
+You can open the invite panel from the roster panel (lower left button) or directly via a separate call to the Oculus Platform Subsystem.
 
 ## 3. <a id="C3">Portals</a>
 
@@ -560,20 +397,13 @@ also be opened directly with a separate call to the Oculus Platform Subsystem.
 	<img src="./Media/purple_portal.png" width="400">
 </div>
 
-The _Portal_ is a simple blueprint that issues a _Network Launch_ on the SharedSpaces Game
-Instance for the player who enters its collision volume.  After placing it in the level,
-either as is with it's built-in geometry made visible or right next to some existing object
-that represents a door, you must set its __destination__ parameter.  This is literally the name
-of a destination as you have defined them on the dashboard.
+The _Portal_ blueprint triggers a _Network Launch_ on the SharedSpaces Game Instance for any player entering its collision volume. You can place it in the level with its built-in visible geometry or next to an existing door object. You must set its __destination__ parameter, which matches a destination name defined on the dashboard.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/portal_network_launch.png" width="1200">
 </div>
 
-When the user enters the portal, we find his current lobby id and we query the name of the
-level from the destination's record.  We perform a network launch with those values and with
-the match id empty in all cases, even when we travel to a match.  This is allowed since match
-ids are derived from lobby session ids when we go through portals, as explained earlier.
+When a user enters the portal, we retrieve their current lobby ID and query the destination's level name. We perform a network launch with these values and leave the match ID empty, even when traveling to a match. This works because match IDs derive from lobby session IDs when traveling through portals, as explained earlier.
 
 ## 4. <a id="C4">SharedSpaces Character</a>
 
@@ -581,127 +411,86 @@ ids are derived from lobby session ids when we go through portals, as explained 
 	<img src="./Media/shared_spaces_character.png" width="800">
 </div>
 
-The SharedSpaces Character is the classic UE4 mannequin with a few modifications.
+The SharedSpaces Character is a classic UE4 mannequin with some modifications.
 
 ### 4a. Character Attributes
 
-In SharedSpaces, users are distinguished by their name, color, master client status and
-current destination.  You can set a new random color on your character by pressing the trigger.  You can even
-hide your character name (which is by default your Oculus name) by pressing the thumbstick
-down and choose between "Alice", "Bob" and "Charlie".  This is a somewhat hidden feature
-that we have added to create our screenshots and videos.
+In SharedSpaces, users differ by name, color, master client status, and current destination. Pressing the trigger sets a new random color. Pressing the thumbstick down hides your character name (default is your Oculus name) and lets you choose between "Alice," "Bob," and "Charlie." This hidden feature helps create screenshots and videos.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/local_character_on_game_instance.png">
 </div>
 
-Most objects are lost between level loads, including the player character.  For that reason,
-we have opted for a trivial persistence mechanism: we simply copy these values to the corresponding
-variables on the SharedSpaces Game Instance.  If you scroll back to the implementation diagram
-for __UE4 Open Level__, you will see where we use the current destination, for example.
+Most objects, including the player character, are lost between level loads. To persist data, we copy these values to variables on the SharedSpaces Game Instance. For example, the current destination is used during the __UE4 Open Level__ process.
 
-Now let's talk about the replication of a user's name, color and master client status.  These
-values need to be propagated to all players in order for them to see who's who, hopefully with a
-distinctive color and with a star above your head when you are the current master client.
+We replicate the user's name, color, and master client status so all players can identify each other, with distinctive colors and a star above the master client.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/body_color_rep.png">
 </div>
 
-Let's take the character color as an example.  We have a linear color variable on the character
-used for replication called __BodyColor__.  It's replication is set to _RepNotify_.  This means
-that when the value is set on the server, it will be replicated down to all clients and that the
-corresponding notification function (in this case __OnRep_BodyColor__) will be called.
-
+For example, the character color uses a linear color variable called __BodyColor__ with _RepNotify_ replication. When the server sets this value, it replicates to all clients and triggers the notification function __OnRep_BodyColor__.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/set_body_color.png" width="1200">
 </div>
 
-When a character calls __SetBodyColor__ it does not directly set the __BodyColor__ locally.
-Instead it sends a message to the server to set it there in order for the value to be replicated
-down to everybody, including itself.
+Calling __SetBodyColor__ does not set __BodyColor__ locally. Instead, it sends a message to the server to set the value, ensuring replication to all clients, including the caller.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/notify_server_of_body_color_cfg.png">
 	<img src="./Media/notify_server_of_body_color.png">
 </div>
 
-__NotifyServerOfBodyColor__ is an event meant to run on the server.  It is set as reliable which
-means that it will eventually get there.  The implementation of that event is simple, it simply
-sets the value of __BodyColor__ on the server and replicates it to all with notification.
+__NotifyServerOfBodyColor__ is a reliable server event that sets __BodyColor__ on the server and replicates it with notification.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/on_rep_body_color.png" width="1200">
 </div>
 
-When a client receives the replicated value, __OnRepBodyColor__ is called, and this is what
-actually changes the material parameter on the character.  This is done for all clients,
-including the one that owns this character.
+When clients receive the replicated value, __OnRepBodyColor__ runs and updates the character's material parameter. This happens on all clients, including the owner.
 
 ### 4b. Camera Behavior
 
-The [camera components](https://docs.unrealengine.com/4.27/en-US/Basics/Components/Camera/)
-are highly configurable, but we wanted to experiment with a different behavior for this
-showcase that required some blueprint coding: the camera location would not change while
-the character moves as this is not comfortable for some people.  When the character stops,
-and after some delay, the camera would reset behind the character with an orientation
-based on the character rotation.  At all times, of course, the camera would rotate in sync
-with the headset when the user is looking in different directions.
+The [camera components](https://docs.unrealengine.com/4.27/en-US/Basics/Components/Camera/) are highly configurable. For this showcase, we implemented a custom behavior via blueprint: the camera location does not move with the character to improve comfort. After the character stops moving and a delay passes, the camera resets behind the character, oriented by the character's rotation. The camera still rotates with the headset as the user looks around.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/character_params.png">
 </div>
 
-To control this, we have two parameters on the SharedSpaces Character under
-*Camera Logic*: the time that we must wait after the character stops moving before we reset
-the camera behind him, and a minimum travel distance required between resets.  Both
-parameters are intended to minimize the number of camera resets for comfort.
+Two parameters under *Camera Logic* control this: the wait time after stopping before resetting the camera, and the minimum travel distance between resets. These reduce the number of camera resets for comfort.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/character_is_stationary.png">
 </div>
 
-Every tick, on the local character, we perform a movement check.  This gives us whether or
-not the character has moved (*IsStationary*) and the last time and location with movement
-(*LastTimeWithMovement* and *LastLocationWithMovement*).
+Each tick, the local character checks movement status, providing *IsStationary*, *LastTimeWithMovement*, and *LastLocationWithMovement*.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/camera_behavior_1.png">
 </div>
 
-After checking that we are using a VR headset, there are two gates that we need to go through
-before we allow the camera to reset.  The first one checks that the character is stationary.
-The second one checks that we have moved enough since our last camera reset and waited enough
-since we stopped moving.
+After confirming VR headset use, two conditions must be met before resetting the camera: the character must be stationary, and enough time and distance must have passed since the last reset.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/manual_reset.png">
 </div>
 
-These two gates will automatically go through when a manual reset is requested by the user.
-In the sample, this is done by pressing the __A__ or __X__ buttons.
-
+These conditions are bypassed when the user manually requests a reset by pressing the __A__ or __X__ buttons.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/camera_behavior_2.png">
 </div>
 
-Finally, we play with the *camera lag speed* to indirectly freeze and reset the camera location.
-The *camera boom* (a Spring Arm Component) can be configured to follow the player at some distance
-and to slide smoothly to the correct location.   In our case, we go to the extremes: very close to
-zero speed when we want the camera to stay in place, and a high speed when we want to reset it
-instantly.
+We adjust the *camera lag speed* to freeze or reset the camera location. The *camera boom* (Spring Arm Component) follows the player smoothly. We set lag speed near zero to hold the camera in place and high speed to reset it instantly.
 
 ## 5. <a id="C5">In-Game Log</a>
 
 <div style="text-align: center; padding: 10pt;">
-	<img src="./Media/screenshots/log.jpg"  width="800">
+	<img src="./Media/screenshots/log.jpg" width="800">
 </div>
 
-The grip button toggles the in-game log panel.  For this technical showcase, most of the important
-events happen under the hood.  This log panel is hooked to the persistent log that we have added
-to the Oculus Platform Subsystem.   This ensures that the log persists between level loads.
+Pressing the grip button toggles the in-game log panel. Most important events happen behind the scenes in this technical showcase. The log panel connects to the persistent log added to the Oculus Platform Subsystem, ensuring the log remains between level loads.
 
 ## 6. <a id="C6">External Application Portal</a>
 
@@ -709,75 +498,61 @@ to the Oculus Platform Subsystem.   This ensures that the log persists between l
 	<img src="./Media/external_application_portal.png" width="400">
 </div>
 
-These have a similar setup to the Portals. You will need to place the _ExternalAppPortal_ blueprint and setup the Application app Id of the destination app and the destination name.
-These doors will call the _Launch External App_ on the SharedSpaces Game Instance for the player who enters its collision volume.
-Then the SharedSpaces Game Instance will validate the inputs and call the Platform function _Application Launch Other App_.
+These portals work like the standard Portals. Place the _ExternalAppPortal_ blueprint, then set the Application App ID and destination name. When a player enters its collision volume, the portal calls _Launch External App_ on the SharedSpaces Game Instance. The Game Instance validates inputs and calls the Platform function _Application Launch Other App_.
 
 <div style="text-align: center; padding: 10pt;">
-	<img src="./Media/external_app_launch.png"  width="1200">
+	<img src="./Media/external_app_launch.png" width="1200">
 </div>
 
-This is the implementation for the [App to App Travel](https://developers.meta.com/horizon/documentation/unreal/ps-app-to-app-travel/) platform feature.
+This implements the [App to App Travel](https://developers.meta.com/horizon/documentation/unreal/ps-app-to-app-travel/) platform feature.
 
-## 7. <a id="C6">User Reporting</a>
+## 7. <a id="C7">User Reporting</a>
 
-When the user presses the Oculus button and selects _Report_, your application is required to notify
-the system how you will handle it. You may handle the report by providing your own in-app reporting
-flow or choose to defer to the system reporting flow by selecting _Unhandled_.
+When users press the Oculus button and select _Report_, your application must notify the system how it will handle the report. You can provide your own in-app reporting flow or defer to the system by selecting _Unhandled_.
 
 <div style="text-align: center; padding: 10pt;">
-	<img src="./Media/user_reporting.png"  width="1200">
+	<img src="./Media/user_reporting.png" width="1200">
 </div>
 
-This is the implementation for the [User Reporting](https://developers.meta.com/horizon/resources/reporting-plugin/) platform feature.
+This implements the [User Reporting](https://developers.meta.com/horizon/resources/reporting-plugin/) platform feature.
+
 
 # D. <a id="D">Oculus Application Configuration</a>
 
-To build and run your own copy of SharedSpaces, you will need to create an application for it
-on the [Oculus developer dashboard](https://developers.meta.com/horizon/).
+To build and run your own copy of SharedSpaces, create an application on the [Developer Dashboard](https://developers.meta.com/horizon/).
 
 ## 1. <a id="D1">Application Identifier</a>
 
-<div style="text-align: center; padding: 10pt;">
-	<img src="./Media/dashboard/dashboard_app.png"  width="800">
-</div>
-
-You Oculus application identfier must be placed in _SharedSpaces/Config/DefaultEngine.ini_ like so.
+Place your Oculus application identifier in _SharedSpaces/Config/DefaultEngine.ini_ as follows:
 
 	[OnlineSubsystemOculus]
 	bEnabled=false
 	RiftAppId=123xxxxxxxxxx321
 	MobileAppId=123xxxxxxxxxx321
 
-Note that SharedSpaces does not use the Oculus Online Subsystem (OSS), but the identifer is still needed and is
-found in that configuration section.
+Although SharedSpaces does not use the Oculus Online Subsystem (OSS), the identifier is still required in this section.
 
-The identifier (__App ID__) can be found in the _API_ section.
+Find the identifier (__App ID__) in the _API_ section.
 
 <div style="text-align: center; padding: 10pt;">
-	<img src="./Media/dashboard/dashboard_api.png"  width="800">
+	<img src="./Media/dashboard/dashboard_api.png" width="800">
 </div>
 
-Note that you will need a `MobileAppId` in order to make a Quest build, and you will need a `RiftAppId` in order to use Quest Link.
+You need a `MobileAppId` for Quest builds and a `RiftAppId` for Quest Link.
 
 ## 2. <a id="D2">Destinations</a>
 
-You need to recreate the SharedSpaces destinations in your own application.  Destinations can be found
-under __Platform Services__.
+Recreate the SharedSpaces destinations in your application. Find Destinations under __Engagement__.
 
 <div style="text-align: center; padding: 10pt;">
-	<img src="./Media/dashboard/dashboard_platform_services.png"  width="800">
+	<img src="./Media/dashboard/dashboard_platform_services.png" width="800">
 </div>
-
-You need to recreate the SharedSpaces destinations in your own application.  Destinations can be found
-under __Platform Services__.
 
 <div style="text-align: center; padding: 10pt;">
-	<img src="./Media/dashboard/dashboard_destinations.png"  width="800">
+	<img src="./Media/dashboard/dashboard_destinations.png" width="800">
 </div>
 
-SharedSpaces has four destinations: a Lobby, three private rooms (the red, green and blue rooms) and one
-public room (the purple room).  Here are the settings for each of them.
+SharedSpaces has four destinations: a Lobby, three private rooms (Red, Green, Blue), and one public room (Purple). Their settings are:
 
 | API Name | Deeplink Message | Display Name | Description |
 | :--- | :--- | :--- | :--- |
@@ -785,60 +560,46 @@ public room (the purple room).  Here are the settings for each of them.
 | [RedRoom](./Media/dashboard/dashboard_destination_redroom.png) | {"map":"RedRoom"} | Red Room | The Red Room |
 | [GreenRoom](./Media/dashboard/dashboard_destination_greenroom.png) | {"map":"GreenRoom"} | Green Room | The Green Room |
 | [BlueRoom](./Media/dashboard/dashboard_destination_blueroom.png) | {"map":"BlueRoom"} | Blue Room | The Blue Room |
-| [PurpleRoom](./Media/dashboard/dashboard_destination_purpleroom.png) | {"map":"PurpleRoom","public_room_name":"ThePurpleRoom"} | Purple Room | The Purple room |
+| [PurpleRoom](./Media/dashboard/dashboard_destination_purpleroom.png) | {"map":"PurpleRoom","public_room_name":"ThePurpleRoom"} | Purple Room | The Purple Room |
 
-In addition to these settings, you need to set __Deeplink Type__ to __Enabled__ and add an image for your
-destination.  In the case of SharedSpaces, the destination is __Audience__ is set to __Everyone__. Also make sure to set the max group launch capacity for each destination so that the group launch feature can be used.
+Set __Deeplink Type__ to __Enabled__ and add an image for each destination. SharedSpaces sets the destination __Audience__ to __Everyone__. Also, set the max group launch capacity for each destination to enable the group launch feature.
 
 ## 3. <a id="D3">Data Use Checkup</a>
 
-You will need to request access to platform data needed by SharedSpaces. Under __Data Use Checkup__, add the following items and submit for certification.
+Request access to platform data required by SharedSpaces. Under __Data Use Checkup__, add and submit these items for certification:
 
-+  User ID
-+  User Profile
-+  Deep Linking
-+  Friends
-+  Invites
++ User ID
++ User Profile
++ Deep Linking
++ Friends
++ Invites
 
 ## 4. <a id="D4">Upload to Release Channel</a>
-To use the platform features, you will first need to upload an initial build to a release channel.
-To do this Go to [Unreal Sign Project for Release](https://dev.epicgames.com/documentation/en-us/unreal-engine/signing-android-projects-for-release-on-the-google-play-store-with-unreal-engine)
-and follow the instructions.
+
+Upload an initial build to a release channel to use platform features. Follow the instructions at [Unreal Sign Project for Release](https://dev.epicgames.com/documentation/en-us/unreal-engine/signing-android-projects-for-release-on-the-google-play-store-with-unreal-engine).
 
 <div style="text-align: center; padding: 10pt;">
-	<img src="./Media/Developerhub.png"  width="800">
+	<img src="./Media/Developerhub.png" width="800">
 </div>
 
-After that, package your project, open the Meta Developer Hub app,
-go to App Distrbution and find your created app.
-Choose one of the the Release Channels and press Upload.
+After packaging your project, open the Meta Developer Hub app, go to App Distribution, find your app, select a Release Channel, and press Upload.
 
-Once your build is uploaded you will see it on the
-Oculus Developer Dashboard website under Distribution -> Release Channels.
+Once uploaded, the build appears on the Oculus Developer Dashboard under Distribution -> Release Channels.
 
-Once all of the tests pass, go to Distribution -> Release Channels
-then click on the release channel you uploaded your build to.
-Go to Users then click Email Invite Users. Invite all the users that you to access the app.
+After passing all tests, go to Distribution -> Release Channels, select your release channel, then go to Users and click Email Invite Users. Invite all users who need access.
 
-You must use emails that
-are assoicated with quest devices for the devices to be able to download the app
-and pass the entitlement check. If they aren't invited the oculus platform
-will not work correctly.
+Use emails linked to Quest devices; otherwise, the Oculus platform will not work correctly.
 
-If everything was done correctly, you should see the app in your app library on your quest device
-and have the ability to download and install it.
-Once this is all finished you can upload a development or shipping build to your device directly
-and the entitlement check will always pass.
+If done correctly, the app appears in your Quest library, ready to download and install. After this, you can upload development or shipping builds directly, and the entitlement check will always pass.
 
-Everytime you upload a new build you need to delete the app data on your Quest device before launching the app.
-This is done by going to the Settings -> Storage, find your app and then Delete App Data.
+Each time you upload a new build, delete the app data on your Quest device before launching. Go to Settings -> Storage, find your app, and select Delete App Data.
 
-Then to be able to test with other users you will need to add them to the channel, more information in the [Add Users to Release Channel](https://developers.meta.com/horizon/resources/publish-release-channels-add-users/) topic.
+To test with other users, add them to the channel. See [Add Users to Release Channel](https://developers.meta.com/horizon/resources/publish-release-channels-add-users/) for details.
 
-Once the initial build is uploaded you will be able to use any development build with the same application Id, no need to upload every build to test local changes.
+Once the initial build is uploaded, you can test local changes with any development build using the same application ID without uploading every build.
 
 ## 5. <a id="D5">EOS Configuration</a>
 
-You will also need to configure EOS. Find instructions for this [here](EOSConfiguration.md).
+Configure EOS by following the instructions [here](EOSConfiguration.md).
 
 <div style="text-align: right; padding: 10pt;">&#x25A0;</div>
