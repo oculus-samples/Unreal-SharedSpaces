@@ -97,6 +97,9 @@ protected:
 	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"), Category = "EOS|General")
 	void OnHostSuccess(UObject* WorldContextObject, FString LevelName);
 
+	UFUNCTION(BlueprintCallable, Category = "EOS|General")
+	bool RegisterPlayer(const FUniqueNetIdRepl& PlayerId, bool bWasInvited);
+
 private:
 
 	IOnlineSubsystem* OnlineSubsystem;

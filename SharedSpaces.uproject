@@ -7,7 +7,10 @@
 		{
 			"Name": "SharedSpaces",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
 		}
 	],
 	"Plugins": [
@@ -19,10 +22,6 @@
 				"Android"
 			],
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/8313d8d7e7cf4e03a33e79eb757bccba"
-		},
-		{
-			"Name": "OculusAudio",
-			"Enabled": true
 		},
 		{
 			"Name": "Wwise",
@@ -50,6 +49,18 @@
 		},
 		{
 			"Name": "SocketSubsystemEOS",
+			"Enabled": true
+		},
+		{
+			"Name": "OnlineServicesEOS",
+			"Enabled": true
+		},
+		{
+			"Name": "OnlineServicesEOSGS",
+			"Enabled": true
+		},
+				{
+			"Name": "OculusAudio",
 			"Enabled": true
 		}
 	]

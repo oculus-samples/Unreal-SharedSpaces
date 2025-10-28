@@ -23,4 +23,11 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category = "SharedSpaces|Spawn")
 	static AActor* GetControllerStartSpot(AController* Controller);
+
+	/**
+	 * Used to register the player to the custom gameinstance for a fallback when EOS isn't working.
+	 * This is the case when not using the UE-Meta Fork
+	 * @param NewPlayer The local player
+	 */
+	virtual void PostLogin(APlayerController* NewPlayer) override;
 };

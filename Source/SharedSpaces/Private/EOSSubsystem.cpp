@@ -33,6 +33,7 @@ void UEOSSubsystem::CreateSession(const FName& SessionName)
 	if (SessionPtr)
 	{
 		FOnlineSessionSettings SessionSettings{};
+		SessionSettings.bUsesPresence = true;
 		SessionSettings.bAllowInvites = false;
 		SessionSettings.bAllowJoinInProgress = false;
 		SessionSettings.bAllowJoinViaPresence = false;
@@ -135,6 +136,7 @@ void UEOSSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	SessionPtr->OnDestroySessionCompleteDelegates.AddUObject(this, &UEOSSubsystem::OnDestroySessionComplete);
 	SessionPtr->OnSessionParticipantJoinedDelegates.AddUObject(this, &UEOSSubsystem::OnPlayerJoinedSession);
 	SessionPtr->OnSessionParticipantLeftDelegates.AddUObject(this, &UEOSSubsystem::OnPlayerLeftSession);
+		
 #if UE_VERSION_OLDER_THAN(5, 5, 0)
 	SessionPtr->OnSessionParticipantsChangeDelegates.AddUObject(this, &UEOSSubsystem::OnPlayerJoinOrLeftSession);
 #endif
@@ -167,6 +169,15 @@ void UEOSSubsystem::OnHostSuccess(UObject* WorldContextObject, FString LevelName
 	CurrentWorld->Listen(NewURL);
 
 	LogEntry(FString("Started to listen to connections"));
+}
+
+bool UEOSSubsystem::RegisterPlayer(const FUniqueNetIdRepl& PlayerId, bool bWasInvited)
+{
+	if (SessionPtr)
+	{
+		return SessionPtr->RegisterPlayer(CurrentSessionName, *PlayerId.GetUniqueNetId(), bWasInvited);
+	}
+	return false;
 }
 
 void UEOSSubsystem::OnLoginComplete(int32 NumPlayers, bool bWasSuccessful, const FUniqueNetId& UserId, const FString& Error)
