@@ -58,10 +58,6 @@
 		{
 			"Name": "OnlineServicesEOSGS",
 			"Enabled": true
-		},
-				{
-			"Name": "OculusAudio",
-			"Enabled": true
 		}
 	]
 }
