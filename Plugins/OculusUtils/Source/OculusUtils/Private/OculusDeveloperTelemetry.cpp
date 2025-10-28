@@ -6,6 +6,10 @@
 #include "Widgets/Input/SHyperlink.h"
 #include "Widgets/Text/SRichTextBlock.h"
 
+#ifdef OCULUS_XR_TELEMETRY
+#include "OculusXRTelemetry.h"
+#endif
+
 #define PRIVACY_POLICY_URL "https://www.meta.com/legal/quest/privacy-policy/"
 
 #define LOCTEXT_NAMESPACE "FOculusUtilsModule"
@@ -50,7 +54,11 @@ void UOculusDeveloperTelemetry::SendEvent(const char* eventName, const char* par
 {
 	OnFlush.AddLambda([eventName, param, source]
 	{
+#ifdef OCULUS_XR_TELEMETRY
+		OculusXRTelemetry::SendEvent(eventName, param, source);
+#else
 		FOculusXRHMDModule::GetPluginWrapper().SendEvent2(eventName, param, source);
+#endif
 	});
 	Flush();
 }
@@ -81,9 +89,16 @@ void UOculusDeveloperTelemetry::Flush()
 		SaveConfig();
 	}
 
-	if (bIsEnabled && FOculusXRHMDModule::GetPluginWrapper().SendEvent2)
+	if (bIsEnabled)
 	{
-		FOculusXRHMDModule::GetPluginWrapper().SetDeveloperMode(true);
+#ifdef OCULUS_XR_TELEMETRY
+		OculusXRTelemetry::SetDeveloperTelemetryConsent(true);
+#else
+		if (FOculusXRHMDModule::GetPluginWrapper().SetDeveloperMode)
+		{
+			FOculusXRHMDModule::GetPluginWrapper().SetDeveloperMode(true);
+		}
+#endif
 		OnFlush.Broadcast();
 		OnFlush.Clear();
 	}

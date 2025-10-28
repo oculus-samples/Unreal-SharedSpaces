@@ -63,5 +63,19 @@ public class OculusUtils : ModuleRules
 		);
 
 		bLegacyParentIncludePaths = true;
+
+		try
+		{
+			string telemetryPath = GetModuleDirectory("OculusXRTelemetry");
+			if (telemetryPath != "")
+			{
+				PrivateDependencyModuleNames.AddRange(new string[] { "OculusXRTelemetry" });
+				PrivateDefinitions.Add("OCULUS_XR_TELEMETRY=1");
+			}
+		}
+		catch
+		{
+			// do nothing, the module doesn't exist
+		}
 	}
 }
