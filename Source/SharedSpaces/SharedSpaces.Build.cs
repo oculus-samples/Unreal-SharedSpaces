@@ -32,6 +32,7 @@ public class SharedSpaces : ModuleRules
 				"OculusUtils",
 				"XRBase",
 				"EnhancedInput",
+				"OculusXRHMD"
 			});
 
 		if (Target.Platform == UnrealTargetPlatform.Android && Target.Configuration == UnrealTargetConfiguration.Shipping) {

@@ -240,7 +240,7 @@ void LoadBalancingListener::connectReturn(int errorCode, const JString& errorStr
 	}
 	else
 	{
-		UE_LOG(LogNet, Error, TEXT("Warn: connect failed %d %s"), errorCode, *toFString(errorString));
+		UE_LOG(LogNet, Error, TEXT("Warn: connect failed %s %s"), *FString::FromInt(errorCode), *toFString(errorString));
 	}
 
 	mpView->ConnectReturn(success);

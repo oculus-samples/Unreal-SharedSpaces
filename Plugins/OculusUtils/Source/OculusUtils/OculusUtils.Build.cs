@@ -1,14 +1,13 @@
 // Copyright (c) Meta Platforms, Inc. and affiliates.  All rights reserved.
 
-using UnrealBuildTool;
 using System.IO;
+using UnrealBuildTool;
 
 public class OculusUtils : ModuleRules
 {
 	public OculusUtils(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-		PrivateIncludePaths.Add(Path.Combine(EngineDirectory, "Plugins/Runtime/OculusXR/OculusXR/Source/OculusXRHMD/Private"));
 
 		PublicIncludePaths.AddRange(
 			new string[]
@@ -21,11 +20,10 @@ public class OculusUtils : ModuleRules
 		PrivateIncludePaths.AddRange(
 			new string[]
 			{
-				// ... add other private include paths required here ...
+				Path.Combine(GetModuleDirectory("OculusXRHMD"), "Private")
 			}
 		);
-
-
+		
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
@@ -33,8 +31,7 @@ public class OculusUtils : ModuleRules
 				// ... add other public dependencies that you statically link with here ...
 			}
 		);
-
-
+		
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
@@ -52,8 +49,8 @@ public class OculusUtils : ModuleRules
 		{
 			PrivateDependencyModuleNames.Add("UnrealEd");
 			PrivateDependencyModuleNames.Add("DetailCustomizations");
-            PrivateDependencyModuleNames.Add("ToolWidgets");
-        }
+			PrivateDependencyModuleNames.Add("ToolWidgets");
+		}
 
 
 		DynamicallyLoadedModuleNames.AddRange(

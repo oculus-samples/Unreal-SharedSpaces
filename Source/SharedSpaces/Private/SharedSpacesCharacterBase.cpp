@@ -11,11 +11,17 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "OculusXRHMD/Public/OculusXRFunctionLibrary.h"
 
 // Debug macro
 #define DLOG(msg) \
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5f, FColor::Green, TEXT(msg)); \
 	UE_LOG(LogTemp, Warning, TEXT(msg));
+
+bool AppHasInputFocus()
+{
+	return UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled() ? UOculusXRFunctionLibrary::HasInputFocus() : FApp::HasFocus();
+}
 
 ASharedSpacesCharacterBase::ASharedSpacesCharacterBase()
 {
@@ -96,6 +102,9 @@ void ASharedSpacesCharacterBase::SetupPlayerInputComponent(class UInputComponent
 
 void ASharedSpacesCharacterBase::TurnAtRate(const FInputActionInstance& Instance)
 {
+	if (!AppHasInputFocus())
+		return;
+
 	const float Rate = Instance.GetValue().Get<float>();
 	// calculate delta for this frame from the rate information
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
@@ -103,6 +112,9 @@ void ASharedSpacesCharacterBase::TurnAtRate(const FInputActionInstance& Instance
 
 void ASharedSpacesCharacterBase::AddControllerYawInputWrapper(const FInputActionInstance& Instance)
 {
+	if (!AppHasInputFocus())
+		return;
+
 	const float Rate = Instance.GetValue().Get<float>();
 	AddControllerYawInput(Rate);
 }
@@ -116,7 +128,7 @@ void ASharedSpacesCharacterBase::AddControllerPitchInputWrapper(const FInputActi
 void ASharedSpacesCharacterBase::MoveForward(const FInputActionInstance& Instance)
 {
 	const float Value = Instance.GetValue().Get<float>();
-	if ((Controller != NULL) && (Value != 0.0f))
+	if (AppHasInputFocus() && (Controller != NULL) && (Value != 0.0f))
 	{
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -131,7 +143,7 @@ void ASharedSpacesCharacterBase::MoveForward(const FInputActionInstance& Instanc
 void ASharedSpacesCharacterBase::MoveRight(const FInputActionInstance& Instance)
 {
 	const float Value = Instance.GetValue().Get<float>();
-	if ( (Controller != NULL) && (Value != 0.0f) )
+	if (AppHasInputFocus() && (Controller != NULL) && (Value != 0.0f) )
 	{
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
