@@ -13,6 +13,7 @@ C. <a href="#C">SharedSpaces Implementation</a><br/>
 &nbsp;&nbsp;&nbsp;4. <a href="#C4">SharedSpaces Character</a><br/>
 &nbsp;&nbsp;&nbsp;5. <a href="#C5">In-Game Log</a><br/>
 &nbsp;&nbsp;&nbsp;6. <a href="#C6">External Application Portal</a><br/>
+&nbsp;&nbsp;&nbsp;7. <a href="#C7">User Reporting</a><br/>
 D. <a href="#D">Oculus Application Configuration</a><br/>
 &nbsp;&nbsp;&nbsp;1. <a href="#D1">Application Identifier</a><br/>
 &nbsp;&nbsp;&nbsp;2. <a href="#D2">Destinations</a><br/>
@@ -24,7 +25,8 @@ D. <a href="#D">Oculus Application Configuration</a><br/>
 </div>
 
 
-# A. <a id="A">Overview of SharedSpaces</a>
+<a id="A"></a>
+# A. Overview of SharedSpaces
 SharedSpaces was built by the VR Developer Tools team to demonstrate how you can quickly get people together
 in VR using the Oculus Social Platform APIs.  This version was built for the Unreal Engine using the Photon SDK as
 the transport layer.  Other versions are available, in particular one built for the Unity game engine.
@@ -57,7 +59,7 @@ dedicated server.
 ## *A Private Lobby Connected to Rooms*
 <div style="text-align: center; padding: 10pt;"><img src="./Media/layout.png" align="middle" width="600"></div>
 
-SharedSpaces is made of a few connected levels, known as destinations.  In the center is your personal lobby 
+SharedSpaces is made of a few connected levels, known as destinations.  In the center is your personal lobby
 with doors leading to the surrounding matches.  The matches on the left are private and are reachable from your
 own lobby only.  The match on the right is public, reachable from any lobby.
 
@@ -80,7 +82,7 @@ playing a match together, whether they are on the same team or not.
 
 When you first launch SharedSpaces, you start in your own private lobby for which we create a unique id.
 To form a group to be with before and after matches, you invite people to share your lobby.  If they accept
-the invitation, their lobby session id will be updated to be the same as yours, and whenever you will be in 
+the invitation, their lobby session id will be updated to be the same as yours, and whenever you will be in
 the lobby at the same time, you will be together in the same space.
 
 You can think of the lobby as the base camp for your group.  Different groups always go back to their respective
@@ -95,7 +97,7 @@ This only affects the match session ids of their group presence.
 
 You can also grant access to your private match to anyone.  You invite them from that match, and they join you
 when they accept the invitation.  In SharedSpaces, accepting an invitation to a match only affects your match
-session id, not your lobby session id.  
+session id, not your lobby session id.
 
 <div style="text-align: center; padding: 10pt;"><img src="./Media/respective_lobbies.png" align="middle" width="650"></div>
 
@@ -111,7 +113,7 @@ invitation.
 
 ## *Transport Layer - Photon Rooms*
 
-To connect users, Photon has the concept of room.  People in the same match or lobby instance will be in the same 
+To connect users, Photon has the concept of room.  People in the same match or lobby instance will be in the same
 Photon room in order for data to flow between them.  The transport layer is responsible for routing packets
 between your users who are most likely behind network firewalls.
 
@@ -171,7 +173,8 @@ Alice just left the room through the door to her lobby, but since she is the onl
 the master client and host of her group lobby.
 
 
-# B. <a id="B">SharedSpaces in Action</a>
+<a id="B"></a>
+# B. SharedSpaces in Action
 
 Let’s have a look at SharedSpaces in action.
 
@@ -192,7 +195,7 @@ the lobby, as indicated by the star next to her name.
 
 Alice wants Bob to form a group with her so that they can be together between matches.
 To do that, she steps on the invite panel switch and she sends him an invitation from her lobby.
-By accepting, SharedSpaces starts on Bob’s headset with a deeplink message that will let him join Alice in game. 
+By accepting, SharedSpaces starts on Bob’s headset with a deeplink message that will let him join Alice in game.
 From now on, Bob will have the same lobby session id as Alice and they will share the same lobby.
 
 <div style="text-align: center; padding: 10pt;">
@@ -264,7 +267,8 @@ Again, by accepting an invitation to lobby, you also accept to join a group.
 Charlie’s lobby session id is updated and the three of them will now share the same lobby between matches.
 
 
-# C. <a id="C">SharedSpaces Implementation</a>
+<a id="C"></a>
+# C. SharedSpaces Implementation
 
 SharedSpaces uses the Oculus Platform and the Photon SDK.  For each of these we have created a
 [game instance subsystem](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Subsystems/)
@@ -276,7 +280,8 @@ The plugins have their own documentation available here that you can access for 
 
 Let's dive into how these are used at the project level.
 
-## <a id="C1">1. SharedSpaces Game Instance</a>
+<a id="C1"></a>
+## 1. SharedSpaces Game Instance
 
 The most important piece of logic at the project level is the SharedSpaces Game Instance blueprint.
 In the Unreal Engine, the game instance is a persistent singleton object that exists for the duration
@@ -463,7 +468,7 @@ Photon initialization region of the blueprint.
 
 UE4 network connections are mainly established after joining (or rejoining) a Photon room.
 The key information that we need is our Photon room master client status, the host address
-associated with the current master client of the space that we are connecting to, and an 
+associated with the current master client of the space that we are connecting to, and an
 optional start location.
 
 <div style="text-align: center; padding: 10pt;">
@@ -485,7 +490,7 @@ we need to host the level or join an existing server.
 +  __Normal Client__:  open &lt;address&gt; # &lt;startpos&gt;
 
 The Photon room master client opens up a level by name and uses the "?listen" parameter to
-indicate that we will also accept client connections.  This is known as the __listen-server__ 
+indicate that we will also accept client connections.  This is known as the __listen-server__
 mode.  Everybody else simply opens a connection to that server using the address provided.
 In the case of SharedSpaces, that address is the application-specific user id of the host
 followed by ".oculus".
@@ -519,7 +524,8 @@ In the cases where you rejoin a space, let's say during a host migration, we ins
 your current location and orientation to respawn you.  To do that, we actually create a new
 player start for you at that location, and use it during the player spawn process.
 
-## 2. <a id="C2">Roster and Invite Panels</a>
+<a id="C2"></a>
+## 2. Roster and Invite Panels
 
 The roster panel is an important part of the Oculus group presence system.  It is a system
 panel that appears in 3D in your field of view, on top of any other game content that may be
@@ -551,7 +557,8 @@ check that you are still on the pressure plate before opening the roster panel.
 The invite panel can be opened directly from the roster panel (lower left button).  It can
 also be opened directly with a separate call to the Oculus Platform Subsystem.
 
-## 3. <a id="C3">Portals</a>
+<a id="C3"></a>
+## 3. Portals
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/purple_portal.png" width="400">
@@ -570,9 +577,10 @@ of a destination as you have defined them on the dashboard.
 When the user enters the portal, we find his current lobby id and we query the name of the
 level from the destination's record.  We perform a network launch with those values and with
 the match id empty in all cases, even when we travel to a match.  This is allowed since match
-ids are derived from lobby session ids when we go through portals, as explained earlier. 
+ids are derived from lobby session ids when we go through portals, as explained earlier.
 
-## 4. <a id="C4">SharedSpaces Character</a>
+<a id="C4"></a>
+## 4. SharedSpaces Character
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/shared_spaces_character.png" width="800">
@@ -598,7 +606,7 @@ variables on the SharedSpaces Game Instance.  If you scroll back to the implemen
 for __UE4 Open Level__, you will see where we use the current destination, for example.
 
 Now let's talk about the replication of a user's name, color and master client status.  These
-values need to be propagated to all players in order for them to see who's who, hopefully with a 
+values need to be propagated to all players in order for them to see who's who, hopefully with a
 distinctive color and with a star above your head when you are the current master client.
 
 <div style="text-align: center; padding: 10pt;">
@@ -670,7 +678,7 @@ not the character has moved (*IsStationary*) and the last time and location with
 After checking that we are using a VR headset, there are two gates that we need to go through
 before we allow the camera to reset.  The first one checks that the character is stationary.
 The second one checks that we have moved enough since our last camera reset and waited enough
-since we stopped moving.  
+since we stopped moving.
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/manual_reset.png">
@@ -690,7 +698,8 @@ and to slide smoothly to the correct location.   In our case, we go to the extre
 zero speed when we want the camera to stay in place, and a high speed when we want to reset it
 instantly.
 
-## 5. <a id="C5">In-Game Log</a>
+<a id="C5"></a>
+## 5. In-Game Log
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/screenshots/log.jpg"  width="800">
@@ -700,7 +709,8 @@ The grip button toggles the in-game log panel.  For this technical showcase, mos
 events happen under the hood.  This log panel is hooked to the persistent log that we have added
 to the Oculus Platform Subsystem.   This ensures that the log persists between level loads.
 
-## 6. <a id="C6">External Application Portal</a>
+<a id="C6"></a>
+## 6. External Application Portal
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/external_application_portal.png" width="400">
@@ -716,10 +726,11 @@ Then the SharedSpaces Game Instance will validate the inputs and call the Platfo
 
 This is the implementation for the [App to App Travel](https://developer.oculus.com/documentation/unreal/ps-app-to-app-travel/) platform feature.
 
-## 7. <a id="C6">User Reporting</a>
+<a id="C7"></a>
+## 7. User Reporting
 
-When the user presses the Oculus button and selects _Report_, your application is required to notify 
-the system how you will handle it. You may handle the report by providing your own in-app reporting 
+When the user presses the Oculus button and selects _Report_, your application is required to notify
+the system how you will handle it. You may handle the report by providing your own in-app reporting
 flow or choose to defer to the system reporting flow by selecting _Unhandled_.
 
 <div style="text-align: center; padding: 10pt;">
@@ -728,12 +739,14 @@ flow or choose to defer to the system reporting flow by selecting _Unhandled_.
 
 This is the implementation for the [User Reporting](https://developer.oculus.com/resources/reporting-plugin/) platform feature.
 
-# D. <a id="D">Oculus Application Configuration</a>
+<a id="D"></a>
+# D. Oculus Application Configuration
 
 To build and run your own copy of SharedSpaces, you will need to create an application for it
 on the [Oculus developer dashboard](https://developer.oculus.com/).
 
-## 1. <a id="D1">Application Identifier</a>
+<a id="D1"></a>
+## 1. Application Identifier
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/dashboard/dashboard_app.png"  width="800">
@@ -757,7 +770,8 @@ The identifier (__App ID__) can be found in the _API_ section.
 
 Note that you will need a `MobileAppId` in order to make a Quest build, and you will need a `RiftAppId` in order to use Quest Link.
 
-## 2. <a id="D2">Destinations</a>
+<a id="D2"></a>
+## 2. Destinations
 
 You need to recreate the SharedSpaces destinations in your own application.  Destinations can be found
 under __Platform Services__.
@@ -787,7 +801,8 @@ public room (the purple room).  Here are the settings for each of them.
 In addition to these settings, you need to set __Deeplink Type__ to __Enabled__ and add an image for your
 destination.  In the case of SharedSpaces, the destination is __Audience__ is set to __Everyone__. Also make sure to set the max group launch capacity for each destination so that the group launch feature can be used.
 
-## 3. <a id="D3">Data Use Checkup</a>
+<a id="D3"></a>
+## 3. Data Use Checkup
 
 You will need to request access to platform data needed by SharedSpaces. Under __Data Use Checkup__, add the following items and submit for certification.
 
@@ -797,7 +812,8 @@ You will need to request access to platform data needed by SharedSpaces. Under _
 +  Friends
 +  Invites
 
-## 4. <a id="D4">Photon Configuration</a>
+<a id="D4"></a>
+## 4. Photon Configuration
 
 You will also need to create a Photon AppID and configure the app to use it. Find instructions for this [here](../Plugins/PhotonNetDriver/Documentation/PhotonNetDriver.md#photon-appid).
 
