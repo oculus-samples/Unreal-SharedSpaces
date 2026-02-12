@@ -13,6 +13,7 @@ C. <a href="#C">SharedSpaces Implementation</a><br/>
 &nbsp;&nbsp;&nbsp;4. <a href="#C4">SharedSpaces Character</a><br/>
 &nbsp;&nbsp;&nbsp;5. <a href="#C5">In-Game Log</a><br/>
 &nbsp;&nbsp;&nbsp;6. <a href="#C6">External Application Portal</a><br/>
+&nbsp;&nbsp;&nbsp;7. <a href="#C7">User Reporting</a><br/>
 D. <a href="#D">Oculus Application Configuration</a><br/>
 &nbsp;&nbsp;&nbsp;1. <a href="#D1">Application Identifier</a><br/>
 &nbsp;&nbsp;&nbsp;2. <a href="#D2">Destinations</a><br/>
@@ -25,7 +26,8 @@ D. <a href="#D">Oculus Application Configuration</a><br/>
 </div>
 
 
-# A. <a id="A">Overview of SharedSpaces</a>
+<a id="A"></a>
+# A. Overview of SharedSpaces
 
 The VR Developer Tools team built SharedSpaces to show how to quickly gather people in VR using Oculus Social Platform APIs. This version uses Unreal Engine with the Unreal EOS plugin as the transport layer. Other versions exist, including one for Unity.
 
@@ -120,7 +122,7 @@ SharedSpaces hosts the server on one headset as a listen-server. Here, Unreal En
 
 For each room, the transport layer selects the UE4 listen-server host. The **master client** of the EOS room becomes the host. The host opens a map with the ‘listen’ option. Clients connect to the host using an EOS Net Driver address.
 
-<div style="text-align: center; padding: 10pt;"><img src="./Media/EOS_to_ue4_1.png" align="middle" width="650"></div>
+<div style="text-align: center; padding: 10pt;"><img src="./Media/eos_to_ue4_1.png" align="middle" width="650"></div>
 
 When the host leaves, host migration occurs. For example, Alice leaves the purple room. EOS selects Bob as the new master client. Remaining members are notified and reconnect to Bob.
 
@@ -129,7 +131,8 @@ When the host leaves, host migration occurs. For example, Alice leaves the purpl
 Now, two EOS rooms exist. The Purple room is hosted by Bob, with Charlie and Donna connected. Alice left through the door to her lobby. Since she is alone there, she becomes the master client and host of her group lobby.
 
 
-# B. <a id="B">SharedSpaces in Action</a>
+<a id="B"></a>
+# B. SharedSpaces in Action
 
 Let's see how SharedSpaces works.
 
@@ -204,7 +207,8 @@ For Alice, returning to the lobby means rejoining Bob, who is waiting for her.
 To add Charlie to their group, Alice or Bob simply send him an invitation from their lobby. When Charlie accepts, his lobby session ID updates, and all three share the same lobby between matches.
 
 
-# C. <a id="C">SharedSpaces Implementation</a>
+<a id="C"></a>
+# C. SharedSpaces Implementation
 
 SharedSpaces uses the Oculus Platform and Unreal EOS plugin. Each has a [game instance subsystem](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/Subsystems/) implemented in its own plugin. This design makes them easy to reuse in your projects.
 
@@ -213,7 +217,8 @@ You can find detailed documentation for these plugins here:
 
 Next, we explain how these subsystems integrate at the project level.
 
-## <a id="C1">1. SharedSpaces Game Instance</a>
+<a id="C1"></a>
+## 1. SharedSpaces Game Instance
 
 The core logic at the project level is the SharedSpaces Game Instance blueprint. In Unreal Engine, the game instance is a persistent singleton object that lasts for the entire process, surviving map loads.
 
@@ -369,7 +374,8 @@ Each player start can have an optional *Player Start Tag*. SharedSpaces includes
 
 When rejoining a space, such as during host migration, we respawn the player at their current location and orientation. We create a new player start at that location and use it during spawning.
 
-## 2. <a id="C2">Roster and Invite Panels</a>
+<a id="C2"></a>
+## 2. Roster and Invite Panels
 
 The roster panel is a key part of the Oculus group presence system. It appears as a 3D system panel in your field of view, overlaying any game content. It shows who you are playing with and who you have invited.
 
@@ -391,7 +397,8 @@ When the system panel opens, VROS absorbs all controller input until the panel c
 
 You can open the invite panel from the roster panel (lower left button) or directly via a separate call to the Oculus Platform Subsystem.
 
-## 3. <a id="C3">Portals</a>
+<a id="C3"></a>
+## 3. Portals
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/purple_portal.png" width="400">
@@ -405,7 +412,8 @@ The _Portal_ blueprint triggers a _Network Launch_ on the SharedSpaces Game Inst
 
 When a user enters the portal, we retrieve their current lobby ID and query the destination's level name. We perform a network launch with these values and leave the match ID empty, even when traveling to a match. This works because match IDs derive from lobby session IDs when traveling through portals, as explained earlier.
 
-## 4. <a id="C4">SharedSpaces Character</a>
+<a id="C4"></a>
+## 4. SharedSpaces Character
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/shared_spaces_character.png" width="800">
@@ -484,7 +492,8 @@ These conditions are bypassed when the user manually requests a reset by pressin
 
 We adjust the *camera lag speed* to freeze or reset the camera location. The *camera boom* (Spring Arm Component) follows the player smoothly. We set lag speed near zero to hold the camera in place and high speed to reset it instantly.
 
-## 5. <a id="C5">In-Game Log</a>
+<a id="C5"></a>
+## 5. In-Game Log
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/screenshots/log.jpg" width="800">
@@ -492,7 +501,8 @@ We adjust the *camera lag speed* to freeze or reset the camera location. The *ca
 
 Pressing the grip button toggles the in-game log panel. Most important events happen behind the scenes in this technical showcase. The log panel connects to the persistent log added to the Oculus Platform Subsystem, ensuring the log remains between level loads.
 
-## 6. <a id="C6">External Application Portal</a>
+<a id="C6"></a>
+## 6. External Application Portal
 
 <div style="text-align: center; padding: 10pt;">
 	<img src="./Media/external_application_portal.png" width="400">
@@ -517,11 +527,13 @@ When users press the Oculus button and select _Report_, your application must no
 This implements the [User Reporting](https://developers.meta.com/horizon/resources/reporting-plugin/) platform feature.
 
 
-# D. <a id="D">Oculus Application Configuration</a>
+<a id="D"></a>
+# D. Oculus Application Configuration
 
 To build and run your own copy of SharedSpaces, create an application on the [Developer Dashboard](https://developers.meta.com/horizon/).
 
-## 1. <a id="D1">Application Identifier</a>
+<a id="D1"></a>
+## 1. Application Identifier
 
 Place your Oculus application identifier in _SharedSpaces/Config/DefaultEngine.ini_ as follows:
 
@@ -540,7 +552,8 @@ Find the identifier (__App ID__) in the _API_ section.
 
 You need a `MobileAppId` for Quest builds and a `RiftAppId` for Quest Link.
 
-## 2. <a id="D2">Destinations</a>
+<a id="D2"></a>
+## 2. Destinations
 
 Recreate the SharedSpaces destinations in your application. Find Destinations under __Engagement__.
 
@@ -564,7 +577,8 @@ SharedSpaces has four destinations: a Lobby, three private rooms (Red, Green, Bl
 
 Set __Deeplink Type__ to __Enabled__ and add an image for each destination. SharedSpaces sets the destination __Audience__ to __Everyone__. Also, set the max group launch capacity for each destination to enable the group launch feature.
 
-## 3. <a id="D3">Data Use Checkup</a>
+<a id="D3"></a>
+## 3. Data Use Checkup
 
 Request access to platform data required by SharedSpaces. Under __Data Use Checkup__, add and submit these items for certification:
 
@@ -574,7 +588,8 @@ Request access to platform data required by SharedSpaces. Under __Data Use Check
 + Friends
 + Invites
 
-## 4. <a id="D4">Upload to Release Channel</a>
+<a id="D4"></a>
+## 4. Upload to Release Channel
 
 Upload an initial build to a release channel to use platform features. Follow the instructions at [Unreal Sign Project for Release](https://dev.epicgames.com/documentation/en-us/unreal-engine/signing-android-projects-for-release-on-the-google-play-store-with-unreal-engine).
 
@@ -598,7 +613,8 @@ To test with other users, add them to the channel. See [Add Users to Release Cha
 
 Once the initial build is uploaded, you can test local changes with any development build using the same application ID without uploading every build.
 
-## 5. <a id="D5">EOS Configuration</a>
+<a id="D5"></a>
+## 5. EOS Configuration
 
 Configure EOS by following the instructions [here](EOSConfiguration.md).
 
